@@ -10,7 +10,7 @@
     \item{x}{a concentrate data object.}
     \item{series}{vector of strings or integers indicating series to select.}
 }
-\seealso{ \code{\link[dse1]{select.series}} }
+\seealso{\code{\link[dse1]{select.series}} }
 
 %\keyword{DSE}
 \keyword{ts}

@@ -9,8 +9,8 @@
 }
 \usage{
     concentrated.dimension(x)
-    concentrated.input.dimension(x)
-    concentrated.output.dimension(x)
+    concentrated.nseriesInput(x)
+    concentrated.nseriesOutput(x)
 }
 \arguments{
     \item{x}{a concentrated data object.}
@@ -21,8 +21,8 @@
 }
 
 \seealso{
-    \code{\link{concentrated.input.dimension}}
-    \code{\link{concentrated.output.dimension}}
+    \code{\link{concentrated.nseriesInput}}
+    \code{\link{concentrated.nseriesOutput}}
     \code{\link{concentrate}}
 }
 \examples{
@@ -32,7 +32,7 @@
     }
     z <- concentrate(eg1.DSE.data)
     concentrated.dimension(output.data(z))
-    concentrated.output.dimension(z)
+    concentrated.nseriesOutput(z)
 }
 %\keyword{DSE}
 \keyword{ts}

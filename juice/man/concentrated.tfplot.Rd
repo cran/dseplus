@@ -18,7 +18,7 @@
 \sideffects{A plot is generated}
 
 \seealso{
-    \code{\link{tfplot}}
+    \code{\link[tframe]{tfplot}}
 }
 \examples{
     if(is.R()) {

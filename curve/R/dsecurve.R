@@ -130,7 +130,7 @@ genD.ARMA <- function(func, x=coef(func),
             K=as.double(matrix(0,ns,ps)),  
             Q=as.double(matrix(0,ns,ns)),  
             R=as.double(matrix(0,ps,ps)), 
-            gain=as.integer(F),   #48
+            gain=as.integer(FALSE),   #48
             DUP=.DSEDUP)[c("D","p","f0", "x", "r")] 
    D$d   <- d
    D$eps <- eps
@@ -265,7 +265,7 @@ span.TSestModel <- function (func, x=coef(func),
   # a waste, but the compiled code is much faster, so ...
   if (compiled)
    {D <- genD(func, x, func.args=func.args,
-              d=d, eps=eps, r=r)$D[,seq(length(coef(func))),drop=F]
+              d=d, eps=eps, r=r)$D[,seq(length(coef(func))),drop=FALSE]
     if (any(is.na(D))) {
        # really should stop here
        warning("D from compiled genD contains NAs. Setting them to zero. Result is probably not valid!!!")

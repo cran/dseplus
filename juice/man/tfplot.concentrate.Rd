@@ -15,8 +15,8 @@
 	 series=seq(nseries(x)), mar=par()$mar)
     \method{tfplot}{TSdataconcentrate}(x, start. = NULL, end. = NULL,
        Title = "", reset.screen = T, 
-       select.inputs  = seq(length = input.dimension(x)),
-       select.outputs = seq(length = output.dimension(x)), 
+       select.inputs  = seq(length = nseriesInput(x)),
+       select.outputs = seq(length = nseriesOutput(x)), 
        graphs.per.page = 5, ylab = NULL, mar=par()$mar)
     \method{tfplot}{TSdatareconstitute}(x, ...)
 }
@@ -37,7 +37,7 @@
     \item{...}{arguments to be passed to other methods.}
 }
 
-\seealso{ \code{\link{tfplot}} }
+\seealso{ \code{\link[tframe]{tfplot}} }
 
 %\keyword{DSE}
 \keyword{ts}

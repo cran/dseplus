@@ -20,7 +20,7 @@
 \seealso{
    \code{\link{end}}
    \code{\link{start}}
-   \code{\link{periods}}
+   \code{\link[tframe]{periods}}
    \code{\link{frequency}}
 }
 %\keyword{DSE}

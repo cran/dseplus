@@ -17,8 +17,11 @@ fuzz.large <- 1e-6
 digits <- 18
 all.ok <- T  
 
-  if (is.R()) data("eg1.DSE.data.diff", package="dse1") else 
-  if (is.S()) source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
+ if (is.R()) data("eg1.DSE.data.diff", package="dse1") else 
+ if (is.S()) 
+   {source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
+    class(eg1.DSE.data.diff$output) <- class(eg1.DSE.data.diff$input) <- NULL
+    }
 
 # data size affects memory constraints
   data <- eg1.DSE.data.diff
@@ -37,7 +40,7 @@ cat("DSE curvature test B 4 ...")
    good <- c(24, 100, 0.05, 0, 0, 0, 0, 1, 1 )
    tst  <- curvatureVAR
    error <- max(abs(good - tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
 
    if (any(is.na(error)) || any(is.nan(error)) || 1e-5 < error) 
      {print.test.value(c(tst), digits=18)
@@ -73,7 +76,7 @@ cat("DSE curvature test B 5 ...")
 
    tst  <- curvatureSS[-9]
    error <- max(abs(good - tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
 
    print.test.value(c(tst), digits=18)
 
@@ -124,7 +127,7 @@ cat("DSE curvature test B 6 ...")
 
    tst  <- curvatureARMA[-9]
    error <- max(abs(good - tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
 
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
      {print.test.value(c(tst), digits=18)

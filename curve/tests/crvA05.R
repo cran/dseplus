@@ -32,7 +32,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
    tst  <-  curvatureVAR
    good <-  c(2, 100, 0.05, 0, 0, 0, 0, 1, 1)
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
      {print.test.value(c(tst), digits=18)
@@ -53,7 +53,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
    tst  <-  curvatureVAR.def
    good <-  curvatureVAR
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
      {print.test.value(c(tst), digits=18)

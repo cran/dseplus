@@ -17,6 +17,7 @@
     \item{names}{series names for the result.}
     \item{x}{any object.}
 }
+
 \value{Depends on the argument.}
 \details{
     A concentrated data object is used to reconstruct the full dimension 

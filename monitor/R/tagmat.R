@@ -19,19 +19,28 @@ tags <- function(x) {attr(x, "tags")}
    classed(x, c("tagged", dseclass(x))) # constructor ("tags<-")
   }
 
-tagged <- function(x, ...)UseMethod("tagged")
+tagged <- function(x, tags)UseMethod("tagged")
 
-tagged.default <- function(x, tags) {tags(x) <- tags; x}
+tagged.default <- function(x, tags){
+  tags(x) <- tags; x }
 
 
-tagged.TSdata <- function(x, input.tags, output.tags)
-  {if(0 != input.dimension(x))   input.data(tags(x)) <-  input.tags
-   if(0 != output.dimension(x)) output.data(tags(x)) <- output.tags
+tagged.TSdata <- function(x, tags)
+  {if(0 != nseriesInput(x))   input.data(tags(x)) <- tags$input
+   if(0 != nseriesOutput(x)) output.data(tags(x)) <- tags$output
    x
   }
 
+"tframe<-.tagged" <- function(x, value){
+  cls <- dseclass(x)
+  x <- classed(x, cls[-1])
+  tframe(x) <- value 
+  # may not have class back the way it should be ???  
+  classed(x, cls)
+}
+
 select.series.tagged <- function(x, series=seq(ncol(x)))
-     {names <- series.names(x)
+     {names <- seriesNames(x)
       if (is.character(series)) series <- match(names,series, nomatch=0) > 0
       tagged(select.series.default(x, series=series),
              select.series.default(tags(x), series=series))
@@ -58,25 +67,25 @@ is.tagged <- function(obj)  {inherits(obj,"tagged")}
 
 test.equal.tagged <- function(obj1, obj2)
 { test.equal.matrix(obj1, obj2) & 
-  test.equal.matrix(attr(obj1,"tags"), attr(obj2, "tags"))
+  test.equal.matrix(tags(obj1), tags(obj2))
 }
 
 
 
-fprint <- function(matrix, super.title=NULL, sub.title=NULL, 
-        digits=options()$digits, space=" ", file=NULL, append=F)
+fprint <- function(x, super.title=NULL, sub.title=NULL, 
+        digits=options()$digits, space=" ", file=NULL, append=FALSE)
    {UseMethod("fprint")}
 
-fprint.tagged <- function(matrix, super.title=NULL, sub.title=NULL, 
-        digits=options()$digits, space=" ", file=NULL, append=F) 
+fprint.tagged <- function(x, super.title=NULL, sub.title=NULL, 
+        digits=options()$digits, space=" ", file=NULL, append=FALSE) 
  {# Formattted print of a matrix of class tagged.
   # Corresponding characters are printed after matrix numbers.
   # A character matrix (out) is returned invisibly.
   # If file is not NULL then elements of out are printed to lines of the file.
-  tags <- attr(matrix, "tags")
+  tags <- tags(x)
   out <- NULL
-  f <- frequency(matrix)
-  s <- start(matrix)
+  f <- frequency(x)
+  s <- start(x)
   s <- s[1] + (s[2]-1)/f
   if (12 ==f) p <- c("Jan","Feb","Mar","Apr","May", "Jun","Jul","Aug", "Sep",
          "Oct","Nov","Dec")
@@ -85,7 +94,7 @@ fprint.tagged <- function(matrix, super.title=NULL, sub.title=NULL,
   else p <-NULL
   pre.space <- paste(rep(" ",nchar(format(s))+nchar(p[1])),collapse="")
   if (!is.null(super.title))  out <- paste(pre.space, super.title, sep="")
-  names <- format(dimnames(matrix)[[2]], digits=digits)
+  names <- format(seriesNames(x), digits=digits)
   if (!is.null(names))
     {ot <- pre.space
      for (i in seq(length(names)))
@@ -93,7 +102,7 @@ fprint.tagged <- function(matrix, super.title=NULL, sub.title=NULL,
      out <- c(out, ot)
     }
   if (!is.null(sub.title)) out <- c(out,paste(pre.space, sub.title,sep=""))
-  m <- format(signif(matrix[,], digits=digits))
+  m <- format(signif(x[,], digits=digits))
   for (i in seq(nrow(m))) 
     {d <- (s+(i-1)/f) +.Options$ts.eps # +eps or trunc sometimes gets wrong year
      ot <- paste(trunc(d)," ", p[round(1+f*(d%%1))]," ", sep ="")
@@ -166,21 +175,7 @@ splice.tagged <- function(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2))
  classed(mat1, cls )
 }
 
-trim.na.tagged <- function(mat, start.=T, end.=T)
-{# trim NAs from the ends of a ts matrix of class "tagged".
- # (Observations for all series are dropped in a given period if any 
- #  one contains an NA in that period.)
- # if start.=F then beginning NAs are not trimmed.
- # If end.=F   then ending NAs are not trimmed.
- sample <- ! apply(is.na(mat),1, any)
- if (start.) s <-min(time(mat)[sample])
- else       s <-start(mat)
- if (end.)   e <-max(time(mat)[sample])
- else       e <-end(mat)
- tfwindow(mat,start=s, end=e, warn=F)
-}
-
-tfwindow.tagged <- function(x, start.=NULL, end.=NULL, tf=NULL, warn=T)
+tfwindow.tagged <- function(x, start.=NULL, end.=NULL, tf=NULL, warn=TRUE)
 {# window a ts matrix of class "tagged".
  # With the default warn=T warnings will be issued if no truncation takes
  #  place because start or end is outside the range of data.

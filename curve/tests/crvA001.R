@@ -30,7 +30,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
    cat("length spanSS.compiled ", length(spanSS.compiled), "\n")
 
    error <- max(abs(spanSS.compiled - spanSS.notcompiled))
-   cat("max. error ", max(error), "\n")
+   cat("max. error ", error, "\n")
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
      {print.test.value(c(tst), digits=18)

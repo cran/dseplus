@@ -11,7 +11,7 @@
     \item{...}{arguments to be passed to other methods.}
 }
 
-\seealso{ \code{\link{tfprint}} }
+\seealso{ \code{\link[tframe]{tfprint}} }
 
 %\keyword{DSE}
 \keyword{ts}

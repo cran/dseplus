@@ -78,9 +78,9 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
 
   eg.put.data <- tframed(matrix(c(1*exp(1:20),2*exp(1:20)),20,2), 
                          list(start=c(1950,1),freq=1))
-  series.names(eg.put.data) <- c("exp1", "exp2")
+  seriesNames(eg.put.data) <- c("exp1", "exp2")
 
-  if (any(series.names(eg.put.data) != c("exp1", "exp2")))
+  if (any(seriesNames(eg.put.data) != c("exp1", "exp2")))
     stop("series.name setting is not working properly. Other tests will fail.")
 
   eg.names <- tfputpadi(eg.put.data,
@@ -151,12 +151,12 @@ TSPADI.function.tests <- function( verbose=T, synopsis=T,
 #  tframe(exp1) <- tframe(exp1)
   eg.put.data <- TSdata(input= exp1, 
                        output= tframed(tbind(2*exp1, 3*exp1),tframe(exp1)))
-  series.names(eg.put.data) <- list(input="exp1", output=c("exp2","exp3"))
+  seriesNames(eg.put.data) <- list(input="exp1", output=c("exp2","exp3"))
 
-  if (any(input.series.names(eg.put.data) != "exp1"))
+  if (any(seriesNamesInput(eg.put.data) != "exp1"))
     stop("series.name setting is not working properly. Other tests will fail.")
 
-  if (any(output.series.names(eg.put.data) != c("exp2","exp3")))
+  if (any(seriesNamesOutput(eg.put.data) != c("exp2","exp3")))
     stop("series.name setting is not working properly. Other tests will fail.")
 
 #  exp1 <- tframed(1*exp(1:20), list(start=c(1950,1),freq=1))

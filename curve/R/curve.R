@@ -78,10 +78,10 @@ richardson.grad <- function(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
   for(m in 1:(r - 1)) {		
 #     for(i in 1:(r - m)) b.mtr[i,]<- (a.mtr[(i+1),]*(4^m)-a.mtr[i,])/(4^m-1)
 #     a.mtr<- b.mtr
-     a.mtr<- (a.mtr[2:(r+1-m),,drop=F]*(4^m)-a.mtr[1:(r-m),,drop=F])/(4^m-1)
+     a.mtr<- (a.mtr[2:(r+1-m),,drop=FALSE]*(4^m)-a.mtr[1:(r-m),,drop=FALSE])/(4^m-1)
      if(show.details & m!=(r-1) )  {
         cat("\n","Richarson improvement group No. ", m, "\n")		
-        print(a.mtr[1:(r-m),,drop=F], 12)
+        print(a.mtr[1:(r-m),,drop=FALSE], 12)
       }
    }
 a.mtr
@@ -137,32 +137,32 @@ project <- function(c1, c2, signif = 0.05, eps=1e-5, fuzz=1e-14,
 #  c1 projected into c2
 
    QRofD2 <- qr(c2$Dlist$D)
-   T1inT2 <- qr.qty(QRofD2, c1$Dlist$D[,  1:p1 ] )[  1:p2 ,,drop=F]  
-   N1inT2 <- qr.qty(QRofD2, c1$Dlist$D[,-(1:p1)] )[  1:p2 ,,drop=F]  
-   N1inN2 <- qr.qty(QRofD2, c1$Dlist$D[,-(1:p1)] )[(p2+1):m2,,drop=F]  
+   T1inT2 <- qr.qty(QRofD2, c1$Dlist$D[,  1:p1 ] )[  1:p2 ,,drop=FALSE]  
+   N1inT2 <- qr.qty(QRofD2, c1$Dlist$D[,-(1:p1)] )[  1:p2 ,,drop=FALSE]  
+   N1inN2 <- qr.qty(QRofD2, c1$Dlist$D[,-(1:p1)] )[(p2+1):m2,,drop=FALSE]  
 
 #  c2 projected onto c1
 
    QRofD1 <- qr(c1$Dlist$D)
-   N2inN1      <- qr.qty(QRofD1, c2$Dlist$D[,-(1:p2)] )[(p1+1):m1,,drop=F]  
-   T2inN1      <- qr.qty(QRofD1, c2$Dlist$D[,  1:p2 ] )[(p1+1):m1,,drop=F] 
-   N2andT2inN1 <- qr.qty(QRofD1, c2$Dlist$D           )[(p1+1):m1,,drop=F]
+   N2inN1      <- qr.qty(QRofD1, c2$Dlist$D[,-(1:p2)] )[(p1+1):m1,,drop=FALSE]  
+   T2inN1      <- qr.qty(QRofD1, c2$Dlist$D[,  1:p2 ] )[(p1+1):m1,,drop=FALSE] 
+   N2andT2inN1 <- qr.qty(QRofD1, c2$Dlist$D           )[(p1+1):m1,,drop=FALSE]
    N2andT2inc1 <- qr.qty(QRofD1, c2$Dlist$D           )
 
-   N1inN1 <- qr.qty(QRofD1, c1$Dlist$D[,(p1+1):m1] )[(p1+1):m1,,drop=F]  
+   N1inN1 <- qr.qty(QRofD1, c1$Dlist$D[,(p1+1):m1] )[(p1+1):m1,,drop=FALSE]  
 #   v1 <- svd(N2andT2inT1)
 #   v2 <- svd(T1inT1)
 browser()
 
    cur2in1 <- rel.curvature(s.sqr,N2andT2inc1[1:p2,1:p1], N2andT2inc1[,(p1+1):m1], 
                       show.extra.details=show.details)
-   C2in1 <- list(C.parameter=cur2in1[1:p1,,     ,drop=F],
-                 C.intrinsic=cur2in1[(p1+1):m1,,,drop=F])
+   C2in1 <- list(C.parameter=cur2in1[1:p1,,     ,drop=FALSE],
+                 C.intrinsic=cur2in1[(p1+1):m1,,,drop=FALSE])
 
 #    z <- rel.curvature(s.sqr,N1inN1[1:p1,1:p1], N2andT2inc1[,(p1+1):m1], 
 #                       show.extra.details=show.details)
-#    zz <- list(C.parameter=z[1:p1,,     ,drop=F],
-#                  C.intrinsic=z[(p1+1):m1,,,drop=F])
+#    zz <- list(C.parameter=z[1:p1,,     ,drop=FALSE],
+#                  C.intrinsic=z[(p1+1):m1,,,drop=FALSE])
 
 # svd(   zz$C.intrinsic[1,,])$d
 # svd( c1$C$C.intrinsic[1,,])$d
@@ -180,7 +180,7 @@ browser()
 
    cstats1on2 <-curvature.stats(cur1on2, N, signif=signif)
 
-   R1 <- qr.qty(QRofD1, c2$Dlist$D )[1:m1,,drop=F]  
+   R1 <- qr.qty(QRofD1, c2$Dlist$D )[1:m1,,drop=FALSE]  
    cur1 <- rel.curvature(s.sqr,R1[1:p1,1:p1], R1[,(p1 + 1):m1], 
                       show.extra.details=show.details)
    effective1<-effective.curvature(cur1,QRofD1, residual, s.sqr,
@@ -294,7 +294,7 @@ curvature.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
 
 
 curvature.Darray <- function(func, signif = 0.05,
-   show.extra.details=F, show.details=show.extra.details, warn=T)
+   show.extra.details=FALSE, show.details=show.extra.details, warn=TRUE)
 { # Note func is a list of class Darray
 #  Page references are to Bates and Watts(1983), Nonlinear Regression 
 #   Analysis and Its Applications.
@@ -360,8 +360,8 @@ curvature.Darray <- function(func, signif = 0.05,
      {m <- dim(cur)[1]
       warning("acceration space dimension reduced for smaller sample space.")
      }
-   C <- classed(list(C.parameter=cur[1:p,,,drop=F],# curvatureArray constructor
-             C.intrinsic=cur[(p+1):m,,,drop=F]),"curvatureArray" )
+   C <- classed(list(C.parameter=cur[1:p,,,drop=FALSE],# curvatureArray constructor
+             C.intrinsic=cur[(p+1):m,,,drop=FALSE]),"curvatureArray" )
 
 # effective residual curvature. Bates and Watts p260
 # Calculate the scaled RMS curvatures relative to a confidence disk 
@@ -461,7 +461,7 @@ effective.curvature <- function(cur, QRofD, residual, s.sqr,
       max.axis.ratio= if(1 > max(Mod(eigv))) 1/sqrt(1-max(Mod(eigv))) else NaN)
 }
 
-rel.curvature <- function(s.sqr, R11, R2, show.extra.details=F, 
+rel.curvature <- function(s.sqr, R11, R2, show.extra.details=FALSE, 
                      eps=sqrt(.Machine$double.eps))
 {
  p  <- dim(R11)[2]

@@ -6,7 +6,7 @@
     \method{putpadi}{TSdata}(data, dbname, server=Sys.info()[["nodename"]], 
                    start.server=T, server.process=padi.server.process(), 
                    cleanup.script=padi.cleanup.script(),
-                   series=series.names(data),
+                   series=seriesNames(data),
                    user=Sys.info()[["user"]], passwd="",
                    stop.on.error=T, warn=T)
 }

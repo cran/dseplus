@@ -15,7 +15,7 @@
     \item{cumulate}{see the generic function.}
 }
 
-\seealso{ \code{\link{percent.change}} }
+\seealso{\code{\link[tframe]{percent.change}} }
 %\keyword{DSE}
 \keyword{ts}
 

@@ -3,7 +3,7 @@
 \alias{start.tfPADIdata}
 \alias{end.tfPADIdata}
 \alias{frequency.tfPADIdata}
-\alias{series.names.tfPADIdata}
+\alias{seriesNames.tfPADIdata}
 
 \title{Specific Methods for Tframed data}
 \description{See the generic function description.}
@@ -12,7 +12,7 @@
     \method{start}{tfPADIdata}(x)
     \method{end}{tfPADIdata}(x)
     \method{frequency}{tfPADIdata}(x)
-    \method{series.names}{tfPADIdata}(x)
+    \method{seriesNames}{tfPADIdata}(x)
 }
 \arguments{
     \item{x}{a tfPADIdata object.}
@@ -23,7 +23,7 @@
     \code{\link[tframe]{end}},
     \code{\link[tframe]{frequency}},
     \code{\link[tframe]{freeze}},
-    \code{\link[tframe]{series.names}}
+    \code{\link[tframe]{seriesNames}}
 }
 
 %\keyword{DSE}

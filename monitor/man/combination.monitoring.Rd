@@ -20,7 +20,7 @@
        message.footnote=NULL,
        show.start= c(0,-3),
        show.end  = c(0,12),    
-       report.variables=series.names(data.names),
+       report.variables=seriesNames(data.names),
        data.sub.heading=NULL,
        data.tag=" ",
        future.input.data.tag="p",
@@ -34,7 +34,13 @@
     \item{model}{see \code{simple.monitoring}.}
     \item{data.names}{see \code{simple.monitoring}.}
     \item{previous.data}{see \code{simple.monitoring}.}
-    
+    \item{overriding.data.names}{a TSdata (names) object.}
+    \item{restrict.overriding.data}{a logical indicating 
+        if \code{restrict.overriding.data} should be used to truncate the
+	resticion.}
+    \item{overriding.horizon}{an integer indicating the horizon of the
+        restriction.}
+
     \item{mail.list}{see \code{simple.monitoring}.}
     \item{error.mail.list}{see \code{simple.monitoring}.}
     \item{message.title}{see \code{simple.monitoring}.}
@@ -65,6 +71,9 @@
     If these feature are not need see simple.monitoring.
     \code{mail.list} and \code{error.mail.list} should be single strings (not 
     vectors) but the string can contain multiple user ids for mail.
+    \code{overriding.data.names=NULL} indicates a source for data which should
+    be used in place of model forecasts (e.g. preliminary data from a source or
+    data from another forecast).
     If \code{overriding.data.names=NULL} then no overriding data is used.
     report.variables indicates output variables which are reported. If NULL,
     then all outputs are reported.

@@ -20,7 +20,7 @@
     \item{mar}{margins passed to plot. See par.}
 }
 
-\seealso{ \code{\link{tfplot}} }
+\seealso{ \code{\link[tframe]{tfplot}} }
 %\keyword{DSE}
 \keyword{ts}
 

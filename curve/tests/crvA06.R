@@ -5,9 +5,7 @@
  Sys.info()
  version.dse()
  
-fuzz.small <- 1e-12
 fuzz.large <- 1e-8
-fuzz.very.large <- 1e-2
 digits <- 18
 all.ok <- T
 test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Muller")
@@ -56,9 +54,8 @@ cat("DSE curvature test A 6b...\n")
    cat("max. error ", max(error), "\n")
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {if (any(is.na(error)))  cat("na's: ",  is.na(error), "\n")
-      if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
-      if (fuzz.small < error) cat("error: ", error, "\n")
+     {if (any(is.na(error)))  cat("contains na's: ",  is.na(error),  "\n")
+      if (any(is.nan(error))) cat("contains nan's: ", is.nan(error), "\n")
       print.test.value(c(tst), digits=18)
       all.ok <- F  
      }
@@ -69,12 +66,11 @@ cat("DSE curvature test A 6a...\n")
    tst  <-  curvatureSS[-9]
 
    error <- max(abs(good - tst))
-   cat("max. error ", max(error), "\n")
+   cat("max. error ", error, "\n")
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {if (any(is.na(error)))  cat("na's: ",  is.na(error), "\n")
-      if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
-      if (fuzz.small < error) cat("error: ", error, "\n")
+     {if (any(is.na(error)))  cat("contains na's: ",  is.na(error),  "\n")
+      if (any(is.nan(error))) cat("contains nan's: ", is.nan(error), "\n")
       print.test.value(c(tst), digits=18)
       all.ok <- F  
      }

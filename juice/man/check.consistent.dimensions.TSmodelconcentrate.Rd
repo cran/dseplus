@@ -10,7 +10,7 @@
     \item{data}{a matrix of time series or a TSdata object.}
 }
 
-\seealso{ \code{\link{check.consistent.dimensions}} }
+\seealso{ \code{\link[tframe]{check.consistent.dimensions}} }
 
 %\keyword{DSE}
 \keyword{ts}

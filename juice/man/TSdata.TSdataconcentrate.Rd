@@ -8,9 +8,12 @@
 }
 \arguments{
     \item{d}{a TSdataconcentrate object from which to get TSdata.}
+    \item{conc}{object containing the concentrator (projection) matrix 
+       used for the reduction}
+    \item{names}{series names for the result.}
 }
 
-\seealso{ \code{\link{TSdata}} }
+\seealso{ \code{\link[dse1]{TSdata}} }
 
 %\keyword{DSE}
 \keyword{ts}

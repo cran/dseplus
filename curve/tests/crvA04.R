@@ -57,7 +57,7 @@ cat("DSE curvature test A 4b...")
 	   107.778335544667868)
 
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || 10*fuzz.large < error) 
      {print.test.value(c(tst), digits=18)
@@ -71,7 +71,7 @@ cat("DSE curvature test A 4c...")
    tst  <- hessianARMA
    good <- hessianVAR
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
      {print.test.value(c(tst), digits=18)

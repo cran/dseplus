@@ -1,14 +1,14 @@
-\name{concentrated.input.dimension}
-\alias{concentrated.input.dimension}
-\alias{concentrated.output.dimension}
+\name{concentrated.nseriesInput}
+\alias{concentrated.nseriesInput}
+\alias{concentrated.nseriesOutput}
 \title{Concentrated Dimension of TSdata}
 \description{
     The dimension (number of series) in concentrate data. This is the
     dimension onto which the original series has been projected.
 }
 \usage{
-    concentrated.input.dimension(x)
-    concentrated.output.dimension(x)
+    concentrated.nseriesInput(x)
+    concentrated.nseriesOutput(x)
 }
 \arguments{
     \item{x}{A concentrated TSdata object.}
@@ -25,7 +25,7 @@
     require("mva")
     }
     z <- concentrate(eg1.DSE.data)
-    concentrated.output.dimension(z)
+    concentrated.nseriesOutput(z)
 }
 %\keyword{DSE}
 \keyword{ts}

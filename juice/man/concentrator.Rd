@@ -3,7 +3,6 @@
 \alias{concentrator.concentrate}
 \alias{concentrator.concentrator}
 \alias{concentrator.TSdata}
-\alias{concentrator.TSdataconcentrate}
 \alias{concentrator.TSdataconcentrator}
 \alias{concentrator.TSmodelconcentrate}
 \alias{is.concentrator}
@@ -16,7 +15,6 @@
     \method{concentrator}{concentrate}(d)
     \method{concentrator}{concentrator}(d)
     \method{concentrator}{TSdata}(d)
-    \method{concentrator}{TSdataconcentrate}(d)
     \method{concentrator}{TSdataconcentrator}(d)
     \method{concentrator}{TSmodelconcentrate}(d)
     is.concentrator(x)

@@ -11,28 +11,18 @@
 \usage{
     tags(x)
     tags(x) <- value
-    tagged(x, ...)
+    tagged(x, tags)
     \method{tagged}{default}(x, tags)
-    \method{tagged}{TSdata}(x, input.tags, output.tags)
+    \method{tagged}{TSdata}(x, tags)
     is.tagged(obj)
 }
 \arguments{
     \item{x}{a matrix or TSdata object.}
-    \item{value}{if x is a matrix then \code{value} should be a matrix of 
-       strings of the same dimension or a scalar string which is expanded
-        to the dimension of x.}
+    \item{value}{same as tags below.}
     \item{tags}{if x is a matrix then \code{tags} should be a matrix of 
        strings of the same dimension or a scalar string which is expanded
-        to the dimension of x.}
-    \item{input.tags}{
-        If x is TSdata then input.value should be a matrix of strings of 
-        the same dimension as input.data(x)or a single string which is 
-        expanded.}
-    \item{output.tags}{
-        If x is TSdata then output.value should be a matrix of strings of 
-        the same dimension as input.data(x)or a single string which is 
-        expanded.}
-    \item{...}{arguments to be passed to other methods.}
+        to the dimension of x. If x is TSdata then \code{tags} should be a 
+	list with elements input and output, each with tags as for a matrix.}
     \item{obj}{any object.}
 }
 \value{
@@ -46,7 +36,7 @@
 }
 \seealso{
     \code{\link{simple.monitoring}}
-    \code{\link{TSdata}}
+    \code{\link[dse1]{TSdata}}
 }
 \examples{
     x <- tagged(matrix(rnorm(100), 50,2), "r")

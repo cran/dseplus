@@ -6,9 +6,7 @@
 
 
 check.for.value.changes <- function(data.names, verification.data,
-     discard.current=F,
-     ignore.before= NULL,
-     fuzz=1e-10)
+     discard.current=FALSE, ignore.before= NULL, fuzz=1e-10)
   { # Check if data is modified or if more data is available.
     # data.names is an object of class c("TSPADIdata","TSdata").
     # verification.data is an object of class TSdata.
@@ -32,27 +30,27 @@ check.for.value.changes <- function(data.names, verification.data,
    data <- freeze(data.names) 
    if (discard.current)
      {year.mo <- c(date.parsed()$y,date.parsed()$m) - c(0,1)
-      data  <- tfwindow( data,  end=year.mo, warn=F )
+      data  <- tfwindow( data,  end=year.mo, warn=FALSE )
      }
    if (!is.null(ignore.before)) 
      {data <- tfwindow(data, start= ignore.before)
       verification.data <-tfwindow(verification.data, start= ignore.before)
      }
-   data <-trim.na(data, start.=T, end.=F)
-   verification.data <-trim.na(verification.data, start.=T, end.=F)
+   data <-trim.na(data, start.=TRUE, end.=FALSE)
+   verification.data <-trim.na(verification.data, start.=TRUE, end.=FALSE)
    # which series are changed:
-   if (is.null(input.series.names(data.names))) in.up <- NULL
+   if (is.null(seriesNamesInput(data.names))) in.up <- NULL
    else
-     {ld <-input.periods(data)
-      lv <-input.periods(verification.data)
+     {ld <-periodsInput(data)
+      lv <-periodsInput(verification.data)
       l <- max(ld, lv)
       if (ld < l)
         input.data(data) <- ts(rbind(input.data(data),  
-                                     matrix(NA,l-ld,input.dimension(data))),
+                                     matrix(NA,l-ld,nseriesInput(data))),
                      start=start(input.data(data)),  frequency=frequency(data))
       if (lv < l)
         input.data(verification.data) <- ts(rbind(input.data(verification.data),
-                                        matrix(NA,l-lv, input.dimension(data))),
+                                        matrix(NA,l-lv, nseriesInput(data))),
                      start=start(input.data(verification.data)),
                      frequency=frequency(verification.data))
       z <- (is.na(input.data(data)) & is.na(input.data(verification.data)))   # both NA
@@ -62,19 +60,19 @@ check.for.value.changes <- function(data.names, verification.data,
       z <- z & !is.na(z)
       in.up <- !apply(z,2, all)
      }
-   if (is.null(output.series.names(data.names))) out.up <- NULL
+   if (is.null(seriesNamesOutput(data.names))) out.up <- NULL
    else
-     {ld <-output.periods(data)
-      lv <-output.periods(verification.data)
+     {ld <-periodsOutput(data)
+      lv <-periodsOutput(verification.data)
       l <- max(ld, lv)
       if (ld < l)
         output.data(data) <- ts(rbind(output.data(data), 
-                                      matrix(NA,l-ld, output.dimension(data))),
+                                      matrix(NA,l-ld, nseriesOutput(data))),
                          start=start(data), frequency=frequency(data))
       if (lv < l)
         output.data(verification.data) <- ts(
                                 rbind(output.data(verification.data), 
-                                      matrix(NA,l-lv, output.dimension(data))),
+                                      matrix(NA,l-lv, nseriesOutput(data))),
                      start=start(output.data(verification.data)),
                      frequency=frequency(verification.data))
       z <- ( is.na(output.data(data)) & is.na(output.data(verification.data)))    # both NA
@@ -93,7 +91,7 @@ check.for.file.date.changes <- function(data.names, verification.dates)
    #   than in S, and then start S for further checks only when the time stamp
    #   on the database files has changed.
    up.in <-NULL
-   if (!is.null(input.series.names(data.names)))
+   if (!is.null(seriesNamesInput(data.names)))
     {for (f in data.names$input$db) up.in <- c(up.in, file.date.info(f))
      inT <-any(verification.dates$input != up.in)
     }
@@ -115,11 +113,11 @@ simple.monitoring <- function(model, data.names,
    message.footnote=NULL,
    show.start= c(0,-3),
    show.end  = c(0,12),    
-   report.variables= series.names(data.names),
+   report.variables= seriesNames(data.names),
    data.sub.heading=NULL,
    data.tag=" ",
    forecast.tag="f",
-   run.again=F,
+   run.again=FALSE,
    save.as=NULL)
 
 {# Step 0 -  prepare message files and error checking
@@ -158,14 +156,14 @@ simple.monitoring <- function(model, data.names,
     else
       {updated.data<-check.for.value.changes(data.names,
                            verification.data=previous.data,
-                           discard.current=T)
+                           discard.current=TRUE)
        if(updated.data[[1]])
          {data <-updated.data$data
 	  # updated.data$input & $output are logical vector so don't use
 	  #    input.data() and output.data() in next
           message <- c("data updates: ", 
-               input.series.names(data)[updated.data$input],
-              output.series.names(data)[updated.data$output])
+               seriesNamesInput(data)[updated.data$input],
+              seriesNamesOutput(data)[updated.data$output])
           status <- "Simple monitoring updated."   
          }
        else
@@ -180,7 +178,7 @@ simple.monitoring <- function(model, data.names,
    #   ignore on in Fame). The following 4 lines trim these, but that may not be
    #   the best way to handle them.
    year.mo <- c(date.parsed()$y,date.parsed()$m) - c(0,1)
-   data  <- tfwindow(data,  end=year.mo, warn=F )
+   data  <- tfwindow(data,  end=year.mo, warn=FALSE )
 
  # Step 3 - run forecast
    pred<-forecast(model, data)$forecast[[1]]
@@ -193,17 +191,20 @@ simple.monitoring <- function(model, data.names,
     end.  <-(output.end(data)+show.end)
 
     report.variables$input<- 
-            (report.variables$input == input.series.names(data.names))
+            (report.variables$input == seriesNamesInput(data.names))
     report.variables$output<- 
-            (report.variables$output == output.series.names(data.names))
-    rv <- tagged(pred[,report.variables$output, drop=F],
-                 tags= (attr(pred,"tags")) [,report.variables$output, drop=F])
-    tframe(rv) <- tframe(pred)
-    inp <-tagged(input.data(data)[,report.variables$input, drop=F],tags= data.tag)
-
-    tframe(inp) <-  tframe(input.data(data))
-
-    rv <- tfwindow( tbind( inp, rv), start=start., end=end., warn=F)   
+            (report.variables$output == seriesNamesOutput(data.names))
+#    rv <- tagged(select.series(pred, series=report.variables$output),
+#                 tags= (attr(pred,"tags")) [,report.variables$output, drop=FALSE])
+    rv <- select.series(pred, series=report.variables$output)
+#    tframe(rv) <- tframe(pred)
+#    inp <-tagged(input.data(data)[,report.variables$input, drop=FALSE],tags= data.tag)
+#   should probably have data <- tagged(data, tags=data.tag) at the beginning
+#    but 
+    inp <-tagged(input.data(data),tags= data.tag)
+    inp <-select.series(inp, report.variables$input)
+#    tframe(inp) <-  tframe(input.data(data))
+    rv <- tfwindow(tbind( inp, rv), start=start., end=end., warn=FALSE)   
     message <- c(message,fprint(rv, digits=5, sub.title=data.sub.heading)) 
 
     if (!is.null(message.footnote)) message <-c(message, message.footnote)
@@ -248,7 +249,7 @@ watch.data <- function(data.names,
 
  # Step 1 - retrieve & check for updated data 
 
-    data.names <- modify.TSPADIdata(data.names, pad.end=T)
+    data.names <- modify.TSPADIdata(data.names, pad.end=TRUE)
     #  Initialize system and exit if previous.data is NULL
     if (is.null(previous.data))
       {current.data <- freeze(data.names)
@@ -259,7 +260,7 @@ watch.data <- function(data.names,
       }
     update<-check.for.value.changes(data.names,
                            verification.data=previous.data$data,
-                           discard.current=F)
+                           discard.current=FALSE)
     if (!update[[1]] )
         {on.exit()
          return(invisible(list(data=previous.data$data, 
@@ -267,7 +268,7 @@ watch.data <- function(data.names,
         }
     else
        message <- c(message, "data updates: ", 
-              output.series.names(update$data)[update$output],)
+              seriesNamesOutput(update$data)[update$output],)
 
  # Step 2 - mail 
     if(!is.null(message.footnote)) message <- c(message,message.footnote)

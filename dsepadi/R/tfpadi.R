@@ -22,7 +22,7 @@ availability <- function(obj, ...) UseMethod("availability")
 
 
 availability.default <- function(obj, names=NULL, server="ets", dbname="",
-                       verbose=T, timeout=60, stop.on.error=TRUE, warn=TRUE)  
+                       verbose=TRUE, timeout=60, stop.on.error=TRUE, warn=TRUE)  
 {# Indicate  dates for which data is available. 
  # obj should be a character vector of data identifiers  
  if (1== length(server)) server  <- rep(server, length(obj))
@@ -38,8 +38,8 @@ availability.default <- function(obj, names=NULL, server="ets", dbname="",
  s <- e <- f <- NULL
  for (i in 1:length(obj))
       {data <- getpadi(obj[i], dbname=dbname[i], server=server[i],
-                stop.on.error=stop.on.error, use.tframe=T, warn=warn, 
-                pad=F, timeout=timeout)
+                stop.on.error=stop.on.error, use.tframe=TRUE, warn=warn, 
+                pad=FALSE, timeout=timeout)
        s <- rbind(s, start(data))
        e <- rbind(e, end(data))
        f <- c(f,frequency(data))
@@ -127,9 +127,9 @@ sourceserver.default <- function(obj){
 tfPADIdata <- function(series,  server = "", db= "", transforms= "",  
            start=NA, end=NA, frequency=NA, names=NULL, 
            pad=FALSE, pad.start=pad, pad.end=pad,
-           use.tframe=T,
+           use.tframe=TRUE,
            start.server=NULL, server.process=NULL, cleanup.script=NULL,
-           stop.on.error=T, warn=T)
+           stop.on.error=TRUE, warn=TRUE)
   {# This is the constructor (but see set.tfPADIdata for a prompter).
    if (is.null(series)) return(NULL)
    if (is.null(names))   names <- series
@@ -155,7 +155,7 @@ tfPADIdata <- function(series,  server = "", db= "", transforms= "",
 
 
 
-set.tfPADIdata <- function(preamble=T)
+set.tfPADIdata <- function(preamble=TRUE)
  {# prompt for series identifiers, set class, etc.
   if (preamble) 
     {cat("This function prompts for the names and database locations for\n")
@@ -289,7 +289,7 @@ end.tfPADIdata <- function(x)
 frequency.tfPADIdata <- function(x)
      {if(is.null(attr(x, "frequency")))   NA else attr(x, "frequency")}
 periods.tfPADIdata <- function(x) NA  # could be better
-series.names.tfPADIdata <- function(x) {dimnames(x)[[2]]}
+seriesNames.tfPADIdata <- function(x) {dimnames(x)[[2]]}
 # nseries default should work
 
 
@@ -342,7 +342,7 @@ freeze.tfPADIdata <- function(data, timeout=60)
    IfNull <- function(a,b) {c(a,b)[1]}
 
    r  <- getpadi( data["series",], server=data["server",], dbname=data["db",],
-     start.server=   IfNull(attr(data,"start.server"), T),
+     start.server=   IfNull(attr(data,"start.server"), TRUE),
      server.process= IfNull(attr(data,"server.process"), padi.server.process()),
      cleanup.script= IfNull(attr(data,"cleanup.script"), padi.cleanup.script()),
      starty= if(any(is.na(start(data)))) 0 else start(data)[1],
@@ -353,24 +353,24 @@ freeze.tfPADIdata <- function(data, timeout=60)
      pad  = (attr(data,"pad.start") | attr(data,"pad.end") ),
      user =          IfNull(attr(data,"user"), Sys.info()[["user"]] ),
      passwd=         IfNull(attr(data,"passwd"),       ""  ),
-     stop.on.error = IfNull(attr(data,"stop.on.error"), T  ),
-     use.tframe=     IfNull(attr(data,"use.tframe"),    F  ), 
-     warn=           IfNull(attr(data,"warn"),          T  ),
+     stop.on.error = IfNull(attr(data,"stop.on.error"), TRUE  ),
+     use.tframe=     IfNull(attr(data,"use.tframe"),    FALSE  ), 
+     warn=           IfNull(attr(data,"warn"),          TRUE  ),
      timeout= timeout)
 
  if (is.character(r)) stop(r)
- if (!attr(data,"pad.start")) r <- trim.na(r, start.=T, end.=F)
- if (!attr(data,"pad.end") )  r <- trim.na(r, start.=F, end.=T)
+ if (!attr(data,"pad.start")) r <- trim.na(r, start.=TRUE, end.=FALSE)
+ if (!attr(data,"pad.end") )  r <- trim.na(r, start.=FALSE, end.=TRUE)
  if (dim(r)[2] != dim(data)[2]) stop("Error retrieving data.")
  if ( !is.na(frequency(data)) && (frequency(data)) != frequency(r))
        warning("returned data frequency differs from request.")
- series.names(r) <- series.names(data)
+ seriesNames(r) <- seriesNames(data)
  attr(r, "source") <- data 
  attr(r, "retrieval.date") <- date.parsed() 
  r
 }
 
-availability.tfPADIdata <- function(obj, verbose=T, timeout=60)  
+availability.tfPADIdata <- function(obj, verbose=TRUE, timeout=60)  
 {# Indicate  dates for which data is available.
  # This requires retrieving series individually so they are not truncated.
 
@@ -406,7 +406,7 @@ availability.tfPADIdata <- function(obj, verbose=T, timeout=60)
          {cat(series[i]," from: ",start(r))
           cat("  to: ",end(r))
           cat("   frequency ", frequency(r))
-          cat("  ",series.names(obj)[i])
+          cat("  ",seriesNames(obj)[i])
           cat("\n")
       }  }
   invisible(list(start=s, end=e, frequency=f, series=series))
@@ -417,12 +417,12 @@ availability.tfPADIdata <- function(obj, verbose=T, timeout=60)
 tfputpadi <- function(data,  
          server = Sys.info()[["nodename"]],
          dbname = "", 
-         series = series.names(data),
-         start.server = T,
+         series = seriesNames(data),
+         start.server = TRUE,
          server.process = padi.server.process(), 
          cleanup.script = padi.cleanup.script(),
          user = Sys.info()[["user"]], passwd= "",
-         stop.on.error = T, warn = T)   
+         stop.on.error = TRUE, warn = TRUE)   
   {# This is just putpadi with a tfPADIdata object returned suitable for 
    #   retrieving the data.
 
@@ -437,7 +437,7 @@ tfputpadi <- function(data,
    tfPADIdata( series, server=server, db=dbname, transforms="",  
            start=start(data), end=end(data), frequency=frequency(data), 
            names=series, pad=FALSE, 
-           use.tframe=T, stop.on.error=stop.on.error, warn=warn)
+           use.tframe=TRUE, stop.on.error=stop.on.error, warn=warn)
   }
 
 

@@ -1,16 +1,16 @@
 \name{input.data.TSPADIdata}
 \alias{input.data.TSPADIdata}
-\alias{input.periods.TSPADIdata}
+\alias{periodsInput.TSPADIdata}
 \alias{output.data.TSPADIdata}
-\alias{output.periods.TSPADIdata}
+\alias{periodsOutput.TSPADIdata}
 
 \title{TS Input and Output Specific Methods}
 \description{See the generic function description.}
 \usage{
-    \method{input.data}{TSPADIdata}(x, series=seq(length=input.dimension(x)))
-    \method{output.data}{TSPADIdata}(x,series=seq(length=output.dimension(x)))
-    \method{input.periods}{TSPADIdata}(x)
-    \method{output.periods}{TSPADIdata}(x)
+    \method{input.data}{TSPADIdata}(x, series=seq(length=nseriesInput(x)))
+    \method{output.data}{TSPADIdata}(x,series=seq(length=nseriesOutput(x)))
+    \method{periodsInput}{TSPADIdata}(x)
+    \method{periodsOutput}{TSPADIdata}(x)
 }
 \arguments{
     \item{x}{a TSPADIdata object.}

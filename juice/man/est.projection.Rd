@@ -21,6 +21,7 @@ cannonical correlation for TSdata with input and output).
 \value{An object containing matrix (conc) to use to 
  concentrate the data.}
 \seealso{
+\code{\link{est.concentrated.model}}
 \code{\link{concentrate}}
 \code{\link{reconstitute}}
 \code{\link{prcomp}}

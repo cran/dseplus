@@ -7,7 +7,7 @@
     tfputpadi(data,  
          server = Sys.info()[["nodename"]],
          dbname = "", 
-         series = series.names(data),
+         series = seriesNames(data),
          start.server = T,
          server.process = padi.server.process(), 
          cleanup.script = padi.cleanup.script(),

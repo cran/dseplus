@@ -41,7 +41,7 @@ TSPADIdata <- function( output=NULL,           input=NULL,
                          pad=FALSE, pad.start=pad, pad.end=pad,
                          server="", db="", start.server=NULL, 
                          server.process=NULL, cleanup.script=NULL,
-                         stop.on.error=T, warn=T)
+                         stop.on.error=TRUE, warn=TRUE)
   {i <- if (is.null(input)) NULL else tfPADIdata(input, 
       transforms=input.transforms, names=input.names, 
       start=start, end=end, frequency=frequency,
@@ -68,8 +68,8 @@ TSPADIdata <- function( output=NULL,           input=NULL,
 TSPADIdata2 <- function(input=NULL, output=NULL,
     start = NA, end = NA, frequency = NA, pad.start = FALSE, 
     pad.end = FALSE,  start.server = NULL, 
-    server.process = NULL, cleanup.script = NULL, stop.on.error = T, 
-    warn = T)
+    server.process = NULL, cleanup.script = NULL, stop.on.error = TRUE, 
+    warn = TRUE)
   {i <- o <- NULL
    for (j in seq(length=length( input))) i <- cbind(i,  input[[j]])
    for (j in seq(length=length(output))) o <- cbind(o, output[[j]])
@@ -148,23 +148,23 @@ tsp.TSPADIdata <- function(x)
    o
 }
 
-input.periods.TSPADIdata <- function(x) periods( input.data(x))  
-output.periods.TSPADIdata <- function(x) periods(output.data(x))  
+periodsInput.TSPADIdata <- function(x) periods( input.data(x))  
+periodsOutput.TSPADIdata <- function(x) periods(output.data(x))  
 periods.TSPADIdata <- function(x) periods(output.data(x))
 
  
-input.data.TSPADIdata <- function(x, series=seq(length=input.dimension(x)))
+input.data.TSPADIdata <- function(x, series=seq(length=nseriesInput(x)))
 {if(is.null(x$input))  NULL else  x$input[ , series, drop=FALSE]}
 
-output.data.TSPADIdata <- function(x,series=seq(length=output.dimension(x)))
+output.data.TSPADIdata <- function(x,series=seq(length=nseriesOutput(x)))
 {if(is.null(x$output)) NULL else  x$output[ , series, drop=FALSE]}
 
 
 #  default should work
-# input.dimension.TSPADIdata <- function(x) {nseries( input.data(x))}
-#output.dimension.TSPADIdata <- function(x) {nseries(output.data(x))}
+# nseriesInput.TSPADIdata <- function(x) {nseries( input.data(x))}
+#nseriesOutput.TSPADIdata <- function(x) {nseries(output.data(x))}
 
-# input.series.names, output.series.names default should work
+# seriesNamesInput, seriesNamesOutput default should work
 
 identifiers.TSPADIdata <- function(obj) 
 	{list(input=identifiers(obj$input), output=identifiers(obj$output))}
@@ -221,7 +221,7 @@ freeze.TSPADIdata <- function(data, timeout=60)
 
   r <- freeze(modify(x$output, # output first so attributes are used
          append=list(series=x$input[1,],server=x$input[2,],db=x$input[3,],
-	             transforms=x$input[4,],names=series.names(x$input))))
+	             transforms=x$input[4,],names=seriesNames(x$input))))
   r <- TSdata(input=r, output=r)
   r$source <- x
   input.data(r)  <-  input.data(r, series=ncol(x$output)+seq(length=ncol(x$input)))
@@ -230,12 +230,12 @@ freeze.TSPADIdata <- function(data, timeout=60)
 }
 
 
-availability.TSPADIdata <- function(obj, verbose=T, timeout=60)  
+availability.TSPADIdata <- function(obj, verbose=TRUE, timeout=60)  
 {# Indicate  dates for which data is available. 
 
- i <- if (0 ==  input.dimension(obj)) NULL
+ i <- if (0 ==  nseriesInput(obj)) NULL
       else availability( input.data(obj), verbose=verbose)
- o <- if (0 == output.dimension(obj)) NULL
+ o <- if (0 == nseriesOutput(obj)) NULL
       else availability(output.data(obj), verbose=verbose)
  if (is.null(i) & is.null(o)) stop("No data.")
  invisible(list(start = rbind(i$start, o$start),
@@ -246,11 +246,11 @@ availability.TSPADIdata <- function(obj, verbose=T, timeout=60)
 
 
 putpadi.TSdata <- function(data, dbname, server=Sys.info()[["nodename"]], 
-                   start.server=T, server.process=padi.server.process(), 
+                   start.server=TRUE, server.process=padi.server.process(), 
                    cleanup.script=padi.cleanup.script(),
-                   series=series.names(data),
+                   series=seriesNames(data),
                    user=Sys.info()[["user"]], passwd="",
-                   stop.on.error=T, warn=T){   
+                   stop.on.error=TRUE, warn=TRUE){   
    #dbname and server can be a single string in which case it is applied to
    # all series. Otherwise it should be a structure like series: a list with
    # elements input and output, each vectors with a string for each series.
@@ -259,8 +259,8 @@ putpadi.TSdata <- function(data, dbname, server=Sys.info()[["nodename"]],
    #  be used to fetch the data from the database. tfputpadi in turn 
    #  uses putpadi.default.
 
-   m <-input.dimension(data)
-   p <-output.dimension(data)
+   m <-nseriesInput(data)
+   p <-nseriesOutput(data)
 
    if(!is.list(dbname)) 
      {z <-dbname[1]
@@ -314,9 +314,9 @@ set.TSPADIdata <- function()
   cat("input and output series, until an empty line is entered.\n")
   cat("If your model has no input or no output then return an empty line.\n\n")
   cat("Input (exogenous) variables...\n")
-  i <- set.tfPADIdata(preamble=F)
+  i <- set.tfPADIdata(preamble=FALSE)
   cat("Output (endogenous) variables...\n")
-  o <- set.tfPADIdata(preamble=F)
+  o <- set.tfPADIdata(preamble=FALSE)
   data <- classed(list(input=i, output=o),   # bypass constructor (set.TSPADIdata)
                   c("TSPADIdata", "TSdata"))  
   cat("The series may now be retrieved, in which case the data is\n")
@@ -338,11 +338,11 @@ retrieve.and.verify.data <- function(data.names,
  #    data.names$pad.end = T
  data <- freeze(data.names)
  #   check that data has not been rebased or otherwise messed up.
- if (0 != (input.dimension(data)))
+ if (0 != (nseriesInput(data)))
    {s <-input.start(verification.data)
     e <-input.end(verification.data)
     error <- input.data(verification.data) -
-               tfwindow(input.data(data),start=s, end=e, warn=F)
+               tfwindow(input.data(data),start=s, end=e, warn=FALSE)
     if (fuzz < max(abs(error)) )
       {warning(paste("Retrieved input variables do not compare with the verification data.",
        "  Differences occur at ", sum(abs(error)>fuzz), " data points. ",
@@ -351,7 +351,7 @@ retrieve.and.verify.data <- function(data.names,
        if (key=="y" | key=="Y")
          {z <- TSdata(input=error)
           tfplot(z, 
-              select.inputs=(1:input.dimension(z))[apply(error,2,any)],
+              select.inputs=(1:nseriesInput(z))[apply(error,2,any)],
               select.outputs= 0)
          }
       key<-as.character(parse(prompt="plot data and verification data?  y/n: "))
@@ -360,14 +360,14 @@ retrieve.and.verify.data <- function(data.names,
           output.data(graph.data) <-tfwindow(output.data(data),start=s,end=e)
           input.data(graph.data)  <-tfwindow(input.data(data), start=s,end=e)
           tfplot(verification.data, graph.data,
-            select.inputs=(1:input.dimension(data))[apply(error,2,any)], select.outputs= 0)
+            select.inputs=(1:nseriesInput(data))[apply(error,2,any)], select.outputs= 0)
          }
       }
    }
  s <-output.start(verification.data)
  e <-output.end(verification.data)
  error <-  output.data(verification.data) -
-              tfwindow(output.data(data),start=s,end=e, warn=F)
+              tfwindow(output.data(data),start=s,end=e, warn=FALSE)
  if (fuzz < max(abs(error))  )
    {warning(paste("Retrieved output variables do not compare with the verification data.",
     "  Differences occur at ", sum(abs(error)>fuzz), " data points. ",
@@ -376,7 +376,7 @@ retrieve.and.verify.data <- function(data.names,
     if (key=="y" | key=="Y")
       {z <- TSdata(output=error)
        tfplot(z, select.inputs=0,
-            select.outputs= (1:output.dimension(z))[apply(error,2,any)])
+            select.outputs= (1:nseriesOutput(z))[apply(error,2,any)])
       }
     key<-as.character(parse(prompt="plot data and verification data?  y/n: "))
     if (key=="y" | key=="Y")
@@ -384,7 +384,7 @@ retrieve.and.verify.data <- function(data.names,
        graph.output.data(data) <-tfwindow(output.data(data),start=s,end=e)
        graph.input.data(data)  <-tfwindow(input.data(data), start=s,end=e)
        tfplot(verification.data, graph.data, select.inputs=0,
-            select.outputs= (1:output.dimension(data))[apply(error,2,any)])
+            select.outputs= (1:nseriesOutput(data))[apply(error,2,any)])
       }
    }
 data

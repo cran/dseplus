@@ -65,7 +65,7 @@ cat("DSE curvature test A 1 ...")
    good <- spanVAR
    tst  <- c(12.583380392358416,  9.21209438442244277)
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || 10*fuzz.small < error) #10* for Linux vs Solaris R
      {print.test.value(c(tst), digits=18)
@@ -79,7 +79,7 @@ cat("DSE curvature test A 1b...")
    good <- spanVAR
    tst  <- spanVAR.f
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", error)
 
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
      {print.test.value(c(tst), digits=18)

@@ -23,7 +23,8 @@
 \arguments{
     \item{d}{a matrix or TSdata object.}
     \item{...}{arguments to be passed to other methods.}
-    \item{conc}{object containing the projection matrix used for the reduction}
+    \item{conc}{object containing the concentrator (projection) matrix 
+       used for the reduction}
     \item{center}{center the observations to mean zero first (passed to est.projection).}
     \item{scale}{scale the observations to SD one first (passed to est.projection).}
     \item{n, m, p}{dimension of the concentrated series (passed to est.projection).}

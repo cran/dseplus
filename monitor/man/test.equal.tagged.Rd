@@ -9,7 +9,7 @@
     \item{obj1}{object to be compared with obj2.}
     \item{obj2}{object to be compared with obj1.}
 }
-\seealso{ \code{\link{test.equal}} }
+\seealso{ \code{\link[tframe]{test.equal}} }
 %\keyword{DSE}
 \keyword{ts}
 

@@ -8,8 +8,8 @@
     used to predict output data.}
 \usage{
     canonical.prediction(d, conc=concentrator(d),
-       q=min(concentrated.input.dimension(d),
-             concentrated.output.dimension(d)))
+       q=min(concentrated.nseriesInput(d),
+             concentrated.nseriesOutput(d)))
     is.TScanonical.prediction(x)
 }
 \arguments{
@@ -26,7 +26,7 @@
         q canonical variates from output data and then use these to 
        reconstruct output data. (ref T.W. Anderson p491)
     q cannot exceed 
-     min(concentrated.input.dimension(d), concentrated.output.dimension(d)) 
+     min(concentrated.nseriesInput(d), concentrated.nseriesOutput(d)) 
 }
 \seealso{
     \code{\link{concentrate}}

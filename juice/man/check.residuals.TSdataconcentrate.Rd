@@ -15,7 +15,7 @@
 }
 
 \seealso{
-  \code{\link{check.residuals}} 
+  \code{\link[dse1]{check.residuals}} 
   \code{\link{concentrated.check.residuals}} 
 }
 

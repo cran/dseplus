@@ -1,34 +1,15 @@
-   require("ts",      warn.conflicts=F)
-   require("dse2",    warn.conflicts=F)
-   require("dsepadi", warn.conflicts=F)
-   require("monitor", warn.conflicts=F)
-#   A TS PADI server is necessary for these tests.
-#   The next line is only necessary to remove this in an old version which set
-#     home in frame 0. (I'll never do that again.)
-#   if (is.S()) remove("DSE.HOME", where=0) 
-   require("padi",    warn.conflicts=F)
-   if (is.S()) {
-	# the next 2 lines remove old versions of PADI in the search path
- 	invisible(if(0!=length(grep("b*/PADI/.Data",search())))
-                         detach(grep("b*/PADI/.Data",search()))  )
-	attach(paste(Sys.getenv("PADI"),"/.Data", sep=""), pos=2)
-	#load.padi(from=".")    # this gets the version in pwd
-	load.padi()           # this gets the version indicated by PADI
-	# load.padi does the following two dynamic loads 
-	#dyn.load.shared("/usr/lib/libnsl.so")     # splus 3.3 on SunOS5
-	# If the shared library is not loaded then the next has missing symbols
-	#dyn.load(paste(Sys.getenv("PADI"),"/lib/splusclnt.o", sep=""))
-	search()
-   }
-
+   require("monitor")
 
 
 
 tagged.function.tests <- function(verbose=T, synopsis=T, fuzz.small=1e-10)
 {# A short set of tests of the tagged class methods. 
 
-  if      (is.R()) data("eg1.DSE.data.diff", package="dse1")
-  else if (is.S()) source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
+ if      (is.R()) data("eg1.DSE.data.diff", package="dse1")
+ if (is.S()) 
+   {source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
+    class(eg1.DSE.data.diff$output) <- class(eg1.DSE.data.diff$input) <- NULL
+    }
 
   if (!is.TSdata(eg1.DSE.data.diff))
      stop("Test data not found. Testing stopped.")

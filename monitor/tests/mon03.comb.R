@@ -1,12 +1,12 @@
-   require("ts",      warn.conflicts=F)
-   require("dse2",    warn.conflicts=F)
-   require("dsepadi", warn.conflicts=F)
-   require("monitor", warn.conflicts=F)
+   require("ts",      warn.conflicts=TRUE)
+   require("dse2",    warn.conflicts=TRUE)
+   require("dsepadi", warn.conflicts=TRUE)
+   require("monitor", warn.conflicts=TRUE)
 #   A TS PADI server is necessary for these tests.
 #   The next line is only necessary to remove this in an old version which set
 #     home in frame 0. (I'll never do that again.)
 #   if (is.S()) remove("DSE.HOME", where=0) 
-   require("padi",    warn.conflicts=F)
+   require("padi",    warn.conflicts=TRUE)
    if (is.S()) {
 	# the next 2 lines remove old versions of PADI in the search path
  	invisible(if(0!=length(grep("b*/PADI/.Data",search())))

@@ -11,7 +11,7 @@
     \item{...}{arguments to be passed to other methods.}
 }
 
-\seealso{ \code{\link{tfwindow}} }
+\seealso{ \code{\link[tframe]{tfwindow}} }
 
 %\keyword{DSE}
 \keyword{ts}

@@ -16,7 +16,7 @@
    message.footnote=NULL,
    show.start= c(0,-3),
    show.end  = c(0,12),    
-   report.variables= series.names(data.names),
+   report.variables= seriesNames(data.names),
    data.sub.heading=NULL,
    data.tag=" ",
    forecast.tag="f",
@@ -42,7 +42,7 @@
        is added to the end (so it should be negative).}
     \item{report.variables}{indicates output variables which are reported.
        It should be a vector of strings corresponding to a subset of 
-       names returned by series.names.}
+       names returned by seriesNames.}
     \item{data.sub.heading}{string or vectors of strings placed at the top 
        of the data.}
     \item{data.tag}{matrix of strings placed beside data points in 
@@ -71,7 +71,7 @@
 \sideffects{Mail is sent.}
 \seealso{
     \code{\link{combination.monitoring}}
-    \code{\link{Sys.mail}}
+    \code{\link[syskern]{Sys.mail}}
 }
 
 %\keyword{DSE}

@@ -17,6 +17,12 @@
     \item{data}{A TSdata or TSdataconcentrate object.}
     \item{estimation}{Estimation method.}
     \item{estimation.args}{Estimation method arguments.}
+    \item{n, m, p}{dimension of the concentrated series.}
+    \item{center}{center the observations to mean zero first.}
+    \item{scale}{scale the observations to SD one first.}
+    \item{warn}{logical indicating if certain warning messsages should be
+      printed.}
+    \item{...}{arguments to be passed to other methods.}
 }
 \value{A TSmodelconcentrate.}
 \details{

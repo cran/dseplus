@@ -17,8 +17,11 @@ fuzz.large <- 1e-6
 digits <- 18
 all.ok <- T  
 
-  if (is.R()) data("eg1.DSE.data.diff", package="dse1") else 
-  if (is.S()) source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
+ if (is.R()) data("eg1.DSE.data.diff", package="dse1") else 
+ if (is.S()) 
+   {source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
+    class(eg1.DSE.data.diff$output) <- class(eg1.DSE.data.diff$input) <- NULL
+    }
 
 # data size affects memory constraints
   data <- eg1.DSE.data.diff
@@ -48,7 +51,7 @@ cat("DSE curvature test B 7 ...")
 	     } 
    tst  <- sum(hessianVAR)
    error <- max(abs(good - tst))
-   cat("max. error ", max(error), "\n")
+   cat("max. error ", error, "\n")
    
    print.test.value(c(tst), digits=18)
 
@@ -75,7 +78,7 @@ cat("DSE curvature test B 8 ...")
 	     } 
    tst  <- sum(hessianSS)
    error <- max(abs(good - tst))
-   cat("max. error ", max(error), "\n")
+   cat("max. error ",error, "\n")
    
    print.test.value(c(tst), digits=18)
 
@@ -105,7 +108,7 @@ cat("DSE curvature test B 9 ...")
 
    tst  <- sum(hessianARMA)
    error <- max(abs(good - tst))
-   cat("max. error ", max(error), "\n")
+   cat("max. error ", error, "\n")
    
    print.test.value(c(tst), digits=18)
 
