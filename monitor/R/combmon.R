@@ -47,10 +47,9 @@ reconstruct.combined.forecast <- function(combined.forecast)
 
 tfplot.combined.forecast <- function(combined.forecast,verbose=F, 
        start.=start(combined.forecast$data$output),
-       Title="Projection", select.inputs=NULL, select.outputs=NULL, pause=T)
+       Title="Projection", select.inputs=NULL, select.outputs=NULL)
 {# if verbose is T additional information is provided
- # if pause is true graphics are paused between pages.
-   if (pause) dev.ask(T)
+ # output graphics can be paused between pages by setting par(ask=T).
    if (verbose)
      {tfplot(combined.forecast$data, start.=start., Title="Data and combined.forecast")
       tfplot(combined.forecast$pred, start.=start.,
@@ -148,7 +147,7 @@ construct.data.to.override.horizon <- function(new.data, model, plot=T, forecast
 
  con.data<- freeze(con.data)
  con.data$override <- dup
- if (plot && exists.graphics.device()) 
+ if (plot &&  dev.cur() != 1 ) 
     {tfplot(con.data,start.=(end(output.data(data))-c(1,0)), 
            Title="Historical and overriding data data")
     }
@@ -233,8 +232,8 @@ combination.monitoring <- function(model, data.names,
               "An error condition occurred running combination.monitoring.",
               "The message.file at the time of the error follows:") 
     message <- ""     
-    on.exit(mail(error.mail.list, subject=paste("error ", message.subject),
-                 text= c(error.message, message)))
+    on.exit(Sys.mail(error.mail.list, subject=paste("error ", message.subject),
+                 body= c(error.message, message)))
     if ( dseclass(model)[1] == "TSestModel" ) model <- model$model
     if (!is.null(data.names$pad.end))
        {if(!data.names$pad.end)
@@ -246,8 +245,8 @@ combination.monitoring <- function(model, data.names,
        } 
 
 # The following line can be removed if the code works reliably
-   mail(error.mail.list,subject=paste("checking ",message.subject),
-                           text=paste(date.parsed(), collapse="."))
+   Sys.mail(error.mail.list,subject=paste("checking ",message.subject),
+                           body=paste(date.parsed(), collapse="."))
 
  # Step 1 - retrieve & check for updated data  or
  #            initialize system and if previous.data is NULL
@@ -387,7 +386,7 @@ combination.monitoring <- function(model, data.names,
 #    message <- c(message," in a command tool window. (Be patient. It takes a few seconds.)")
 
     if (!is.null(message.footnote)) message <-c(message, message.footnote)
-    mail(mail.list, subject=message.subject, text= message)
+    Sys.mail(mail.list, subject=message.subject, body= message)
 
 
  # Step 4 - clean-up
@@ -401,128 +400,5 @@ combination.monitoring <- function(model, data.names,
     on.exit()
     #return latest data for comparison next time
     invisible(list(data=previous.data, status=status, message=message)) 
-}
-
-
-###########################################################################
-
-# Tests function    <<<<<<<<<<<<
-
-###########################################################################
-
-combination.monitor.function.tests <- function( verbose=T, synopsis=T, 
-         fuzz.small=1e-10,
-         server.process = padi.server.process(),
-         cleanup.script = padi.cleanup.script() )
-{# Some of the tests here are really for functions defined in dse1 ... dse3
- #   but are not tested there to avoid assuming Fame access is available.
- # The main short coming of these tests is that they do not test
- #     functions which produce output or graphs.
- # These tests require access to Fame data bases and the files:
- #          monitoring.test.db    fake database 
- #          monitoring.test.info  comparison info. to check results
- #          monitoring.test.data  fake over-riding data 
-
- # Note also that the test data is not real data (it may have been differenced
- #  or otherwise transformed) and is only intended to test that functions
- #  work as originally specified. 
-
-  server <- local.host.netname()
-  db     <- paste(DSE.HOME,"/data/monitoring.test.db",sep="")
-
-  if (synopsis & !verbose) cat("All combination monitor tests ...")
-  all.ok <- T
-
-  if (verbose) cat("combination monitor test 0 ... ")
-  # simulated a database server
-  pid <- start.padi.server(server=server, dbname=db, 
-           server.process=server.process)
-  on.exit(cleanup.padi.server(pid, cleanup.script=cleanup.script))
-
-  # wait for server to start 
-     for (i in 1:30)
-       {if (check.padi.server(server)) break
-        Sys.sleep(1)
-       }
-  ok <- T
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-  if (verbose) cat("combination monitor test 1 ... ")
-  #  dbname=db would not be nec. with a public mode fame server
-
-  test.data.names <- TSPADIdata(
-      input="B14017", 
-#      input.transforms= "diff",
-       output=c( "P484549", "I37026", "lfsa201","b3400"), 
-#      output.transforms= rep("percent.change",4),
-      db=db, server=server,pad.end =T)
-
-  source(paste(DSE.HOME,"/data/monitoring.test.info", sep=""))
-
-  v.data <- verification.data
-  v.data$output <- v.data$output[,c(1,2,6,7)]
-  tframe(v.data$output) <- tframe(verification.data$output)
-  ok <- is.TSdata(v.data)
-  all.ok <- ok 
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else    cat("failed! (loading verification data)\n")
-    }
-
-  if (verbose) cat("combination monitor test 2 ... ")
-  data <-retrieve.and.verify.data(test.data.names, 
-                                    verification.data=v.data)
-  ok <- test.equal(data, ets.test.data, fuzz=fuzz.small)
-  tags(data$input)  <- "data"
-  tags(data$output) <- "data"
-  all.ok <- all.ok & ok 
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else    cat("failed! (retrieve.and.verify.data)\n")
-    }
-
-  if (verbose) cat("combination monitor test 3 ... ")
-  overriding.data <- get.overriding.data(
-                   file=paste(DSE.HOME,"/data/monitoring.test.data", sep=""),
-                   m=1, p=10,
-                   first.input="diff(R90=B14017)", 
-                   first.output="%change(CPI=P484549)",  
-                   second.output="%change(GDP=I37026)"  )
-  z.tf <-tframe(overriding.data$output)
-  overriding.data$output <- overriding.data$output[,c(1,2,6,7)]
-  tframe(overriding.data$output) <- z.tf
-  tags(overriding.data$input) <- "over"
-  tags(overriding.data$output) <- "over"
-  ok <- test.equal(overriding.data, monitor.test.data, fuzz=fuzz.small)
-  all.ok <- all.ok & ok 
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else    cat("failed! (get.overriding.data)\n")
-    }
-
-  if (verbose) cat("combination monitor test 4 ... ")
-  combined.forecast<-combine.and.forecast(monitoring.test.model,
-                  list(data=data, overriding.data=overriding.data)) 
-
-#  ok <- fuzz.small > max(abs( combined.forecast$best.guess - 
-#                            best.guess.test))
-#  Rbug - kludge - the above chokes on - because classes are not the same and 
-#  gives Error: invalid time series parameters specified
-
-  ok <- fuzz.small > abs( sum(combined.forecast$best.guess) - 
-                              sum(best.guess.test))
-  all.ok <- all.ok & ok 
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else    cat("failed! (combine.and.forecast)\n")
-    }
-
-  if (synopsis) 
-    {if (verbose) cat("All combination monitor tests completed")
-     if (all.ok) cat(" OK\n\n")
-     else    cat(", some FAILED!\n\n")
-    }
-  invisible(all.ok)
 }
 

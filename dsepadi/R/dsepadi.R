@@ -1,5 +1,3 @@
-# For installation instructions see the file read.me or the brief user's
-#    guide (postscipt file guide.ps).
 
 ##############################################################################
 
@@ -246,11 +244,11 @@ availability.TSPADIdata <- function(x, verbose=T, timeout=60)
 }
 
 
-putpadi.TSdata <- function(data, dbname, server=local.host.netname(), 
+putpadi.TSdata <- function(data, dbname, server=Sys.info()[["nodename"]], 
                    start.server=T, server.process=padi.server.process(), 
                    cleanup.script=padi.cleanup.script(),
                    series=series.names(data),
-                   user=user.name(), passwd="",
+                   user=Sys.info()[["user"]], passwd="",
                    stop.on.error=T, warn=T){   
    #dbname and server can be a single string in which case it is applied to
    # all series. Otherwise it should be a structure like series: a list with
@@ -395,194 +393,6 @@ data
 #######################################################################
 
 #    TS PADI interface tests (from Brief User's Guide)   <<<<<<<<<<
-
+#        moved to tests subdirectory
 #######################################################################
 
-
-
-TSPADI.function.tests <- function( verbose=T, synopsis=T,
-      fuzz.small=1e-14, fuzz.large=1e-6, ets=F)
-{# test for TSPADI access using simple.server
- # and if ets=T then run example from Brief User's guide (requires ets database)
-
- # These tests only check that the DSE structures work with PADI. For a more
- #   complete set of PADI tests see the file padi.s distributed 
- #   with the TS PADI software.
-
-
-  if (synopsis & !verbose) cat("DSE TSPADI tests ...")
-
-  scratch.db <-"zot123456.db"
-  syskern.rm(scratch.db)
-  server <- local.host.netname()
-
- if (verbose) cat("DSE TSPADI test 0 ... ")
-  if (check.padi.server(server))
-     stop("A server is already running. Testing stopped. Use cleanup.padi.server() or kill.padi.server() to terminate it.")
-
-  pid <- start.padi.server(server=server, dbname="", 
-                 server.process=paste("simple.server ", scratch.db))
-  on.exit(cleanup.padi.server(pid, cleanup.script="cleanup.simple.server"))
-
-  # wait to ensure padi server is started
-     for (i in 1:30)
-       {if (check.padi.server(server)) break
-        Sys.sleep(1)
-       }
-
-  exp1 <- tframed(matrix(1*exp(1:20),20,1), list(start=c(1950,1),freq=1))
-#  exp1 <- tframed(1*exp(1:20), list(start=c(1950,1),freq=1))
-#  tframe(exp1) <- tframe(exp1)
-  eg.put.data <- TSdata(input= exp1, 
-                       output= tframed(tbind(2*exp1, 3*exp1),tframe(exp1)))
-  series.names(eg.put.data) <- list(input="exp1", output=c("exp2","exp3"))
-
-  if (any(input.series.names(eg.put.data) != "exp1"))
-    stop("series.name setting is not working properly. Other tests will fail.")
-
-  if (any(output.series.names(eg.put.data) != c("exp2","exp3")))
-    stop("series.name setting is not working properly. Other tests will fail.")
-
-#  exp1 <- tframed(1*exp(1:20), list(start=c(1950,1),freq=1))
-#  eg.put.data <- list(input= tsmatrix(exp1), 
-#                      input.names="exp1",
-#                      output= tsmatrix(2*exp1, 3*exp1), 
-#                      output.names=c("exp2","exp3"))
-  eg.names <- putpadi.TSdata(eg.put.data,
-                      dbname=scratch.db, server=server,
-                      start.server=T, server.process="simple.server", 
-                      cleanup.script="cleanup.simple.server",
-                      stop.on.error=T, warn=T )
-  ok<-is.TSPADIdata(eg.names) 
-  all.ok <- ok
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else  cat("failed! putpadi server started\n")
-    }
-
-  if (verbose) cat("DSE TSPADI test 1 ... ")
-  eg.data <- freeze(eg.names)
-  ok <- is.TSdata(eg.data ) & test.equal(eg.data, eg.put.data, fuzz=fuzz.large)
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-  if (verbose) cat("DSE TSPADI test 2 ... ")
-
-#If server= is supplied in the next, it should be "" and not NULL as previously 
-eg.names <- TSPADIdata(input=c( "exp1","exp2"), output=c( "exp1","exp2","exp3"),
-              frequency=1,
-              db=scratch.db, stop.on.error=T, warn=T)
-
-# z <- freeze(eg.names$input)
-  eg.data <- freeze(eg.names)
-  ok <- is.TSdata(eg.data ) 
-warning("skipping something broken")
-#&
-#    (max(abs(output.data(eg.data) - 
-#              cbind(exp(1:20),2*exp(1:20),3*exp(1:20)) ))<fuzz.large)
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-  if (verbose) cat("DSE TSPADI test 3 ... ")
-  avail <- availability(eg.names, verbose=F)
-  ok <- all(c(avail$start ==  t(matrix(c(1950,1),2,5)),
-              avail$end   ==  t(matrix(c(1969,1),2,5)),
-              avail$frequency ==  rep(1,5)))
-
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-  on.exit()
-  cleanup.padi.server(pid, cleanup.script="cleanup.simple.server")
-
-  if (synopsis) 
-    {if (verbose) cat("All DSE TSPADI tests completed")
-     if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
-    }
-
-if (ets)
-{# test examples for TSPADI access (from Brief User's guide)
-   # wait to ensure padi server is terminated
-     for (i in 1:30)
-       {if (!check.padi.server(server)) break
-        Sys.sleep(1)
-       }
-   
-  if (synopsis & !verbose) cat("DSE TSPADI/ets tests ...")
-
-  if (verbose) cat("DSE TSPADI/ets test 1 ... ")
-# this eventually does  getpadi("B1642", server="ets")
-
-  eg2.DSE.data.names <- TSPADIdata(server="ets", db="",
-#        output=c( "I37005"), output.names=c( "manuf.prod."), 
-        output=c( "B1642"), output.names=c( "M1.sa."), 
-        start.server=T, server.process="fame.server", 
-        cleanup.script="cleanup.fame.server", stop.on.error=F, warn=T )
-
-  z<- availability(eg2.DSE.data.names, verbose=F)
-  if(any(z$end[,1]==1 & z$end[,2]==1))
-    warning("Looks like some series have been discontinued.")
-
-  eg2.DSE.data <- freeze(eg2.DSE.data.names)
-  ok <- is.TSdata(eg2.DSE.data )
-  all.ok <- ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-  if (verbose) cat("DSE TSPADI/ets test 2 ... ")
-  eg3.DSE.data.names <- TSPADIdata(
-     input ="B1642", input.transforms="percent.change", input.names="M1.sa.",
-     output="B1650",output.transforms="percent.change", output.names="M2++.sa.",
-     pad.start=F, pad.end =T,
-     server="ets", db= "",
-#        start.server=T, server.process="fame.server", 
-#        cleanup.script="cleanup.fame.server",
-     stop.on.error=F, warn=T )
-  z<- availability(eg3.DSE.data.names, verbose=F)
-  if(any(z$end[,1]==1 & z$end[,2]==1))
-    warning("Looks like some series have been discontinued.")
- 
-  eg3.DSE.data <- freeze(eg3.DSE.data.names)
-  ok <- is.TSdata(eg3.DSE.data )
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-  if (verbose) cat("DSE TSPADI/ets test 3 ... ")
-
-  egJofF.1dec93.data.names <- TSPADIdata(
-	input = c("B14017"), #etsmfacansim
-	input.transforms= c("diff"),
-	input.names=c("R90"),
-#	output = c("P484549", "I37026", "b1627", "b14013",discont.
-	output = c("B820600", "I37026", "b1627", "b14013",
-		   "b4237", "D767608", "b3400", "M.BCPI", "M.JQIND", "M.CUSA0"),
-                 # etscpi etsgdpfc etsmfacansim etsmfacansim etsdistscu
-                 # etslabour etsforexch etsbcpi etsusa etsusa
-  	output.transforms=c("percent.change", 
-			"percent.change","percent.change",
-			"diff", "diff", "percent.change",
-			"percent.change", "percent.change",
-			"percent.change", "percent.change"),
-	output.names=c("CPI", "GDP", "M1", "RL", "TSE300", 
-			"employment", "PFX", "com. price ind.", 
-			"US ind. prod.", "US CPI"),
-        server="ets", db= "",
-#        start.server=T, server.process="fame.server", 
-#        cleanup.script="cleanup.fame.server",
-        stop.on.error=F, warn=T )
-
-  z<- availability(egJofF.1dec93.data.names, verbose=F)
-  if(any(z$end[,1]==1 & z$end[,2]==1))
-    warning("Looks like some series have been discontinued.")
-  egJofF.1dec93.data <- freeze(egJofF.1dec93.data.names)
-  ok <- is.TSdata(egJofF.1dec93.data)
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-
-  if (synopsis) 
-    {if (verbose) cat("All DSE TSPADI/ets tests completed")
-     if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
-    }
-}
-invisible(all.ok)
-}

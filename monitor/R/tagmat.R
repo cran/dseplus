@@ -1,26 +1,8 @@
-#   2000/04/18 11:15:54  
 ###########################################################################
 
 # tagged data class  (matrix with a "tags" attribute)       <<<<<<<<<<<<
 
 ###########################################################################
-
-
-##############################################################################
-
-#  section containing documentation "stubs" (specific methods 
-#  for generic functions) so that R CMD build does not complain.
-
-##############################################################################
-
-
-
-##############################################################################
-
-#  end of section containing documentation "stubs" (specific methods 
-#  for generic functions) so that R CMD build does not complain.
-
-##############################################################################
 
 tags <- function(x) {attr(x, "tags")}
  
@@ -230,60 +212,4 @@ tfwindow.tagged <- function(x, start=NULL, end=NULL, tf=NULL, warn=T)
  tagged(x, tags)
 }
 
-
-
-
-tagged.function.tests <- function(verbose=T, synopsis=T, fuzz.small=1e-10)
-{# A short set of tests of the tagged class methods. 
-
-  if      (is.R()) data("eg1.DSE.data.diff", package="dse1")
-  else if (is.S()) source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
-
-  if (!is.TSdata(eg1.DSE.data.diff))
-     stop("Test data not found. Testing stopped.")
-  if (synopsis & !verbose) cat("All tagged class tests ...")
-  if (verbose) cat("tagged class test 1 ... ")
-#  z <- output.data(eg1.DSE.data.diff)
-#  tags(z, "tags") <- array("a", dim(z))
-#  dseclass(z) <- "tagged"
-  z <- output.data(eg1.DSE.data.diff)
-  z <- tagged(z, array("a", dim(z)))
-  ok <- is.tagged(z)
-  all.ok <- ok
-  if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
-
-
-  if (verbose) cat("tagged class test 2... ")
-#  zz <- z
-#  tags(zz) <- array("b", dim(z))
-  zz <- tagged(z, array("b", dim(z)))
-  ok <- test.equal(z,z) & (!test.equal(z,zz))
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
-
-  if (verbose) cat("tagged class test 3... ")
-  zz <- tfwindow(z, start=c(1989,1))
-  tags(zz) <- array("b", dim(zz))
-  zzz <- tbind(tfwindow(z, start=c(1989,1)),zz)
-  ok <- (2*sum(tfwindow(output.data(eg1.DSE.data.diff),
-           start=c(1989,1)))) ==  sum(zzz)
-  ok <- ok & all("a" == tags(zzz)[,1:3]) &  all("b" == tags(zzz)[,4:6]) 
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
-
-  if (verbose) cat("tagged class test 4... ")
-  zzz <- splice(zz, tfwindow(z, end=c(1990,1)))
-  ok <- test.equal.matrix(z,zzz) & (!test.equal(z,zzz))
-  zzz <- splice(zz, tfwindow(output.data(eg1.DSE.data.diff),
-                           end=c(1990,1)), tag2="x")
-  ok <- ok & test.equal.matrix(z,zzz) & (!test.equal(z,zzz))
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
-
-  if (synopsis) 
-    {if (verbose) cat("All tagged class tests completed")
-     if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
-    }
-  invisible(all.ok)
-}
 

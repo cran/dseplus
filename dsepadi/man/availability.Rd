@@ -35,6 +35,7 @@ the indicated optional arguments do not apply to that method.
 }
 \examples{
 if(require("padi")) {
+   library()  # debugging to see where padi is found if this fails
    d <- tfPADIdata("D1", server="ets")
    availability(d)}
 }

@@ -58,9 +58,7 @@
 }
 \seealso{
 	\code{\link{simple.monitoring}}
-	\code{\link{combination.monitor.function.tests}} 
 }
 
 \keyword{DSE}
 \keyword{ts}
-

@@ -22,13 +22,13 @@ to a database. See TSPADIdata, tfPADIdata, and freeze for more details.
 \code{\link{TSPADIdata}}
 }
 \examples{
-inflation.sa.names <- TSPADIdata2(
+   inflation.sa.names <- TSPADIdata2(
 	output = list(
          c("ets","", "b820678",  "ytoypc", "price services"),
          c("ets","", "b800938",  "ytoypc", "total unit labour costs")
            ), stop.on.error=T, warn=T )
-if(require("padi") & require("dse2")) {
-z <- freeze(inflation.sa.names)}
+   if(require("padi") & require("dse2"))
+      z <- freeze(inflation.sa.names)
 }
 \keyword{DSE}
 \keyword{ts}

@@ -1,4 +1,4 @@
 Package: monitor
 Title: Dynamic Systems Estimation - monitoring extensions
 Description: Multivariate Time Series - monitoring extensions
-Depends: dse1 dse2
+Depends: dse1 dse2 R (>= 1.2.2)

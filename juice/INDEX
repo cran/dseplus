@@ -24,7 +24,6 @@ est.concentrated.model   Estimate a Concentrated Model
 est.projection           Calculate Projection from Concentrating Series.
 input.dimension.TSmodelconcentrate
                          Specific Methods for input/output.dimension
-juice.function.tests     Test functions in Juice Package of DSE Bundle
 l.TSmodelconcentrate     Specific Methods for l
 percent.change.TScanonical.prediction
                          Specific Methods for percent.change

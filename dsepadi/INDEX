@@ -1,4 +1,3 @@
-TSPADI.function.tests    Test Functions in TSPADI Interface
 TSPADIdata               Constructor for TSPADIdata object
 TSPADIdata2              Constructor for TSPADIdata object
 availability             Check Data Availability
@@ -24,7 +23,6 @@ source.info.TSPADIdata   TSPADIdata Specific Methods
 sourcedb                 Get sourcedb from a data object
 sourceserver             Get source server from a data object
 summary.TSPADIdata       Summary Specific Methods
-tfPADI.function.tests    Function Tests for tfPADI
 tfPADIdata               make tfPADIdata object
 tfputpadi                Write Data to a Data Server
 tsp.TSPADIdata           Specific Methods for tsp

@@ -111,7 +111,7 @@ sourceserver.default <- function(obj){
 #    -the function user.name defined in the PADI interface software calls a
 #        program (getpwuid) in the $PADI/bin. This was previously done with
 #        whoami() in syskern.s, which uses /usr/ucb/whoami (not system V unix).
-#        It is important that user.name() return the same result as the C
+#        It is important that Sys.info()[["user"]] return the same result as the C
 #        function getpwuid in order for the padi interface to work properly.
 
 
@@ -335,7 +335,7 @@ freeze.tfPADIdata <- function(data, timeout=60)
    data["server", ets] <- "ets"
    data["db",     ets] <- ""
 
-   data["server", data["server",] ==""] <- local.host.netname() 
+   data["server", data["server",] ==""] <- Sys.info()[["nodename"]] 
 
    # missing attr is NULL but should be translated to getpadi defaults:
    IfNull <- function(a,b) {c(a,b)[1]}
@@ -350,7 +350,7 @@ freeze.tfPADIdata <- function(data, timeout=60)
      endm=   if(any(is.na(end(data))))   0 else end(data)[2],
      transformations = data["transforms",],
      pad  = (attr(data,"pad.start") | attr(data,"pad.end") ),
-     user =          IfNull(attr(data,"user"), user.name() ),
+     user =          IfNull(attr(data,"user"), Sys.info()[["user"]] ),
      passwd=         IfNull(attr(data,"passwd"),       ""  ),
      stop.on.error = IfNull(attr(data,"stop.on.error"), T  ),
      use.tframe=     IfNull(attr(data,"use.tframe"),    F  ), 
@@ -378,7 +378,7 @@ availability.tfPADIdata <- function(data, verbose=T, timeout=60)
    data["server", ets] <- "ets"
    data["db",     ets] <- ""
 
-   data["server", data["server",] ==""] <- local.host.netname() 
+   data["server", data["server",] ==""] <- Sys.info()[["nodename"]] 
    series <- data["series", ]
    s <- e <- f <- NULL
    for (i in 1:length(series))
@@ -392,7 +392,7 @@ availability.tfPADIdata <- function(data, verbose=T, timeout=60)
         endm=if(any(is.na(end(data))))  0 else end(data)[2],
         transformations = data["transforms",i],
         pad  = (attr(data,"pad.start") | attr(data,"pad.end")) ,
-        user =if(is.null(attr(data,"user"))) user.name() else attr(data,"user"),
+        user =if(is.null(attr(data,"user"))) Sys.info()[["user"]] else attr(data,"user"),
         passwd=if(is.null(attr(data,"passwd")))  ""    else attr(data,"passwd"),
         stop.on.error = attr(data,"stop.on.error"),
         use.tframe=attr(data,"use.tframe"), 
@@ -414,13 +414,13 @@ availability.tfPADIdata <- function(data, verbose=T, timeout=60)
 
 
 tfputpadi <- function(data,  
-         server = local.host.netname(),
+         server = Sys.info()[["nodename"]],
          dbname = "", 
          series = series.names(data),
          start.server = T,
          server.process = padi.server.process(), 
          cleanup.script = padi.cleanup.script(),
-         user = user.name(), passwd= "",
+         user = Sys.info()[["user"]], passwd= "",
          stop.on.error = T, warn = T)   
   {# This is just putpadi with a tfPADIdata object returned suitable for 
    #   retrieving the data.
@@ -456,85 +456,3 @@ freeze.FAMEdata <- function(data)
 
 #######################################################################
 
-
-#######################################################################
-
-#    tfPADI interface tests (from Brief User's Guide)   <<<<<<<<<<
-
-#######################################################################
-
-
-tfPADI.function.tests <- function( verbose=T, synopsis=T,
-      fuzz.small=1e-14, fuzz.large=1e-6)
-{# test for TSPADI access using simple.server
-
- # These tests only check that the tfPADI structures work. For a more
- #   complete set of PADI tests see the file padi.s distributed 
- #   with the TS PADI software.
-
-
-  if (synopsis & !verbose) cat("tfPADI tests ...")
-
-  scratch.db <-"zot123456.db"
-  syskern.rm(scratch.db)
-  server <- local.host.netname()
-
- if (verbose) cat("tfPADI test 0 ... ")
-  if (check.padi.server(server))
-     stop("A server is already running. Testing stopped. Use cleanup.padi.server() or kill.padi.server() to terminate it.")
-
-  pid <- start.padi.server(server=server, dbname="", 
-                 server.process=paste("simple.server ", scratch.db))
-  on.exit(cleanup.padi.server(pid, cleanup.script="cleanup.simple.server"))
-
-  # wait to ensure padi server is started
-     for (i in 1:30)
-       {if (check.padi.server(server)) break
-        Sys.sleep(1)
-       }
-  all.ok <- ok <- T
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else  cat("failed! starting server\n")
-    }
-
-
-  if (verbose) cat("tfPADI test 1 ... ")
-
-  eg.put.data <- tframed(matrix(c(1*exp(1:20),2*exp(1:20)),20,2), 
-                         list(start=c(1950,1),freq=1))
-  series.names(eg.put.data) <- c("exp1", "exp2")
-
-  if (any(series.names(eg.put.data) != c("exp1", "exp2")))
-    stop("series.name setting is not working properly. Other tests will fail.")
-
-  eg.names <- tfputpadi(eg.put.data,
-                      dbname=scratch.db, server=server,
-                      start.server=T, server.process="simple.server", 
-                      cleanup.script="cleanup.simple.server",
-                      stop.on.error=T, warn=T )
-  ok<-is.tfPADIdata(eg.names) 
-  all.ok <- ok
-  if (verbose) 
-    {if (ok) cat("ok\n")
-     else  cat("failed! tfputpadi\n")
-    }
-
-  if (verbose) cat("tfPADI test 2 ... ")
-  eg.data <- freeze(eg.names)
-  ok <- is.tfPADIdata(eg.names) &
-            test.equal(eg.data, eg.put.data, fuzz=fuzz.large)
-  all.ok <- all.ok & ok 
-  if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
-
-
-  on.exit()
-  cleanup.padi.server(pid, cleanup.script="cleanup.simple.server")
-
-  if (synopsis) 
-    {if (verbose) cat("All tfPADI tests completed")
-     if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
-    }
-
-  invisible(all.ok)
-}

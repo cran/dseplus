@@ -10,7 +10,7 @@
 	simple.monitoring(model, data.names, 
    previous.data=NULL,
    mail.list=NULL,
-   error.mail.list=user.name(),
+   error.mail.list=Sys.info()[["user"]],
    message.title="Simple Monitoring",
    message.subject="Simple Monitoring",
    message.footnote=NULL,
@@ -31,11 +31,11 @@
 	run mainly for its side effects.}
 \details{
 	model is a TSmodel. data.names is a TSdata (names) object.
-	mail.list and error.mail.list should be single strings (not vectors)
-	but the string can contain multiple user ids for mail
+	mail.list and error.mail.list should be string or vectors of strings
+	contain multiple user ids for mail
 	If mail.list is NULL (default) then mail is not sent (useful for testing). 
 	If error.mail.list  is  NULL   then mail is not sent (useful for testing).
-	The default for error.mail.list is the result of user.name().
+	The default for error.mail.list is the result of Sys.info()[["user"]].
 	This version does not allow for 
 	    -combining forecasts (ie. monitoring.data or overriding data)
 	    -input (policy) projections
@@ -52,7 +52,7 @@
 \sideffects{Mail is sent.}
 \seealso{
 	\code{\link{combination.monitoring}}
-	\code{\link{simple.monitor.function.tests}}
+	\code{\link{Sys.mail}}
 }
 
 \keyword{DSE}

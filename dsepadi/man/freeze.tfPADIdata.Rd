@@ -34,9 +34,10 @@ might be more convenient elsewhere.
 \code{\link{TSPADIdata}}
 }
 \examples{
+
 if (require("padi")){
- freeze("D1")
- freeze(tfPADIdata(c("B1630", "B1642"), server="ets"))
+ z1 <- freeze("D1")
+ z2 <- freeze(tfPADIdata(c("B1630", "B1642"), server="ets"))
   }
 }
 \keyword{tframe}
