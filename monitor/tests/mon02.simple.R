@@ -51,7 +51,7 @@ cleanup.script <- PADIcleanupScript()
   server <- Sys.info()[["nodename"]]
   db     <- paste(DSE.HOME,"/data/monitoring.test.db",sep="")
 
-  all.ok <- T
+  all.ok <- TRUE
 
   cat("simple monitor test 0 ...\n")
   # simulate a database server
@@ -67,7 +67,7 @@ cleanup.script <- PADIcleanupScript()
        {if (checkPADIserver(server)) break
         Sys.sleep(1)
        }
-  ok <- T
+  ok <- TRUE
   all.ok <- all.ok & ok 
    {if (ok) cat("ok\n") else  cat("failed!\n") }
 
@@ -77,10 +77,10 @@ cleanup.script <- PADIcleanupScript()
   test.data.names <- TSPADIdata(
       input  ="B14017", 
       output = c( "P484549", "I37026", "lfsa201","b3400"), 
-      server=server, db=db, pad.end =T,
+      server=server, db=db, pad.end =TRUE,
       start.server=FALSE)
    
-  z <-availability(test.data.names, verbose=T) 
+  z <-availability(test.data.names, verbose=TRUE) 
   ok <- all(c(z$start == t(matrix(c(1974,2),2,5)), 
               z$end   == t(matrix(c(1993,9),2,5)), 
               z$freq==rep(12,5) ))
@@ -122,7 +122,8 @@ cleanup.script <- PADIcleanupScript()
   ok <- ok & (monitoring$status == "Simple monitoring updates not necessary.")
   monitoring<-simple.monitoring (monitoring.test.model, test.data.names, 
                previous.data=monitoring$data, 
-               mail.list=Sys.info()[["user"]], error.mail.list=Sys.info()[["user"]], run.again=T) 
+               mail.list=Sys.info()[["user"]],
+	       error.mail.list=Sys.info()[["user"]], run.again=TRUE) 
   ok <- ok & (monitoring$status == "Simple monitoring re-run.")
   ok <- ok & monitoring$message[7] == 
           "1993 Sep   0.110000   0.383440   0.397520   0.355500   0.947460 "
@@ -163,7 +164,7 @@ cleanup.script <- PADIcleanupScript()
       if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
       if (fuzz.small < error) cat("error: ", error, "\n")
       print.test.value(c(tst), digits=18)
-      all.ok <- F  
+      all.ok <- FALSE
      }
 
 

@@ -168,13 +168,13 @@ get.overriding.data <- function(file="overriding.data",
   # m is the number of input series
   # p is the number of output series
   z  <- dsescan(file=file,what=character())
-  first.in   <- (1:length(z))[z==first.input] 
+  first.in   <- (1:length(z))[z == first.input & !is.na(z)] 
   if (0== length(first.in))
      stop(paste("Cannot find keying string:", first.input," in file", file))
-  first.out  <- (1:length(z))[z==first.output] 
+  first.out  <- (1:length(z))[z == first.output & !is.na(z)] 
   if (0== length(first.out))
      stop(paste("Cannot find keying string:", first.output," in file", file))
-  second.out <- (1:length(z))[z==second.output] 
+  second.out <- (1:length(z))[z == second.output & !is.na(z)] 
   if (0== length(second.out))
      stop(paste("Cannot find keying string:", second.output," in file", file))
   periodsInput <- (first.out-(first.in+m))/m     

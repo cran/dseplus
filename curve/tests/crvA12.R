@@ -1,5 +1,5 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=F)
+ require("dse2"); require("curve") #,  warn.conflicts=FALSE)
  Sys.info()
  version.dse()
  
@@ -7,7 +7,7 @@ fuzz.small <- 1e-12
 fuzz.large <- 1e-6
 fuzz.very.large <- 1e-2
 digits <- 18
-all.ok <- T
+all.ok <- TRUE
 test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Muller")
 
 
@@ -29,7 +29,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 
 cat("DSE curvature test A 12a..\n")
-  curvatureVAR <- curvature(VARmodel,warn=F)$stats
+  curvatureVAR <- curvature(VARmodel,warn=FALSE)$stats
 #  good <- c(11, 200, 0.05, 0.8490449316698463, 0.712275843318316,
 #        1.151573691713139,  0.9660715137831059, 1.000000000576390) #, NaN)
 
@@ -54,7 +54,7 @@ cat("DSE curvature test A 12b..\n")
    
   curvatureVAR.def <- curvature.default(func.residual, coef(VARmodel), 
               func.args=list(Shape=TSmodel(VARmodel), data=TSdata(VARmodel)),
-                     d=0.01, eps=1e-4,r=6, show.details=F)$stats
+                     d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
 
    good <- curvatureVAR[-9]
    tst  <- curvatureVAR.def[-9]

@@ -1,5 +1,5 @@
  # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=F)
+ require("dse2"); require("curve") #,  warn.conflicts=FALSE)
  Sys.info()
  version.dse()
  
@@ -7,7 +7,7 @@ fuzz.small <- 1e-12
 fuzz.large <- 1e-6
 fuzz.very.large <- 1e-2
 digits <- 18
-all.ok <- T  
+all.ok <- TRUE
 test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Muller")
 
 

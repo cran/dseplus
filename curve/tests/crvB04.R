@@ -8,7 +8,7 @@
 # change much (as would be hoped) but do change more than the tolerance of 
 # these tests. Old values in comments are  strictly for historical reference.
 
- require("dse2"); require("curve") #,  warn.conflicts=F)
+ require("dse2"); require("curve") #,  warn.conflicts=FALSE)
  Sys.info()
  version.dse()
 
@@ -28,7 +28,7 @@ all.ok <- T
    input.data(data) <- NULL
   output.data(data) <- output.data(data)[1:50,1:2]
 
-  VARmodel <- est.VARX.ls(data, re.add.means=F)
+  VARmodel <- est.VARX.ls(data, re.add.means=FALSE)
   SSmodel  <- l(to.SS(VARmodel),  data)
   ARMAmodel<- l(to.ARMA(SSmodel), data)
 
@@ -49,7 +49,7 @@ cat("DSE curvature test B 4 ...")
 
 cat("DSE curvature test B 5 ...")
 
-  curvatureSS <- curvature(SSmodel, warn=F)$stats
+  curvatureSS <- curvature(SSmodel, warn=FALSE)$stats
 
 # if(is.R())     tst <- c(48, 100, 0.05, 323.99227471499745, 124.74717834454975,
 #        409.3130651286905,  157.59835625487983, 1.0000000021695887, NaN)[-9]
@@ -96,7 +96,7 @@ ok <- T
    
 cat("DSE curvature test B 6 ...")
 
-  curvatureARMA <- curvature(ARMAmodel, warn=F)$stats
+  curvatureARMA <- curvature(ARMAmodel, warn=FALSE)$stats
 
 # previous test values were suspicious
 #  if (print.values) print.test.value(curvatureARMA, digits=digits)

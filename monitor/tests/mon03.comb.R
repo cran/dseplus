@@ -29,7 +29,7 @@
 
 ###########################################################################
 
-combination.monitor.function.tests <- function( verbose=T, synopsis=T, 
+combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE, 
          fuzz.small=1e-10,
          server.process = PADIserverProcess(),
          cleanup.script = PADIcleanupScript() )
@@ -50,7 +50,7 @@ combination.monitor.function.tests <- function( verbose=T, synopsis=T,
   db     <- paste(DSE.HOME,"/data/monitoring.test.db",sep="")
 
   if (synopsis & !verbose) cat("All combination monitor tests ...")
-  all.ok <- T
+  all.ok <- TRUE
 
   if (verbose) cat("combination monitor test 0 ... ")
   # simulated a database server
@@ -63,7 +63,7 @@ combination.monitor.function.tests <- function( verbose=T, synopsis=T,
        {if (checkPADIserver(server)) break
         Sys.sleep(1)
        }
-  ok <- T
+  ok <- TRUE
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
 
@@ -75,7 +75,7 @@ combination.monitor.function.tests <- function( verbose=T, synopsis=T,
 #      input.transforms= "diff",
        output=c( "P484549", "I37026", "lfsa201","b3400"), 
 #      output.transforms= rep("percent.change",4),
-      db=db, server=server,pad.end =T)
+      db=db, server=server,pad.end =TRUE)
 
   source(paste(DSE.HOME,"/data/monitoring.test.info", sep=""))
 
@@ -143,11 +143,11 @@ combination.monitor.function.tests <- function( verbose=T, synopsis=T,
      else    cat(", some FAILED!\n\n")
     }
 
-  if (all.ok) invisible(T)  else stop("FAILED")
+  if (all.ok) invisible(TRUE)  else stop("FAILED")
 }
 
 
   Sys.sleep(15) # just in case a previous server has not yet died
 
 if ( ! require("padi") ) warning("Warning: package padi is needed.") else
-   combination.monitor.function.tests(verbose=T)
+   combination.monitor.function.tests(verbose=TRUE)

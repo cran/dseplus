@@ -28,7 +28,7 @@ all.ok <- T
    input.data(data) <- NULL
   output.data(data) <- output.data(data)[1:50,1:2]
 
-  VARmodel <- est.VARX.ls(data, re.add.means=F)
+  VARmodel <- est.VARX.ls(data, re.add.means=FALSE)
   SSmodel  <- l(to.SS(VARmodel),  data)
   ARMAmodel<- l(to.ARMA(SSmodel), data)
 

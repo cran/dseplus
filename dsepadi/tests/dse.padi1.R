@@ -1,10 +1,10 @@
 # These set of tests will not work unless the PADI interface is
 #   also installed (available at http://www.bank-banque-canada.ca/pgilbert)
 
-   require("ts",      warn.conflicts=T)
-   require("dse2",    warn.conflicts=T)
-   require("dsepadi", warn.conflicts=T)
-   require("padi",    warn.conflicts=T)
+   require("ts",      warn.conflicts=TRUE)
+   require("dse2",    warn.conflicts=TRUE)
+   require("dsepadi", warn.conflicts=TRUE)
+   require("padi",    warn.conflicts=TRUE)
 
  Sys.info()
  version.dse()
@@ -34,7 +34,7 @@
 #######################################################################
 
 
-tfPADI.function.tests <- function( verbose=T, synopsis=T,
+tfPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
       fuzz.small=1e-14, fuzz.large=1e-6)
 {# test for TSPADI access using simple.server
 
@@ -62,7 +62,7 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
        {if (checkPADIserver(server)) break
         Sys.sleep(1)
        }
-  all.ok <- ok <- T
+  all.ok <- ok <- TRUE
   if (verbose) 
     {if (ok) cat("ok\n")
      else  cat("failed! starting server\n")
@@ -80,9 +80,9 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
 
   eg.names <- tfputpadi(eg.put.data,
                       dbname=scratch.db, server=server,
-                      start.server=T, server.process="simple.server", 
+                      start.server=TRUE, server.process="simple.server", 
                       cleanup.script="cleanup.simple.server",
-                      stop.on.error=T, warn=T )
+                      stop.on.error=TRUE, warn=TRUE)
   ok<-is.tfPADIdata(eg.names) 
   all.ok <- ok
   if (verbose) 
@@ -106,13 +106,13 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
      if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
     }
 
-  if (all.ok) invisible(T)  else stop("FAILED")
+  if (all.ok) invisible(TRUE)  else stop("FAILED")
 }
  
  
 #    TS PADI interface tests 
 
-TSPADI.function.tests <- function( verbose=T, synopsis=T,
+TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
       fuzz.small=1e-14, fuzz.large=1e-6)
 {# test for TSPADI access using simple.server
 
@@ -161,9 +161,9 @@ TSPADI.function.tests <- function( verbose=T, synopsis=T,
 #                      output.names=c("exp2","exp3"))
   eg.names <- putpadi.TSdata(eg.put.data,
                       dbname=scratch.db, server=server,
-                      start.server=T, server.process="simple.server", 
+                      start.server=TRUE, server.process="simple.server", 
                       cleanup.script="cleanup.simple.server",
-                      stop.on.error=T, warn=T )
+                      stop.on.error=TRUE, warn=TRUE)
   ok<-is.TSPADIdata(eg.names) 
   all.ok <- ok
   if (verbose) 
@@ -182,7 +182,7 @@ TSPADI.function.tests <- function( verbose=T, synopsis=T,
 #If server= is supplied in the next, it should be "" and not NULL as previously 
 eg.names <- TSPADIdata(input=c( "exp1","exp2"), output=c( "exp1","exp2","exp3"),
               frequency=1,
-              db=scratch.db, stop.on.error=T, warn=T)
+              db=scratch.db, stop.on.error=TRUE, warn=TRUE)
 
 # z <- freeze(eg.names$input)
   eg.data <- freeze(eg.names)
@@ -195,7 +195,7 @@ warning("skipping something broken")
   if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
 
   if (verbose) cat("DSE TSPADI test 3 ... ")
-  avail <- availability(eg.names, verbose=F)
+  avail <- availability(eg.names, verbose=FALSE)
   ok <- all(c(avail$start ==  t(matrix(c(1950,1),2,5)),
               avail$end   ==  t(matrix(c(1969,1),2,5)),
               avail$frequency ==  rep(1,5)))
@@ -211,7 +211,7 @@ warning("skipping something broken")
      if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
     }
 
-  if (all.ok) invisible(T)  else stop("FAILED")
+  if (all.ok) invisible(TRUE)  else stop("FAILED")
 }
 
 
@@ -219,6 +219,6 @@ if ( ! require("padi") ) warning("Warning: package padi is needed.") else {
    Sys.sleep(5)
    tfPADI.function.tests()
    Sys.sleep(5)
-   TSPADI.function.tests(verbose=T)   # all ok, 
+   TSPADI.function.tests(verbose=TRUE)   # all ok, 
    }
 

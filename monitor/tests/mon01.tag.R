@@ -2,7 +2,7 @@
 
 
 
-tagged.function.tests <- function(verbose=T, synopsis=T, fuzz.small=1e-10)
+tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
 {# A short set of tests of the tagged class methods. 
 
  if      (is.R()) data("eg1.DSE.data.diff", package="dse1")
@@ -57,9 +57,9 @@ tagged.function.tests <- function(verbose=T, synopsis=T, fuzz.small=1e-10)
      if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
     }
 
-  if (all.ok) invisible(T)  else stop("FAILED")
+  if (all.ok) invisible(TRUE)  else stop("FAILED")
 }
 
 
 
-   tagged.function.tests(verbose=T)
+   tagged.function.tests(verbose=TRUE)

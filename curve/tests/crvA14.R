@@ -1,5 +1,5 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=F)
+ require("dse2"); require("curve") #,  warn.conflicts=FALSE)
  Sys.info()
  version.dse()
  
@@ -7,7 +7,7 @@ fuzz.small <- 1e-12
 fuzz.large <- 1e-6
 fuzz.very.large <- 1e-2
 digits <- 18
-all.ok <- T
+all.ok <- TRUE
 test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Muller")
 
 
@@ -33,7 +33,7 @@ func.residual <- function(coefficients, Shape,data)
       - output.data(data))}
 
 cat("DSE curvature test A 14...\n")
-  curvatureARMA.fixed <- curvature(ARMAmodel.fixed, warn=F)$stats
+  curvatureARMA.fixed <- curvature(ARMAmodel.fixed, warn=FALSE)$stats
   # neg sqrt in axis ratio produces warning if warn=T
 # R 0.64.1
 #  good <- c(18, 200, 0.05, 2.381219927481035, 2.270893359206098,

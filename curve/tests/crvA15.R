@@ -1,5 +1,5 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=F)
+ require("dse2"); require("curve") #,  warn.conflicts=FALSE)
  Sys.info()
  version.dse()
  
@@ -43,7 +43,7 @@ good <- c(18, 200,  0.05,  2.34112169445768981,   2.29032831656791869,
   
  cat("DSE curvature test A 15...\n")
  
-  curvatureARMA <- curvature(ARMAmodel, warn=F)$stats 
+  curvatureARMA <- curvature(ARMAmodel, warn=FALSE)$stats 
       
    tst  <- curvatureARMA [-9]
    error <- max(abs(good - tst))

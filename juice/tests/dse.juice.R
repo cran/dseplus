@@ -17,9 +17,9 @@
  
 fuzz.small <- 1e-12
 digits <- 18
-all.ok <- T  
+all.ok <- TRUE  
 
-ets <- F
+ets <- FALSE
 
   set.RNG(test.rng)
   data00 <- matrix(rnorm(300), 100,3)
@@ -95,12 +95,12 @@ cat("dse juice test 0 ... ")
 
 
   cat("dse juice test 6 ... ")
-#  zm <- est.concentrated.model(z, scale=T, center=T, estimation="bft",
+#  zm <- est.concentrated.model(z, scale=TRUE, center=TRUE, estimation="bft",
 #  z is already a concentrated object so center and scale are not used
   zm <- est.concentrated.model(z, estimation="bft",
-                                estimation.args=list(max.lag=2, verbose=F))
+                                estimation.args=list(max.lag=2, verbose=FALSE))
   #tfplot(zm)
-  zmr <- check.residuals(zm, ac=F, pac=F, plot.=F)
+  zmr <- check.residuals(zm, ac=FALSE, pac=FALSE, plot.=FALSE)
 # S values
 tst  <- zmr$skewness 
 good <- c(-1.979814544376786,  0.4241402252105713, -0.2758381743875303,
@@ -116,7 +116,7 @@ good <- c(-1.979814544376786,  0.4241402252105713, -0.2758381743875303,
       if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
       if (fuzz.small < error) cat("error: ", error, "\n")
       print.test.value(c(tst), digits=18)
-      all.ok <- F  
+      all.ok <- FALSE 
      }
 
   
@@ -134,7 +134,7 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
       if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
       if (fuzz.small < error) cat("error: ", error, "\n")
       print.test.value(c(tst), digits=18)
-      all.ok <- F  
+      all.ok <- FALSE
      }
 
   zmf <- featherForecasts(zm)
@@ -153,7 +153,7 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
                   "percent.change", "diff", "diff", "percent.change", 
                      "percent.change", "percent.change",  "percent.change"),
         server="ets", start.server=TRUE, server.process="fame.server", 
-        cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=T )
+        cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=TRUE)
 
 
 #         c("ets","", "M.BCPI",  "percent.change", "com. price ind."),
@@ -163,7 +163,7 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
 
       z <- concentrate(JofF.VAR.data, p=2)
       z <- concentrate(JofF.VAR.data, p=3)
-      z <- concentrate(JofF.VAR.data, p=2, scale=F)
+      z <- concentrate(JofF.VAR.data, p=2, scale=FALSE)
       ok <- test.equal(seriesNames(reconstitute(z)), 
                        seriesNames(JofF.VAR.data)) 
 
@@ -174,9 +174,9 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
 cat("juice graphics tests ...\n")
     # If no device is active then write to postscript file 
     if ( dev.cur() == 1 ) {
-                postscript(file = "zot.postscript.test.ps", width = 6, 
-                        height = 6, pointsize = 10, onefile = F, 
-                        print.it = F, append = F)
+                postscript(file="zot.postscript.test.ps", width=6, 
+                        height=6, pointsize=10, onefile=FALSE, 
+                        print.it=FALSE, append=FALSE)
                 on.exit((function() {
                         dev.off()
                         synchronize(1)
@@ -255,7 +255,7 @@ cat("  juice graphics test 7 ...\n")
                   "percent.change", "diff", "diff", "percent.change", 
                      "percent.change", "percent.change",  "percent.change"),
         server="ets", start.server=TRUE, server.process="fame.server", 
-        cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=T )
+        cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=TRUE)
 
 #         c("ets","", "M.BCPI",  "percent.change", "com. price ind."),
 #   availability(JofF.VAR.data.names)
