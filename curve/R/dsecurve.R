@@ -138,7 +138,7 @@ genD.ARMA <- function(func, x=coef(func),
             AA=matrix(double(1),is,is),  
             BB=matrix(double(1),is,is),  
             WW=rep(double(1),is),  
-            DUP=.DSEDUP,
+            DUP=.DSEflags()$DUP,
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")] 
    D$d   <- d
@@ -198,6 +198,7 @@ genD.innov <- function(func, x=coef(func),
    storage.mode(model$const)<-"double"
    storage.mode(C)<-"double"
    storage.mode(G)<-"double"
+   IS <- max(ns,ps)
    D <-.Fortran("gendk",
             D=D,
             p=as.integer(length(x)),
@@ -245,8 +246,17 @@ genD.innov <- function(func, x=coef(func),
             K=matrix(double(1),ns,ps),  
             Q=matrix(double(1),ns,ns),  
             R=matrix(double(1),ps,ps),
-            gain=as.integer(is.innov.SS(model)), 
-            DUP=.DSEDUP,
+            gain=as.integer(is.innov.SS(model)),
+	    as.integer(IS),           # scratch arrays for KF, IS
+	    matrix(double(1),IS,IS),  #A
+	    matrix(double(1),IS,IS),  # AA
+	    matrix(double(1),IS,IS),  # PP
+	    matrix(double(1),ns,ns),  # QQ
+	    matrix(double(1),ps,ps),  # RR 
+	    rep(double(1),IS),  # Z
+	    rep(double(1),IS), # ZZ
+	    rep(double(1),IS), # WW		   
+            DUP=.DSEflags()$DUP,
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")]
    D$d   <- d
@@ -267,7 +277,7 @@ genD.innov <- function(func, x=coef(func),
 span.TSestModel <- function (func, x=coef(func),
         func.args=list(Shape=TSmodel(func), data=TSdata(func)),
         d=0.01, eps=1e-4, r=6,
-	show.details=FALSE, compiled=.DSECOMPILED, ...)  
+	show.details=FALSE, compiled=.DSEflags()$COMPILED, ...)  
  {#  (... further arguments, currently disregarded)
   # calculate the singular values of the tangents
   # the compiled version calculates the whole D matrix (which seems like

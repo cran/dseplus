@@ -8,6 +8,6 @@ fprint                  Formatted Printing of Time Series
 simpleMonitoring        Simple Monitoring
 tags                    Tagged Matrices
 testEqual.tagged        Specific Methods for Testing Equality
-tfplot.combined.forecast
+tfplot.combinedForecast
                         Specific Methods for tfplot
 tfwindow.tagged         Specific Methods for tframed Data

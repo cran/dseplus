@@ -7,7 +7,7 @@
     \method{span}{TSestModel}(func, x=coef(func),
         func.args=list(Shape=TSmodel(func), data=TSdata(func)),
         d=0.01, eps=1e-4, r=6,
-	show.details=FALSE, compiled=.DSECOMPILED, ...)
+	show.details=FALSE, compiled=.DSEflags()$COMPILED, ...)
 }
 \arguments{
     \item{func}{a TSestModel object which is used as a function mapping

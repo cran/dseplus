@@ -44,7 +44,7 @@ cat("DSE curvature test A 6b...\n")
    {c(l(setArrays(Shape, coefficients=coefficients),data,result="pred")
       - outputData(data))} 
 
-  curvatureSS.def <- curvature.default(func.residual, coef(SSmodel), 
+  curvatureSS.def <- curvature(func.residual, coef(SSmodel), 
                func.args=list(Shape=TSmodel(SSmodel), data=TSdata(SSmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=FALSE, warn=FALSE)$stats
   # neg sqrt in axis ratio produces warning if warn=T

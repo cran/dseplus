@@ -210,7 +210,7 @@ browser()
 hessian <- function (func, x, func.args=NULL, d=0.01, eps=1e-4, r=6) UseMethod("hessian")
 
 hessian.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6)
-{  D <- genD.default(func, x, func.args=func.args, d=d, eps=eps, r=r)$D
+{  D <- genD(func, x, func.args=func.args, d=d, eps=eps, r=r)$D
    H <- diag(0,length(x))
    u <- 0
    for(i in 1:length(x))
@@ -289,7 +289,7 @@ curvature.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
       signif=0.05, show.details=FALSE, warn=TRUE, ...)
 {#  (... further arguments, currently disregarded)
   # func is a function
- curvature(genD.default(func,x, func.args=func.args, d=d, eps=eps,r=r),
+ curvature(genD(func,x, func.args=func.args, d=d, eps=eps,r=r),
      signif=0.05, show.details=FALSE, warn=warn)
 }
 

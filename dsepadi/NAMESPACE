@@ -1,0 +1,86 @@
+import("tframe")
+import("dse1")
+
+
+export("TSPADIdata")
+export("is.TSPADIdata")
+export("TSPADIdata2")
+
+S3method("modify", "TSPADIdata")
+
+S3method("tsp", "TSPADIdata")
+
+S3method("freeze", "TSPADIdata")
+S3method("freeze", "tfPADIdata")
+S3method("freeze", "FAMEdata")
+
+export("getpadi")
+export("putpadi")
+S3method("putpadi", "TSdata")
+
+export("setTSPADIdata")
+export("retrieve.and.verify.data")
+
+S3method("periods", "TSPADIdata")
+S3method("inputData", "TSPADIdata")
+S3method("periodsInput", "TSPADIdata")
+S3method("outputData", "TSPADIdata")
+S3method("periodsOutput", "TSPADIdata")
+S3method("print", "TSPADIdata")
+
+S3method("tframe", "tfPADIdata")
+S3method("tfperiods", "tfPADIdata")
+S3method("tfstart", "tfPADIdata")
+S3method("tfend", "tfPADIdata")
+S3method("tffrequency", "tfPADIdata")
+S3method("seriesNames", "tfPADIdata")
+
+S3method("print", "tfPADIdata")
+S3method("tsp", "tfPADIdata")
+
+export("availability")
+S3method("availability", "default")
+S3method("availability", "tfPADIdata")
+S3method("availability", "TSPADIdata")
+
+export("refresh")
+
+export("sourceInfo")
+S3method("sourceInfo", "default")
+S3method("sourceInfo", "tfPADIdata")
+S3method("sourceInfo", "TSPADIdata")
+S3method("sourceInfo", "TSdata")
+S3method("sourceInfo", "TSestModel")
+
+export("identifiers")
+S3method("identifiers", "default")
+S3method("identifiers", "tfPADIdata")
+S3method("identifiers", "TSPADIdata")
+S3method("identifiers", "TSdata")
+S3method("identifiers", "TSestModel")
+
+export("sourcedb")
+S3method("sourcedb", "default")
+S3method("sourcedb", "tfPADIdata")
+S3method("sourcedb", "TSPADIdata")
+S3method("sourcedb", "TSdata")
+S3method("sourcedb", "TSestModel")
+
+export("sourceserver")
+S3method("sourceserver", "default")
+S3method("sourceserver", "tfPADIdata")
+S3method("sourceserver", "TSPADIdata")
+S3method("sourceserver", "TSdata")
+S3method("sourceserver", "TSestModel")
+
+export("tfPADIdata")
+export("is.tfPADIdata")
+S3method("[", "tfPADIdata")
+export("settfPADIdata")
+
+export("modify")
+S3method("modify", "tfPADIdata")
+
+export("tfputpadi")
+
+

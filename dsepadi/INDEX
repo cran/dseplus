@@ -6,13 +6,14 @@ The packages in this bundle require packages in the bundle dse.
 availability            Check Data Availability
 freeze.tfPADIdata       Get fixed data snapshot
 freeze.TSPADIdata       Get fixed data snapshot using TSPADI
+getpadi                 Get Data from TSPADI Database Interface
 identifiers             Get Identifiers from a data object
 inputData.TSPADIdata    TS Input and Output Specific Methods
 modify                  modify a database descriptor object
 modify.TSPADIdata       Modify a TSPADIdata Object
 print.tfPADIdata        Print a tfPADIdata Object
 print.TSPADIdata        Print Specific Methods
-putpadi.TSdata          Specific Methods for putpadi
+putpadi                 PADI Functions
 refresh                 Retrieve new data from a database
 retrieve.and.verify.data
                         Retrieve and Verify Data
@@ -20,6 +21,7 @@ settfPADIdata           Prompt for series names
 setTSPADIdata           Prompt for Series Names
 sourcedb                Get sourcedb from a data object
 sourceInfo              Get source information from a data object
+sourceInfo.TSdata       tfPADI Specific Methods
 sourceInfo.TSPADIdata   TSPADIdata Specific Methods
 sourceserver            Get source server from a data object
 tfPADIdata              make tfPADIdata object

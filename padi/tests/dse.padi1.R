@@ -20,6 +20,7 @@
 #    a TS PADI server is necessary for the following
 
  cat("search path ", search(),"\n")
+ cat("R_LIBS set to ",  Sys.getenv("R_LIBS"), "\n")
  cat("PATH set to ",  Sys.getenv("PATH"), "\n")
  cat("PADI set to ",  Sys.getenv("PADI"), "\n")
  cat("PADI_LDLIB set to ",  Sys.getenv("PADI_LDLIB"), "\n")
@@ -27,6 +28,7 @@
  cat("PADI_CLEANUP set to ", Sys.getenv("PADI_CLEANUP"), "\n")
  cat("user name set to ", Sys.info()[["user"]], "\n")
  
+ library()
 
 #######################################################################
 
@@ -150,6 +152,7 @@ TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 #  tframe(exp1) <- tframe(exp1)
   eg.put.data <- TSdata(input= exp1, 
                        output= tframed(tbind(2*exp1, 3*exp1),tframe(exp1)))
+
   seriesNames(eg.put.data) <- list(input="exp1", output=c("exp2","exp3"))
 
   if (any(seriesNamesInput(eg.put.data) != "exp1"))
@@ -163,7 +166,7 @@ TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 #                      input.names="exp1",
 #                      output= tsmatrix(2*exp1, 3*exp1), 
 #                      output.names=c("exp2","exp3"))
-  eg.names <- putpadi.TSdata(eg.put.data,
+  eg.names <- putpadi(eg.put.data,
                       dbname=scratch.db, server=server,
                       start.server=TRUE, server.process="simple.server", 
                       cleanup.script="cleanup.simple.server",

@@ -1,0 +1,8 @@
+export("Sys.mail")
+export("dateParsed")
+
+export("file.date.info")
+export("is.S")
+export("is.Splus")
+export("is.Svanilla")
+export("is.Splus.pre3.3")

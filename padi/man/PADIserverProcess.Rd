@@ -45,8 +45,8 @@ and \code{PADI_CLEANUP}.
 
 }
 \seealso{
-   \code{\link{getpadi}}
-   \code{\link{putpadi}}
+   \code{\link[dsepadi]{getpadi}}
+   \code{\link[dsepadi]{putpadi}}
 }
 %\examples{
 %}

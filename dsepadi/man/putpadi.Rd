@@ -1,18 +1,22 @@
-\name{tfputpadi}
-\alias{tfputpadi}
+\name{putpadi}
+\alias{putpadi}
+\alias{putpadi.TSdata}
 
-\title{Write Data to a Data Server}
-\description{Write data to a server.}
+\title{PADI Functions}
+\description{see details}
 \usage{
-    tfputpadi(data,  
-         server = Sys.info()[["nodename"]],
-         dbname = "", 
-         series = seriesNames(data),
-         start.server =TRUE,
-         server.process = padi.server.process(), 
-         cleanup.script = padi.cleanup.script(),
-         user = Sys.info()[["user"]], passwd= "",
-         stop.on.error =TRUE, warn =TRUE timeout=timeout)
+  putpadi(data, server=Sys.info()[["nodename"]],  dbname="",
+                   series=seriesNames(data),
+                   start.server=TRUE, server.process=PADIserverProcess(),
+                   cleanup.script=PADIcleanupScript(),
+                   user=Sys.info()[["user"]], passwd="",
+                   stop.on.error=TRUE, warn=TRUE, timeout=60)
+    \method{putpadi}{TSdata}(data, server=Sys.info()[["nodename"]], dbname, 
+                   series=seriesNames(data),
+                   start.server=TRUE, server.process=padi.server.process(), 
+                   cleanup.script=padi.cleanup.script(),
+                   user=Sys.info()[["user"]], passwd="",
+                   stop.on.error=TRUE, warn=TRUE, timeout=60)
 }
 \arguments{
     \item{data}{a tfPADIdata object with data to put on the server.}
@@ -36,20 +40,17 @@
     \item{timeout}{an integer indicating the number of seconds to wait before
        concluding that the server is not available.}
 }
-
-\value{A tfPADIdata object (as would be suitable for retrieving the data).}
-
+\value{depends}
 \details{
-    This function writes data to 
-    a database using the TS PADI programs available 
-    at \url{www.bank-banque-canada.ca/pgilbert} . 
+ See putpadi.default.
+}
+\seealso{
+%%   \code{\link[padi]{checkPADIserver}}
+   \code{\link{getpadi}}
+%%   \code{\link[padi]{putpadi.default}}
+   \code{\link{putpadi.TSdata}}
 }
 
-\seealso{ 
-    \code{\link{tfPADIdata}}
-    \code{\link[padi]{putpadi}}
-}
-%\keyword{tframe}
+\concept{DSE}
 \keyword{ts}
-
 

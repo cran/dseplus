@@ -1,17 +1,17 @@
 \name{checkPADIserver}
 \alias{checkPADIserver}
-\alias{load.padi}
+%%\alias{load.padi}
 
 \title{PADI Functions}
 \description{see details}
 \usage{
-  load.padi(from = Sys.getenv("PADI_LDLIB"))
+%%  load.padi(from = Sys.getenv("PADI_LDLIB"))
   checkPADIserver(server=Sys.info()[["nodename"]],
         user=Sys.info()[["user"]], timeout=50)
 }
 \arguments{
-    \item{from}{string indicating the location of compiled PADI code to be
-         loaded in S. This argument is ignored in R."}
+%%    \item{from}{string indicating the location of compiled PADI code to be
+%%         loaded in S. This argument is ignored in R."}
     \item{server}{string indicating the network name of the server."}
     \item{user}{optional string indicating user ID used by the server to 
        start the process."}
@@ -24,8 +24,10 @@
  The function checkPADIserver checks if a server is running.
 }
 \seealso{
-   \code{\link{getpadi}}
-   \code{\link{putpadi}}
+   \code{\link[dsepadi]{getpadi}}
+   \code{\link[dsepadi]{putpadi}}
+   \code{\link{getpadi.default}}
+   \code{\link{putpadi.default}}
 }
 %\examples{
 %}

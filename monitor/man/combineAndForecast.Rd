@@ -1,6 +1,6 @@
 \name{combineAndForecast}
 \alias{combineAndForecast}
-\alias{reconstruct.combined.forecast}
+\alias{reconstruct.combinedForecast}
 \alias{construct.data.to.override.horizon}
 \alias{get.overriding.data}
 \alias{restrict.overriding.data}
@@ -10,7 +10,7 @@
 \usage{
 combineAndForecast(model, new.data,  
       overlapping.period.forecast.tag="g", forecast.tag="f") 
-reconstruct.combined.forecast(combined.forecast) 
+reconstruct.combinedForecast(combinedForecast) 
 construct.data.to.override.horizon(new.data, model, plot=TRUE, forecast.tag="f")
 get.overriding.data(file="overriding.data", 
     first.input="",first.output="", second.output="", m=1, p=10)

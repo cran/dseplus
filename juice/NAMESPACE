@@ -1,0 +1,103 @@
+import("stats")
+##import("setRNG")
+import("tframe")
+import("dse1")
+
+S3method("l", "TSmodelconcentrate")
+S3method("selectSeries", "concentrate")
+
+export("estProjection")
+S3method("estProjection", "default")
+S3method("estProjection", "TSdata")
+
+export("concentrate")
+S3method("concentrate", "default")
+S3method("concentrate", "TSdata")
+
+export("is.concentrate")
+export("is.TSdataconcentrate")
+export("is.TSmodelconcentrate")
+
+export("concentrateOnly")
+S3method("concentrateOnly", "concentrate")
+S3method("concentrateOnly", "TSdataconcentrate")
+S3method("concentrateOnly", "TSdatareconstitute")
+S3method("concentrateOnly", "TSestModel")
+S3method("concentrateOnly", "TSmodelconcentrate")
+
+export("concentrateOriginal")
+S3method("concentrateOriginal", "TSdataconcentrate")
+S3method("concentrateOriginal", "TSdatareconstitute")
+S3method("concentrateOriginal", "concentrate")
+S3method("concentrateOriginal", "TScanonicalPrediction")
+
+export("concentrator")
+S3method("concentrator", "concentrate")
+S3method("concentrator", "concentrator")
+S3method("concentrator", "TSdata")
+S3method("concentrator", "TSdataconcentrator")
+S3method("concentrator", "TSmodelconcentrate")
+
+export("is.concentrator")
+export("is.TSdataconcentrator")
+
+export("reconstitute")
+S3method("reconstitute", "default")
+S3method("reconstitute", "concentrate")
+S3method("reconstitute", "TSdataconcentrate")
+export("is.TSdatareconstitute")
+
+export("canonical.prediction")
+
+export("is.TScanonicalPrediction")
+
+S3method("end", "TScanonicalPrediction")
+S3method("start", "TScanonicalPrediction")
+S3method("frequency", "TScanonicalPrediction")
+S3method("periods", "TScanonicalPrediction")
+S3method("percentChange", "TScanonicalPrediction")
+
+export("estConcentratedModel")
+S3method("estConcentratedModel", "TSdata")
+S3method("estConcentratedModel", "TSdataconcentrate")
+
+S3method("nseriesInput", "TSmodelconcentrate")
+S3method("nseriesOutput", "TSmodelconcentrate")
+
+export("concentratedDimension")
+S3method("concentratedDimension", "concentrate")
+export("concentrated.nseriesInput")
+export("concentrated.nseriesOutput")
+
+export("concentratedSeriesNames")
+S3method("concentratedSeriesNames", "concentrate")
+S3method("concentratedSeriesNames", "TSdata")
+
+export("concentratedSeriesNamesInput")
+export("concentratedSeriesNamesOutput")
+
+export("concentrated.tfplot")
+
+export("plot2by2")
+S3method("plot2by2", "default")
+S3method("plot2by2", "TSdata")
+
+export("concentrated.checkResiduals")
+
+S3method("checkConsistentDimensions", "TSmodelconcentrate")
+
+S3method("checkResiduals", "TSdataconcentrate")
+S3method("checkResiduals", "TSdatareconstitute")
+S3method("checkResiduals", "concentrated")
+
+S3method("print", "concentrate")
+S3method("tfprint", "concentrate")
+S3method("tfplot", "concentrate")
+S3method("tfplot", "TScanonicalPrediction")
+S3method("tfplot", "TSdataconcentrate")
+S3method("tfplot", "TSdatareconstitute")
+S3method("tfwindow", "concentrate")
+
+S3method("TSdata", "TSdataconcentrate")
+S3method("tframed", "concentrate")
+S3method("tframe<-", "concentrate")

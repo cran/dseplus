@@ -41,7 +41,7 @@ cat("DSE curvature test A 2a...\n")
 
 cat("DSE curvature test A 2b...\n")
 
-  spanSS.f <- span(SSmodel, compiled=.DSECOMPILED)
+  spanSS.f <- span(SSmodel, compiled=.DSEflags()$COMPILED)
   error <- max(abs(good - spanSS.f))
   cat("max. error ", max(error), "\n")
    

@@ -146,7 +146,7 @@ automatic procedures described further below. A better way is to set
 the starting period for retrieved data with
 
 \begin{Scode}
-manuf.data.ids <- modify.TSPADIdata(manuf.data.ids, start=c(1976,2)) 
+manuf.data.ids <- modify(manuf.data.ids, start=c(1976,2)) 
 \end{Scode}
 
 then when data is retrieved with

@@ -1,0 +1,18 @@
+useDynLib(padi)
+import("tframe")
+import("dsepadi")
+
+export("getfm")
+export("putfm")
+
+S3method("getpadi", "default")
+
+S3method("putpadi", "default")
+
+export("checkPADIserver")
+##export("load.padi")
+export("PADIserverProcess")
+export("PADIcleanupScript")
+export("startPADIserver")
+export("cleanupPADIserver")
+export("killPADIserver")

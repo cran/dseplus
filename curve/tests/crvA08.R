@@ -29,7 +29,7 @@ cat("DSE curvature test A 8a...")
   SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
   ARMAmodel<- l(toARMA(SSmodel), ARMAmodel1$data)
 
-  spanVAR.f <- span(ARMAmodel1, compiled=.DSECOMPILED) 
+  spanVAR.f <- span(ARMAmodel1, compiled=.DSEflags()$COMPILED) 
 
 #  if(is.Splus()) good <-  c(
 #      18.28342261104111799, 16.86252848720547703, 15.47359559657559025,

@@ -66,9 +66,10 @@ tbind.tagged <- function(x, mat2, ..., pad.start=TRUE, pad.end=TRUE, warn=TRUE)
 
 is.tagged <- function(obj)  {inherits(obj,"tagged")}
 
-testEqual.tagged <- function(obj1, obj2)
-{ testEqual.matrix(obj1, obj2) & 
-  testEqual.matrix(tags(obj1), tags(obj2))
+testEqual.tagged <- function(obj1, obj2, fuzz= 1e-16)
+{ # previously used testEqual.matrix here
+  testEqual(unclass(obj1), unclass(obj2), fuzz) & 
+  testEqual(unclass(tags(obj1)), unclass(tags(obj2)), fuzz=fuzz)
 }
 
 

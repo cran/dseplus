@@ -1,6 +1,7 @@
 #  This is really a test of the getpadi standalone command, not the R
 #   interface, but this is a convenient way to test. 
 
+  require("dsepadi") # only to write data
   require("padi") # only to write data
   Sys.info()
   Sys.getenv()["PATH"]

@@ -37,21 +37,21 @@ combineAndForecast <- function(model, new.data,
                 best.guess=best.guess))
 }
 
-reconstruct.combined.forecast <- function(combined.forecast) 
+reconstruct.combinedForecast <- function(combinedForecast) 
 {# use the result of combineAndForecast to re-do and verify results
- con.data <- construct.data.to.override.horizon(combined.forecast, 
-                   combined.forecast$model, plot=FALSE)
- pred <-l(combined.forecast$model, con.data ,predictT=dim(con.data$input)[1])$estimates$pred 
+ con.data <- construct.data.to.override.horizon(combinedForecast, 
+                   combinedForecast$model, plot=FALSE)
+ pred <-l(combinedForecast$model, con.data ,predictT=dim(con.data$input)[1])$estimates$pred 
  best.guess <-splice.tagged(con.data$output, pred) 
- all(combined.forecast$best.guess==best.guess)
+ all(combinedForecast$best.guess==best.guess)
 }
 
-tfplot.combined.forecast <- function(x, 
+tfplot.combinedForecast <- function(x, 
        start=tfstart(x$data$output), end=tfend(x$data$output),
        select.inputs=NULL, select.outputs=NULL,
        Title="Projection", xlab=NULL, ylab=NULL, 
-       graphs.per.page=5, mar=par()$mar, verbose=FALSE )
-{ 
+       graphs.per.page=5, mar=par()$mar, verbose=FALSE, ...)
+{# ... additional arguments currently unused. 
    if (verbose)
      {tfplot(x$data, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
             start=start, end=end, 
@@ -99,7 +99,7 @@ construct.data.to.override.horizon <- function(new.data, model,
  #     combined forecast. )
  #  Note that the $overriding.data is used in place of data in the 
  #  returned data set to allow for over-riding with anticipated data revisions.
- #  However, for any predictions during the combined.forecast period (ie. to augment
+ #  However, for any predictions during the combinedForecast period (ie. to augment
  #  $data and $overriding.data as returned by this function),  
  #  only $data is used and only to the last period for which observations
  #  for all variables are available.
@@ -330,7 +330,7 @@ combinationMonitoring <- function(model, data.names,
 
  # Step 3 - run forecast
    # warnings from this should be mailed!!!!
-    combined.forecast<-combineAndForecast(model, list(data, overriding.data),
+    combinedForecast<-combineAndForecast(model, list(data, overriding.data),
            overlapping.period.forecast.tag=overlapping.period.forecast.tag, 
            forecast.tag=forecast.tag) 
 
@@ -341,11 +341,11 @@ combinationMonitoring <- function(model, data.names,
                            data.names$input.transformations,
                           "The forecasts are now:")
     #starting and end period for plots & printing:
-    start<-(tfend(combined.forecast$data$output)+show.start) 
-    end  <-(tfend(combined.forecast$data$output)+show.end)
+    start<-(tfend(combinedForecast$data$output)+show.start) 
+    end  <-(tfend(combinedForecast$data$output)+show.end)
     # this can be too long if sufficient input data is not provided, so: 
-    if ((fr %*% tfend(combined.forecast$best.guess)) < ((end-c(0,1)) %*% fr))
-       end  <-tfend(combined.forecast$best.guess)
+    if ((fr %*% tfend(combinedForecast$best.guess)) < ((end-c(0,1)) %*% fr))
+       end  <-tfend(combinedForecast$best.guess)
 
     report.variables$input<- 
             (report.variables$input == seriesNames(data.names)$input)
@@ -354,28 +354,28 @@ combinationMonitoring <- function(model, data.names,
 
 
     rv <- tagged(
-              combined.forecast$best.guess[,report.variables$output, drop=FALSE],
-              tags= (attr(combined.forecast$best.guess,"tags")
+              combinedForecast$best.guess[,report.variables$output, drop=FALSE],
+              tags= (attr(combinedForecast$best.guess,"tags")
                              ) [,report.variables$output, drop=FALSE])
-    tframe(rv) <- tframe(combined.forecast$best.guess)
-    inp <- splice(combined.forecast$data$input, 
-                  combined.forecast$overriding.data$input,
+    tframe(rv) <- tframe(combinedForecast$best.guess)
+    inp <- splice(combinedForecast$data$input, 
+                  combinedForecast$overriding.data$input,
                   tag1=data.tag, tag2=future.inputData.tag)
     rv <-tfwindow(cbind(inp,rv), start=start, end=end, warn=FALSE) 
     message <- c(message,fprint(rv, digits=5, sub.title=data.sub.heading)) 
 
-    if (any(combined.forecast$override))
+    if (any(combinedForecast$override))
        {message <- c(message, "WARNING: overriding data is being used where historical data is available as follows:",
-              combined.forecast$override)
+              combinedForecast$override)
        }
 
-#    print(tfwindow(tbind(combined.forecast$data$input, combined.forecast$best.guess), 
+#    print(tfwindow(tbind(combinedForecast$data$input, combinedForecast$best.guess), 
 #      start=start), digits=print.digits)
 
 # The following needs a postscipt viewer like gv or pageview
 #    postscript(file=graphics.file, width=7, height=8, pointsize=14,
 #        horizontal=F, onefile=F, print.it=F, append=FALSE)
-#    graph.combined.forecast(combined.forecast, start=start)
+#    graph.combinedForecast(combinedForecast, start=start)
 #    dev.off()
 #    message <- c(message,"For graphic (in OpenWindows) type:\n    pageview ")
 #    if("/" == substring(graphics.file,1,1) )
@@ -393,7 +393,7 @@ combinationMonitoring <- function(model, data.names,
 
  # Step 4 - clean-up
     if (!is.null(save.as)) 
-      {assign(save.as, combined.forecast, where=1)
+      {assign(save.as, combinedForecast, where=1)
 #       file.copy( graphics.file, save.as)   # save graph
       } 
     if (updated.data[[1]] ) previous.data$data   <- updated.data$data

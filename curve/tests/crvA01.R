@@ -75,7 +75,7 @@ cat("DSE curvature test A 1 ...")
  
 cat("DSE curvature test A 1b...")
 
-  spanVAR.f <- span(VARmodel, compiled=.DSECOMPILED)
+  spanVAR.f <- span(VARmodel, compiled=.DSEflags()$COMPILED)
 
    good <- spanVAR
    tst  <- spanVAR.f

@@ -1,17 +1,9 @@
-\name{getpadi}
-\alias{getpadi}
+\name{getpadi.default}
 \alias{getpadi.default}
 
 \title{Get Data from TSPADI Database Interface}
 \description{Get data from a TSPADI database interface.}
 \usage{
-    getpadi(series, server=Sys.info()[["nodename"]], dbname="",
-                start.server=TRUE, server.process=PADIserverProcess(),
-                cleanup.script=PADIcleanupScript(),
-                starty=0,startm=0,startd=1, endy=0,endm=0,endd=1, 
-                nobs=0,max.obs=2000, transformations=NULL, pad=FALSE,
-                user=Sys.info()[["user"]], passwd="",
-                stop.on.error=TRUE, use.tframe=FALSE, warn=TRUE, timeout=60)
     \method{getpadi}{default}(series, server=Sys.info()[["nodename"]], dbname="",
                 start.server=TRUE, server.process=PADIserverProcess(),
                 cleanup.script=PADIcleanupScript(),
@@ -161,7 +153,9 @@ startd and endd can be omitted.
 }
 \seealso{
    \code{\link{checkPADIserver}}
-   \code{\link{putpadi}}
+   \code{\link{putpadi.default}}
+   \code{\link[dsepadi]{getpadi}}
+   \code{\link[dsepadi]{putpadi}}
 }
 \examples{
 if(require("padi") && checkPADIserver("ets")){

@@ -29,7 +29,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
   ARMAmodel<- l(toARMA(SSmodel), ARMAmodel1$data)
 
 cat("DSE curvature test A 10a..")
-  spanARMA.f <- span(ARMAmodel, compiled=.DSECOMPILED)
+  spanARMA.f <- span(ARMAmodel, compiled=.DSEflags()$COMPILED)
 
 # if(is.Splus()) good <-  c(
 #     2.77119952678264987e+01, 2.53919116411379555e+01, 2.32812418066877100e+01,

@@ -6,6 +6,28 @@
 #    functions for DSE interface to Time Series Protocol for      <<<<<<<<<<
 #      Application Database Interface (TSPADI) data interface    <<<<<<<<<<
 
+##############################################################################
+
+
+# Generic are here so padi is not required, but the seems somewhat backwards.
+# There should probably be a stub package.
+
+getpadi <- function(series,server=Sys.info()[["nodename"]], dbname="",
+        start.server=TRUE, server.process=PADIserverProcess(),
+        cleanup.script=PADIcleanupScript(),
+        starty=0,startm=0,startd=1, endy=0,endm=0,endd=1, 
+        nobs=0,max.obs=2000, transformations=NULL, pad=FALSE,
+        user=Sys.info()[["user"]], passwd="",
+        stop.on.error=TRUE, use.tframe=FALSE, warn=TRUE, timeout=60)UseMethod("getpadi")
+
+putpadi <- function(data,  server=Sys.info()[["nodename"]], dbname="",
+        series=seriesNames(data),
+        start.server=TRUE, server.process=PADIserverProcess(),
+        cleanup.script=PADIcleanupScript(),
+        user=Sys.info()[["user"]], passwd="",
+        stop.on.error=TRUE, warn=TRUE, timeout=60)UseMethod("putpadi")
+
+
 ############################################################################
 
 # Functions in this file now handle only the TSdata aspects. The database
@@ -188,8 +210,9 @@ sourceInfo.TSPADIdata <- function(obj)
 
 
 
-freeze.TSPADIdata <- function(data, timeout=60)
-{ # This function retreives data from a PADI server using getpadi
+freeze.TSPADIdata <- function(data, timeout=60, ...)
+{ # ... arguments unused
+  # This function retreives data from a PADI server using getpadi
   # See freeze.
   x <- data # temp fix so arg is called data as in generic
   if (is.null(x$input))
@@ -250,12 +273,12 @@ availability.TSPADIdata <- function(obj, verbose=TRUE, timeout=60, ...)
 }
 
 
-putpadi.TSdata <- function(data, dbname, server=Sys.info()[["nodename"]], 
+putpadi.TSdata <- function(data, server=Sys.info()[["nodename"]],  dbname,
+                   series=seriesNames(data),
                    start.server=TRUE, server.process=padi.server.process(), 
                    cleanup.script=padi.cleanup.script(),
-                   series=seriesNames(data),
                    user=Sys.info()[["user"]], passwd="",
-                   stop.on.error=TRUE, warn=TRUE){   
+                   stop.on.error=TRUE, warn=TRUE, timeout=60){   
    #dbname and server can be a single string in which case it is applied to
    # all series. Otherwise it should be a structure like series: a list with
    # elements input and output, each vectors with a string for each series.
@@ -289,7 +312,8 @@ putpadi.TSdata <- function(data, dbname, server=Sys.info()[["nodename"]],
          series=series$input,
          start.server = start.server, server.process = server.process, 
          cleanup.script = cleanup.script,
-         user=user, passwd=passwd, stop.on.error=stop.on.error, warn=warn)   
+         user=user, passwd=passwd, stop.on.error=stop.on.error, warn=warn,
+	 timeout=timeout)   
      }
    if (p == 0) o <- NULL else
      {if(all (1 == start(outputData(data))))
@@ -300,7 +324,8 @@ putpadi.TSdata <- function(data, dbname, server=Sys.info()[["nodename"]],
          series = series$output,
          start.server = start.server, server.process = server.process, 
          cleanup.script = cleanup.script,
-         user=user, passwd=passwd, stop.on.error=stop.on.error, warn=warn)   
+         user=user, passwd=passwd, stop.on.error=stop.on.error, warn=warn,
+	 timeout=timeout)   
 
      }
    #This bypasses the constructor (structures are already built by tfputpadi):
@@ -396,9 +421,14 @@ data
 }
 
 
-#######################################################################
 
-#    TS PADI interface tests (from Brief User's Guide)   <<<<<<<<<<
-#        moved to tests subdirectory
-#######################################################################
+identifiers.TSestModel <- function(obj){identifiers(TSdata(obj))}
+sourcedb.TSestModel <- function(obj){sourcedb(TSdata(obj))}
+sourceserver.TSestModel <- function(obj){sourceserver(TSdata(obj))}
+sourceInfo.TSestModel <- function(obj){sourceInfo(TSdata(obj))}
+
+identifiers.TSdata <- function(obj) {identifiers(obj$source)}
+sourcedb.TSdata <- function(obj) {sourcedb(obj$source)}
+sourceserver.TSdata <- function(obj) {sourceserver(obj$source)}
+sourceInfo.TSdata <- function(obj) {sourceInfo(obj$source)}
 

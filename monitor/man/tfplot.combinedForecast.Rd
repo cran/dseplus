@@ -1,13 +1,13 @@
-\name{tfplot.combined.forecast}
-\alias{tfplot.combined.forecast}
+\name{tfplot.combinedForecast}
+\alias{tfplot.combinedForecast}
 \title{Specific Methods for tfplot}
 \description{See the generic function description.}
 \usage{
-    \method{tfplot}{combined.forecast}(x, 
+    \method{tfplot}{combinedForecast}(x, 
        start=tfstart(x$data$output), end=tfend(x$data$output),
        select.inputs=NULL, select.outputs=NULL,
        Title="Projection", xlab=NULL, ylab=NULL, 
-       graphs.per.page=5, mar=par()$mar, verbose=FALSE )
+       graphs.per.page=5, mar=par()$mar, verbose=FALSE, ...)
 }
 \arguments{
     \item{x}{object to be plotted.}
@@ -24,6 +24,7 @@
     \item{graphs.per.page}{integer indicating number of graphs to place on a
        page.}
     \item{verbose}{logical indicating if additional information is provided.}
+    \item{...}{arguments passed to other methods.}
 }
 
 \seealso{ \code{\link[tframe]{tfplot}} }

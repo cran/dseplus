@@ -1,0 +1,39 @@
+import("stats")
+##import("setRNG")
+import("tframe")
+import("dse1")
+import("dse2")
+import("dsepadi")
+
+export("combinationMonitoring")
+S3method("tfplot", "combinedForecast")
+
+export("combineAndForecast")
+
+export("reconstruct.combinedForecast")
+export("construct.data.to.override.horizon")
+export("get.overriding.data")
+export("restrict.overriding.data")
+
+export("simpleMonitoring")
+
+export("checkForValueChanges")
+export("checkForFileDateChanges")
+export("watch.data")
+
+S3method("tfwindow", "tagged")
+S3method("tbind", "tagged")
+S3method("splice", "tagged")
+S3method("selectSeries", "tagged")
+S3method("tframe<-", "tagged")
+
+export("tags")
+export("tags<-")
+export("tagged")
+S3method("tagged", "default")
+S3method("tagged", "TSdata")
+export("is.tagged")
+
+export("fprint")
+S3method("fprint", "tagged")
+S3method("testEqual", "tagged")

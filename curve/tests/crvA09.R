@@ -67,7 +67,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 cat("DSE curvature test A 9a...\n")
 
-   spanSS <- span(SSmodel, compiled= F)  # should be .DSECOMPILED)
+   spanSS <- span(SSmodel, compiled= F)  # should be .DSEflags()$COMPILED)
    error <- max(abs(good - spanSS))
    cat("max. error ", max(error))
     

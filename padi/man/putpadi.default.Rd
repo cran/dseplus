@@ -1,16 +1,9 @@
-\name{putpadi}
-\alias{putpadi}
+\name{putpadi.default}
 \alias{putpadi.default}
 
 \title{PADI Functions}
 \description{see details}
 \usage{
-  putpadi(data,  server=Sys.info()[["nodename"]], dbname="",
-                   series=seriesNames(data),
-                   start.server=TRUE, server.process=PADIserverProcess(),
-                   cleanup.script=PADIcleanupScript(),
-                   user=Sys.info()[["user"]], passwd="",
-                   stop.on.error=TRUE, warn=TRUE, timeout=60)
   \method{putpadi}{default}(data,  server=Sys.info()[["nodename"]], dbname="",
                    series=seriesNames(data),
                    start.server=TRUE, server.process=PADIserverProcess(),
@@ -79,7 +72,10 @@
 }
 \seealso{
    \code{\link{checkPADIserver}}
-   \code{\link{getpadi}}
+   \code{\link[dsepadi]{putpadi}}
+   \code{\link[dsepadi]{getpadi}}
+   \code{\link{getpadi.default}}
+   \code{\link{putpadi.default}}
 }
 %\examples{
 %}

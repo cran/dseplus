@@ -29,8 +29,8 @@
    Depreciated.
 }
 \seealso{
-\code{\link{getpadi}}
-
+\code{\link{getpadi.default}}
+\code{\link[dsepadi]{getpadi}}
 }
 %\examples{
 %}

@@ -4,13 +4,14 @@
 \title{Get fixed data snapshot}
 \description{Get a time series matrix structure from a database}
 \usage{
-    \method{freeze}{tfPADIdata}(data, timeout=60)
-    \method{freeze}{FAMEdata}(data)
+    \method{freeze}{tfPADIdata}(data, timeout=60, ...)
+    \method{freeze}{FAMEdata}(data, ...)
 }
 \arguments{
     \item{data}{A description of how to get data.}
     \item{timeout}{an integer indicating the number of seconds to wait before
        concluding that the server is not available.}
+    \item{...}{Arguments passed to other methods.}
 }
 \value{A time series matrix.}
 \details{

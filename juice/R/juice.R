@@ -298,8 +298,9 @@ tfplot.TScanonicalPrediction <- function(x,
          tf=NULL, start=tfstart(tf), end=tfend(tf),
 	 series=seq(nseries(x)),
 	 Title=NULL, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
-{# plot actual data and data reconstituted from canonical.prediction.
+         graphs.per.page=5, mar=par()$mar, reset.screen=TRUE, ...)
+{#  (... further arguments, currently disregarded)
+ # plot actual data and data reconstituted from canonical.prediction.
  z <- concentrateOriginal(x)
  seriesNames(z) <- seriesNames(x) # used on plot
  tfplot(z, x, start=start, end=end, series=series,
@@ -500,8 +501,9 @@ concentrated.tfplot <- function(x, ...) {tfplot(concentrateOnly(x), ...)}
 tfplot.concentrate <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf),
          series=seq(nseries(x)), 
 	 Title=NULL, xlab=NULL, ylab=NULL,
-	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
-{# plot actual data and data reconstituted from concentrate.
+	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE, ...)
+{#  (... further arguments, currently disregarded)
+ # plot actual data and data reconstituted from concentrate.
  tfplot(concentrateOriginal(x), reconstitute(x),  
         start=start, end=end, series=series, 
         Title=Title, xlab=xlab, ylab=ylab, 
@@ -513,9 +515,11 @@ tfplot.TSdataconcentrate <- function(x,
     select.inputs  = seq(length = nseriesInput(x)),
     select.outputs = seq(length = nseriesOutput(x)), 
     Title = NULL, xlab = NULL, ylab = NULL, 
-    graphs.per.page = 5, mar=par()$mar, reset.screen = TRUE)
-{# plot actual data and data reconstituted from concentrate.
- tfplot.TSdata(concentrateOriginal(x), reconstitute(x), start=start,end=end, 
+    graphs.per.page = 5, mar=par()$mar, reset.screen = TRUE, ...)
+{#  (... further arguments, currently disregarded)
+ # plot actual data and data reconstituted from concentrate.
+ #was tfplot.TSdata( 
+ tfplot(concentrateOriginal(x), reconstitute(x), start=start,end=end, 
     select.inputs  = select.inputs, select.outputs = select.outputs, 
     Title = Title, xlab = xlab, ylab = ylab, 
     graphs.per.page = graphs.per.page, mar=mar, reset.screen = reset.screen)

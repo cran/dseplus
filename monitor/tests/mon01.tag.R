@@ -40,10 +40,10 @@ tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
 
   if (verbose) cat("tagged class test 4... ")
   zzz <- splice(zz, tfwindow(z, end=c(1990,1)))
-  ok <- testEqual.matrix(z,zzz) & (!testEqual(z,zzz))
+  ok <- testEqual(unclass(z),unclass(zzz)) & (!testEqual(z,zzz))
   zzz <- splice(zz, tfwindow(outputData(eg1.DSE.data.diff),
                            end=c(1990,1)), tag2="x")
-  ok <- ok & testEqual.matrix(z,zzz) & (!testEqual(z,zzz))
+  ok <- ok & testEqual(unclass(z),unclass(zzz)) & (!testEqual(z,zzz))
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
 

@@ -11,18 +11,18 @@
          tf=NULL, start=tfstart(tf), end=tfend(tf),
          series=seq(nseries(x)), 
 	 Title=NULL, xlab=NULL, ylab=NULL,
-	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
+	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE, ...)
     \method{tfplot}{TScanonicalPrediction}(x,
          tf=NULL, start=tfstart(tf), end=tfend(tf),
 	 series=seq(nseries(x)),
 	 Title=NULL, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
+         graphs.per.page=5, mar=par()$mar, reset.screen=TRUE, ...)
     \method{tfplot}{TSdataconcentrate}(x,
-    tf=NULL, start=tfstart(tf), end=tfend(tf),
-    select.inputs  = seq(length = nseriesInput(x)),
-    select.outputs = seq(length = nseriesOutput(x)), 
-    Title = NULL, xlab = NULL, ylab = NULL, 
-    graphs.per.page = 5, mar=par()$mar, reset.screen =TRUE)
+         tf=NULL, start=tfstart(tf), end=tfend(tf),
+         select.inputs  = seq(length = nseriesInput(x)),
+         select.outputs = seq(length = nseriesOutput(x)), 
+         Title = NULL, xlab = NULL, ylab = NULL, 
+         graphs.per.page = 5, mar=par()$mar, reset.screen =TRUE, ...)
     \method{tfplot}{TSdatareconstitute}(x, ...)
 }
 

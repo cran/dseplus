@@ -65,8 +65,8 @@ D.BW <- t(matrix(c(
 
    D.anal <- D.anal(c(212.7000, 0.0641))
 #   D.anal2 <- D.anal(c(212.683, 0.0641194))
-   D.calc <- genD.default(puromycin,c(212.7000, 0.0641))
-#  D.calc2 <- genD.default(puromycin,c(212.683, 0.0641194))$D #est using nls
+   D.calc <- genD(puromycin,c(212.7000, 0.0641))
+#  D.calc2 <- genD(puromycin,c(212.683, 0.0641194))$D #est using nls
 #check if col 4 is a mult. of col 2 max(abs(D.anal1-D.calc1$D))
 
    if (show.details)
@@ -81,7 +81,7 @@ D.BW <- t(matrix(c(
 
    r.BW   <- c(2, 12, 0.05, 0.105,        0.045,      0.21,       0.09,        1, 1.05)
    r.test <- c(2, 12, 0.05, 0.1046988133, 0.04541991, 0.21207185, 0.091999935, 1, 1.051959666)
-   r.calc <-curvature.Darray(D.calc,signif=signif, 
+   r.calc <-curvature(D.calc,signif=signif, 
                         show.extra.details=show.details)$stats 
    err <- r.calc - r.test
    max.error <- max(max.error, abs(err))
@@ -95,8 +95,12 @@ D.BW <- t(matrix(c(
       print(m)
       cat("Above should compared with Bates and Watts table 7.2, p 257, model A, data set 3.\n")
      }
-   r.calc <- curvature.Darray(list(p=2,D=D.anal,f0=puromycin(c(212.7000, 0.0641))),
-                    signif=signif, show.extra.details=show.details)$stats 
+   # This is by passing the constructor, and probably should be re-thought. The
+   # call used to be r.calc <- curvature.Darray(list...
+   # but that does not work with namespaces.
+   r.calc <- curvature(classed(list(p=2,D=D.anal,
+                    f0=puromycin(c(212.7000, 0.0641))), "Darray"), signif=signif, 
+	            show.extra.details=show.details)$stats 
    err <- r.calc - r.test
    ok2 <- all(abs(err) < fuzz.large)
    max.error <- max(max.error, abs(err))
@@ -125,7 +129,7 @@ D.BW <- t(matrix(c(
       y - ( th[1] * (1 - exp( - th[2] * x)))
      }
 
-   r <- curvature.Darray(genD(curvature.test.bod,c(19.1430,  0.5311)),signif=signif, 
+   r <- curvature(genD(curvature.test.bod,c(19.1430,  0.5311)),signif=signif, 
                 show.extra.details=show.details)$stats
    r.BW   <- c(2,6, .05, 1.328,   0.184,      3.5,          0.49,        1.0, 1.01 )
    r.test <- c(2,6, .05, 1.32781, 0.18440417, 3.4990419358, 0.485941626, 1.0, 1.008372434 )
@@ -159,7 +163,7 @@ D.BW <- t(matrix(c(
  y - ((th[1]*th[3]*(x[,2]-x[,3]/1.632))/(1+x[,1]*th[2]+x[,2]*th[3]+x[,3]*th[4]))
 }
 
-   r <- curvature.Darray(genD(curvature.test.isomerization,
+   r <- curvature(genD(curvature.test.isomerization,
                            c(35.9200,0.0708,0.0377,0.1670)),signif=signif, 
                            show.extra.details=show.details)$stats
    r.BW   <-  c(4, 24, 0.05, 48.39,    0.048, 81.92, 0.081, 0.95,1.01)

@@ -18,35 +18,35 @@ PADIcleanupScript <- function()
 
 ##################################################################
 
-.First.lib <- function(library, section)
-  {from <- paste(library, "/", section, sep="")
-   ok <- require("syskern", warn.conflicts=TRUE)
-   ok <- ok & require("tframe", warn.conflicts=TRUE) 
-   if(!ok) warning("This package requires the syskern and tframe packages.")
-   invisible(load.padi(from=from))
-  }
+#.First.lib <- function(library, section)
+#  {from <- paste(library, "/", section, sep="")
+#   ok <- require("syskern", warn.conflicts=TRUE)
+#   ok <- ok & require("tframe", warn.conflicts=TRUE) 
+#   if(!ok) warning("This package requires the syskern and tframe packages.")
+#   invisible(load.padi(from=from))
+#  }
 
 
-load.padi <- function(from = Sys.getenv("PADI_LDLIB"))
-{# load C routines for PADI calls. 
- # NB. In S the default assumes the object code is in a subdirectory
- #     named $PADIabandonning/lib. In R this is ignored.
-
-   if("/" != substring(from, first=nchar(from))) from<-paste(from,"/", sep="")
-
-   if (is.R())  r <- library.dynam("padi")  # does not use from
-   else if(is.S())
-     {if ( Sys.info()$OSversion == "SunOS5"  & !is.Splus.pre3.3() )
-          r <- dyn.load.shared("/usr/lib/libnsl.so")     # splus 3.3 on SunOS5
-      ld <- paste(from,"splusclnt.o",sep="")
-      if (file.exists(ld)) r <- dyn.load(ld)
-      else {warning(paste(ld, " file to be loaded does not exist")); r <- FALSE}
-     }
-   invisible(r)
-}
+#load.padi <- function(from = Sys.getenv("PADI_LDLIB"))
+#{# load C routines for PADI calls. 
+# # NB. In S the default assumes the object code is in a subdirectory
+# #	named $PADIabandonning/lib. In R this is ignored.
+#
+#   if("/" != substring(from, first=nchar(from))) from<-paste(from,"/", sep="")
+#
+#   if (is.R())  r <- library.dynam("padi")  # does not use from
+#   else if(is.S())
+#     {if ( Sys.info()$OSversion == "SunOS5"  & !is.Splus.pre3.3() )
+#	   r <- dyn.load.shared("/usr/lib/libnsl.so")	  # splus 3.3 on SunOS5
+#      ld <- paste(from,"splusclnt.o",sep="")
+#      if (file.exists(ld)) r <- dyn.load(ld)
+#      else {warning(paste(ld, " file to be loaded does not exist")); r <- FALSE}
+#     }
+#   invisible(r)
+#}
 
 startPADIserver <-function(server=Sys.info()[["nodename"]], 
-                             server.process=PADIserverProcess(), dbname=NULL)
+			      server.process=PADIserverProcess(), dbname=NULL)
 {# This function executes the server.process on server to start a PADI server.
  # The script or executable server.process should be on the Unix path. It
  #    would typically be found in $PADI/
@@ -111,9 +111,12 @@ checkPADIserver <-function(server=Sys.info()[["nodename"]],
                buffsz=as.integer(120),      # size of error message buffer
                as.integer(timeout),  # wait before generating error
 	       PACKAGE="padi")$msg
-# these could be improved, especially with positive recognition instead of
-#  just looking for an error !!!!!
+
+ if (!is.na(charmatch("missing object name", msg))) return(TRUE)
+ cat(msg)
  if (!is.na(charmatch(": RPC: Remote system error - Connection refused\n", msg)))
+    return(FALSE)
+ if (!is.na(charmatch(": RPC: Remote system error - Connection timed out\n", msg)))
     return(FALSE)
  if (!is.na(charmatch(": RPC: Program not registered", msg)))
     return (FALSE)
@@ -124,19 +127,11 @@ checkPADIserver <-function(server=Sys.info()[["nodename"]],
 # else  warning(paste(
 #   "Ambiguous result from checkPADIserver. Assuming server is running.", 
 #    msg,sep="\n"))
- TRUE
+# TRUE
+  FALSE
 }
 
 
-
-# this is generic so other methods are possible (eg. in DSE)
-getpadi <- function(series,server=Sys.info()[["nodename"]], dbname="",
-        start.server=TRUE, server.process=PADIserverProcess(),
-        cleanup.script=PADIcleanupScript(),
-        starty=0,startm=0,startd=1, endy=0,endm=0,endd=1, 
-        nobs=0,max.obs=2000, transformations=NULL, pad=FALSE,
-        user=Sys.info()[["user"]], passwd="",
-        stop.on.error=TRUE, use.tframe=FALSE, warn=TRUE, timeout=60)UseMethod("getpadi")
 
 getpadi.default <-function(series,server=Sys.info()[["nodename"]], dbname="",
         start.server=TRUE, server.process=PADIserverProcess(),
@@ -257,15 +252,6 @@ getpadi.default <-function(series,server=Sys.info()[["nodename"]], dbname="",
    data
 }
 
-
-
-# this is generic so other methods are possible (eg. in DSE)
-putpadi <- function(data,  server=Sys.info()[["nodename"]], dbname="",
-        series=seriesNames(data),
-        start.server=TRUE, server.process=PADIserverProcess(),
-        cleanup.script=PADIcleanupScript(),
-        user=Sys.info()[["user"]], passwd="",
-        stop.on.error=TRUE, warn=TRUE, timeout=60)UseMethod("putpadi")
 
 putpadi.default <-function(data,  server=Sys.info()[["nodename"]], dbname="",
         series=seriesNames(data),

@@ -337,8 +337,9 @@ tsp.tfPADIdata <- function(x)
 
 
 
-freeze.tfPADIdata <- function(data, timeout=60)
-{ # This function retreives data from a PADI server using getpadi
+freeze.tfPADIdata <- function(data, timeout=60, ...)
+{ # ... arguments unused
+  # This function retreives data from a PADI server using getpadi
   # A server specified as NULL or as "" is expanded to the localhost.
  if(!require("padi")) stop("This function requires the padi package.")
 
@@ -435,7 +436,7 @@ tfputpadi <- function(data,
          server.process = padi.server.process(), 
          cleanup.script = padi.cleanup.script(),
          user = Sys.info()[["user"]], passwd= "",
-         stop.on.error = TRUE, warn = TRUE)   
+         stop.on.error = TRUE, warn = TRUE, timeout=60)   
   {# This is just putpadi with a tfPADIdata object returned suitable for 
    #   retrieving the data.
  if(!require("padi")) stop("This function requires the padi package.")
@@ -444,7 +445,7 @@ tfputpadi <- function(data,
          start.server = start.server, server.process=server.process, 
          cleanup.script=cleanup.script,
          user=user, passwd=passwd,
-         stop.on.error=stop.on.error, warn=warn ) 
+         stop.on.error=stop.on.error, warn=warn, timeout=timeout ) 
 
    if (!all(ok)) stop("error putting data on database.")
   
@@ -465,7 +466,7 @@ tfputpadi <- function(data,
 
 #######################################################################
 
-freeze.FAMEdata <- function(data)
+freeze.FAMEdata <- function(data, ...)
   {stop("FAMEdata is defunct. Use FAMEdata.to.tfPADIdata to convert the structure")}
 
 
