@@ -6,7 +6,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
   Sys.info()
-  version.dse()
+  DSEversion()
   
   
 

@@ -4,7 +4,7 @@
 
 ############################################################################
 
-numerical.grad <- function(func,x, eps=1e-12) {
+gradNumerical <- function(func,x, eps=1e-12) {
 #  very simple (crude) numerical approximation
   f <-func(x)
   df <-1:length(x)
@@ -17,7 +17,7 @@ df
 }
 
 
-richardson.grad <- function(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
+gradRichardson <- function(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
 {
 #  *  modified by Paul Gilbert from orginal code by XINGQIAO LIU.
 
@@ -153,12 +153,12 @@ project <- function(c1, c2, signif = 0.05, eps=1e-5, fuzz=1e-14,
 #   v2 <- svd(T1inT1)
 browser()
 
-   cur2in1 <- rel.curvature(s.sqr,N2andT2inc1[1:p2,1:p1], N2andT2inc1[,(p1+1):m1], 
+   cur2in1 <- relCurvature(s.sqr,N2andT2inc1[1:p2,1:p1], N2andT2inc1[,(p1+1):m1], 
                       show.extra.details=show.details)
    C2in1 <- list(C.parameter=cur2in1[1:p1,,     ,drop=FALSE],
                  C.intrinsic=cur2in1[(p1+1):m1,,,drop=FALSE])
 
-#    z <- rel.curvature(s.sqr,N1inN1[1:p1,1:p1], N2andT2inc1[,(p1+1):m1], 
+#    z <- relCurvature(s.sqr,N1inN1[1:p1,1:p1], N2andT2inc1[,(p1+1):m1], 
 #                       show.extra.details=show.details)
 #    zz <- list(C.parameter=z[1:p1,,     ,drop=FALSE],
 #                  C.intrinsic=z[(p1+1):m1,,,drop=FALSE])
@@ -175,15 +175,15 @@ browser()
 # La.eigen( c2$C$C.intrinsic[1,,])$values
 # La.eigen(C2in1$C.intrinsic[1,,])$values
 
-   effective<-effective.curvature(cur1on2,QRofD2, residual, s.sqr,
+   effective<-effectiveCurvature(cur1on2,QRofD2, residual, s.sqr,
                       show.details=show.details, warn=warn)
 
    cstats1on2 <-curvatureStats(cur1on2, N, signif=signif)
 
    R1 <- qr.qty(QRofD1, c2$Dlist$D )[1:m1,,drop=FALSE]  
-   cur1 <- rel.curvature(s.sqr,R1[1:p1,1:p1], R1[,(p1 + 1):m1], 
+   cur1 <- relCurvature(s.sqr,R1[1:p1,1:p1], R1[,(p1 + 1):m1], 
                       show.extra.details=show.details)
-   effective1<-effective.curvature(cur1,QRofD1, residual, s.sqr,
+   effective1<-effectiveCurvature(cur1,QRofD1, residual, s.sqr,
                       show.details=show.details)
 
    cstats1 <-curvatureStats(cur1, N, signif=signif)
@@ -355,7 +355,7 @@ curvature.Darray <- function(func, signif = 0.05,
 #   R2 <- R[1:m,(p + 1):m] 
 
 #                                     R[1:m,(p + 1):m]
-   cur <- rel.curvature(s.sqr,R[1:p,1:p], R[,(p + 1):m], 
+   cur <- relCurvature(s.sqr,R[1:p,1:p], R[,(p + 1):m], 
                       show.extra.details=show.extra.details)
 
    if (m>dim(cur)[1]) 
@@ -370,7 +370,7 @@ curvature.Darray <- function(func, signif = 0.05,
 # radius and extreme axis ratios. ref. Bates and Watts p254 eqn (7.23).
 #  and Bates and Watts J.R. Statist.Soc. B (1980).
 
-   effective<-effective.curvature(cur,QRofD, residual, s.sqr, 
+   effective<-effectiveCurvature(cur,QRofD, residual, s.sqr, 
                               show.details=show.extra.details, warn=warn)
    cstats <-curvatureStats(cur, n, signif=signif)
 
@@ -416,7 +416,7 @@ curvatureStats <- function(cur, n, signif=0.05)
 }
 
 
-effective.curvature <- function(cur, QRofD, residual, s.sqr,
+effectiveCurvature <- function(cur, QRofD, residual, s.sqr,
 			 show.details=FALSE, warn=TRUE)
 {
  p  <- dim(cur)[2]
@@ -463,7 +463,7 @@ effective.curvature <- function(cur, QRofD, residual, s.sqr,
       max.axis.ratio= if(1 > max(Mod(eigv))) 1/sqrt(1-max(Mod(eigv))) else NaN)
 }
 
-rel.curvature <- function(s.sqr, R11, R2, show.extra.details=FALSE, 
+relCurvature <- function(s.sqr, R11, R2, show.extra.details=FALSE, 
                      eps=sqrt(.Machine$double.eps))
 {
  p  <- dim(R11)[2]

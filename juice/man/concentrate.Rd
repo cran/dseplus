@@ -24,16 +24,16 @@
     \item{...}{arguments to be passed to other methods.}
     \item{conc}{object containing the concentrator (projection) matrix 
        used for the reduction}
-    \item{center}{center the observations to mean zero first (passed to est.projection).}
-    \item{scale}{scale the observations to SD one first (passed to est.projection).}
-    \item{n}{dimension of the concentrated series (passed to est.projection).}
-    \item{m}{dimension of the concentrated input series (passed to est.projection).}
-    \item{p}{dimension of the concentrated output series (passed to est.projection).}
+    \item{center}{center the observations to mean zero first (passed to estProjection).}
+    \item{scale}{scale the observations to SD one first (passed to estProjection).}
+    \item{n}{dimension of the concentrated series (passed to estProjection).}
+    \item{m}{dimension of the concentrated input series (passed to estProjection).}
+    \item{p}{dimension of the concentrated output series (passed to estProjection).}
     \item{x}{any object.}
 }
 \value{A matrix or TSdata object.}
 \seealso{
-    \code{\link{est.projection}}
+    \code{\link{estProjection}}
     \code{\link{reconstitute}}
     \code{\link{prcomp}}
 }

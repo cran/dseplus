@@ -1,20 +1,20 @@
-\name{concentrated.seriesNames}
-\alias{concentrated.seriesNames}
-\alias{concentrated.seriesNames.concentrate}
-\alias{concentrated.seriesNames.TSdata}
-\alias{concentrated.seriesNamesInput}
-\alias{concentrated.seriesNamesOutput}
+\name{concentratedSeriesNames}
+\alias{concentratedSeriesNames}
+\alias{concentratedSeriesNames.concentrate}
+\alias{concentratedSeriesNames.TSdata}
+\alias{concentratedSeriesNamesInput}
+\alias{concentratedSeriesNamesOutput}
 
 \title{Concentrated Series Names}
 \description{
     The names of series in concentrate data.
 }
 \usage{
-    concentrated.seriesNames(x)
-    \method{concentrated.seriesNames}{concentrate}(x)
-    \method{concentrated.seriesNames}{TSdata}(x)
-    concentrated.seriesNamesInput(x)
-    concentrated.seriesNamesOutput(x)
+    concentratedSeriesNames(x)
+    \method{concentratedSeriesNames}{concentrate}(x)
+    \method{concentratedSeriesNames}{TSdata}(x)
+    concentratedSeriesNamesInput(x)
+    concentratedSeriesNamesOutput(x)
 }
 \arguments{
     \item{x}{A concentrated data object.}
@@ -28,7 +28,7 @@
     \code{\link[tframe]{seriesNames}}
     \code{\link[dse1]{seriesNamesInput}}
     \code{\link[dse1]{seriesNamesOutput}}
-    \code{\link{concentrated.dimension}}
+    \code{\link{concentratedDimension}}
     \code{\link{concentrate}}
 }
 \examples{
@@ -37,7 +37,7 @@
     require("mva")
     }
     z <- concentrate(eg1.DSE.data)
-    concentrated.seriesNames(z)
+    concentratedSeriesNames(z)
 }
 %\keyword{DSE}
 \keyword{ts}

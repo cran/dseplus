@@ -3,7 +3,7 @@
 \title{Specific Methods for l}
 \description{See the generic function description.}
 \usage{
-    \method{l}{TSmodelconcentrate}(model, data, sampleT=nrow(output.data(data)), 
+    \method{l}{TSmodelconcentrate}(model, data, sampleT=nrow(outputData(data)), 
                                   predictT=sampleT, result=NULL, warn=TRUE)
 }
 \arguments{

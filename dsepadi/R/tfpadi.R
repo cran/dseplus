@@ -55,17 +55,17 @@ availability.default <- function(obj, names=NULL, server="ets", dbname="",
 
 
 refresh <- function(data)
-{src <- source.info(data)
+{src <- sourceInfo(data)
  if (is.null(src)) stop("data must include source information to use refresh.")
  freeze(src)
 }
 
 
-# extract series source.info  (this is used by refresh so the result should
+# extract series sourceInfo  (this is used by refresh so the result should
 #   be the correct class, etc.
-source.info <- function(obj)UseMethod("source.info")
+sourceInfo <- function(obj)UseMethod("sourceInfo")
 
-source.info.default <- function(obj){
+sourceInfo.default <- function(obj){
     if (is.null(attr(obj, "source"))) stop("object does not have source information.")
     attr(obj, "source")
    }
@@ -131,7 +131,7 @@ tfPADIdata <- function(series,  server = "", db= "", transforms= "",
 	   server.process=PADIserverProcess(), 
 	   cleanup.script=PADIcleanupScript(),
            stop.on.error=TRUE, warn=TRUE)
-  {# This is the constructor (but see set.tfPADIdata for a prompter).
+  {# This is the constructor (but see settfPADIdata for a prompter).
    if (is.null(series)) return(NULL)
    if (is.null(names))   names <- series
    if(length(series) != length(names) )
@@ -156,7 +156,7 @@ tfPADIdata <- function(series,  server = "", db= "", transforms= "",
 
 
 
-set.tfPADIdata <- function(preamble=TRUE)
+settfPADIdata <- function(preamble=TRUE)
  {# prompt for series identifiers, set class, etc.
   if (preamble) 
     {cat("This function prompts for the names and database locations for\n")
@@ -305,7 +305,7 @@ seriesNames.tfPADIdata <- function(x) {dimnames(x)[[2]]}
 identifiers.tfPADIdata <- function(obj)  {obj[1,]}
 sourceserver.tfPADIdata <- function(obj)  {obj[2,]}
 sourcedb.tfPADIdata <- function(obj)  {obj[3,]}
-source.info.tfPADIdata <- function(obj)  {attr(obj,"source")} #used by refresh
+sourceInfo.tfPADIdata <- function(obj)  {attr(obj,"source")} #used by refresh
 
 
 "[.tfPADIdata" <- function(x, i, j, drop = FALSE) #N.B. FALSE
@@ -369,14 +369,14 @@ freeze.tfPADIdata <- function(data, timeout=60)
      timeout= timeout)
 
  if (is.character(r)) stop(r)
- if (!attr(data,"pad.start")) r <- trim.na(r, start.=TRUE, end.=FALSE)
- if (!attr(data,"pad.end") )  r <- trim.na(r, start.=FALSE, end.=TRUE)
+ if (!attr(data,"pad.start")) r <- trimNA(r, start.=TRUE, end.=FALSE)
+ if (!attr(data,"pad.end") )  r <- trimNA(r, start.=FALSE, end.=TRUE)
  if (dim(r)[2] != dim(data)[2]) stop("Error retrieving data.")
  if ( !is.na(frequency(data)) && (frequency(data)) != frequency(r))
        warning("returned data frequency differs from request.")
  seriesNames(r) <- seriesNames(data)
  attr(r, "source") <- data 
- attr(r, "retrieval.date") <- date.parsed() 
+ attr(r, "retrieval.date") <- dateParsed() 
  r
 }
 

@@ -320,3 +320,89 @@ if(require("padi") && checkPADIserver("ets"))
 tfwindow(forecasts(z)[[1]], start=c(1996,2)) 
 
 
+###################################################
+### chunk number 33: 
+###################################################
+if(require("padi") && checkPADIserver("ets"))
+  putpadi(forecasts(z)[[1]], dbname="nameofdatabase.db",
+  series=seriesNamesOutput(z)) 
+
+
+###################################################
+### chunk number 34: 
+###################################################
+if(require("padi") && checkPADIserver("ets"))
+ seriesNamesOutput(z) 
+
+
+###################################################
+### chunk number 35: 
+###################################################
+if(require("padi") && checkPADIserver("ets"))
+  dump(c("manuf.model","manuf.data.ids"), file="manuf.model.definition") 
+
+
+###################################################
+### chunk number 36: 
+###################################################
+if(require("padi") && checkPADIserver("ets"))
+source("manuf.model.definition") 
+
+
+###################################################
+### chunk number 37: 
+###################################################
+if(require("padi") && checkPADIserver("ets"))
+  manuf.previous.data <- freeze(manuf.data.ids) 
+
+
+###################################################
+### chunk number 38: 
+###################################################
+if(require("padi") && checkPADIserver("ets"))
+  output.data(manuf.previous.data)[1,1] <- NA 
+
+
+###################################################
+### chunk number 39: 
+###################################################
+#if(require("padi") && checkPADIserver("ets")) {
+if(FALSE) {# data has been terminated so this example no longer works
+r <-simple.monitoring(manuf.model, manuf.data.ids, manuf.previous.data,
+
+mail.list="pgilbert@bank-banque-canada.ca",
+
+message.title=" Manufacturing Monitoring ",
+
+message.subject="Manufacturing Monitoring",
+
+show.start= c(0,-3),
+
+report.variables=seriesNames(manuf.data.ids),
+
+data.sub.heading=" \%chg \%chg",
+
+message.footnote=" f - forecast value" ,
+
+data.tag=" ",
+
+forecast.tag="f" ) 
+}
+
+
+###################################################
+### chunk number 40: 
+###################################################
+#if(require("padi") && checkPADIserver("ets"))
+if(FALSE) 
+ r$status 
+
+
+###################################################
+### chunk number 41: 
+###################################################
+#if(require("padi") && checkPADIserver("ets"))
+if(FALSE) 
+  manuf.previous.data <- r$data 
+
+

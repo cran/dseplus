@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
 
 fuzz.small <- 1e-12
 fuzz.large <- 1e-6
@@ -53,8 +53,8 @@ cat("DSE curvature test A 1 ...")
      print(sum(VARmodel$data$noise$w), digits=digits)
     }
 
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
+  SSmodel  <- l(toSS(VARmodel),  VARmodel$data)
+  ARMAmodel<- l(toARMA(SSmodel), VARmodel$data)
   if (fuzz.small < abs(ARMAmodel$estimates$like[1]- VARmodel$estimates$like[1]))
     {warning("ARMAmodel likelihood does not correspond to expected test value.")
      cat("ARMAmodel  likelihood:")

@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.small <- 1e-12
 fuzz.large <- 1e-6
@@ -24,7 +24,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
              B=array(c(1,.2,0,.1,0,0,1,.3),c(2,2,2)), C=NULL) 
 
  ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
  
 
 cat("DSE curvature test A 13...\n")

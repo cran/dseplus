@@ -1,6 +1,6 @@
 \name{tfplot.concentrate}
 \alias{tfplot.concentrate}
-\alias{tfplot.TScanonical.prediction}
+\alias{tfplot.TScanonicalPrediction}
 \alias{tfplot.TSdataconcentrate}
 \alias{tfplot.TSdatareconstitute}
 
@@ -11,7 +11,7 @@
          series=seq(nseries(x)), 
 	 Title=NULL, xlab=NULL, ylab=NULL,
 	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
-    \method{tfplot}{TScanonical.prediction}(x, start.=NULL, end.=NULL,
+    \method{tfplot}{TScanonicalPrediction}(x, start.=NULL, end.=NULL,
 	 series=seq(nseries(x)),
 	 Title=NULL, xlab=NULL, ylab=NULL,
          graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)

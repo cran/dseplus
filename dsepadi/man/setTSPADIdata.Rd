@@ -1,9 +1,9 @@
-\name{set.TSPADIdata}
-\alias{set.TSPADIdata}
+\name{setTSPADIdata}
+\alias{setTSPADIdata}
 \title{Prompt for Series Names}
 \description{Prompt for data series names and locations and create a data object.}
 \usage{
-    set.TSPADIdata()
+    setTSPADIdata()
 }
 \value{An object of class 'TSdata' or of class 'TSPADIdata' 'TSdata'}
 \details{
@@ -19,7 +19,7 @@ retrieved whenever it is referenced (and is of class 'TSPADIdata' 'TSdata').
 \code{\link[dse1]{TSdata}}
 }
 \examples{
-\dontrun{data <- set.TSPADIdata()}
+\dontrun{data <- setTSPADIdata()}
 }
 %\keyword{DSE}
 \keyword{ts}

@@ -4,4 +4,4 @@ require("syskern")
 
 is.S()
 
-date.parsed()
+dateParsed()

@@ -1,11 +1,11 @@
-\name{numerical.grad}
-\alias{numerical.grad}
+\name{gradNumerical}
+\alias{gradNumerical}
 \title{Gradient of a Function}
 \description{
 Calculate the gradient of a function by simple epsilon differencing.
 }
 \usage{
-    numerical.grad(func,x, eps=1e-12)
+    gradNumerical(func,x, eps=1e-12)
 }
 \arguments{
     \item{func}{a function with a real result.}
@@ -14,8 +14,8 @@ Calculate the gradient of a function by simple epsilon differencing.
     \item{eps}{The epsilon difference to use for calculating the gradient.}
 }
 \value{A real or real vector of the calculated gradient.}
-\seealso{\code{\link{richardson.grad}}}
-\examples{numerical.grad(sin, pi)}
+\seealso{\code{\link{gradRichardson}}}
+\examples{gradNumerical(sin, pi)}
 %\keyword{DSE}
 \keyword{ts}
 

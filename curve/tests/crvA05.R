@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.small <- 1e-12
 fuzz.large <- 1e-6
@@ -24,8 +24,8 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
           C=NULL, description="simplified guide example")
   VARmodel <-l(z,simulate(z, rng=test.rng))
 
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
+  SSmodel  <- l(toSS(VARmodel),  VARmodel$data)
+  ARMAmodel<- l(toARMA(SSmodel), VARmodel$data)
 
  cat("DSE curvature test A 5a...\n")
    curvatureVAR <- curvature(VARmodel)$stats
@@ -45,8 +45,8 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 # and for comparison
         
   curvatureVAR.def <- curvature.default(function(coefficients, Shape, data)
-   {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
-        - output.data(data))}, coef(VARmodel), 
+   {c(l(setArrays(Shape,coefficients=coefficients),data,result="pred")
+        - outputData(data))}, coef(VARmodel), 
                   func.args=list(Shape=TSmodel(VARmodel),data=TSdata(VARmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
 

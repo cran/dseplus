@@ -2,8 +2,8 @@
 
 # comparison values come only from a previous run of the 
 #  code (theoretical values would be nice)...
-# Test values have been changed with change to to.ARMA in 2001.2 which
-# eliminates near zero parameter values using fix.constants. The result is
+# Test values have been changed with change to toARMA in 2001.2 which
+# eliminates near zero parameter values using fixConstants. The result is
 # much more stable and believable curvature results. The span results do not
 # change much (as would be hoped) but do change more than the tolerance of 
 # these tests. Old values in comments are  strictly for historical reference.
@@ -11,7 +11,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
 
 fuzz.small <- 1e-12
 # Linux versions vary a lot on these tests. see also test specific settings below
@@ -24,12 +24,12 @@ all.ok <- T
 
 # data size affects memory constraints
   data1 <- eg1.DSE.data.diff
-   input.data(data1) <- NULL
-  output.data(data1) <- output.data(data1)[1:50,1:2]
+   inputData(data1) <- NULL
+  outputData(data1) <- outputData(data1)[1:50,1:2]
 
-  VARmodel <- est.VARX.ls(data1, re.add.means=FALSE)
-  SSmodel  <- l(to.SS(VARmodel),  data1)
-  ARMAmodel<- l(to.ARMA(SSmodel), data1)
+  VARmodel <- estVARXls(data1, re.add.means=FALSE)
+  SSmodel  <- l(toSS(VARmodel),  data1)
+  ARMAmodel<- l(toARMA(SSmodel), data1)
 
 
 cat("DSE curvature test B 7 ...")

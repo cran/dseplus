@@ -35,7 +35,7 @@
     indicate the different sources for the data points.
 }
 \seealso{
-    \code{\link{simple.monitoring}}
+    \code{\link{simpleMonitoring}}
     \code{\link[dse1]{TSdata}}
 }
 \examples{

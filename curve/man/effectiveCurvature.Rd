@@ -1,14 +1,14 @@
-\name{effective.curvature}
-\alias{effective.curvature}
+\name{effectiveCurvature}
+\alias{effectiveCurvature}
 
 \title{Effective Curvature Utilitiy Used by Curvature and Project}
 \description{xxx}
 \usage{
-    effective.curvature(cur, QRofD, residual, s.sqr, show.details=FALSE,
+    effectiveCurvature(cur, QRofD, residual, s.sqr, show.details=FALSE,
     warn=TRUE)
 }
 \arguments{
-    \item{cur}{the relative curvature array. See \code{rel.curvature}.}
+    \item{cur}{the relative curvature array. See \code{relCurvature}.}
     \item{QRofD}{QR decomposition of D array from Bates and Watts.}
     \item{residual}{point in sample space where the curvature should be
       calculated (possibly shifted by subtracting actual data to 
@@ -42,7 +42,7 @@ Bates and Watts(1983), 'Nonlinear Regression Analysis and Its Applications.'
     \code{\link{curvature}}
     \code{\link{project}}
     \code{\link{curvatureStats}}
-    \code{\link{rel.curvature}}
+    \code{\link{relCurvature}}
 }
 %\keyword{DSE}
 \keyword{internal}

@@ -14,7 +14,7 @@
     \item{fuzz}{tolerance for comparing parameter points. See details.}
     \item{show.details}{logical indicating if detailed calculations should 
         be shown.}
-    \item{warn}{see \code{effective.curvature}.}
+    \item{warn}{see \code{effectiveCurvature}.}
 }
 \value{xxx}
 \details{ Under Development
@@ -47,7 +47,7 @@
 
 \seealso{
     \code{\link{curvature}}
-    \code{\link{effective.curvature}}
+    \code{\link{effectiveCurvature}}
 }
 
 %\keyword{DSE}

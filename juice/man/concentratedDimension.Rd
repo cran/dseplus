@@ -1,6 +1,6 @@
-\name{concentrated.dimension}
-\alias{concentrated.dimension}
-\alias{concentrated.dimension.concentrate}
+\name{concentratedDimension}
+\alias{concentratedDimension}
+\alias{concentratedDimension.concentrate}
 
 \title{Concentrated Dimension}
 \description{
@@ -8,8 +8,8 @@
     dimension onto which the original series has been projected.
 }
 \usage{
-    concentrated.dimension(x)
-    \method{concentrated.dimension}{concentrate}(x)
+    concentratedDimension(x)
+    \method{concentratedDimension}{concentrate}(x)
     concentrated.nseriesInput(x)
     concentrated.nseriesOutput(x)
 }
@@ -32,7 +32,7 @@
     require("mva")
     }
     z <- concentrate(eg1.DSE.data)
-    concentrated.dimension(output.data(z))
+    concentratedDimension(outputData(z))
     concentrated.nseriesOutput(z)
 }
 %\keyword{DSE}

@@ -17,7 +17,7 @@
     \item{d}{The fraction of x to use for the initial numerical approximation.}
     \item{eps}{Used instead of d for elements of x which are zero.}
     \item{r}{The number of Richardson improvement iterations.}
-    \item{warn}{logical. see \code{effective.curvature}.}
+    \item{warn}{logical. see \code{effectiveCurvature}.}
     \item{compiled}{logical, set FALSE to use curvature.default (for debugging).}
     \item{...}{arguments passed to other methods (currently ignored).}
 }
@@ -25,11 +25,11 @@
 
 \seealso{
     \code{\link{curvature}}
-    \code{\link{effective.curvature}}
+    \code{\link{effectiveCurvature}}
 }
 \examples{
    if(is.R()) data("eg1.DSE.data.diff", package="dse1")
-   model <- est.VARX.ls(TSdata( output=output.data(eg1.DSE.data.diff, series=1:2)),
+   model <- estVARXls(TSdata( output=outputData(eg1.DSE.data.diff, series=1:2)),
                      max.lag=2)
    curvature(genD(model)) 
 }

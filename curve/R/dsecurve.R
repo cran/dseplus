@@ -23,8 +23,8 @@ curvature.TSestModel <- function (func, x=coef(func),
    curvature(genD(func, x=x, func.args=func.args, d=d, eps=eps, r=r), warn=warn)
   else
    {func.residual <- function(coefficients,Shape,data)
-       {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
-          - output.data(data))}
+       {c(l(setArrays(Shape,coefficients=coefficients),data,result="pred")
+          - outputData(data))}
     curvature.default(func.residual, coef(func), 
               func.args=func.args, d=d, eps=eps, r=r, warn=warn)
    }
@@ -49,7 +49,7 @@ genD.ARMA <- function(func, x=coef(func),
 #  time-series models! ms,ns,ps are use for time-series meaning
    model <- func.args$Shape
    data <- func.args$data
-   n <-length(c(output.data(data))) # this has the same length as the residual
+   n <-length(c(outputData(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ps <-dim(model$A)[3]
       ms <-dim(model$C)[3]
@@ -64,7 +64,7 @@ genD.ARMA <- function(func, x=coef(func),
      }
    else
      {C <-model$C
-      u <- input.data(data)
+      u <- inputData(data)
       G <- matrix(0,ns,ms)
      } 
    zt <- 0.0001
@@ -108,7 +108,7 @@ genD.ARMA <- function(func, x=coef(func),
             as.integer(sampleT),   
             as.integer(periods(data)), 
             u=as.double(u), 
-            y=as.double(output.data(data)),   
+            y=as.double(outputData(data)),   
             #   model$parm is passed above as x (it is the parameter for curvature calculation)   
             as.integer(loc),   #as.character(model$location), #23
             as.integer(model$i),
@@ -140,12 +140,14 @@ genD.ARMA <- function(func, x=coef(func),
             Q=as.double(matrix(0,ns,ns)),  
             R=as.double(matrix(0,ps,ps)), 
             gain=as.integer(FALSE),   #48
-            DUP=.DSEDUP)[c("D","p","f0", "x", "r")] 
+            DUP=.DSEDUP,
+	    PACKAGE="dse1"
+	    )[c("D","p","f0", "x", "r")] 
    D$d   <- d
    D$eps <- eps
    # D calculation can be done relative to any point (subtracting data does
    #   not matter) but curvature calculation assumes f0 is really a residual.
-   D$f0 <- l(model, data, result="pred") - c(output.data(data))
+   D$f0 <- l(model, data, result="pred") - c(outputData(data))
    invisible(classed(D,"Darray")) #constructor
 }
 
@@ -158,7 +160,7 @@ genD.innov <- function(func, x=coef(func),
 #  time-series models! ms,ns,ps are use for time-series meaning
    model <- func.args$Shape
    data <- func.args$data
-   n <-length(c(output.data(data))) # this has the same length as the residual
+   n <-length(c(outputData(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ns <-dim(model$F)[2]
    ps <-dim(model$H)[1]
@@ -171,7 +173,7 @@ genD.innov <- function(func, x=coef(func),
      }
    else
      {C <- array(0,c(1,ns,ms))
-      u <- input.data(data)
+      u <- inputData(data)
       G <- matrix(0,ns,ms)
      } 
    zt <- 0.0001
@@ -217,7 +219,7 @@ genD.innov <- function(func, x=coef(func),
             as.integer(sampleT),   
             as.integer(periods(data)), 
             u=as.double(u), 
-            y=as.double(output.data(data)),   #22
+            y=as.double(outputData(data)),   #22
             #   model$parm is passed above as x (it is the parameter for curvature calculation)   
             as.integer(loc),   #as.character(model$location) bug
             as.integer(model$i),
@@ -249,12 +251,14 @@ genD.innov <- function(func, x=coef(func),
             Q=as.double(matrix(0,ns,ns)),  
             R=as.double(matrix(0,ps,ps)),
             gain=as.integer(is.innov.SS(model)), #48
-            DUP=.DSEDUP)[c("D","p","f0", "x", "r")]
+            DUP=.DSEDUP,
+	    PACKAGE="dse1"
+	    )[c("D","p","f0", "x", "r")]
    D$d   <- d
    D$eps <- eps
    # D calculation can be done relative to any point (subtracting data does
    #   not matter) but curvature calculation assumes f0 is really a residual.
-   D$f0 <- l(model, data, result="pred") - c(output.data(data))
+   D$f0 <- l(model, data, result="pred") - c(outputData(data))
    invisible(classed(D, "Darray")) #constructor
 }
 
@@ -289,8 +293,8 @@ span.TSestModel <- function (func, x=coef(func),
    }
   else {
      funcTS <- function(coefficients, Shape,data)
-      {c(l(set.arrays(Shape, coefficients=coefficients),data,result="pred")
-           - output.data(data))}
+      {c(l(setArrays(Shape, coefficients=coefficients),data,result="pred")
+           - outputData(data))}
      span.default(funcTS, x, func.args=func.args, 
 	 d=d, eps=eps, r=r, show.details=show.details)
      }
@@ -308,7 +312,7 @@ hessian.TSestModel <- function (func, x=coef(func),
      d=0.01, eps=1e-4, r=6)  
  {# like returns neg. log likelihood
   funcTS <- function(coefficients, Shape, data)
-  	{l(set.arrays(Shape,coefficients=coefficients), data, result="like")}
+  	{l(setArrays(Shape,coefficients=coefficients), data, result="like")}
   hessian.default(funcTS, x, func.args=func.args,d=d,eps=eps,r=r)
  }
 

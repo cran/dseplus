@@ -19,7 +19,7 @@ input and output sourcedb.
 \seealso{
 \code{\link[dse2]{TSPADIdata}} 
 \code{\link{identifiers}}
-\code{\link{source.info}}
+\code{\link{sourceInfo}}
 }
 \examples{
 if(require("padi") && checkPADIserver("ets")) {

@@ -34,7 +34,7 @@ be NULL).
 \code{\link{freeze.TSPADIdata}}
 \code{\link{tfPADIdata}}
 \code{\link{TSPADIdata2}}
-\code{\link{set.TSPADIdata}}
+\code{\link{setTSPADIdata}}
 }
 \examples{
 inflation.sa.names <- TSPADIdata2(

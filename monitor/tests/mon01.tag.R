@@ -10,10 +10,10 @@ tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
      stop("Test data not found. Testing stopped.")
   if (synopsis & !verbose) cat("All tagged class tests ...")
   if (verbose) cat("tagged class test 1 ... ")
-#  z <- output.data(eg1.DSE.data.diff)
+#  z <- outputData(eg1.DSE.data.diff)
 #  tags(z, "tags") <- array("a", dim(z))
 #  dseclass(z) <- "tagged"
-  z <- output.data(eg1.DSE.data.diff)
+  z <- outputData(eg1.DSE.data.diff)
   z <- tagged(z, array("a", dim(z)))
   ok <- is.tagged(z)
   all.ok <- ok
@@ -24,7 +24,7 @@ tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
 #  zz <- z
 #  tags(zz) <- array("b", dim(z))
   zz <- tagged(z, array("b", dim(z)))
-  ok <- test.equal(z,z) & (!test.equal(z,zz))
+  ok <- testEqual(z,z) & (!testEqual(z,zz))
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
 
@@ -32,7 +32,7 @@ tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
   zz <- tfwindow(z, start=c(1989,1))
   tags(zz) <- array("b", dim(zz))
   zzz <- tbind(tfwindow(z, start=c(1989,1)),zz)
-  ok <- (2*sum(tfwindow(output.data(eg1.DSE.data.diff),
+  ok <- (2*sum(tfwindow(outputData(eg1.DSE.data.diff),
            start=c(1989,1)))) ==  sum(zzz)
   ok <- ok & all("a" == tags(zzz)[,1:3]) &  all("b" == tags(zzz)[,4:6]) 
   all.ok <- all.ok & ok 
@@ -40,10 +40,10 @@ tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
 
   if (verbose) cat("tagged class test 4... ")
   zzz <- splice(zz, tfwindow(z, end=c(1990,1)))
-  ok <- test.equal.matrix(z,zzz) & (!test.equal(z,zzz))
-  zzz <- splice(zz, tfwindow(output.data(eg1.DSE.data.diff),
+  ok <- testEqual.matrix(z,zzz) & (!testEqual(z,zzz))
+  zzz <- splice(zz, tfwindow(outputData(eg1.DSE.data.diff),
                            end=c(1990,1)), tag2="x")
-  ok <- ok & test.equal.matrix(z,zzz) & (!test.equal(z,zzz))
+  ok <- ok & testEqual.matrix(z,zzz) & (!testEqual(z,zzz))
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n") else cat("failed!\n") }
 

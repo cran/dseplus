@@ -1,9 +1,9 @@
-\name{richardson.grad}
-\alias{richardson.grad}
+\name{gradRichardson}
+\alias{gradRichardson}
 \title{Gradient of a Function}
 \description{Calculate the gradient of a function by Richardson improvement.}
 \usage{
-    richardson.grad(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
+    gradRichardson(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
 }
 \arguments{
     \item{func}{A function with a real result.}
@@ -40,8 +40,8 @@
 }
 \references{ 
 G.R.Linfield and J.E.T.Penny,"Microcomputers in Numerical Analysis"}
-\seealso{\code{\link{numerical.grad}}}
-\examples{richardson.grad(sin, pi)}
+\seealso{\code{\link{gradNumerical}}}
+\examples{gradRichardson(sin, pi)}
 %\keyword{DSE}
 \keyword{ts}
 

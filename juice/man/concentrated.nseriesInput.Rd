@@ -16,7 +16,7 @@
 \value{An integer.}
 
 \seealso{
-    \code{\link{concentrated.dimension}}
+    \code{\link{concentratedDimension}}
     \code{\link{concentrate}}
 }
 \examples{

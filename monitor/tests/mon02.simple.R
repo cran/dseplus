@@ -9,7 +9,7 @@
 
 
  Sys.info()
- version.dse()
+ DSEversion()
 
  cat("search path ", search(),"\n")
  cat("PATH set to ",  Sys.getenv("PATH"), "\n")
@@ -91,8 +91,8 @@ cleanup.script <- PADIcleanupScript()
 
   cat("simple monitor test 2 ...\n") 
   v.data <- verification.data
-  output.data(v.data) <- output.data(v.data)[,c(1,2,6,7)]
-  tframe(output.data(v.data)) <- tframe(output.data(verification.data))
+  outputData(v.data) <- outputData(v.data)[,c(1,2,6,7)]
+  tframe(outputData(v.data)) <- tframe(outputData(verification.data))
   ok <- is.TSdata(v.data)
   all.ok <- all.ok & ok 
    {if (ok) cat("ok\n") else  cat("failed!\n") }
@@ -100,38 +100,38 @@ cleanup.script <- PADIcleanupScript()
   cat("simple monitor test 3 ...\n")
   hist.data <-retrieve.and.verify.data(test.data.names, 
                                     verification.data=v.data)
-  ok <- test.equal(hist.data, ets.test.data, fuzz=fuzz.small)
+  ok <- testEqual(hist.data, ets.test.data, fuzz=fuzz.small)
   all.ok <- all.ok & ok 
    {if (ok) cat("ok\n") else  cat("failed!\n") }
 
 
   cat("simple monitor test 4 ...\n")
-  monitoring<-simple.monitoring (monitoring.test.model, test.data.names, 
+  monitoring<-simpleMonitoring (monitoring.test.model, test.data.names, 
         previous.data=NULL, mail.list=Sys.info()[["user"]], error.mail.list=Sys.info()[["user"]]) 
   ok <-  monitoring$status == "Simple monitoring initialized."   
   cat("\n This test produces a warning: Input is not longer than output data. No forecasts produced...")
   # note that the following does not result in forecasts (and the forecast
   #   function produces a warning) because the input data does not extend
   #   beyond the output data.
-  monitoring<-simple.monitoring (monitoring.test.model, test.data.names, 
+  monitoring<-simpleMonitoring (monitoring.test.model, test.data.names, 
            previous.data=monitoring$data, 
 	   mail.list=Sys.info()[["user"]], error.mail.list=Sys.info()[["user"]]) 
   ok <- ok & (monitoring$status == "Simple monitoring updates not necessary.")
-  monitoring<-simple.monitoring (monitoring.test.model, test.data.names, 
+  monitoring<-simpleMonitoring (monitoring.test.model, test.data.names, 
                previous.data=monitoring$data, 
                mail.list=Sys.info()[["user"]],
 	       error.mail.list=Sys.info()[["user"]], run.again=TRUE) 
   ok <- ok & (monitoring$status == "Simple monitoring re-run.")
   ok <- ok & monitoring$message[7] == 
           "1993 Sep   0.110000   0.383440   0.397520   0.355500   0.947460 "
-  ok <- ok & sum(output.data(monitoring$data))==235.64806565791809589
-  output.data(monitoring$data) <- 
-               tfwindow(output.data(monitoring$data), end=c(1993,8))
-  monitoring<-simple.monitoring (monitoring.test.model, test.data.names, 
+  ok <- ok & sum(outputData(monitoring$data))==235.64806565791809589
+  outputData(monitoring$data) <- 
+               tfwindow(outputData(monitoring$data), end=c(1993,8))
+  monitoring<-simpleMonitoring (monitoring.test.model, test.data.names, 
           previous.data=monitoring$data, 
 	  mail.list=Sys.info()[["user"]], error.mail.list=Sys.info()[["user"]]) 
   ok <- ok & (monitoring$status == "Simple monitoring updated.") &
-      sum(output.data(monitoring$data)) == 235.64806565791809589
+      sum(outputData(monitoring$data)) == 235.64806565791809589
   all.ok <- all.ok & ok 
    {if (ok) cat("ok\n") else  cat("failed!\n") }
 
@@ -140,17 +140,17 @@ cleanup.script <- PADIcleanupScript()
 
   watch <- watch.data(test.data.names, previous.data=NULL, mail.list=Sys.info()[["user"]])
   ok <- (watch$status == "System watch.data initialized.") & 
-         sum(output.data(watch$data))== 235.64806565791809589
+         sum(outputData(watch$data))== 235.64806565791809589
   watch <- watch.data(test.data.names, previous.data=watch, mail.list=Sys.info()[["user"]])
   ok <- ok & (watch$status == "No data updates.") & 
-           sum(input.data(watch$data))== -4.1300000572204575988
+           sum(inputData(watch$data))== -4.1300000572204575988
   watch$data <- tfwindow(watch$data, end=c(1993, 8))
   watch <- watch.data(test.data.names, previous.data=watch, mail.list=Sys.info()[["user"]])
   ok <- ok & (watch$status == "Data has been updated.")  
   if (ok) cat("ok\n") else  cat("failed!\n") 
 
   all.ok <- all.ok & ok 
-  tst <-  sum(output.data(watch$data))
+  tst <-  sum(outputData(watch$data))
   good <- 235.64806565791809589
 
    error <- max(abs(good - tst))

@@ -9,7 +9,7 @@ availability            Check Data Availability
 freeze.tfPADIdata       Get fixed data snapshot
 freeze.TSPADIdata       Get fixed data snapshot using TSPADI
 identifiers             Get Identifiers from a data object
-input.data.TSPADIdata   TS Input and Output Specific Methods
+inputData.TSPADIdata    TS Input and Output Specific Methods
 modify                  modify a database descriptor object
 modify.TSPADIdata       Modify a TSPADIdata Object
 periods.tfPADIdata      Specific Methods for Tframed data
@@ -19,12 +19,11 @@ putpadi.TSdata          Specific Methods for putpadi
 refresh                 Retrieve new data from a database
 retrieve.and.verify.data
                         Retrieve and Verify Data
-set.tfPADIdata          Prompt for series names
-set.TSPADIdata          Prompt for Series Names
+settfPADIdata           Prompt for series names
+setTSPADIdata           Prompt for Series Names
 sourcedb                Get sourcedb from a data object
-source.info             Get source information from a data object
-source.info.TSPADIdata
-                        TSPADIdata Specific Methods
+sourceInfo              Get source information from a data object
+sourceInfo.TSPADIdata   TSPADIdata Specific Methods
 sourceserver            Get source server from a data object
 tfPADIdata              make tfPADIdata object
 tfputpadi               Write Data to a Data Server

@@ -5,12 +5,11 @@ These are installed in the doc/ directory for each package.
 A version of the guide with all sections combined may also
 be available at 'http://www.bank-banque-canada.ca/pgilbert', but may not be as current.
 See also the bundle dseplus with related packages.
-combination.monitoring
-                        Combination Monitoring
+combinationMonitoring   Combination Monitoring
 fprint                  Formatted Printing of Time Series
-simple.monitoring       Simple Monitoring
+simpleMonitoring        Simple Monitoring
 tags                    Tagged Matrices
-test.equal.tagged       Specific Methods for Testing Equality
+testEqual.tagged        Specific Methods for Testing Equality
 tfplot.combined.forecast
                         Specific Methods for tfplot
 tfwindow.tagged         Specific Methods for tframed Data

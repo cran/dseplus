@@ -1,6 +1,6 @@
 \name{canonical.prediction}
 \alias{canonical.prediction}
-\alias{is.TScanonical.prediction}
+\alias{is.TScanonicalPrediction}
 
 \title{Canonical Prediction}
 \description{
@@ -10,7 +10,7 @@
     canonical.prediction(d, conc=concentrator(d),
        q=min(concentrated.nseriesInput(d),
              concentrated.nseriesOutput(d)))
-    is.TScanonical.prediction(x)
+    is.TScanonicalPrediction(x)
 }
 \arguments{
     \item{d}{a TSdataconcentrate object as returned by concentrate.}
@@ -18,7 +18,7 @@
     \item{q}{integer indicating the number of canonical variates to keep.}
     \item{x}{any object.}
 }
-\value{A TScanonical.prediction object.}
+\value{A TScanonicalPrediction object.}
 \details{
     Data d as returned by concentrate. Alternately, a different
     conc (proj) can be used.
@@ -36,7 +36,7 @@
 \examples{
     if(is.R()) data("eg1.DSE.data.diff", package="dse1")
     z <- canonical.prediction(concentrate(eg1.DSE.data.diff))
-    is.TScanonical.prediction(z)
+    is.TScanonicalPrediction(z)
 }
 %\keyword{DSE}
 \keyword{ts}

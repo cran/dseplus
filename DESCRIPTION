@@ -2,7 +2,7 @@ Bundle: dseplus
 Contains: juice curve syskern dsepadi monitor  
 BundleDescription: Multivariate Time Series Library - Extensions
   See also the related bundle dse.
-Version: 2003.4-1
+Version: 2003.6-1
 License: Free. See the LICENCE file for details.
 Author: Paul Gilbert <pgilbert@bank-banque-canada.ca>
 Maintainer: Paul Gilbert <pgilbert@bank-banque-canada.ca>

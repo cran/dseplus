@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.small <- 1e-12
 fuzz.large <- 1e-6
@@ -25,10 +25,10 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 
   ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel<- l(toARMA(SSmodel), ARMAmodel1$data)
 
-#  As of 2001.3 to.ARMA was changed to call fix.constants and eliminate some
+#  As of 2001.3 toARMA was changed to call fixConstants and eliminate some
 #  near zero parameter. These were not only the cause of considerable numerical
 #  instability in the curvature calculation, but also gave a different number of
 #  parameters (20 vs 22) in R on Solaris and Linux. Some of the parameter value 

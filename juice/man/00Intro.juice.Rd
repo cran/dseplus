@@ -9,12 +9,12 @@
     should work like KF and ARMA model, so that plot, residual, 
     etc., produce results for the full (reconstitued) data set. 
     Special methods (eg. concentrated.tfplot,
-    concentrated.check.residuals) do the equivalent thing 
+    concentrated.checkResiduals) do the equivalent thing 
     using the reduced dimensional data as the TSdata and 
     dropping the fact that the model is of 
     class TSmodelconcentrate. 
 
-     The output.data for a concentrated object is the original 
+     The outputData for a concentrated object is the original 
     data, but for a reconstituted object it is the reconstituted data. 
     So, for example, \code{tfplot(ConcentratedDataObject)} will plot 
     the original data (as well as the reconstructed data) whereas 
@@ -27,7 +27,7 @@
 
     The concentrated data is extracted from both 
     \code{TSdataconcentrate} and \code{TSdatareconstitute} using 
-    the function \code{concentrated.output.data}.
+    the function \code{concentrated.outputData}.
 }
 %\keyword{DSE}
 \keyword{ts}

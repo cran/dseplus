@@ -43,7 +43,7 @@ A list with three elements as follows:
 }
 \examples{
 if(is.R()) data("eg1.DSE.data.diff", package="dse1")
-model <- est.VARX.ls(TSdata( output=output.data(eg1.DSE.data.diff, series=1:2)),
+model <- estVARXls(TSdata( output=outputData(eg1.DSE.data.diff, series=1:2)),
                       max.lag=2)
 z <- genD(model)
 }

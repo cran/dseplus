@@ -1,10 +1,10 @@
-\name{combination.monitoring}
-\alias{combination.monitoring}
+\name{combinationMonitoring}
+\alias{combinationMonitoring}
 
 \title{Combination Monitoring}
 \description{Automatic monitoring with e-mail of results}
 \usage{
-    combination.monitoring(model, data.names,
+    combinationMonitoring(model, data.names,
        previous.data=NULL,
        overriding.data.names=NULL, 
        restrict.overriding.data=TRUE, overriding.horizon=0,
@@ -18,7 +18,7 @@
        report.variables=seriesNames(data.names),
        data.sub.heading=NULL,
        data.tag=" ",
-       future.input.data.tag="p",
+       future.inputData.tag="p",
        overriding.data.tag="m",
        overlapping.period.forecast.tag="g",
        forecast.tag="f",
@@ -26,9 +26,9 @@
        save.as=NULL)
 }
 \arguments{
-    \item{model}{see \code{simple.monitoring}.}
-    \item{data.names}{see \code{simple.monitoring}.}
-    \item{previous.data}{see \code{simple.monitoring}.}
+    \item{model}{see \code{simpleMonitoring}.}
+    \item{data.names}{see \code{simpleMonitoring}.}
+    \item{previous.data}{see \code{simpleMonitoring}.}
     \item{overriding.data.names}{a TSdata (names) object.}
     \item{restrict.overriding.data}{a logical indicating 
         if \code{restrict.overriding.data} should be used to truncate the
@@ -36,23 +36,23 @@
     \item{overriding.horizon}{an integer indicating the horizon of the
         restriction.}
 
-    \item{mail.list}{see \code{simple.monitoring}.}
-    \item{error.mail.list}{see \code{simple.monitoring}.}
-    \item{message.title}{see \code{simple.monitoring}.}
-    \item{message.subject}{see \code{simple.monitoring}.}
-    \item{message.footnote}{see \code{simple.monitoring}.}
-    \item{show.end}{see \code{simple.monitoring}.}
-    \item{show.start}{see \code{simple.monitoring}.}
-    \item{report.variables}{see \code{simple.monitoring}.}
-    \item{data.sub.heading}{see \code{simple.monitoring}.}
-    \item{data.tag}{see \code{simple.monitoring}.}
+    \item{mail.list}{see \code{simpleMonitoring}.}
+    \item{error.mail.list}{see \code{simpleMonitoring}.}
+    \item{message.title}{see \code{simpleMonitoring}.}
+    \item{message.subject}{see \code{simpleMonitoring}.}
+    \item{message.footnote}{see \code{simpleMonitoring}.}
+    \item{show.end}{see \code{simpleMonitoring}.}
+    \item{show.start}{see \code{simpleMonitoring}.}
+    \item{report.variables}{see \code{simpleMonitoring}.}
+    \item{data.sub.heading}{see \code{simpleMonitoring}.}
+    \item{data.tag}{see \code{simpleMonitoring}.}
 
-    \item{future.input.data.tag}{.}
+    \item{future.inputData.tag}{.}
     \item{overriding.data.tag}{.}
     \item{overlapping.period.forecast.tag}{.}
 
-    \item{forecast.tag}{see \code{simple.monitoring}.}
-    \item{run.again}{see \code{simple.monitoring}.}
+    \item{forecast.tag}{see \code{simpleMonitoring}.}
+    \item{run.again}{see \code{simpleMonitoring}.}
     \item{save.as}{.}
 }
 
@@ -63,7 +63,7 @@
     This function allows for 
        -combining forecasts (ie. monitoring or other forecast data)
        -input (policy) projections
-    If these feature are not need see simple.monitoring.
+    If these feature are not need see simpleMonitoring.
     \code{mail.list} and \code{error.mail.list} should be single strings (not 
     vectors) but the string can contain multiple user ids for mail.
     \code{overriding.data.names=NULL} indicates a source for data which should
@@ -85,7 +85,7 @@
 
 }
 \seealso{
-    \code{\link{simple.monitoring}}
+    \code{\link{simpleMonitoring}}
 }
 
 %\keyword{DSE}

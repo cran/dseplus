@@ -1,5 +1,5 @@
-\name{source.info.TSPADIdata}
-\alias{source.info.TSPADIdata}
+\name{sourceInfo.TSPADIdata}
+\alias{sourceInfo.TSPADIdata}
 \alias{sourcedb.TSPADIdata}
 \alias{sourceserver.TSPADIdata}
 \alias{availability.TSPADIdata}
@@ -9,7 +9,7 @@
 \title{TSPADIdata Specific Methods}
 \description{See the generic function description.}
 \usage{
-    \method{source.info}{TSPADIdata}(obj)
+    \method{sourceInfo}{TSPADIdata}(obj)
     \method{sourcedb}{TSPADIdata}(obj)
     \method{sourceserver}{TSPADIdata}(obj)
     \method{availability}{TSPADIdata}(obj, verbose=TRUE, timeout=60, ...)
@@ -26,7 +26,7 @@
 
 }
 \seealso{
-    \code{\link{source.info}} 
+    \code{\link{sourceInfo}} 
 }
 %\keyword{DSE}
 \keyword{ts}

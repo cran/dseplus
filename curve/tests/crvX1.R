@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.small <- 1e-9
 fuzz.large <- 1e-6
@@ -17,8 +17,8 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 # sampleT=500
 
   ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng, sampleT=500))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
-  ARMAmodel2<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel2<- l(toARMA(SSmodel), ARMAmodel1$data)
   
   roots(ARMAmodel1)
   roots(SSmodel)
@@ -51,7 +51,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
   curvatureARMA1def <- curvature(ARMAmodel1, warn=FALSE, compiled=FALSE)$stats
 # defaults:      d=0.01, eps=1e-4,r=6, 
   
-  if (! test.equal(curvatureARMA1, curvatureARMA1def, fuzz=1e-11))
+  if (! testEqual(curvatureARMA1, curvatureARMA1def, fuzz=1e-11))
     {print(curvatureARMA1, digits=18)
      print(curvatureARMA1def, digits=18)
      all.ok <- F
@@ -79,11 +79,11 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 # sampleT=100
 
   ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng, sampleT=100))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
-  ARMAmodel2<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel2<- l(toARMA(SSmodel), ARMAmodel1$data)
   curvatureARMA1 <- curvature(ARMAmodel1, warn=FALSE)$stats
   curvatureARMA1def <- curvature(ARMAmodel1, warn=FALSE, compiled=FALSE)$stats
-  if (! test.equal(curvatureARMA1, curvatureARMA1def, fuzz=1e-11))
+  if (! testEqual(curvatureARMA1, curvatureARMA1def, fuzz=1e-11))
     {print(curvatureARMA1, digits=18)
      print(curvatureARMA1def, digits=18)
      all.ok <- F
@@ -124,11 +124,11 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 # sampleT=50
 
   ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng, sampleT=50))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
-  ARMAmodel2<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel2<- l(toARMA(SSmodel), ARMAmodel1$data)
   curvatureARMA1 <- curvature(ARMAmodel1, warn=FALSE)$stats
   curvatureARMA1def <- curvature(ARMAmodel1, warn=FALSE, compiled=FALSE)$stats
-  if (! test.equal(curvatureARMA1, curvatureARMA1def, fuzz=1e-11))
+  if (! testEqual(curvatureARMA1, curvatureARMA1def, fuzz=1e-11))
     {print(curvatureARMA1, digits=18)
      print(curvatureARMA1def, digits=18)
      all.ok <- F
@@ -163,8 +163,8 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 			     0,0,   0,.1,  1,.3),c(2,3,3)), C=NULL) 
 
   ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng, sampleT=500))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
-  ARMAmodel2<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel2<- l(toARMA(SSmodel), ARMAmodel1$data)
   
   roots(ARMAmodel1)
   roots(SSmodel)
@@ -190,11 +190,11 @@ if(!exists("egJofF.1dec93.data")) stop("egJofF.1dec93.data does not exist")
 
   cat("Curvature calculations with bft estimated model \n")
    eg.data<- egJofF.1dec93.data
-   output.data(eg.data) <- output.data(eg.data, series=c(1,2,6)) #CPI GDP employment
+   outputData(eg.data) <- outputData(eg.data, series=c(1,2,6)) #CPI GDP employment
  # following is optional 
- # tframe(output.data(eg.data))<- tframe(output.data(egJofF.1dec93.data))
+ # tframe(outputData(eg.data))<- tframe(outputData(egJofF.1dec93.data))
 
-  bft.model <- bft(trim.na(eg.data), max.lag=3, verbose=FALSE) 
+  bft.model <- bft(trimNA(eg.data), max.lag=3, verbose=FALSE) 
 
 tfplot(bft.model)
 summary(bft.model)
@@ -203,7 +203,7 @@ span.bft <- span(bft.model)
 span.bft
 tfplot(span.bft)
 
-z <- l(fix.constants(bft.model, fuzz=0.16), trim.na(eg.data))
+z <- l(fixConstants(bft.model, fuzz=0.16), trimNA(eg.data))
 summary(z)
 span(z)
 tfplot(z)
@@ -275,7 +275,7 @@ tfplot(z)
 #     }
 
 
-   arma.model <- to.ARMA(bft.model)
+   arma.model <- toARMA(bft.model)
 
    tst.span.arma <- span(arma.model)
    print(sum(tst.span.arma), digits=18)

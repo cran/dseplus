@@ -58,7 +58,7 @@ be NULL).
 \code{\link{freeze.TSPADIdata}}
 \code{\link{tfPADIdata}}
 \code{\link{TSPADIdata2}}
-\code{\link{set.TSPADIdata}}
+\code{\link{setTSPADIdata}}
 }
 \examples{
     z <- TSPADIdata(output=c("seriesA", "seriesB"), server="myserver")

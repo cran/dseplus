@@ -9,11 +9,11 @@ curvature               Curvature
 curvature.TSestModel    Curvature for a TSestModel
 genD                    Generate Bates and Watts D Matrix
 genD.TSestModel         Generate Bates and Watts D Matrix
+gradNumerical           Gradient of a Function
+gradRichardson          Gradient of a Function
 hessian                 Calculate Hessian Matrix
 hessian.TSestModel      Calculate Hessian Matrix
-numerical.grad          Gradient of a Function
 print.curvature         Specific Methods for Print
 project                 Project
-richardson.grad         Gradient of a Function
 span                    Calculate Span of Tangent Plane
 span.TSestModel         Calculate Span of Tangent Plane

@@ -1,10 +1,10 @@
-\name{simple.monitoring}
-\alias{simple.monitoring}
+\name{simpleMonitoring}
+\alias{simpleMonitoring}
  
 \title{Simple Monitoring}
 \description{Automatic monitoring with e-mail of results.}
 \usage{
-    simple.monitoring(model, data.names, 
+    simpleMonitoring(model, data.names, 
    previous.data=NULL,
    mail.list=NULL,
    error.mail.list=Sys.info()[["user"]],
@@ -63,11 +63,11 @@
     This version does not allow for 
         -combining forecasts (ie. monitoring.data or overriding data)
         -input (policy) projections
-    See \code{combination.monitoring} for these features.
+    See \code{combinationMonitoring} for these features.
 }
 \sideffects{Mail is sent.}
 \seealso{
-    \code{\link{combination.monitoring}}
+    \code{\link{combinationMonitoring}}
     \code{\link[syskern]{Sys.mail}}
 }
 

@@ -8,7 +8,7 @@
    require("padi",    warn.conflicts=TRUE)
 
  Sys.info()
- version.dse()
+ DSEversion()
 
  cat("search path ", search(),"\n")
  cat("PATH set to ",  Sys.getenv("PATH"), "\n")
@@ -72,7 +72,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
       input="B14017", 
 #      input.transforms= "diff",
        output=c( "P484549", "I37026", "lfsa201","b3400"), 
-#      output.transforms= rep("percent.change",4),
+#      output.transforms= rep("percentChange",4),
       db=db, server=server,pad.end =TRUE)
 
   source(paste(.path.package("monitor"),"/data/monitoring.test.info", sep=""))
@@ -90,7 +90,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   if (verbose) cat("combination monitor test 2 ... ")
   data <-retrieve.and.verify.data(test.data.names, 
                                     verification.data=v.data)
-  ok <- test.equal(data, ets.test.data, fuzz=fuzz.small)
+  ok <- testEqual(data, ets.test.data, fuzz=fuzz.small)
   tags(data$input)  <- "data"
   tags(data$output) <- "data"
   all.ok <- all.ok & ok 
@@ -111,7 +111,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   tframe(overriding.data$output) <- z.tf
   tags(overriding.data$input) <- "over"
   tags(overriding.data$output) <- "over"
-  ok <- test.equal(overriding.data, monitor.test.data, fuzz=fuzz.small)
+  ok <- testEqual(overriding.data, monitor.test.data, fuzz=fuzz.small)
   all.ok <- all.ok & ok 
   if (verbose) 
     {if (ok) cat("ok\n")
@@ -119,7 +119,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
     }
 
   if (verbose) cat("combination monitor test 4 ... ")
-  combined.forecast<-combine.and.forecast(monitoring.test.model,
+  combined.forecast<-combineAndForecast(monitoring.test.model,
                   list(data=data, overriding.data=overriding.data)) 
 
 #  ok <- fuzz.small > max(abs( combined.forecast$best.guess - 
@@ -132,7 +132,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   all.ok <- all.ok & ok 
   if (verbose) 
     {if (ok) cat("ok\n")
-     else    cat("failed! (combine.and.forecast)\n")
+     else    cat("failed! (combineAndForecast)\n")
     }
 
   if (synopsis) 

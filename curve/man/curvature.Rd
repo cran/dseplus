@@ -28,7 +28,7 @@
     \item{show.extra.details}{logical indicating if extra intermediate calculations 
         should be printed.}
     \item{track}{If track=TRUE then the progress of the calculations is printed.}
-    \item{warn}{see \code{effective.curvature}.}
+    \item{warn}{see \code{effectiveCurvature}.}
 }
 \details{
  This function is generic. It can be called with a function and parameter x,
@@ -62,7 +62,7 @@ Bates and Watts(1983), 'Nonlinear Regression Analysis and Its Applications.'
 \seealso{
    \code{\link{genD}}
    \code{\link{curvature.TSestModel}}
-   \code{\link{effective.curvature}}
+   \code{\link{effectiveCurvature}}
 }
 \examples{
     func <- function(x){c(x[1], x[1], x[2]^2)}

@@ -3,7 +3,7 @@
   require("mva"); require("ts")
   require("dse2") 
   require("setRNG") 
-  version.dse()
+  DSEversion()
 
   require("juice") 
 
@@ -21,24 +21,24 @@ all.ok <- TRUE
 
 ets <- FALSE
 
-  set.RNG(test.rng)
+  setRNG(test.rng)
   data00 <- matrix(rnorm(300), 100,3)
   data0 <- TSdata(output=data00)
   data1 <- TSdata(output=data0$output %*% matrix(rnorm(9),3,3))
 
 
 cat("dse juice test 0 ... ")
-  z <- concentrate(data00, conc=est.projection(data00, n=3))
+  z <- concentrate(data00, conc=estProjection(data00, n=3))
   # next is true because all PCs are used
-  ok <-      test.equal(data00, reconstitute(z), fuzz=fuzz.small)
-# T but does this have meaning  ok <- ok & test.equal(data00,reconstitute(z), fuzz=fuzz.small)
+  ok <-      testEqual(data00, reconstitute(z), fuzz=fuzz.small)
+# T but does this have meaning  ok <- ok & testEqual(data00,reconstitute(z), fuzz=fuzz.small)
   ok <- ok & all(seriesNames(reconstitute(z))
                 == paste("recon.", seriesNames(data00)))
-  ok <- ok & all(concentrated.seriesNames(z)
-                == paste("concentrate", seq(length=concentrated.dimension(z))))
+  ok <- ok & all(concentratedSeriesNames(z)
+                == paste("concentrate", seq(length=concentratedDimension(z))))
   ok <- ok & all(seriesNames(z) == seriesNames(data00))		   		   
 
-  z <- concentrate(output.data(egJofF.1dec93.data)) # p=1
+  z <- concentrate(outputData(egJofF.1dec93.data)) # p=1
   z <-tfwindow(z, start=c(1981,1))
   ok <- all(c(1981,1) == start(z)) & all(c(1981,1) == start(reconstitute(z)))
   all.ok <- all.ok & ok
@@ -46,13 +46,13 @@ cat("dse juice test 0 ... ")
 
 
   cat("dse juice test 1 ... ")
-  z <- concentrate(data0, conc=est.projection(data0, p=3))
+  z <- concentrate(data0, conc=estProjection(data0, p=3))
   # next is true because all PCs are used
-  ok <-      test.equal(data0, reconstitute(z), fuzz=fuzz.small)
-# T but does this have meaning  ok <- ok & test.equal(data0,TSdata(z), fuzz=fuzz.small)
+  ok <-      testEqual(data0, reconstitute(z), fuzz=fuzz.small)
+# T but does this have meaning  ok <- ok & testEqual(data0,TSdata(z), fuzz=fuzz.small)
   ok <- ok & all(seriesNamesOutput(reconstitute(z))
                 == paste("recon.", seriesNamesOutput(data0)))
-  ok <- ok & all(concentrated.seriesNamesOutput(z)
+  ok <- ok & all(concentratedSeriesNamesOutput(z)
                 == paste("concentrate", seq(length=concentrated.nseriesOutput(z))))
   ok <- ok & all(seriesNamesOutput(z) == seriesNamesOutput(data0))		   		   
   all.ok <- all.ok & ok 
@@ -60,19 +60,19 @@ cat("dse juice test 0 ... ")
 
 
   cat("dse juice test 2 ... ")
-  z <- concentrate(data0, conc=est.projection(data0, p=1))
+  z <- concentrate(data0, conc=estProjection(data0, p=1))
   ok <-       all(seriesNamesOutput(data0) == seriesNamesOutput(z))
-  ok <- ok & "concentrate 1" == concentrated.seriesNamesOutput(z)
-  ok <- ok &  ! test.equal(data0, reconstitute(z), fuzz=fuzz.small)
+  ok <- ok & "concentrate 1" == concentratedSeriesNamesOutput(z)
+  ok <- ok &  ! testEqual(data0, reconstitute(z), fuzz=fuzz.small)
   all.ok <- all.ok & ok 
   if (ok) cat("ok\n") else  cat("failed!\n") 
 
 
   cat("dse juice test 3 ... ")
-  z <- concentrate(data0, conc=est.projection(data0, p=2))
-  z <- concentrate(data0, conc=est.projection(data0)) # p=1
+  z <- concentrate(data0, conc=estProjection(data0, p=2))
+  z <- concentrate(data0, conc=estProjection(data0)) # p=1
 
-  ok <- test.equal(z,   concentrate(data0,conc=z), fuzz=fuzz.small)
+  ok <- testEqual(z,   concentrate(data0,conc=z), fuzz=fuzz.small)
   ok <- ok & (3 == nseriesOutput(z)) & (3 == nseriesOutput(TSdata(z))) &
              (1 == concentrated.nseriesOutput(z))               &
              (100 == periods(z)) & (100 == periods(TSdata(z)))
@@ -95,12 +95,12 @@ cat("dse juice test 0 ... ")
 
 
   cat("dse juice test 6 ... ")
-#  zm <- est.concentratedModel(z, scale=TRUE, center=TRUE, estimation="bft",
+#  zm <- estConcentratedModel(z, scale=TRUE, center=TRUE, estimation="bft",
 #  z is already a concentrated object so center and scale are not used
-  zm <- est.concentratedModel(z, estimation="bft",
+  zm <- estConcentratedModel(z, estimation="bft",
                                 estimation.args=list(max.lag=2, verbose=FALSE))
   #tfplot(zm)
-  zmr <- check.residuals(zm, ac=FALSE, pac=FALSE, plot.=FALSE)
+  zmr <- checkResiduals(zm, ac=FALSE, pac=FALSE, plot.=FALSE)
 # S values
 tst  <- zmr$skewness 
 good <- c(-1.979814544376786,  0.4241402252105713, -0.2758381743875303,
@@ -149,13 +149,13 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
 	output.names = c( "CPI", "GDP", "M1", "RL", "TSE300", "employment", 
                        "PFX", "US ind. prod.", "US CPI"),
 
-	output.transforms = c("percent.change", "percent.change", 
-                  "percent.change", "diff", "diff", "percent.change", 
-                     "percent.change", "percent.change",  "percent.change"),
+	output.transforms = c("percentChange", "percentChange", 
+                  "percentChange", "diff", "diff", "percentChange", 
+                     "percentChange", "percentChange",  "percentChange"),
         server="ets", start.server=TRUE, server.process="fame.server", 
         cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=TRUE)
 
-#         c("ets","", "M.BCPI",  "percent.change", "com. price ind."),
+#         c("ets","", "M.BCPI",  "percentChange", "com. price ind."),
 
 # P484549 is discontinued and should be replace with P100000, CPI 1992=100
 
@@ -165,7 +165,7 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
       z <- concentrate(JofF.VAR.data, p=2)
       z <- concentrate(JofF.VAR.data, p=3)
       z <- concentrate(JofF.VAR.data, p=2, scale=FALSE)
-      ok <- test.equal(seriesNames(reconstitute(z)), 
+      ok <- testEqual(seriesNames(reconstitute(z)), 
                        seriesNames(JofF.VAR.data)) 
 
 }
@@ -186,7 +186,7 @@ cat("juice graphics tests ...\n")
         }
 
 
-   set.RNG(test.rng)
+   setRNG(test.rng)
     data0 <- TSdata(output=matrix(rnorm(300), 100,3))
     seriesNames(data0)<- 
                   list(output=paste("data0", seq(length=nseriesOutput(data0))))
@@ -252,13 +252,13 @@ cat("  juice graphics test 7 ...\n")
 	output.names = c( "CPI", "GDP", "M1", "RL", "TSE300", "employment", 
                        "PFX", "US ind. prod.", "US CPI"),
 
-	output.transforms = c("percent.change", "percent.change", 
-                  "percent.change", "diff", "diff", "percent.change", 
-                     "percent.change", "percent.change",  "percent.change"),
+	output.transforms = c("percentChange", "percentChange", 
+                  "percentChange", "diff", "diff", "percentChange", 
+                     "percentChange", "percentChange",  "percentChange"),
         server="ets", start.server=TRUE, server.process="fame.server", 
         cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=TRUE)
 
-#         c("ets","", "M.BCPI",  "percent.change", "com. price ind."),
+#         c("ets","", "M.BCPI",  "percentChange", "com. price ind."),
 #   availability(JofF.VAR.data.names)
       JofF.VAR.data <- freeze(JofF.VAR.data.names)
 

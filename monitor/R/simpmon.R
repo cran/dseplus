@@ -5,7 +5,7 @@
 ###########################################################################
 
 
-check.for.value.changes <- function(data.names, verification.data,
+checkForValueChanges <- function(data.names, verification.data,
      discard.current=FALSE, ignore.before= NULL, fuzz=1e-10)
   { # Check if data is modified or if more data is available.
     # data.names is an object of class c("TSPADIdata","TSdata").
@@ -29,15 +29,15 @@ check.for.value.changes <- function(data.names, verification.data,
 
    data <- freeze(data.names) 
    if (discard.current)
-     {year.mo <- c(date.parsed()$y,date.parsed()$m) - c(0,1)
+     {year.mo <- c(dateParsed()$y,dateParsed()$m) - c(0,1)
       data  <- tfwindow( data,  end=year.mo, warn=FALSE )
      }
    if (!is.null(ignore.before)) 
      {data <- tfwindow(data, start= ignore.before)
       verification.data <-tfwindow(verification.data, start= ignore.before)
      }
-   data <-trim.na(data, start.=TRUE, end.=FALSE)
-   verification.data <-trim.na(verification.data, start.=TRUE, end.=FALSE)
+   data <-trimNA(data, start.=TRUE, end.=FALSE)
+   verification.data <-trimNA(verification.data, start.=TRUE, end.=FALSE)
    # which series are changed:
    if (is.null(seriesNamesInput(data.names))) in.up <- NULL
    else
@@ -45,18 +45,18 @@ check.for.value.changes <- function(data.names, verification.data,
       lv <-periodsInput(verification.data)
       l <- max(ld, lv)
       if (ld < l)
-        input.data(data) <- ts(rbind(input.data(data),  
+        inputData(data) <- ts(rbind(inputData(data),  
                                      matrix(NA,l-ld,nseriesInput(data))),
-                     start=start(input.data(data)),  frequency=frequency(data))
+                     start=start(inputData(data)),  frequency=frequency(data))
       if (lv < l)
-        input.data(verification.data) <- ts(rbind(input.data(verification.data),
+        inputData(verification.data) <- ts(rbind(inputData(verification.data),
                                         matrix(NA,l-lv, nseriesInput(data))),
-                     start=start(input.data(verification.data)),
+                     start=start(inputData(verification.data)),
                      frequency=frequency(verification.data))
-      z <- (is.na(input.data(data)) & is.na(input.data(verification.data)))   # both NA
+      z <- (is.na(inputData(data)) & is.na(inputData(verification.data)))   # both NA
     # next fixes an Splus bug (IMHO) that the dim is dropped for col matrix
-      if (!is.matrix(z)) z <- array(z, dim(input.data(data)))
-      z <- (abs(input.data(data) - input.data(verification.data)) <= fuzz) | z
+      if (!is.matrix(z)) z <- array(z, dim(inputData(data)))
+      z <- (abs(inputData(data) - inputData(verification.data)) <= fuzz) | z
       z <- z & !is.na(z)
       in.up <- !apply(z,2, all)
      }
@@ -66,26 +66,26 @@ check.for.value.changes <- function(data.names, verification.data,
       lv <-periodsOutput(verification.data)
       l <- max(ld, lv)
       if (ld < l)
-        output.data(data) <- ts(rbind(output.data(data), 
+        outputData(data) <- ts(rbind(outputData(data), 
                                       matrix(NA,l-ld, nseriesOutput(data))),
                          start=start(data), frequency=frequency(data))
       if (lv < l)
-        output.data(verification.data) <- ts(
-                                rbind(output.data(verification.data), 
+        outputData(verification.data) <- ts(
+                                rbind(outputData(verification.data), 
                                       matrix(NA,l-lv, nseriesOutput(data))),
-                     start=start(output.data(verification.data)),
+                     start=start(outputData(verification.data)),
                      frequency=frequency(verification.data))
-      z <- ( is.na(output.data(data)) & is.na(output.data(verification.data)))    # both NA
+      z <- ( is.na(outputData(data)) & is.na(outputData(verification.data)))    # both NA
     # next fixes an Splus bug (IMHO) that the dim is dropped for col matrix
-      if (!is.matrix(z)) z <- array(z, dim(output.data(data)))
-      z <- (abs(output.data(data) - output.data(verification.data)) <= fuzz) | z
+      if (!is.matrix(z)) z <- array(z, dim(outputData(data)))
+      z <- (abs(outputData(data) - outputData(verification.data)) <= fuzz) | z
       z <- z & !is.na(z)
       out.up <- !apply(z,2, all)
      }
    list(any(c(in.up,out.up)), input=in.up, output=out.up, data=data)   
   }
 
-check.for.file.date.changes <- function(data.names, verification.dates)
+checkForFileDateChanges <- function(data.names, verification.dates)
   {# check file dates against previous dates
    # It is preferable to do file date checking with a Unix shell script rather 
    #   than in S, and then start S for further checks only when the time stamp
@@ -104,7 +104,7 @@ check.for.file.date.changes <- function(data.names, verification.dates)
 
 
 
-simple.monitoring <- function(model, data.names, 
+simpleMonitoring <- function(model, data.names, 
    previous.data=NULL,
    mail.list=NULL,
    error.mail.list=Sys.info()[["user"]],
@@ -121,8 +121,8 @@ simple.monitoring <- function(model, data.names,
    save.as=NULL)
 
 {# Step 0 -  prepare message files and error checking
-    error.message <- c(message.title, paste(date.parsed(), collapse="."),
-              "An error condition occurred running simple.monitoring.",
+    error.message <- c(message.title, paste(dateParsed(), collapse="."),
+              "An error condition occurred running simpleMonitoring.",
               "The message.file at the time of the error follows:") 
     message <- ""     
     on.exit(Sys.mail(error.mail.list,
@@ -140,7 +140,7 @@ simple.monitoring <- function(model, data.names,
 
 # The following line is useful for debugging
 #Sys.mail(error.mail.list, subject=paste("checking ",message.subject), 
-#                         body=paste(date.parsed(), collapse="."))
+#                         body=paste(dateParsed(), collapse="."))
 
  # Step 1 - retrieve & check for updated data  or
  #            initialize system and if previous.data is NULL
@@ -154,13 +154,13 @@ simple.monitoring <- function(model, data.names,
        status <- "Simple monitoring re-run."   
       }
     else
-      {updated.data<-check.for.value.changes(data.names,
+      {updated.data<-checkForValueChanges(data.names,
                            verification.data=previous.data,
                            discard.current=TRUE)
        if(updated.data[[1]])
          {data <-updated.data$data
 	  # updated.data$input & $output are logical vector so don't use
-	  #    input.data() and output.data() in next
+	  #    inputData() and outputData() in next
           message <- c("data updates: ", 
                seriesNamesInput(data)[updated.data$input],
               seriesNamesOutput(data)[updated.data$output])
@@ -177,12 +177,12 @@ simple.monitoring <- function(model, data.names,
    # Sometimes data is available as soon as there are any days in a month (with
    #   ignore on in Fame). The following 4 lines trim these, but that may not be
    #   the best way to handle them.
-   year.mo <- c(date.parsed()$y,date.parsed()$m) - c(0,1)
+   year.mo <- c(dateParsed()$y,dateParsed()$m) - c(0,1)
    data  <- tfwindow(data,  end=year.mo, warn=FALSE )
 
  # Step 3 - run forecast
    pred<-forecast(model, data)$forecast[[1]]
-   pred <-splice.tagged(output.data(data), pred, tag1=data.tag,tag2=forecast.tag) 
+   pred <-splice.tagged(outputData(data), pred, tag1=data.tag,tag2=forecast.tag) 
  
  # Step 4 - generate report and mail
     message <-c(message,"The forecasts are now:")
@@ -194,16 +194,16 @@ simple.monitoring <- function(model, data.names,
             (report.variables$input == seriesNamesInput(data.names))
     report.variables$output<- 
             (report.variables$output == seriesNamesOutput(data.names))
-#    rv <- tagged(select.series(pred, series=report.variables$output),
+#    rv <- tagged(selectSeries(pred, series=report.variables$output),
 #                 tags= (attr(pred,"tags")) [,report.variables$output, drop=FALSE])
-    rv <- select.series(pred, series=report.variables$output)
+    rv <- selectSeries(pred, series=report.variables$output)
 #    tframe(rv) <- tframe(pred)
-#    inp <-tagged(input.data(data)[,report.variables$input, drop=FALSE],tags= data.tag)
+#    inp <-tagged(inputData(data)[,report.variables$input, drop=FALSE],tags= data.tag)
 #   should probably have data <- tagged(data, tags=data.tag) at the beginning
 #    but 
-    inp <-tagged(input.data(data),tags= data.tag)
-    inp <-select.series(inp, report.variables$input)
-#    tframe(inp) <-  tframe(input.data(data))
+    inp <-tagged(inputData(data),tags= data.tag)
+    inp <-selectSeries(inp, report.variables$input)
+#    tframe(inp) <-  tframe(inputData(data))
     rv <- tfwindow(tbind( inp, rv), start=start., end=end., warn=FALSE)   
     message <- c(message,fprint(rv, digits=5, sub.title=data.sub.heading)) 
 
@@ -240,7 +240,7 @@ watch.data <- function(data.names,
  # the previous.data for the next time the function is called.
 
  # Step 0 - prepare message files 
-    error.message <- c(message.title, paste(date.parsed(), collapse="."),
+    error.message <- c(message.title, paste(dateParsed(), collapse="."),
               "An error condition occurred running watch.data.",
               "The message.file at the time of the error follows:") 
     message <- ""     
@@ -258,7 +258,7 @@ watch.data <- function(data.names,
        return(invisible(list(data=current.data,
            status="System watch.data initialized."))) 
       }
-    update<-check.for.value.changes(data.names,
+    update<-checkForValueChanges(data.names,
                            verification.data=previous.data$data,
                            discard.current=FALSE)
     if (!update[[1]] )

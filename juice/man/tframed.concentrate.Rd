@@ -7,7 +7,7 @@
 
 \usage{
     \method{tframed}{concentrate}(x, tf=NULL, names = NULL)
-%    \method{tframe<-}{concentrate}(x, value)
+    \method{tframe}{concentrate}(x) <- value
 }
 
 \arguments{

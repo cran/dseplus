@@ -45,7 +45,7 @@ G.R.Linfield and J.E.T.Penny,"Microcomputers in Numerical Analysis"}
 \seealso{
    \code{\link{curvature}}
    \code{\link{genD.TSestModel}}
-   \code{\link{numerical.grad}}
+   \code{\link{gradNumerical}}
 }
 \examples{
     func <- function(x){c(x[1], x[1], x[2]^2)}

@@ -27,8 +27,8 @@ a mechanism for detecting large data revisions or re-basing.
 }
 \seealso{
 \code{\link{TSPADIdata}}
-\code{\link{set.TSPADIdata}}
-\code{\link{set.tfPADIdata}}
+\code{\link{setTSPADIdata}}
+\code{\link{settfPADIdata}}
 \code{\link[tframe]{freeze}}
 }
 \examples{

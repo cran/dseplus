@@ -1,9 +1,11 @@
 \name{00Intro.syskern}
 \alias{00Intro.syskern}
 \title{Syskern}
-\usage{
-% library("syskern")
+
+\section{Usage}{
+   library("syskern") 
 }
+
 \description{
   A small set of programs to facilitate programming around S/R differences}
 \section{Introduction}{
@@ -36,7 +38,7 @@ to use these even in Splus. \code{.SPAWN} should be FALSE in R.)
 %remove subdirectories. Thus it has been necessary to define the
 %function \code{syskern.rm} which recursively removes subdirectories.
 
-The functions code{file.date.info}, \code{date.parsed} used in the dse bundle
+The functions code{file.date.info}, \code{dateParsed} used in the dse bundle
 are also defined but are being depreciated and should be avoided.
 }
   

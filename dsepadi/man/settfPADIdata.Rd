@@ -1,10 +1,10 @@
-\name{set.tfPADIdata}
-\alias{set.tfPADIdata}
+\name{settfPADIdata}
+\alias{settfPADIdata}
 \title{Prompt for series names}
 
 \description{Prompt for data series names and locations and 
 create a data object.}
-\usage{set.tfPADIdata(preamble=TRUE)}
+\usage{settfPADIdata(preamble=TRUE)}
 \arguments{
     \item{preamble}{a logical indicating if the description of how to enter data
     should be printed.}
@@ -22,7 +22,7 @@ be left dynamic, in which case it is of class 'tfPADIdata' and the discription c
 \code{\link[dse1]{TSdata.object}}
 }
 \examples{
-  data <- set.tfPADIdata()
+  data <- settfPADIdata()
  }
 %\keyword{tframe}
 \keyword{ts}

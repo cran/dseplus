@@ -8,7 +8,7 @@
    require("padi",    warn.conflicts=TRUE)
 
  Sys.info()
- version.dse()
+ DSEversion()
 
 #   if (is.S()) {
 #	# the next 2 lines remove old versions of PADI in the search path
@@ -94,7 +94,7 @@ tfPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   if (verbose) cat("tfPADI test 2 ... ")
   eg.data <- freeze(eg.names)
   ok <- is.tfPADIdata(eg.names) &
-            test.equal(eg.data, eg.put.data, fuzz=fuzz.large)
+            testEqual(eg.data, eg.put.data, fuzz=fuzz.large)
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
 
@@ -177,7 +177,7 @@ TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 
   if (verbose) cat("DSE TSPADI test 1 ... ")
   eg.data <- freeze(eg.names)
-  ok <- is.TSdata(eg.data ) & test.equal(eg.data, eg.put.data, fuzz=fuzz.large)
+  ok <- is.TSdata(eg.data ) & testEqual(eg.data, eg.put.data, fuzz=fuzz.large)
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
 
@@ -193,7 +193,7 @@ eg.names <- TSPADIdata(input=c( "exp1","exp2"), output=c( "exp1","exp2","exp3"),
   ok <- is.TSdata(eg.data ) 
 warning("skipping something broken")
 #&
-#    (max(abs(output.data(eg.data) - 
+#    (max(abs(outputData(eg.data) - 
 #              cbind(exp(1:20),2*exp(1:20),3*exp(1:20)) ))<fuzz.large)
   all.ok <- all.ok & ok 
   if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }

@@ -1,11 +1,11 @@
-\name{percent.change.TScanonical.prediction}
-\alias{percent.change.TScanonical.prediction}
+\name{percentChange.TScanonicalPrediction}
+\alias{percentChange.TScanonicalPrediction}
 
-\title{Specific Methods for percent.change}
+\title{Specific Methods for percentChange}
 \description{See the generic function description.}
 
 \usage{
-   \method{percent.change}{TScanonical.prediction}(obj,
+   \method{percentChange}{TScanonicalPrediction}(obj,
         base=NULL, lag=1, cumulate=FALSE, e=FALSE)}
 \arguments{
     \item{obj}{see the generic function.}
@@ -15,7 +15,7 @@
     \item{cumulate}{see the generic function.}
 }
 
-\seealso{\code{\link[tframe]{percent.change}} }
+\seealso{\code{\link[tframe]{percentChange}} }
 %\keyword{DSE}
 \keyword{ts}
 

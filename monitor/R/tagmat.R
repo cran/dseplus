@@ -26,8 +26,8 @@ tagged.default <- function(x, tags){
 
 
 tagged.TSdata <- function(x, tags)
-  {if(0 != nseriesInput(x))   input.data(tags(x)) <- tags$input
-   if(0 != nseriesOutput(x)) output.data(tags(x)) <- tags$output
+  {if(0 != nseriesInput(x))   inputData(tags(x)) <- tags$input
+   if(0 != nseriesOutput(x)) outputData(tags(x)) <- tags$output
    x
   }
 
@@ -39,11 +39,11 @@ tagged.TSdata <- function(x, tags)
   classed(x, cls)
 }
 
-select.series.tagged <- function(x, series=seq(ncol(x)))
+selectSeries.tagged <- function(x, series=seq(ncol(x)))
      {names <- seriesNames(x)
       if (is.character(series)) series <- match(names,series, nomatch=0) > 0
-      tagged(select.series.default(x, series=series),
-             select.series.default(tags(x), series=series))
+      tagged(selectSeries.default(x, series=series),
+             selectSeries.default(tags(x), series=series))
      }
 
 tbind.tagged <- function(mat1, mat2)
@@ -65,9 +65,9 @@ tbind.tagged <- function(mat1, mat2)
 
 is.tagged <- function(obj)  {inherits(obj,"tagged")}
 
-test.equal.tagged <- function(obj1, obj2)
-{ test.equal.matrix(obj1, obj2) & 
-  test.equal.matrix(tags(obj1), tags(obj2))
+testEqual.tagged <- function(obj1, obj2)
+{ testEqual.matrix(obj1, obj2) & 
+  testEqual.matrix(tags(obj1), tags(obj2))
 }
 
 

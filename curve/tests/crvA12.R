@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.small <- 1e-12
 fuzz.large <- 1e-6
@@ -25,8 +25,8 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 
   ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng))
-  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+  SSmodel  <- l(toSS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel<- l(toARMA(SSmodel), ARMAmodel1$data)
 
 
 cat("DSE curvature test A 12a..\n")
@@ -50,8 +50,8 @@ cat("DSE curvature test A 12a..\n")
 
 cat("DSE curvature test A 12b..\n")
   func.residual <- function(coefficients,Shape,data)
-   {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
-       - output.data(data))}
+   {c(l(setArrays(Shape,coefficients=coefficients),data,result="pred")
+       - outputData(data))}
    
   curvatureVAR.def <- curvature.default(func.residual, coef(ARMAmodel1), 
               func.args=list(Shape=TSmodel(ARMAmodel1), data=TSdata(ARMAmodel1)),
@@ -60,7 +60,7 @@ cat("DSE curvature test A 12b..\n")
   curvatureVAR.def2 <- curvature(ARMAmodel1, compiled=FALSE,
                      d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
 
-  if (! test.equal(curvatureVAR.def2, curvatureVAR.def))
+  if (! testEqual(curvatureVAR.def2, curvatureVAR.def))
      {print(curvatureVAR.def,  digits=18)
       print(curvatureVAR.def2, digits=18)
       all.ok <- F 

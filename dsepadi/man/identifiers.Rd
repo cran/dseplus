@@ -19,7 +19,7 @@ input and output series identifiers.
 \seealso{ 
 \code{\link{tfPADIdata}}
 \code{\link[dse2]{TSPADIdata}}
-\code{\link{source.info}}
+\code{\link{sourceInfo}}
 \code{\link{sourcedb}}
 }
 \examples{

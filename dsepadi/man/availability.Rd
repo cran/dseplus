@@ -38,7 +38,7 @@ the indicated optional arguments do not apply to that method.
 \seealso{
 \code{\link{tfPADIdata}},
 \code{\link{TSPADIdata}},
-\code{\link{set.TSPADIdata}},
+\code{\link{setTSPADIdata}},
 \code{\link{retrieve.and.verify.data}}
 }
 \examples{

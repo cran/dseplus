@@ -1,13 +1,13 @@
-\name{source.info}
-\alias{source.info}
-\alias{source.info.default}
-\alias{source.info.tfPADIdata}
+\name{sourceInfo}
+\alias{sourceInfo}
+\alias{sourceInfo.default}
+\alias{sourceInfo.tfPADIdata}
 \title{Get source information from a data object}
 \description{Get source information from an object}
 \usage{
-    source.info(obj)
-    \method{source.info}{default}(obj)
-    \method{source.info}{tfPADIdata}(obj)
+    sourceInfo(obj)
+    \method{sourceInfo}{default}(obj)
+    \method{sourceInfo}{tfPADIdata}(obj)
 }
 \arguments{
     \item{obj}{An object which contains source series information.}
@@ -24,7 +24,7 @@ input and output source.
 if(require("padi") && checkPADIserver("ets")) {
    d <- tfPADIdata("D1", server="ets")
    d <- freeze(d)
-   source.info(d)}
+   sourceInfo(d)}
 }
 %\keyword{tframe}
 \keyword{ts}

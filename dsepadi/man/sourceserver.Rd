@@ -22,7 +22,7 @@ input and output sourceserver.
 \code{\link[dse2]{TSPADIdata}} 
 \code{\link{identifiers}}
 \code{\link{sourcedb}}
-\code{\link{source.info}}
+\code{\link{sourceInfo}}
 }
 \examples{
 if(require("padi") && checkPADIserver("ets")) {

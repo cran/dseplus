@@ -1,5 +1,5 @@
-\name{date.parsed}
-\alias{date.parsed}
+\name{dateParsed}
+\alias{dateParsed}
 %\alias{syskern.rm}
 \alias{file.date.info}
 
@@ -7,7 +7,7 @@
 \description{Utilities to handle small S/R differences.}
 
 \usage{
-    date.parsed()
+    dateParsed()
 %    syskern.rm(file)
     file.date.info(file)
 }
@@ -25,7 +25,7 @@
     \code{\link{file.copy}}
     \code{\link{Sys.info}}
 }
-\examples{date.parsed() }
+\examples{dateParsed() }
 \keyword{programming}
 \keyword{utilities}
 

@@ -7,38 +7,37 @@ be available at 'http://www.bank-banque-canada.ca/pgilbert', but may not be as c
 See also the bundle dseplus with related packages.
 00Intro.juice           Juice
 canonical.prediction    Canonical Prediction
-check.consistent.dimensions.TSmodelconcentrate
-                        check.consistent.dimensions Specific Methods
-check.residuals.TSdataconcentrate
-                        check.residuals Specific Methods
-concentrated.check.residuals
+checkConsistentDimensions.TSmodelconcentrate
+                        checkConsistentDimensions Specific Methods
+checkResiduals.TSdataconcentrate
+                        checkResiduals Specific Methods
+concentrated.checkResiduals
                         Check Residuals of Concentrated Data
-concentrated.dimension
-                        Concentrated Dimension
+concentratedDimension   Concentrated Dimension
 concentrated.nseriesInput
                         Concentrated Dimension of TSdata
-concentrated.seriesNames
+concentratedSeriesNames
                         Concentrated Series Names
 concentrated.tfplot     Plot Concentrated Series
 concentrateOnly         Extract Concentrate
 concentrateOriginal     Extract Original Series
 concentrate             Concentrate Series in a TSdata Object
 concentrator            Data Concentrator
-end.TScanonical.prediction
-                        Specific Methods for TScanonical.prediction
-est.concentratedModel   Estimate a Concentrated Model
-est.projection          Calculate Projection from Concentrating
+end.TScanonicalPrediction
+                        Specific Methods for TScanonicalPrediction
+estConcentratedModel    Estimate a Concentrated Model
+estProjection           Calculate Projection from Concentrating
                         Series.
 l.TSmodelconcentrate    Specific Methods for l
 nseriesInput.TSmodelconcentrate
                         Specific Methods for input/nseriesOutput
-percent.change.TScanonical.prediction
-                        Specific Methods for percent.change
+percentChange.TScanonicalPrediction
+                        Specific Methods for percentChange
 plot2by2                plot2by2
 print.concentrate       Print Specific Methods
 reconstitute            Reconstitute
-select.series.concentrate
-                        Specific Methods for select.series
+selectSeries.concentrate
+                        Specific Methods for selectSeries
 tfplot.concentrate      tfplot Specific Methods
 tfprint.concentrate     Tfprint Specific Methods
 tfwindow.concentrate    tfwindow Specific Methods

@@ -1,10 +1,10 @@
-\name{rel.curvature}
-\alias{rel.curvature}
+\name{relCurvature}
+\alias{relCurvature}
 
 \title{Relative Curvature Utility Used by Curvature and Project}
 \description{xxx}
 \usage{
-    rel.curvature(s.sqr, R11, R2, show.extra.details=FALSE,
+    relCurvature(s.sqr, R11, R2, show.extra.details=FALSE,
           eps=sqrt(.Machine$double.eps))
 }
 \arguments{
@@ -32,7 +32,7 @@
 \seealso{
     \code{\link{curvature}}
     \code{\link{project}}
-    \code{\link{effective.curvature}}
+    \code{\link{effectiveCurvature}}
     \code{\link{curvatureStats}}
 }
 %\keyword{DSE}

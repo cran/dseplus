@@ -2,7 +2,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.small <- 1e-11
 fuzz.large <- 1e-6
@@ -23,7 +23,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
               C=NULL, description="simplified guide example")
 
   VARmodel <-l(z,simulate(z, rng=test.rng))
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
+  SSmodel  <- l(toSS(VARmodel),  VARmodel$data)
 
 cat("DSE curvature test A 2a...\n")
 

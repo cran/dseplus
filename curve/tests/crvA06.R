@@ -4,7 +4,7 @@
 if(!require("dse2"))  stop("this test requires dse2.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
- version.dse()
+ DSEversion()
  
 fuzz.large <- 1e-8
 digits <- 18
@@ -24,8 +24,8 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
           C=NULL, description="simplified guide example")
   VARmodel <-l(z,simulate(z, rng=test.rng))
 
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
+  SSmodel  <- l(toSS(VARmodel),  VARmodel$data)
+  ARMAmodel<- l(toARMA(SSmodel), VARmodel$data)
 
 
 # previous rng
@@ -41,8 +41,8 @@ cat("DSE curvature test A 6b...\n")
 # gctorture()
 
   func.residual <- function(coefficients,Shape,data)
-   {c(l(set.arrays(Shape, coefficients=coefficients),data,result="pred")
-      - output.data(data))} 
+   {c(l(setArrays(Shape, coefficients=coefficients),data,result="pred")
+      - outputData(data))} 
 
   curvatureSS.def <- curvature.default(func.residual, coef(SSmodel), 
                func.args=list(Shape=TSmodel(SSmodel), data=TSdata(SSmodel)),

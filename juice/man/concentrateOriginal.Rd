@@ -3,7 +3,7 @@
 \alias{concentrateOriginal.TSdataconcentrate}
 \alias{concentrateOriginal.TSdatareconstitute}
 \alias{concentrateOriginal.concentrate}
-\alias{concentrateOriginal.TScanonical.prediction}
+\alias{concentrateOriginal.TScanonicalPrediction}
 
 \title{Extract Original Series}
 \description{concentrateOriginal}
@@ -12,7 +12,7 @@
     \method{concentrateOriginal}{TSdataconcentrate}(d)
     \method{concentrateOriginal}{TSdatareconstitute}(d)
     \method{concentrateOriginal}{concentrate}(d)
-    \method{concentrateOriginal}{TScanonical.prediction}(d)
+    \method{concentrateOriginal}{TScanonicalPrediction}(d)
 }
 \arguments{
     \item{d}{A concentrate object.}

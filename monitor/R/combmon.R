@@ -5,7 +5,7 @@
 ###########################################################################
 
 
-combine.and.forecast <- function(model, new.data,  
+combineAndForecast <- function(model, new.data,  
                       overlapping.period.forecast.tag="g", forecast.tag="f") 
 
 {# model should be a TSmodel.
@@ -24,7 +24,7 @@ combine.and.forecast <- function(model, new.data,
  pred <-l(model, con.data ,predictT=dim(con.data$input)[1])$estimates$pred 
    # do residual analysis ?
 # forecast<-forecast(l(model, con.data), percent=c(80,100,120), horizon=6, plot=F)
-#   pchange<-percent.change(forecast[[1]],forecast[[2]],forecast[[3]], base=base,lag=12,cumulate=T,e=T)
+#   pchange<-percentChange(forecast[[1]],forecast[[2]],forecast[[3]], base=base,lag=12,cumulate=T,e=T)
  best.guess <-splice.tagged(con.data$output, pred, 
                   tag1=con.data$output.tags,tag2=forecast.tag) 
 # the following result could also include con.data and pred, but it should be possible to
@@ -38,7 +38,7 @@ combine.and.forecast <- function(model, new.data,
 }
 
 reconstruct.combined.forecast <- function(combined.forecast) 
-{# use the result of combine.and.forecast to re-do and verify results
+{# use the result of combineAndForecast to re-do and verify results
  con.data <- construct.data.to.override.horizon(combined.forecast, 
                    combined.forecast$model, plot=FALSE)
  pred <-l(combined.forecast$model, con.data ,predictT=dim(con.data$input)[1])$estimates$pred 
@@ -108,7 +108,7 @@ construct.data.to.override.horizon <- function(new.data, model,
  #     logical matrix dup:
 
  # tbind aligns the matrices
- dup <- tbind(output.data(new.data$data), output.data(new.data$overriding.data))
+ dup <- tbind(outputData(new.data$data), outputData(new.data$overriding.data))
  if (!is.null(dup))
   {p <- nseriesOutput(new.data$data)
    dup <- (!is.na(dup[,1:p,drop=FALSE])) & (!is.na(dup[,(p+1):(2*p),drop=FALSE]))
@@ -120,7 +120,7 @@ construct.data.to.override.horizon <- function(new.data, model,
     #   print(dup)
     #  }
 
- z <- trim.na(output.data(new.data$data), end.=FALSE)
+ z <- trimNA(outputData(new.data$data), end.=FALSE)
  zz <- new.data$overriding.data$output
  z <- splice(zz,z)
  start. <- start(z)
@@ -129,8 +129,8 @@ construct.data.to.override.horizon <- function(new.data, model,
    {# note that $overriding.data does not override actual data for $input, but 
     #  that could be changed by reversing the order in the next line. (extra  
     #  code is necessary to give a warning.)
-    z.in <-trim.na(splice(input.data(new.data$data),
-                          input.data(new.data$overriding.data)))
+    z.in <-trimNA(splice(inputData(new.data$data),
+                          inputData(new.data$overriding.data)))
     start. <- latestStart(z, z.in)
     z.in <- tfwindow(z.in, start=start., warn=FALSE)
     if (any(is.na(z.in)))
@@ -143,19 +143,19 @@ construct.data.to.override.horizon <- function(new.data, model,
 
  # now augment $data and $overriding.data with model predictions for 
  #  the combined forecast period if necessary.
- if (any(is.na(output.data(con.data))))    
-   {z <- TSdata(input = input.data(con.data),
-                output= trim.na(output.data(new.data$data)))
+ if (any(is.na(outputData(con.data))))    
+   {z <- TSdata(input = inputData(con.data),
+                output= trimNA(outputData(new.data$data)))
     pred <- l(model,z, predictT= periodsOutput(con.data))$estimates$pred
-    z <-splice.tagged(output.data(con.data),pred, 
+    z <-splice.tagged(outputData(con.data),pred, 
                     tag1=con.data$output.tags, tag2=forecast.tag)
-    output.data(con.data) <- z
+    outputData(con.data) <- z
    }
 
  con.data<- freeze(con.data)
  con.data$override <- dup
  if (plot &&  dev.cur() != 1 ) 
-    {tfplot(con.data,start.=(end(output.data(data))-c(1,0)), 
+    {tfplot(con.data,start.=(end(outputData(data))-c(1,0)), 
            Title="Historical and overriding data data")
     }
   invisible(con.data)
@@ -196,7 +196,7 @@ get.overriding.data <- function(file="overriding.data",
 restrict.overriding.data <- function(data, overriding.horizon=0)  
 {#This function truncates overriding.data$output if it extends 
  #  overriding.horizon periods beyond the present. 
- year.mo <- c(date.parsed()$y,date.parsed()$m) - c(0,1) + c(0,overriding.horizon)
+ year.mo <- c(dateParsed()$y,dateParsed()$m) - c(0,1) + c(0,overriding.horizon)
 #check this - also note NAs should not be nec in overriding fame data
  data$output <-tfwindow(data$output, end=year.mo, warn=FALSE )
  invisible(data)
@@ -208,7 +208,7 @@ restrict.overriding.data <- function(data, overriding.horizon=0)
 
 ###########################################################################
 
-combination.monitoring <- function(model, data.names,
+combinationMonitoring <- function(model, data.names,
    previous.data=NULL,
    overriding.data.names=NULL, 
    restrict.overriding.data=TRUE, overriding.horizon=0,
@@ -222,7 +222,7 @@ combination.monitoring <- function(model, data.names,
    report.variables=seriesNames(data.names),
    data.sub.heading=NULL,
    data.tag=" ",
-   future.input.data.tag="p",
+   future.inputData.tag="p",
    overriding.data.tag="m",
    overlapping.period.forecast.tag="g",
    forecast.tag="f",
@@ -230,8 +230,8 @@ combination.monitoring <- function(model, data.names,
    save.as=NULL)
 
 { # Step 0 - prepare message files and error checking
-    error.message <- c(message.title, paste(date.parsed(), collapse="."),
-              "An error condition occurred running combination.monitoring.",
+    error.message <- c(message.title, paste(dateParsed(), collapse="."),
+              "An error condition occurred running combinationMonitoring.",
               "The message.file at the time of the error follows:") 
     message <- ""     
     on.exit(Sys.mail(error.mail.list, subject=paste("error ", message.subject),
@@ -248,7 +248,7 @@ combination.monitoring <- function(model, data.names,
 
 # The following line can be removed if the code works reliably
    Sys.mail(error.mail.list,subject=paste("checking ",message.subject),
-                           body=paste(date.parsed(), collapse="."))
+                           body=paste(dateParsed(), collapse="."))
 
  # Step 1 - retrieve & check for updated data  or
  #            initialize system and if previous.data is NULL
@@ -263,11 +263,11 @@ combination.monitoring <- function(model, data.names,
        status <- "Combination monitoring re-run."   
       }
     else
-      {updated.data<-check.for.value.changes(data.names,
+      {updated.data<-checkForValueChanges(data.names,
                            verification.data=previous.data$data,
                            discard.current=TRUE)
        if (is.null(overriding.data.names)) overriding.update<-list(FALSE)
-       else overriding.update<-check.for.value.changes(overriding.data.names,
+       else overriding.update<-checkForValueChanges(overriding.data.names,
                            verification.data=previous.data$overriding.data)
        if(updated.data[[1]] | overriding.update[[1]])
          {status <- "Combination monitoring updated."     
@@ -298,13 +298,13 @@ combination.monitoring <- function(model, data.names,
    # Sometimes data is available as soon as there are any days in a month (with
    #   ignore on in Fame). The following 4 lines trim these, but that may not be
    #   the best way to handle them.
-   year.mo <- c(date.parsed()$y,date.parsed()$m) - c(0,1)
+   year.mo <- c(dateParsed()$y,dateParsed()$m) - c(0,1)
    data  <- tfwindow(data,  end=year.mo, warn=FALSE )
    fr <- c(frequency(data), 1)
       
    # check matching of starting date with end of available data.
    #   period for which all data is available in data
-   end.ets <- end(trim.na(output.data(data))) 
+   end.ets <- end(trimNA(outputData(data))) 
    if (!is.null(overriding.data))
     {if (is.null(overriding.data$output))
      {overriding.data$output <- ts(matrix(NA, 1, nseriesOutput(data)),
@@ -317,7 +317,7 @@ combination.monitoring <- function(model, data.names,
    else
      {if (!( (1+fr %*% end.ets) >= (fr %*%start(overriding.data$output))))
         stop(paste("Monitoring data (or NAs) must be indicated after ", end.ets))
-      if (1== latestEndIndex(output.data(data), output.data(overriding.data)))
+      if (1== latestEndIndex(outputData(data), outputData(overriding.data)))
          warning(paste("Overriding data file does not appear to be updated.",
          "True data is available past the end of the overriding data."))
     }}   
@@ -325,12 +325,12 @@ combination.monitoring <- function(model, data.names,
     if (is.null(overriding.data.names)) overriding.data <- NULL
     else
        overriding.data <- tagged(overriding.data,
-          input.tags=future.input.data.tag, output.tags=overriding.data.tag)
+          input.tags=future.inputData.tag, output.tags=overriding.data.tag)
     data <- tagged(data, tags=list(input=data.tag, output=data.tag))
 
  # Step 3 - run forecast
    # warnings from this should be mailed!!!!
-    combined.forecast<-combine.and.forecast(model, list(data, overriding.data),
+    combined.forecast<-combineAndForecast(model, list(data, overriding.data),
            overlapping.period.forecast.tag=overlapping.period.forecast.tag, 
            forecast.tag=forecast.tag) 
 
@@ -360,7 +360,7 @@ combination.monitoring <- function(model, data.names,
     tframe(rv) <- tframe(combined.forecast$best.guess)
     inp <- splice(combined.forecast$data$input, 
                   combined.forecast$overriding.data$input,
-                  tag1=data.tag, tag2=future.input.data.tag)
+                  tag1=data.tag, tag2=future.inputData.tag)
     rv <-tfwindow(cbind(inp,rv), start=start., end=end., warn=FALSE) 
     message <- c(message,fprint(rv, digits=5, sub.title=data.sub.heading)) 
 

@@ -15,7 +15,7 @@
 	   c(1+x$mon,x$mday,x$hour,x$sec) # as previously used. should be improved
      	  }
    
-    date.parsed <- function() 
+    dateParsed <- function() 
           {d <- as.POSIXlt(Sys.time())
            list(y = 1900 + d$year,   # as previously used. should be improved
               m = 1+ d$mon,

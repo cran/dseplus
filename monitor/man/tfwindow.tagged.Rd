@@ -2,7 +2,7 @@
 \alias{tfwindow.tagged}
 \alias{tbind.tagged}
 \alias{splice.tagged}
-\alias{select.series.tagged}
+\alias{selectSeries.tagged}
 \alias{tframe<-.tagged}
 
 \title{Specific Methods for tframed Data}
@@ -11,8 +11,8 @@
     \method{tfwindow}{tagged}(x, start.=NULL, end.=NULL, tf=NULL, warn=TRUE)
     \method{tbind}{tagged}(mat1, mat2)
     \method{splice}{tagged}(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2), ...)
-    \method{select.series}{tagged}(x, series=seq(ncol(x)))
-%    \method{tframe<-}{tagged}(x, value)
+    \method{selectSeries}{tagged}(x, series=seq(ncol(x)))
+    \method{tframe}{tagged}(x) <- value
 }
 \arguments{
     \item{x}{see the generic function.}
@@ -32,9 +32,9 @@
 \seealso{
     \code{\link[tframe]{tfwindow}},
     \code{\link[tframe]{tbind}},
-    \code{\link[tframe]{trim.na}}
+    \code{\link[tframe]{trimNA}}
     \code{\link[tframe]{splice}}
-    \code{\link[tframe]{select.series}}
+    \code{\link[tframe]{selectSeries}}
 }
 
 %\keyword{DSE}

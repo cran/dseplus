@@ -1,5 +1,5 @@
-\name{combine.and.forecast}
-\alias{combine.and.forecast}
+\name{combineAndForecast}
+\alias{combineAndForecast}
 \alias{reconstruct.combined.forecast}
 \alias{construct.data.to.override.horizon}
 \alias{get.overriding.data}
@@ -8,7 +8,7 @@
 \title{Simple Monitoring Utility Functions}
 \description{Utility functions for simple monitoring.}
 \usage{
-combine.and.forecast(model, new.data,  
+combineAndForecast(model, new.data,  
       overlapping.period.forecast.tag="g", forecast.tag="f") 
 reconstruct.combined.forecast(combined.forecast) 
 construct.data.to.override.horizon(new.data, model, plot=TRUE, forecast.tag="f")
@@ -19,7 +19,7 @@ restrict.overriding.data(data, overriding.horizon=0)
 \value{depends}
 \details{Internal functions, not to be called by user.}
 \seealso{
-    \code{\link{combination.monitoring}}
+    \code{\link{combinationMonitoring}}
 }
 
 %\keyword{DSE}

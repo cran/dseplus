@@ -33,7 +33,7 @@
 \details{See the generic function.}
 \seealso{
 \code{\link{span}},
-\code{\link{richardson.grad}},
+\code{\link{gradRichardson}},
 \code{\link{genD}}
 }
 

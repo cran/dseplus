@@ -37,13 +37,13 @@ span performs a svd of the tangent vectors at the point x. This can be used
 to calculate the dimension of the tangent space (ie. by over specifying 
 the model and counting the number of significant singular values).
 This function uses Richardson extrapolation  (for more details      
-see the functions richardson.grad and genD) to get a numerical 
+see the functions gradRichardson and genD) to get a numerical 
 approximation of the tangent vectors to the parameter 
 manifold. SVD is then used to calculate their span.
 }
 \seealso{
 \code{\link{span.TSestModel}},
-\code{\link{richardson.grad}},
+\code{\link{gradRichardson}},
 \code{\link{genD}}
 }
 \examples{
