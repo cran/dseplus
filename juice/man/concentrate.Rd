@@ -1,6 +1,5 @@
 \name{concentrate}
 \alias{concentrate}
-\alias{est.concentrate}
 \alias{concentrate.default}
 \alias{concentrate.TSdata}
 \alias{is.concentrate}
@@ -13,9 +12,9 @@
     components (or cannonical correlation for TSdata with input and output).
 }
 \usage{
-   concentrate(d, ...)
-   \method{concentrate}{default}(d, center=TRUE,   scale=TRUE,  n=1, conc=NULL)
-   \method{concentrate}{TSdata}(d, center=TRUE, scale=TRUE,  m=1, p=1, conc=NULL)
+   concentrate(d, conc=NULL, center=TRUE, scale=TRUE, ...)
+   \method{concentrate}{default}(d, conc=NULL, center=TRUE, scale=TRUE, n=1, ...)
+   \method{concentrate}{TSdata}(d,conc=NULL, center=TRUE, scale=TRUE, m=1, p=1, ...)
    is.concentrate(x)
    is.TSdataconcentrate(x)
    is.TSmodelconcentrate(x)
@@ -27,7 +26,9 @@
        used for the reduction}
     \item{center}{center the observations to mean zero first (passed to est.projection).}
     \item{scale}{scale the observations to SD one first (passed to est.projection).}
-    \item{n, m, p}{dimension of the concentrated series (passed to est.projection).}
+    \item{n}{dimension of the concentrated series (passed to est.projection).}
+    \item{m}{dimension of the concentrated input series (passed to est.projection).}
+    \item{p}{dimension of the concentrated output series (passed to est.projection).}
     \item{x}{any object.}
 }
 \value{A matrix or TSdata object.}

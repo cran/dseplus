@@ -9,6 +9,7 @@
 }
 \usage{
     concentrated.dimension(x)
+    \method{concentrated.dimension}{concentrate}(x)
     concentrated.nseriesInput(x)
     concentrated.nseriesOutput(x)
 }

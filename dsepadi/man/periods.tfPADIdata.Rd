@@ -9,13 +9,14 @@
 \description{See the generic function description.}
 \usage{
     \method{periods}{tfPADIdata}(x)
-    \method{start}{tfPADIdata}(x)
-    \method{end}{tfPADIdata}(x)
-    \method{frequency}{tfPADIdata}(x)
+    \method{start}{tfPADIdata}(x, ...)
+    \method{end}{tfPADIdata}(x, ...)
+    \method{frequency}{tfPADIdata}(x, ...)
     \method{seriesNames}{tfPADIdata}(x)
 }
 \arguments{
     \item{x}{a tfPADIdata object.}
+    \item{...}{(further arguments, currently disregarded).}
 }
 \seealso{
     \code{\link[tframe]{periods}}, 

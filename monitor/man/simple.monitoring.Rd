@@ -1,8 +1,5 @@
 \name{simple.monitoring}
 \alias{simple.monitoring}
-\alias{check.for.value.changes}
-\alias{check.for.file.date.changes}
-\alias{watch.data}
  
 \title{Simple Monitoring}
 \description{Automatic monitoring with e-mail of results.}

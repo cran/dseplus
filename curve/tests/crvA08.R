@@ -1,5 +1,6 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=FALSE)
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
  
@@ -20,15 +21,15 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 cat("DSE curvature test A 8a...")
 # from user guide
 
-  VARmodel<-ARMA(A=array(c(1,.5,.3,0,.2,.1,0,.2,.05,1,.5,.3),c(3,2,2)),
+  ARMAmodel1<-ARMA(A=array(c(1,.5,.3,0,.2,.1,0,.2,.05,1,.5,.3),c(3,2,2)),
              B=array(c(1,.2,0,.1,0,0,1,.3),c(2,2,2)), C=NULL) 
 
-# Note this gives a terrible fit.
-  VARmodel<-l(VARmodel,simulate(VARmodel, rng=test.rng))
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
 
-  spanVAR.f <- span(VARmodel, compiled=.DSECOMPILED) 
+  ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng))
+  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel<- l(to.ARMA(SSmodel), ARMAmodel1$data)
+
+  spanVAR.f <- span(ARMAmodel1, compiled=.DSECOMPILED) 
 
 #  if(is.Splus()) good <-  c(
 #      18.28342261104111799, 16.86252848720547703, 15.47359559657559025,
@@ -58,10 +59,10 @@ cat("DSE curvature test A 8a...")
    cat("max. error ", max(error))
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {print.test.value(c(tst), digits=18); all.ok <- F }
+     {printTestValue(c(tst), digits=18); all.ok <- F }
 
 cat("DSE curvature test A 8b...")
-  spanVAR <- span(VARmodel, compiled=FALSE) 
+  spanVAR <- span(ARMAmodel1, compiled=FALSE) 
 
    tst  <-  spanVAR
    good <-  spanVAR.f
@@ -69,6 +70,6 @@ cat("DSE curvature test A 8b...")
    cat("max. error ", max(error))
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
-     {print.test.value(c(tst), digits=18); all.ok <- F }
+     {printTestValue(c(tst), digits=18); all.ok <- F }
 
   if (! all.ok) stop("some tests FAILED")

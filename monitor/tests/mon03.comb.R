@@ -1,12 +1,10 @@
-   require("ts",      warn.conflicts=TRUE)
-   require("dse2",    warn.conflicts=TRUE)
-   require("dsepadi", warn.conflicts=TRUE)
-   require("monitor", warn.conflicts=TRUE)
+   require("ts") #,      warn.conflicts=TRUE)
+   require("dse2") #,    warn.conflicts=TRUE)
+   require("dsepadi") #, warn.conflicts=TRUE)
+   require("monitor") #, warn.conflicts=TRUE)
    
 #   A TS PADI server is necessary for these tests.
-#   The next line is only necessary to remove this in an old version which set
-#     home in frame 0. (I'll never do that again.)
-#   if (is.S()) remove("DSE.HOME", where=0) 
+
    require("padi",    warn.conflicts=TRUE)
 
  Sys.info()
@@ -47,7 +45,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
  #  work as originally specified. 
 
   server <- Sys.info()[["nodename"]]
-  db     <- paste(DSE.HOME,"/data/monitoring.test.db",sep="")
+  db     <- paste(.path.package("monitor"),"/data/monitoring.test.db",sep="")
 
   if (synopsis & !verbose) cat("All combination monitor tests ...")
   all.ok <- TRUE
@@ -77,7 +75,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 #      output.transforms= rep("percent.change",4),
       db=db, server=server,pad.end =TRUE)
 
-  source(paste(DSE.HOME,"/data/monitoring.test.info", sep=""))
+  source(paste(.path.package("monitor"),"/data/monitoring.test.info", sep=""))
 
   v.data <- verification.data
   v.data$output <- v.data$output[,c(1,2,6,7)]
@@ -103,7 +101,7 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 
   if (verbose) cat("combination monitor test 3 ... ")
   overriding.data <- get.overriding.data(
-                   file=paste(DSE.HOME,"/data/monitoring.test.data", sep=""),
+                   file=paste(.path.package("monitor"),"/data/monitoring.test.data", sep=""),
                    m=1, p=10,
                    first.input="diff(R90=B14017)", 
                    first.output="%change(CPI=P484549)",  

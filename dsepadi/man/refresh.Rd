@@ -15,7 +15,7 @@ the data from a database.
 }
 \value{A time series object with class depending on the source information.}
 \examples{
-if(require("padi")) {
+if(require("padi") && checkPADIserver("ets")) {
    d <- tfPADIdata("D1", server="ets")
    d <- freeze(d)
    d <- refresh(d) }

@@ -38,7 +38,7 @@ might be more convenient elsewhere.
 }
 \examples{
 
-if (require("padi")){
+if (require("padi") && checkPADIserver("ets")){
  z1 <- freeze("D1")
  z2 <- freeze(tfPADIdata(c("B1630", "B1642"), server="ets"))
   }

@@ -13,24 +13,57 @@
 
 ############################################################################
 
-# A copy of prcomponents may be added to R's mva??
-prcomponents <- function(x, center=TRUE, scale=TRUE, N=nrow(x)-1)
+
+# prcomp does orthogonal proj while cancor gives orthonormal result
+#   (so proj changes scaling and 
+#reverse has to be inverse not just transpose !!!!, thus square
+
+
+######################################################################
+
+#    concentrate data
+
+######################################################################
+
+
+# Note that concentrated data is really the original data with information for
+#  concentrating it. That way the original data is not lost and is available
+#  for comparison (as in tfplot). The truely concentrated data is produced on
+#  demand by concentrateOnly.
+
+est.projection <- function(data, center=TRUE, scale=TRUE, ...) UseMethod("est.projection")
+
+est.projection.default <- function(data, center=TRUE, scale=TRUE, n=1, ...)
+ {#  (... further arguments, currently disregarded)
+  # data should be a matrix. n is number of components to keep.
+  # prcomponents may be added to mva as prcomp or princomp??
+  prcomponents <- function(x, center=TRUE, scale=TRUE, N=nrow(x)-1)
    {if (center) center <- apply(x,2,mean)
     else        center <- rep(0, ncol(x))
     if (scale)  scale  <- sqrt(apply(x,2,var)) 
     else        scale  <- rep(1, ncol(x))
-    s <- svd(sweep(sweep(as.matrix(x),2, center),2, scale, FUN="/"))
+    s <- La.svd(sweep(sweep(as.matrix(x),2, center),2, scale, FUN="/"))
     # remove anything corresponding to effectively zero singular values.
-    rank <- sum(s$d > (s$d[1]*sqrt(.Machine$double.eps)))
-    if (rank < ncol(x)) s$v <- s$v[,1:rank, drop=FALSE]
-    s$d <- s$d/sqrt(N)
-    
-#   r <- list(sdev=s$d, proj=s$v,x=x %*% s$v, center=center, scale=scale)
-    r <- list(sdev=s$d, proj=s$v, center=center, scale=scale)
-    r
-}
+    rank <- sum(abs(s$d) > (abs(s$d[1])*sqrt(.Machine$double.eps)))  
+#   list(sdev=s$d/sqrt(N), proj=s$v,x=x %*% s$v, center=center, scale=scale)
+#   list(sdev=s$d/sqrt(N), proj=s$v, center=center, scale=scale)
+#  switched to La.svd
+    list(sdev=s$d/sqrt(N),
+         proj=Conj(t(s$vt[1:rank, , drop=FALSE])), 
+	 center=center, scale=scale)
+   }
+  data <- freeze(data)
+  if (ncol(data) < n) stop("n cannot exceed columns of data.")
+  conc<- prcomponents(data,center=center, scale=scale)
+  conc$proj <- conc$proj[,1:n, drop=FALSE]
+  classed(conc, "concentrator") # constructor
+ }
 
-cancorrelation <- function(x, y, xcenter=TRUE, ycenter=TRUE, xscale=TRUE, yscale=TRUE)
+est.projection.TSdata <- function(data, center=TRUE, scale=TRUE, m=1,p=1, ...)
+ {#  (... further arguments, currently disregarded)
+  # use principle components if there is just input or just output, otherwise
+  # otherwise use canonical correlation.
+  cancorrelation <- function(x, y, xcenter=TRUE, ycenter=TRUE, xscale=TRUE, yscale=TRUE)
    {# scaling does not affect the result but is useful for backward calculation?
     if (! require("mva")) stop("cancorrelation requires library mva.")
     if (xcenter) xcenter <- apply(x,2,mean)
@@ -47,40 +80,7 @@ cancorrelation <- function(x, y, xcenter=TRUE, ycenter=TRUE, xscale=TRUE, yscale
     r <- list(xcoef=s$xcoef, ycoef=s$ycoef, cor=s$cor,
               xcenter=xcenter, ycenter=ycenter, xscale=xscale, yscale=yscale)
     r
-}
-
-# prcomp does orthogonal proj while cancor gives orthonormal result
-#   (so proj changes scaling and 
-
-#reverse has to be inverse not just transpose !!!!, thus square
-
-
-######################################################################
-
-#    concentrate data
-
-######################################################################
-
-
-# Note that concentrated data is really the original data with information for
-#  concentrating it. That way the original data is not lost and is available
-#  for comparison (as in tfplot). The truely concentrated data is produced on
-#  demand by concentrateOnly.
-
-est.projection <- function(data, ...) {UseMethod("est.projection")}
-
-est.projection.default <- function(data, center=TRUE, scale=TRUE, n=1)
- {# data should be a matrix. n is number of components to keep.
-  data <- freeze(data)
-  if (ncol(data) < n) stop("n cannot exceed columns of data.")
-  conc<- prcomponents(data,center=center, scale=scale)
-  conc$proj <- conc$proj[,1:n, drop=FALSE]
-  classed(conc, "concentrator") # constructor
- }
-
-est.projection.TSdata <- function(data, center=TRUE, scale=TRUE, m=1,p=1)
- {# use principle components if there is just input or just output, otherwise
-  # otherwise use canonical correlation.
+   }
   data <- freeze(data)
   conc <- list()
   if ((0!= nseriesInput(data)) & (0!=nseriesOutput(data)))
@@ -109,16 +109,12 @@ est.projection.TSdata <- function(data, center=TRUE, scale=TRUE, m=1,p=1)
  }
 
 
+concentrate <- function(d, conc=NULL, center=TRUE, scale=TRUE, ...)
+   UseMethod("concentrate")
 
-est.concentrate <- function(data, m=1,p=1, center=TRUE, scale=TRUE)
- {warning("est.concentrate is depreciated. Use concentrate(data, conc=est.projection(...))")
-  concentrate(data, conc=est.projection(data, m=m, p=p, center=center, scale=scale))
-  }
- 
-concentrate <- function(d, ...) {UseMethod("concentrate")}
-
-concentrate.default <- function(d, center=TRUE,   scale=TRUE,  n=1, conc=NULL)
- {#conc=est.projection(d, center=center, scale=scale, n=n)) misses freeze
+concentrate.default <- function(d, conc=NULL, center=TRUE, scale=TRUE, n=1, ...)
+ {#  (... further arguments, currently disregarded)
+  #conc=est.projection(d, center=center, scale=scale, n=n)) misses freeze
   # conc (projection) as returned by prcomp (see est.projection),
   d <- freeze(d)
   if (is.null(conc)) conc <- est.projection(d, center=center, scale=scale, n=n)
@@ -128,8 +124,9 @@ concentrate.default <- function(d, center=TRUE,   scale=TRUE,  n=1, conc=NULL)
   classed(d, c("concentrate", dseclass(d))) #constructor concentrate.default
  }
 
-concentrate.TSdata <- function(d, center=TRUE, scale=TRUE,  m=1, p=1, conc=NULL)
- {#conc=est.projection(d, center=center, scale=scale, m=m, p=p)) misses freeze
+concentrate.TSdata <- function(d, conc=NULL, center=TRUE, scale=TRUE, m=1, p=1, ...)
+ {#  (... further arguments, currently disregarded)
+  #conc=est.projection(d, center=center, scale=scale, m=m, p=p)) misses freeze
   d <- freeze(d)
   if (is.null(conc)) conc <- est.projection(d, center=center, scale=scale, m=m, p=p)
   else conc <- concentrator(conc)
@@ -154,7 +151,7 @@ print.concentrate <- function(x, ...)
 
 
 
-concentrateOnly <- function(d) {UseMethod("concentrateOnly") }
+concentrateOnly <- function(d) UseMethod("concentrateOnly")
 
 concentrateOnly.concentrate <- function(d)
  {#return concentrate (as simple data) with original and concentrator removed
@@ -243,12 +240,13 @@ reconstitute <- function(d, conc=NULL, names=NULL) {UseMethod("reconstitute")}
 
 TSdata.TSdataconcentrate <- reconstitute 
 
-reconstitute.default <- function(d, conc, names=seriesNames(d))
+reconstitute.default <- function(d, conc=NULL, names=seriesNames(d))
  {# this actually concentrates the data and then reconstitutes it.
+  if(is.null(conc)) stop("conc argument must be supplied to reconstitute.default.")
   conc <- concentrator(conc)
-  inv <- svd(conc$proj) 
+  inv <- La.svd(conc$proj) 
   newd <- freeze(d)
-  newd <- newd %*% inv$v %*% sweep(t(inv$u), 1, 1/inv$d, "*")
+  newd <- newd %*% Conj(t(inv$v)) %*% sweep(t(inv$u), 1, 1/inv$d, "*")
   newd <-  sweep(sweep(newd,2, conc$scale, FUN="*"),2, -conc$center)
   tframe(newd) <- tframe(d)
   if (!is.null(names)) seriesNames(newd) <- paste("recon.", names)
@@ -321,10 +319,13 @@ tfplot.TScanonical.prediction <- function(x, start.=NULL, end.=NULL,
 }
 
 	 	 
-start.TScanonical.prediction <- function(x){start(concentrateOriginal(x))}
-end.TScanonical.prediction <- function(x){end(concentrateOriginal(x))}
+start.TScanonical.prediction <- function(x, ...){start(concentrateOriginal(x), ...)}
+#  (... further arguments, currently disregarded)
+end.TScanonical.prediction <- function(x, ...){end(concentrateOriginal(x), ...)}
+#  (... further arguments, currently disregarded)
 periods.TScanonical.prediction <- function(x){periods(concentrateOriginal(x))}
-frequency.TScanonical.prediction <- function(x){frequency(concentrateOriginal(x))}
+frequency.TScanonical.prediction <- function(x, ...){frequency(concentrateOriginal(x), ...)}
+#  (... further arguments, currently disregarded)
 
 
 percent.change.TScanonical.prediction <-function (obj, base=NULL, lag=1,
@@ -344,22 +345,24 @@ percent.change.TScanonical.prediction <-function (obj, base=NULL, lag=1,
 ######################################################################
 
 
-est.concentrated.model <- function(data, estimation="est.VARX.ls",
+est.concentratedModel <- function(data, estimation="est.VARX.ls",
                                          estimation.args=NULL, ...)
-     {UseMethod("est.concentrated.model")}
+     UseMethod("est.concentratedModel")
 
-est.concentrated.model.TSdata <- function(data, estimation="est.VARX.ls",  
-              estimation.args=NULL, m=1, p=1, center=TRUE, scale=TRUE) 
-  {d <- concentrate(data, conc=est.projection(data, m=m, p=p,
+est.concentratedModel.TSdata <- function(data, estimation="est.VARX.ls",  
+              estimation.args=NULL, m=1, p=1, center=TRUE, scale=TRUE, ...) 
+  {#  (... further arguments, currently disregarded)
+   d <- concentrate(data, conc=est.projection(data, m=m, p=p,
                                         center=center, scale=scale))
-   est.concentrated.model(d, estimation=estimation, 
+   est.concentratedModel(d, estimation=estimation, 
                              estimation.args=estimation.args)
   }
 
-est.concentrated.model.TSdataconcentrate <- function(data, 
+est.concentratedModel.TSdataconcentrate <- function(data, 
      estimation="est.VARX.ls", 
-     estimation.args=NULL, warn=TRUE) 
-  {d <- concentrateOnly(data)
+     estimation.args=NULL, warn=TRUE, ...) 
+  {#  (... further arguments, currently disregarded)
+   d <- concentrateOnly(data)
    m <-TSmodel(do.call(estimation, append(list(d), estimation.args)))
 # next should be   concentrator(m) <- concentrator(data)
    m$conc <- concentrator(data)
@@ -393,13 +396,13 @@ l.TSmodelconcentrate <- function(model,data, sampleT=nrow(output.data(data)),
   }
   
 
-check.consistent.dimensions.TSmodelconcentrate <- function(model, data=NULL)
-  {m <- classed(model, dseclass(model)[-1]) # deconstructor 
+check.consistent.dimensions.TSmodelconcentrate <- function(obj1, obj2=NULL)
+  {m <- classed(obj1, dseclass(obj1)[-1]) # deconstructor 
    check.consistent.dimensions(m)
-   if(!is.null(data))
-       {if(nseriesOutput(model) != nseriesOutput(data))
+   if(!is.null(obj2))
+       {if(nseriesOutput(obj1) != nseriesOutput(obj2))
 	    stop("Model and data output dimensions do not correspond.")
-        if( nseriesInput(model) != nseriesInput(data))
+        if( nseriesInput(obj1) != nseriesInput(obj2))
 	    stop("Model and data input dimensions do not correspond.")
        }
    return(TRUE)
@@ -501,11 +504,6 @@ select.series.concentrate <-function (x, series = seq(nrow(concentrator(x)$proj)
   classed(x, cls)
  }
 
-
-
-
-
-tfplot.concentrated <- function(x, ...){stop("defunct. Use concentrated.tfplot")}
 
 concentrated.tfplot <- function(x, ...) {tfplot(concentrateOnly(x), ...)}
 

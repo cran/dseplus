@@ -4,9 +4,6 @@
    require("dsepadi")
    require("monitor")
 #   A TS PADI server is necessary for these tests.
-#   The next line is only necessary to remove this in an old version which set
-#     home in frame 0. (I'll never do that again.)
-#   if (is.S()) remove("DSE.HOME", where=0) 
 
   Sys.sleep(15) # just in case a previous server has not yet died
 
@@ -49,7 +46,7 @@ cleanup.script <- PADIcleanupScript()
  #  work as originally specified. 
 
   server <- Sys.info()[["nodename"]]
-  db     <- paste(DSE.HOME,"/data/monitoring.test.db",sep="")
+  db     <- paste(.path.package("monitor"),"/data/monitoring.test.db",sep="")
 
   all.ok <- TRUE
 
@@ -90,7 +87,7 @@ cleanup.script <- PADIcleanupScript()
 
 # the following sets ets.test.data, monitor.test.data, verification.data
 #      and  monitoring.test
-  source(paste(DSE.HOME,"/data/monitoring.test.info", sep=""))
+  source(paste(.path.package("monitor"),"/data/monitoring.test.info", sep=""))
 
   cat("simple monitor test 2 ...\n") 
   v.data <- verification.data
@@ -163,7 +160,7 @@ cleanup.script <- PADIcleanupScript()
      {if (any(is.na(error)))  cat("na's: ",  is.na(error), "\n")
       if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
       if (fuzz.small < error) cat("error: ", error, "\n")
-      print.test.value(c(tst), digits=18)
+      printTestValue(c(tst), digits=18)
       all.ok <- FALSE
      }
 

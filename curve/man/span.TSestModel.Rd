@@ -7,7 +7,7 @@
     \method{span}{TSestModel}(func, x=coef(func),
         func.args=list(Shape=TSmodel(func), data=TSdata(func)),
         d=0.01, eps=1e-4, r=6,
-	show.details=FALSE, compiled=.DSECOMPILED)
+	show.details=FALSE, compiled=.DSECOMPILED, ...)
 }
 \arguments{
     \item{func}{a TSestModel object which is used as a function mapping
@@ -24,6 +24,7 @@
         be shown.}
     \item{compiled}{use the compiled version of the code. (FALSE only for
        debugging.)}
+    \item{...}{(further arguments, currently disregarded).}
 }
 \value{The singular values of the matrix of tangent vectors are returned.
 }

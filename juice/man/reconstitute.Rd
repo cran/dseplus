@@ -9,6 +9,11 @@
 \description{reconstitute}
 \usage{
     reconstitute(d, conc=NULL, names=NULL)
+    \method{reconstitute}{default}(d, conc=NULL, names=seriesNames(d))
+    \method{reconstitute}{concentrate}(d, conc=concentrator(d),
+                                    names=seriesNames(d))
+    \method{reconstitute}{TSdataconcentrate}(d, conc=concentrator(d),
+                                    names=seriesNames(d))
     is.TSdatareconstitute(x)
 }
 \arguments{

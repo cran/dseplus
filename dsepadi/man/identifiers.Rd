@@ -23,8 +23,10 @@ input and output series identifiers.
 \code{\link{sourcedb}}
 }
 \examples{
+ if(require("padi") && checkPADIserver("ets")) {
   d <- tfPADIdata("D1", server="ets")
   identifiers(d)
+  }
  }
 %\keyword{tframe}
 \keyword{ts}

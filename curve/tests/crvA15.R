@@ -1,5 +1,6 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=FALSE)
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
  
@@ -19,13 +20,13 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 # from user guide
 
-  VARmodel<-ARMA(A=array(c(1,.5,.3,0,.2,.1,0,.2,.05,1,.5,.3),c(3,2,2)),
+  ARMAmodel1<-ARMA(A=array(c(1,.5,.3,0,.2,.1,0,.2,.05,1,.5,.3),c(3,2,2)),
              B=array(c(1,.2,0,.1,0,0,1,.3),c(2,2,2)), C=NULL) 
 
-# Note this gives a terrible fit.
-  VARmodel<-l(VARmodel,simulate(VARmodel, rng=test.rng))
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
+
+  ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng))
+  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel<- l(to.ARMA(SSmodel), ARMAmodel1$data)
 
 #  As of 2001.3 to.ARMA was changed to call fix.constants and eliminate some
 #  near zero parameter. These were not only the cause of considerable numerical
@@ -50,6 +51,6 @@ good <- c(18, 200,  0.05,  2.34112169445768981,   2.29032831656791869,
    cat("max. error ", max(error))
      
    if (any(is.na(error)) || any(is.nan(error)) || 1e-5 < error) 
-     {print.test.value(c(tst), digits=18); all.ok <- F }
+     {printTestValue(c(tst), digits=18); all.ok <- F }
 
   if (! all.ok) stop("some tests FAILED")

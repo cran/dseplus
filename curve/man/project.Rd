@@ -9,7 +9,7 @@
 \arguments{
     \item{c1}{curvature summary. See details.}
     \item{c2}{curvature summary. See details.}
-    \item{signif}{passed to \code{curvature.stats}.}
+    \item{signif}{passed to \code{curvatureStats}.}
     \item{eps}{significance tolerance for singular values. See details.}
     \item{fuzz}{tolerance for comparing parameter points. See details.}
     \item{show.details}{logical indicating if detailed calculations should 

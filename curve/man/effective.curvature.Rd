@@ -41,7 +41,7 @@ Bates and Watts(1983), 'Nonlinear Regression Analysis and Its Applications.'
 \seealso{
     \code{\link{curvature}}
     \code{\link{project}}
-    \code{\link{curvature.stats}}
+    \code{\link{curvatureStats}}
     \code{\link{rel.curvature}}
 }
 %\keyword{DSE}

@@ -6,6 +6,8 @@
 \usage{
     fprint(x, super.title=NULL, sub.title=NULL,
           digits=options()$digits, space=" ", file=NULL, append=FALSE)
+    \method{fprint}{tagged}(x, super.title=NULL, sub.title=NULL, 
+          digits=options()$digits, space=" ", file=NULL, append=FALSE) 
 }
 \arguments{
     \item{x}{a matrix of time series data.}

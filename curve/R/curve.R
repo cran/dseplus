@@ -1,4 +1,3 @@
-
 ############################################################################
 
 #    functions for gradient calculation
@@ -112,16 +111,16 @@ project <- function(c1, c2, signif = 0.05, eps=1e-5, fuzz=1e-14,
    cat("   1st model=", p1 *(1+p1)/2,
        ",2nd model=", p2 *(1+p2)/2,"\n" )   
 
-   d1 <- svd(c1$Dlist$D[,1:p1])$d
-   d2 <- svd(c2$Dlist$D[,1:p2])$d
-   dj <- svd(cbind(c1$Dlist$D[,1:p1], c2$Dlist$D[,1:p2]))$d
+   d1 <- La.svd(c1$Dlist$D[,1:p1])$d
+   d2 <- La.svd(c2$Dlist$D[,1:p2])$d
+   dj <- La.svd(cbind(c1$Dlist$D[,1:p1], c2$Dlist$D[,1:p2]))$d
    cat("span of tangent vectors:       1st model=", sum(d1 > eps*d1[1]) )
    cat(", 2nd model=",         sum(d2 > eps*d2[1]))
    cat(", jointly=",       sum(dj > eps*dj[1]), "\n")
  
-   d1 <- svd(c1$Dlist$D[,-(1:p1)])$d
-   d2 <- svd(c2$Dlist$D[,-(1:p2)])$d
-   dj <- svd(cbind(c1$Dlist$D[,-(1:p1)], c2$Dlist$D[,-(1:p2)]))$d
+   d1 <- La.svd(c1$Dlist$D[,-(1:p1)])$d
+   d2 <- La.svd(c2$Dlist$D[,-(1:p2)])$d
+   dj <- La.svd(cbind(c1$Dlist$D[,-(1:p1)], c2$Dlist$D[,-(1:p2)]))$d
    cat("span of acceleration vectors:  1st model=", sum(d1 > eps*d1[1]) )
    cat(", 2nd model=",         sum(d2 > eps*d2[1]))
    cat(", jointly=",       sum(dj > eps*dj[1]), "\n")
@@ -150,7 +149,7 @@ project <- function(c1, c2, signif = 0.05, eps=1e-5, fuzz=1e-14,
    N2andT2inc1 <- qr.qty(QRofD1, c2$Dlist$D           )
 
    N1inN1 <- qr.qty(QRofD1, c1$Dlist$D[,(p1+1):m1] )[(p1+1):m1,,drop=FALSE]  
-#   v1 <- svd(N2andT2inT1)
+#   v1 <- svd(N2andT2inT1) should use La.svd
 #   v2 <- svd(T1inT1)
 browser()
 
@@ -164,21 +163,22 @@ browser()
 #    zz <- list(C.parameter=z[1:p1,,     ,drop=FALSE],
 #                  C.intrinsic=z[(p1+1):m1,,,drop=FALSE])
 
-# svd(   zz$C.intrinsic[1,,])$d
+# svd(   zz$C.intrinsic[1,,])$d   should use La.svd
 # svd( c1$C$C.intrinsic[1,,])$d
 # svd( c2$C$C.intrinsic[1,,])$d
 # svd(C2in1$C.intrinsic[1,,])$d
 
 # svd( c1$C$C.intrinsic[1,,])$d / svd(C2in1$C.intrinsic[1,,])$d[1:2]
 
-# eigen( c1$C$C.intrinsic[1,,])$values
-# eigen( c2$C$C.intrinsic[1,,])$values
-# eigen(C2in1$C.intrinsic[1,,])$values
+# use , symmetric=?, only.values=TRUE
+# La.eigen( c1$C$C.intrinsic[1,,])$values
+# La.eigen( c2$C$C.intrinsic[1,,])$values
+# La.eigen(C2in1$C.intrinsic[1,,])$values
 
    effective<-effective.curvature(cur1on2,QRofD2, residual, s.sqr,
                       show.details=show.details, warn=warn)
 
-   cstats1on2 <-curvature.stats(cur1on2, N, signif=signif)
+   cstats1on2 <-curvatureStats(cur1on2, N, signif=signif)
 
    R1 <- qr.qty(QRofD1, c2$Dlist$D )[1:m1,,drop=FALSE]  
    cur1 <- rel.curvature(s.sqr,R1[1:p1,1:p1], R1[,(p1 + 1):m1], 
@@ -186,7 +186,7 @@ browser()
    effective1<-effective.curvature(cur1,QRofD1, residual, s.sqr,
                       show.details=show.details)
 
-   cstats1 <-curvature.stats(cur1, N, signif=signif)
+   cstats1 <-curvatureStats(cur1, N, signif=signif)
 browser()
 
    result <- rbind(c1$stats,c(p2, N, signif, cstats1on2,
@@ -234,10 +234,10 @@ span <- function (func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
       show.details=FALSE, ...)  UseMethod("span")
 
 span.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
-      show.details=FALSE)
-{
-#   v       reduction factor. This could be a parameter but ...
-#             N.B. must be 2 for richarson formula as used.
+      show.details=FALSE, ...)
+{#  (... further arguments, currently disregarded)
+ #   v       reduction factor. This could be a parameter but ...
+ #             N.B. must be 2 for richarson formula as used.
 
   v <- 2
   p <- length(x)     #  number of parameters (= dim of M if not over parameterized.
@@ -267,7 +267,7 @@ span.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
         }
       NULL
      }
-   svd(D)$d
+   La.svd(D)$d
 }
 
 
@@ -280,22 +280,24 @@ span.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
 print.curvature <- function(x, ...)  { print(x$stats, ...) }
 
 curvature <- function (func, ...)  
-{ # calculate the Bates and Watts intrinsic and parameter effects curvature.
+ # calculate the Bates and Watts intrinsic and parameter effects curvature.
   UseMethod("curvature")
-}
+
 
 
 curvature.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
-      signif=0.05, show.details=FALSE, warn=TRUE)
-{# func is a function
+      signif=0.05, show.details=FALSE, warn=TRUE, ...)
+{#  (... further arguments, currently disregarded)
+  # func is a function
  curvature(genD.default(func,x, func.args=func.args, d=d, eps=eps,r=r),
      signif=0.05, show.details=FALSE, warn=warn)
 }
 
 
 curvature.Darray <- function(func, signif = 0.05,
-   show.extra.details=FALSE, show.details=show.extra.details, warn=TRUE)
-{ # Note func is a list of class Darray
+   show.extra.details=FALSE, show.details=show.extra.details, warn=TRUE, ...)
+{#  (... further arguments, currently disregarded)
+# Note func is a list of class Darray
 #  Page references are to Bates and Watts(1983), Nonlinear Regression 
 #   Analysis and Its Applications.
 #   Examples are also from this text. e.g.- model A data set 3.
@@ -370,7 +372,7 @@ curvature.Darray <- function(func, signif = 0.05,
 
    effective<-effective.curvature(cur,QRofD, residual, s.sqr, 
                               show.details=show.extra.details, warn=warn)
-   cstats <-curvature.stats(cur, n, signif=signif)
+   cstats <-curvatureStats(cur, n, signif=signif)
 
    result <- matrix(c(p, n, signif, cstats,
                effective$min.axis.ratio, effective$max.axis.ratio),1,9)
@@ -392,7 +394,7 @@ print.curvatureArray <- function(x, ...)
 
 
 
-curvature.stats <- function(cur, n, signif=0.05)
+curvatureStats <- function(cur, n, signif=0.05)
 {# See documentation for curvature.Darray
  p  <- dim(cur)[2]
  pp <- dim(cur)[1] - p
@@ -434,10 +436,10 @@ effective.curvature <- function(cur, QRofD, residual, s.sqr,
        cat("Effective residual curvature matrix B (Bates and Watts p 260)\n")
        print(B)
      }
-   if ( max(abs(B- t(B))) > 1e-7 ) warning("B is not symmetric.")  #Rbug
-   eigv <- eigen(B)$values
-   if(max(Im(eigv)) >= 1e-15)
-       warning("Calculated eigenvalues have imaginary part.")
+   if ( max(abs(B- t(B))) > 1e-7 ) warning("B is not symmetric.") 
+   eigv <- La.eigen(B, symmetric=TRUE, only.values=TRUE)$values
+   if(max(Im(eigv)) >= 1e-15) 
+          warning("Calculated eigenvalues have imaginary part.")
 
    if(show.details)   {cat("Eigenvalues of B\n"); print(eigv )}
 
@@ -476,7 +478,7 @@ rel.curvature <- function(s.sqr, R11, R2, show.extra.details=FALSE,
  C  <- array(NA,c(m,p2,p2))
    
 # R11.inv <- solve(R11)
- v <-svd(R11)
+ v <-La.svd(R11)
  if (all(v$d == 0)) stop("R11 is completely degenerate.")
  d <- 1/v$d
  illim <- v$d < (v$d[1] * eps)
@@ -484,7 +486,7 @@ rel.curvature <- function(s.sqr, R11, R2, show.extra.details=FALSE,
    {warning("eliminating degenerate subspace for R11.")
     d[illim] <- 0
    }
- R11.inv <- v$v %*% diag(d) %*% t(v$u) 
+ R11.inv <- Conj(t(v$vt)) %*% diag(d) %*% t(v$u) # switched from svd to La.svd
 
  R11.invT <- t(R11.inv)
  if(show.extra.details) 

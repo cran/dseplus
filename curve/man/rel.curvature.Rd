@@ -33,7 +33,7 @@
     \code{\link{curvature}}
     \code{\link{project}}
     \code{\link{effective.curvature}}
-    \code{\link{curvature.stats}}
+    \code{\link{curvatureStats}}
 }
 %\keyword{DSE}
 \keyword{internal}

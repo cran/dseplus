@@ -1,10 +1,10 @@
-\name{curvature.stats}
-\alias{curvature.stats}
+\name{curvatureStats}
+\alias{curvatureStats}
 
 \title{Curvature Statistics Utility Used by Curvature and Project}
 \description{xxx}
 \usage{
-    curvature.stats(cur, n, signif=0.05)
+    curvatureStats(cur, n, signif=0.05)
 }
 \arguments{
     \item{cur}{the relative curvature array. See \code{rel.curvature}.}

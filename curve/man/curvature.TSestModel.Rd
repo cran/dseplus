@@ -5,7 +5,7 @@
 \usage{
     \method{curvature}{TSestModel}(func, x=coef(func),
      func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-      d=0.01, eps=1e-4, r=6, warn=TRUE)
+      d=0.01, eps=1e-4, r=6, warn=TRUE, compiled=TRUE, ...)
 }
 
 \arguments{
@@ -17,7 +17,9 @@
     \item{d}{The fraction of x to use for the initial numerical approximation.}
     \item{eps}{Used instead of d for elements of x which are zero.}
     \item{r}{The number of Richardson improvement iterations.}
-    \item{warn}{see \code{effective.curvature}.}
+    \item{warn}{logical. see \code{effective.curvature}.}
+    \item{compiled}{logical, set FALSE to use curvature.default (for debugging).}
+    \item{...}{arguments passed to other methods (currently ignored).}
 }
 \details{See the generic version of the function.}
 

@@ -9,9 +9,9 @@
 \usage{
     curvature(func, ...)
     \method{curvature}{default}(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
-        signif=0.05, show.details=FALSE, warn=TRUE)
+        signif=0.05, show.details=FALSE, warn=TRUE, ...)
     \method{curvature}{Darray}(func, signif = 0.05,
-        show.extra.details=FALSE, show.details=show.extra.details, warn=TRUE)
+      show.extra.details=FALSE, show.details=show.extra.details, warn=TRUE, ...)
 }
 \arguments{
     \item{func}{a function for the default method, a Darray object, or

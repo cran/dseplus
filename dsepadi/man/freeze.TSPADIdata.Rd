@@ -19,8 +19,8 @@ to a database. See TSPADIdata, tfPADIdata, and freeze for more details.
 }
 \seealso{
   
-\code{\link{freeze}}
-\code{\link{TSdata}}
+\code{\link[tframe]{freeze}}
+\code{\link[dse1]{TSdata}}
 \code{\link{TSPADIdata}}
 }
 \examples{
@@ -29,7 +29,7 @@ to a database. See TSPADIdata, tfPADIdata, and freeze for more details.
          c("ets","", "b820678",  "ytoypc", "price services"),
          c("ets","", "b800938",  "ytoypc", "total unit labour costs")
            ), stop.on.error=TRUE, warn=TRUE )
-   if(require("padi") & require("dse2"))
+   if(require("padi") & require("dse2") && checkPADIserver("ets"))
       z <- freeze(inflation.sa.names)
 }
 %\keyword{DSE}

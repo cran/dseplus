@@ -4,17 +4,18 @@
 \description{Modify a TSPADIdata object with new information}
 \usage{
     \method{modify}{TSPADIdata}(obj,
+                         start=NA, end=NA, frequency=NA, 
+                         pad=NA, pad.start=pad, pad.end=pad,
+                         server=NA, db=NA, start.server=NA, 
+                         server.process=NA, cleanup.script=NA,
+                         stop.on.error=NA, warn=NA,
+			 append=NA, use.tframe=NA,
                         output=NA,             input=NA,
                         output.server=NA,      input.server=NA,
                         output.db=NA,          input.db=NA,
                         output.transforms=NA,  input.transforms=NA, 
                         output.names=NA,       input.names=NA,
-                         start=NA, end=NA, frequency=NA, 
-                         pad.start=NA, pad.end=NA,
-                         server=NA, db=NA, start.server=NA, 
-                         server.process=NA, cleanup.script=NA,
-                         stop.on.error=NA, warn=NA)
-  
+			...)  
 }
 
 \arguments{
@@ -33,6 +34,7 @@
     \item{start}{see tfPADIdata descriptions.}
     \item{end}{see tfPADIdata descriptions.}
     \item{frequency}{see tfPADIdata descriptions.}
+    \item{pad}{see tfPADIdata descriptions.}
     \item{pad.start}{see tfPADIdata descriptions.}
     \item{pad.end}{see tfPADIdata descriptions.}
     \item{start.server}{see tfPADIdata descriptions.}
@@ -42,6 +44,9 @@
     \item{cleanup.script}{see tfPADIdata descriptions.}
     \item{stop.on.error}{see tfPADIdata descriptions.}
     \item{warn}{see tfPADIdata descriptions.}
+    \item{append}{see tfPADIdata descriptions.}
+    \item{use.tframe}{see tfPADIdata descriptions.}
+    \item{...}{arguments to be passed to other methods.}
 }
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{This is the way to modify a TSPADIdata object.}
@@ -58,7 +63,7 @@ inflation.sa.names <- TSPADIdata2(
          c("ets","", "b820678",  "ytoypc", "price services"),
          c("ets","", "b800938",  "ytoypc", "total unit labour costs")
            ), stop.on.error=TRUE, warn=TRUE )
-z <- modify.TSPADIdata(inflation.sa.names, server="newserver")
+z <- modify(inflation.sa.names, server="newserver")
 }
 %\keyword{DSE}
 \keyword{ts}

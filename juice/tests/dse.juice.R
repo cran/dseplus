@@ -1,18 +1,18 @@
   Sys.info()
 
   require("mva"); require("ts")
-  require("dse2") # adds dse1, tframe, and syskern
+  require("dse2") 
+  require("setRNG") 
   version.dse()
 
   require("juice") 
 
-  if (is.R()) data("egJofF.1dec93.data", package="dse1")
-  if (is.S()) source(paste(DSE.HOME, "/data/egJofF.1dec93.data.R", sep=""))
+  data("egJofF.1dec93.data", package="dse1")
 
-  if (is.S()) test.rng <- list(kind="default", normal.kind="default", 
-                       seed=c(13,44,1,25,56,0,6,33,22,13,13,0))
-  if (is.R()) test.rng <- list(kind="default", normal.kind="default",
-                     seed=c( 979)) #, 1479, 1542))
+  test.rng <- if (is.R())  list(kind="default", normal.kind="default",
+                     seed=c( 979)) #, 1479, 1542)) else
+                           list(kind="default", normal.kind="default", 
+                     seed=c(13,44,1,25,56,0,6,33,22,13,13,0))
 
  
 fuzz.small <- 1e-12
@@ -95,9 +95,9 @@ cat("dse juice test 0 ... ")
 
 
   cat("dse juice test 6 ... ")
-#  zm <- est.concentrated.model(z, scale=TRUE, center=TRUE, estimation="bft",
+#  zm <- est.concentratedModel(z, scale=TRUE, center=TRUE, estimation="bft",
 #  z is already a concentrated object so center and scale are not used
-  zm <- est.concentrated.model(z, estimation="bft",
+  zm <- est.concentratedModel(z, estimation="bft",
                                 estimation.args=list(max.lag=2, verbose=FALSE))
   #tfplot(zm)
   zmr <- check.residuals(zm, ac=FALSE, pac=FALSE, plot.=FALSE)
@@ -115,7 +115,7 @@ good <- c(-1.979814544376786,  0.4241402252105713, -0.2758381743875303,
      {if (any(is.na(error)))  cat("na's: ",  is.na(error), "\n")
       if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
       if (fuzz.small < error) cat("error: ", error, "\n")
-      print.test.value(c(tst), digits=18)
+      printTestValue(c(tst), digits=18)
       all.ok <- FALSE 
      }
 
@@ -133,7 +133,7 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
      {if (any(is.na(error)))  cat("na's: ",  is.na(error), "\n")
       if (any(is.nan(error))) cat("nan's: ", is.nan(error), "\n")
       if (fuzz.small < error) cat("error: ", error, "\n")
-      print.test.value(c(tst), digits=18)
+      printTestValue(c(tst), digits=18)
       all.ok <- FALSE
      }
 
@@ -155,8 +155,9 @@ good <- c(11.01131667332406,   3.503769190958172, 5.024697760083122,
         server="ets", start.server=TRUE, server.process="fame.server", 
         cleanup.script="cleanup.fame.server", stop.on.error=TRUE, warn=TRUE)
 
-
 #         c("ets","", "M.BCPI",  "percent.change", "com. price ind."),
+
+# P484549 is discontinued and should be replace with P100000, CPI 1992=100
 
 #   availability(JofF.VAR.data.names)
       JofF.VAR.data <- freeze(JofF.VAR.data.names)

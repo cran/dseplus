@@ -10,7 +10,9 @@
            start=NA, end=NA, frequency=NA, names=NULL, 
            pad=FALSE, pad.start=pad, pad.end=pad,
            use.tframe=TRUE,
-           start.server=NULL, server.process=NULL, cleanup.script=NULL,
+           start.server=FALSE, 
+	   server.process=PADIserverProcess(), 
+	   cleanup.script=PADIcleanupScript(),
            stop.on.error=TRUE, warn=TRUE)
     is.tfPADIdata(obj)
 }
@@ -61,11 +63,13 @@ The transforms a vector of strings, one for each series, giving any
 transformations which should be applied when the data is retrieved (with eval(call()), e.g. "log",  or "" if no transform is to be applied).
 }
 \seealso{
-\code{\link{freeze}}
+\code{\link[tframe]{freeze}}
 }
 \examples{
+if(require("padi")) {
     z <- tfPADIdata( c("seriesA", "seriesB"), server="myserver")
     is.tfPADIdata(z)
+    }
 }
 %\keyword{tframe}
 \keyword{ts}

@@ -1,15 +1,10 @@
    require("monitor")
 
 
-
 tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
 {# A short set of tests of the tagged class methods. 
 
- if      (is.R()) data("eg1.DSE.data.diff", package="dse1")
- if (is.S()) 
-   {source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
-    class(eg1.DSE.data.diff$output) <- class(eg1.DSE.data.diff$input) <- NULL
-    }
+ data("eg1.DSE.data.diff", package="dse1")
 
   if (!is.TSdata(eg1.DSE.data.diff))
      stop("Test data not found. Testing stopped.")

@@ -88,17 +88,19 @@ TSPADIdata2 <- function(input=NULL, output=NULL,
 
 
 modify.TSPADIdata <- function(obj,
+                         start=NA, end=NA, frequency=NA, 
+                         pad=NA, pad.start=pad, pad.end=pad,
+                         server=NA, db=NA, start.server=NA, 
+                         server.process=NA, cleanup.script=NA,
+                         stop.on.error=NA, warn=NA,
+			 append=NA, use.tframe=NA,
                         output=NA,             input=NA,
-                        output.server=NA,      input.server=NA,
+                        output.server=NA,  input.server=NA,
                         output.db=NA,          input.db=NA,
                         output.transforms=NA,  input.transforms=NA, 
                         output.names=NA,       input.names=NA,
-                         start=NA, end=NA, frequency=NA, 
-                         pad.start=NA, pad.end=NA,
-                         server=NA, db=NA, start.server=NA, 
-                         server.process=NA, cleanup.script=NA,
-                         stop.on.error=NA, warn=NA)
-  {
+			...)
+  {#  (... further arguments, currently disregarded)
    if( (!all(is.na(c(input, input.server, input.db, input.transforms))))  |
         !all(is.na(c(start, end, frequency, pad.start, pad.end, server, db, 
            start.server, server.process, cleanup.script, stop.on.error, warn))))
@@ -108,7 +110,8 @@ modify.TSPADIdata <- function(obj,
       pad.start=pad.start, pad.end=pad.end, 
       server=input.server, db=input.db, start.server=start.server, 
       server.process=server.process,  cleanup.script=cleanup.script,
-      stop.on.error=stop.on.error, warn=warn)
+      stop.on.error=stop.on.error, warn=warn, 
+      append=append, use.tframe=use.tframe)
 
    if( (!all(is.na(c(output, output.server, output.db, output.transforms))))  |
         !all(is.na(c(start, end, frequency, pad.start, pad.end, server, db, 
@@ -119,7 +122,8 @@ modify.TSPADIdata <- function(obj,
       pad.start=pad.start, pad.end=pad.end, 
       server=input.server, db=input.db, start.server=start.server, 
       server.process=server.process,  cleanup.script=cleanup.script,
-      stop.on.error=stop.on.error, warn=warn)
+      stop.on.error=stop.on.error, warn=warn,
+      append=append, use.tframe=use.tframe)
     obj
    }
 
@@ -230,8 +234,9 @@ freeze.TSPADIdata <- function(data, timeout=60)
 }
 
 
-availability.TSPADIdata <- function(obj, verbose=TRUE, timeout=60)  
-{# Indicate  dates for which data is available. 
+availability.TSPADIdata <- function(obj, verbose=TRUE, timeout=60, ...)  
+{#  (... further arguments, currently disregarded)
+ # Indicate  dates for which data is available. 
 
  i <- if (0 ==  nseriesInput(obj)) NULL
       else availability( input.data(obj), verbose=verbose)

@@ -8,8 +8,8 @@
 # change much (as would be hoped) but do change more than the tolerance of 
 # these tests. Old values in comments are  strictly for historical reference.
 
- require("dse2")
- require("curve")
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
 
@@ -17,11 +17,7 @@ fuzz.small <- 1e-12
 digits <- 18
 all.ok <- T  
 
- if (is.R()) data("eg1.DSE.data.diff", package="dse1") else 
- if (is.S()) 
-   {source(paste(DSE.HOME, "/data/eg1.DSE.data.diff.R", sep=""))
-    class(eg1.DSE.data.diff$output) <- class(eg1.DSE.data.diff$input) <- NULL
-    }
+ data("eg1.DSE.data.diff", package="dse1")  
 
 # data size affects memory constraints
   data <- eg1.DSE.data.diff
@@ -50,7 +46,7 @@ cat("DSE curvature test B 1 ...")
    cat("max. error ", error)
 
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 
@@ -81,7 +77,7 @@ cat("DSE curvature test B 2 ...")
    cat("max. error ", error)
 
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 
@@ -189,7 +185,7 @@ cat("DSE curvature test B 3 ...")
    cat("max. error ",error)
 
    if (any(is.na(error)) || any(is.nan(error)) || 10*fuzz.small < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 

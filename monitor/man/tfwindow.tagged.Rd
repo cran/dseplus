@@ -10,7 +10,7 @@
 \usage{
     \method{tfwindow}{tagged}(x, start.=NULL, end.=NULL, tf=NULL, warn=TRUE)
     \method{tbind}{tagged}(mat1, mat2)
-    \method{splice}{tagged}(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2))
+    \method{splice}{tagged}(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2), ...)
     \method{select.series}{tagged}(x, series=seq(ncol(x)))
 %    \method{tframe<-}{tagged}(x, value)
 }
@@ -23,10 +23,11 @@
     \item{mat}{see the generic function.}
     \item{mat1}{see the generic function.}
     \item{mat2}{see the generic function.}
-    \item{tag1}{tags for the first matrix. See tags.}
-    \item{tag2}{tags for the first matrix. See tags.}
+    \item{tag1}{tags for the first matrix. See \code{tags}.}
+    \item{tag2}{tags for the second matrix. See \code{tags}.}
     \item{series}{see the generic function.}
     \item{value}{see the generic function.}
+    \item{...}{(further arguments, currently disregarded)}
 }
 \seealso{
     \code{\link[tframe]{tfwindow}},

@@ -17,6 +17,7 @@
     \code{\link{tfPADIdata}}
 }
 \examples{
+if(require("padi") && checkPADIserver("ets")) 
     print(tfPADIdata(c("series1", "series2"), server="ets"))
 }
 %\keyword{tframe}

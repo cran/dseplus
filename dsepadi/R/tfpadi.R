@@ -11,9 +11,6 @@
 # Note: the constructors (e.g. tfPADIdata, TSPADIdata) cannot be generic.
 
 
-
-modify <- function(obj, ...) {UseMethod("modify")} 
-
 # freeze and freeze.default moved to tframe (so everything else can be
 #  included with dsepadi).
 
@@ -22,8 +19,9 @@ availability <- function(obj, ...) UseMethod("availability")
 
 
 availability.default <- function(obj, names=NULL, server="ets", dbname="",
-                       verbose=TRUE, timeout=60, stop.on.error=TRUE, warn=TRUE)  
-{# Indicate  dates for which data is available. 
+                verbose=TRUE, timeout=60, stop.on.error=TRUE, warn=TRUE, ...)  
+{#  (... further arguments, currently disregarded)
+ # Indicate  dates for which data is available. 
  # obj should be a character vector of data identifiers  
  if(!require("padi")) stop("This function requires the padi package.")
  if (1== length(server)) server  <- rep(server, length(obj))
@@ -129,7 +127,9 @@ tfPADIdata <- function(series,  server = "", db= "", transforms= "",
            start=NA, end=NA, frequency=NA, names=NULL, 
            pad=FALSE, pad.start=pad, pad.end=pad,
            use.tframe=TRUE,
-           start.server=NULL, server.process=NULL, cleanup.script=NULL,
+           start.server=FALSE, 
+	   server.process=PADIserverProcess(), 
+	   cleanup.script=PADIcleanupScript(),
            stop.on.error=TRUE, warn=TRUE)
   {# This is the constructor (but see set.tfPADIdata for a prompter).
    if (is.null(series)) return(NULL)
@@ -204,14 +204,22 @@ set.tfPADIdata <- function(preamble=TRUE)
 }
 
 
-modify.tfPADIdata <- function(obj, append=NA, 
-           series=NA, server=NA, db=NA, transforms=NA, 
-           start=NA, end=NA, frequency=NA, names=NA, 
-           pad=NA, pad.start=NA, pad.end=NA,
-           use.tframe=NA,
-           start.server=NA, server.process=NA, cleanup.script=NA,
-           stop.on.error=NA, warn=NA)
-  {
+modify <- function(obj, start=NA, end=NA, frequency=NA, 
+                         pad=NA, pad.start=pad, pad.end=pad,
+                         server=NA, db=NA, start.server=NA, 
+                         server.process=NA, cleanup.script=NA,
+                         stop.on.error=NA, warn=NA,
+			 append=NA, use.tframe=NA, ...) UseMethod("modify") 
+
+modify.tfPADIdata <- function(obj,
+                         start=NA, end=NA, frequency=NA, 
+                         pad=NA, pad.start=pad, pad.end=pad,
+                         server=NA, db=NA, start.server=NA, 
+                         server.process=NA, cleanup.script=NA,
+                         stop.on.error=NA, warn=NA,
+			 append=NA, use.tframe=NA,
+                     series=NA, transforms=NA, names=NA, ...)
+  {#  (... further arguments, currently disregarded)
    if (!is.na(series))     obj[1,] <- series
    if (!is.na(server))     obj[2,] <- server
    if (!is.na(db))         obj[3,] <- db
@@ -283,11 +291,11 @@ print.tfPADIdata <- function(x, ...)
    invisible(x)
   }
 
-start.tfPADIdata <- function(x)
+start.tfPADIdata <- function(x, ...)
      {if(is.null(attr(x, "start"))) NA else attr(x, "start")}
-end.tfPADIdata <- function(x)
+end.tfPADIdata <- function(x, ...)
      {if(is.null(attr(x, "end")))   NA else attr(x, "end")}
-frequency.tfPADIdata <- function(x)
+frequency.tfPADIdata <- function(x, ...)
      {if(is.null(attr(x, "frequency")))   NA else attr(x, "frequency")}
 periods.tfPADIdata <- function(x) NA  # could be better
 seriesNames.tfPADIdata <- function(x) {dimnames(x)[[2]]}
@@ -372,8 +380,9 @@ freeze.tfPADIdata <- function(data, timeout=60)
  r
 }
 
-availability.tfPADIdata <- function(obj, verbose=TRUE, timeout=60)  
-{# Indicate  dates for which data is available.
+availability.tfPADIdata <- function(obj, verbose=TRUE, timeout=60, ...)  
+{#  (... further arguments, currently disregarded)
+# Indicate  dates for which data is available.
  # This requires retrieving series individually so they are not truncated.
  if(!require("padi")) stop("This function requires the padi package.")
 

@@ -2,11 +2,9 @@
 \alias{set.tfPADIdata}
 \title{Prompt for series names}
 
-\description
-{Prompt for data series names and locations and create a data object.}
-\usage{
-    set.tfPADIdata(preamble=TRUE)
-}
+\description{Prompt for data series names and locations and 
+create a data object.}
+\usage{set.tfPADIdata(preamble=TRUE)}
 \arguments{
     \item{preamble}{a logical indicating if the description of how to enter data
     should be printed.}
@@ -19,7 +17,7 @@ available on the database (and becomes a time series matrix), or it may
 be left dynamic, in which case it is of class 'tfPADIdata' and the discription can be used anytime to retrieve data.
 }
 \seealso{
-\code{\link{freeze}}
+\code{\link[tframe]{freeze}}
 \code{\link[dse1]{TSdata}}
 \code{\link[dse1]{TSdata.object}}
 }

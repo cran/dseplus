@@ -3,11 +3,11 @@
 \title{check.consistent.dimensions Specific Methods}
 \description{See the generic function description.}
 \usage{
-    \method{check.consistent.dimensions}{TSmodelconcentrate}(model, data=NULL)
+    \method{check.consistent.dimensions}{TSmodelconcentrate}(obj1, obj2=NULL)
 }
 \arguments{
-    \item{model}{a \code{TSmodelconcentrate} object.}
-    \item{data}{a matrix of time series or a TSdata object.}
+    \item{obj1}{a \code{TSmodelconcentrate} object.}
+    \item{obj2}{a matrix of time series or a TSdata object.}
 }
 
 \seealso{ \code{\link[tframe]{check.consistent.dimensions}} }

@@ -1,17 +1,17 @@
-\name{est.concentrated.model}
-\alias{est.concentrated.model}
-\alias{est.concentrated.model.TSdata}
-\alias{est.concentrated.model.TSdataconcentrate}
+\name{est.concentratedModel}
+\alias{est.concentratedModel}
+\alias{est.concentratedModel.TSdata}
+\alias{est.concentratedModel.TSdataconcentrate}
 
 \title{Estimate a Concentrated Model}
-\description{est.concentrated.model}
+\description{est.concentratedModel}
 \usage{
-    est.concentrated.model(data, estimation="est.VARX.ls",
+    est.concentratedModel(data, estimation="est.VARX.ls",
                            estimation.args=NULL, ...)
-    \method{est.concentrated.model}{TSdata}(data, estimation="est.VARX.ls",  
-                     estimation.args=NULL, m=1, p=1, center=TRUE, scale=TRUE)
-    \method{est.concentrated.model}{TSdataconcentrate}(data, 
-                   estimation="est.VARX.ls", estimation.args=NULL, warn=TRUE)
+    \method{est.concentratedModel}{TSdata}(data, estimation="est.VARX.ls",  
+               estimation.args=NULL, m=1, p=1, center=TRUE, scale=TRUE, ...)
+    \method{est.concentratedModel}{TSdataconcentrate}(data, 
+                estimation="est.VARX.ls", estimation.args=NULL, warn=TRUE, ...)
 }
 \arguments{
     \item{data}{A TSdata or TSdataconcentrate object.}
@@ -43,7 +43,7 @@
 
 \examples{
     if(is.R()) data("eg1.DSE.data.diff", package="dse1")
-    model <- est.concentrated.model(eg1.DSE.data.diff)
+    model <- est.concentratedModel(eg1.DSE.data.diff)
 }
 %\keyword{DSE}
 \keyword{ts}

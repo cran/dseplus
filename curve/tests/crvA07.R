@@ -1,5 +1,6 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=FALSE)
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
  
@@ -37,7 +38,7 @@ cat("DSE curvature test A 7a...\n")
    cat("max. error ", max(error))
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 
@@ -57,7 +58,7 @@ cat("DSE curvature test A 7b...\n")
    cat("max. error ", max(error))
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 

@@ -29,10 +29,10 @@ a mechanism for detecting large data revisions or re-basing.
 \code{\link{TSPADIdata}}
 \code{\link{set.TSPADIdata}}
 \code{\link{set.tfPADIdata}}
-\code{\link{freeze}}
+\code{\link[tframe]{freeze}}
 }
 \examples{
-if(require("padi") & require("dse2")) {
+if(require("padi") & require("dse2") && checkPADIserver("ets")) {
    dnames <- TSPADIdata(output="D1", server="ets")
    d <- freeze(dnames)
    retrieve.and.verify.data(dnames, verification.data=d)}

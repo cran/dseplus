@@ -8,12 +8,12 @@
     span(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
       show.details=FALSE, ...)
     \method{span}{default}(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
-      show.details=FALSE)
+      show.details=FALSE, ...)
 }
 \arguments{
     \item{func}{a function which returns the residual vector for a given
          parameter vector.}
-    \item{...}{arguments to be passed to other methods.}
+    \item{...}{arguments passed to other methods.}
     \item{x}{parameter vector first argument to function func indicating the
         point with respect to which the derivative is calculated.}
     \item{func.args}{list with additional argument to function \code{func}.}

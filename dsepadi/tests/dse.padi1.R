@@ -1,5 +1,6 @@
-# These set of tests will not work unless the PADI interface is
+# These  tests are skipped unless the PADI interface is
 #   also installed (available at http://www.bank-banque-canada.ca/pgilbert)
+#   and they fail it it is installed but not working.
 
    require("ts",      warn.conflicts=TRUE)
    require("dse2",    warn.conflicts=TRUE)
@@ -46,7 +47,7 @@ tfPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   if (synopsis & !verbose) cat("tfPADI tests ...")
 
   scratch.db <-"zot123456.db"
-  syskern.rm(scratch.db)
+  unlink(scratch.db, recursive = TRUE)
   server <- Sys.info()[["nodename"]]
 
  if (verbose) cat("tfPADI test 0 ... ")
@@ -106,7 +107,10 @@ tfPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
      if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
     }
 
-  if (all.ok) invisible(TRUE)  else stop("FAILED")
+  if (!all.ok) stop("FAILED")
+  # database is left in place to help debug if there is an error
+  unlink(scratch.db, recursive = TRUE)
+  invisible(TRUE)
 }
  
  
@@ -124,7 +128,7 @@ TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   if (synopsis & !verbose) cat("DSE TSPADI tests ...")
 
   scratch.db <-"zot123456.db"
-  syskern.rm(scratch.db)
+  unlink(scratch.db, recursive = TRUE)
   server <- Sys.info()[["nodename"]]
 
  if (verbose) cat("DSE TSPADI test 0 ... ")
@@ -134,7 +138,7 @@ TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   pid <- startPADIserver(server=server, dbname="", 
                  server.process=paste("simple.server ", scratch.db))
   on.exit(cleanupPADIserver(pid, cleanup.script="cleanup.simple.server"))
-
+  
   # wait to ensure padi server is started
      for (i in 1:30)
        {if (checkPADIserver(server)) break
@@ -211,7 +215,10 @@ warning("skipping something broken")
      if (all.ok) cat(" OK\n") else cat(", some FAILED!\n")
     }
 
-  if (all.ok) invisible(TRUE)  else stop("FAILED")
+  if (!all.ok) stop("FAILED")
+  # database is left in place to help debug if there is an error
+  unlink(scratch.db, recursive = TRUE)
+  invisible(TRUE)
 }
 
 

@@ -22,7 +22,7 @@ input and output sourcedb.
 \code{\link{source.info}}
 }
 \examples{
-if(require("padi")) {
+if(require("padi") && checkPADIserver("ets")) {
    d <- tfPADIdata("D1", server="ets")
    d <- freeze(d)
    sourcedb(d) }

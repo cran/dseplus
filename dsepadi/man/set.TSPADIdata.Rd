@@ -15,8 +15,8 @@ of class 'TSdata'), or it may be left dynamic, in which case it is
 retrieved whenever it is referenced (and is of class 'TSPADIdata' 'TSdata').
 }
 \seealso{
-\code{\link{freeze}}
-\code{\link{TSdata}}
+\code{\link[tframe]{freeze}}
+\code{\link[dse1]{TSdata}}
 }
 \examples{
 \dontrun{data <- set.TSPADIdata()}

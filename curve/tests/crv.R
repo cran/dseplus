@@ -3,7 +3,8 @@
 #R --vsize=7000000 --nsize=300000  
 
 # gcinfo(1)
- require("dse2"); require("curve") 
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
   Sys.info()
   version.dse()
   

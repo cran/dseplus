@@ -12,7 +12,7 @@
     \method{source.info}{TSPADIdata}(obj)
     \method{sourcedb}{TSPADIdata}(obj)
     \method{sourceserver}{TSPADIdata}(obj)
-    \method{availability}{TSPADIdata}(obj, verbose=TRUE, timeout=60)
+    \method{availability}{TSPADIdata}(obj, verbose=TRUE, timeout=60, ...)
     \method{identifiers}{TSPADIdata}(obj)
     \method{periods}{TSPADIdata}(x)
 }
@@ -22,7 +22,10 @@
     \item{verbose}{a logical indicating if extra information should be printed.}
     \item{timeout}{an integer indicating the number of seconds to wait before
        concluding that the server is not available.}
-}\seealso{
+    \item{...}{(further arguments, currently disregarded).}
+
+}
+\seealso{
     \code{\link{source.info}} 
 }
 %\keyword{DSE}

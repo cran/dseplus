@@ -1,5 +1,6 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=FALSE)
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
  
@@ -35,7 +36,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
    cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 
@@ -56,7 +57,7 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
    cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 

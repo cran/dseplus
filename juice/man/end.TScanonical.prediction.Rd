@@ -8,13 +8,14 @@
 \description{See the generic function description.}
 
 \usage{
-   \method{end}{TScanonical.prediction}(x)
-   \method{start}{TScanonical.prediction}(x)
+   \method{end}{TScanonical.prediction}(x, ...)
+   \method{start}{TScanonical.prediction}(x, ...)
    \method{periods}{TScanonical.prediction}(x)
-   \method{frequency}{TScanonical.prediction}(x)
+   \method{frequency}{TScanonical.prediction}(x, ...)
 }
 \arguments{
     \item{x}{An object containing TSdata.}
+    \item{...}{(further arguments, currently disregarded).}
 }
 \value{Depends.}
 \seealso{

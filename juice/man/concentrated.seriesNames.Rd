@@ -11,6 +11,8 @@
 }
 \usage{
     concentrated.seriesNames(x)
+    \method{concentrated.seriesNames}{concentrate}(x)
+    \method{concentrated.seriesNames}{TSdata}(x)
     concentrated.seriesNamesInput(x)
     concentrated.seriesNamesOutput(x)
 }

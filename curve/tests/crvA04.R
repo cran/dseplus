@@ -1,5 +1,6 @@
  # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=FALSE)
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
  
@@ -40,7 +41,7 @@ cat("DSE curvature test A 4a...")
    
 # relaxed from fuzz.large to 10*fuzz.large for R 1.3.0 in Linux
    if (any(is.na(error)) || any(is.nan(error)) || 10*fuzz.large < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 
@@ -60,7 +61,7 @@ cat("DSE curvature test A 4b...")
    cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || 10*fuzz.large < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 
@@ -74,7 +75,7 @@ cat("DSE curvature test A 4c...")
    cat("max. error ", error)
    
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
-     {print.test.value(c(tst), digits=18)
+     {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }
 

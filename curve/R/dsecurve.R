@@ -18,8 +18,17 @@
 
 curvature.TSestModel <- function (func, x=coef(func),
      func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-      d=0.01, eps=1e-4, r=6, warn=TRUE)  
- {curvature(genD(func, x=x, func.args=func.args, d=d, eps=eps, r=r), warn=warn)}
+      d=0.01, eps=1e-4, r=6, warn=TRUE, compiled=TRUE, ...)  
+ {if(compiled) 
+   curvature(genD(func, x=x, func.args=func.args, d=d, eps=eps, r=r), warn=warn)
+  else
+   {func.residual <- function(coefficients,Shape,data)
+       {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
+          - output.data(data))}
+    curvature.default(func.residual, coef(func), 
+              func.args=func.args, d=d, eps=eps, r=r, warn=warn)
+   }
+ }
 
 #######################################################################
 
@@ -259,8 +268,9 @@ genD.innov <- function(func, x=coef(func),
 span.TSestModel <- function (func, x=coef(func),
         func.args=list(Shape=TSmodel(func), data=TSdata(func)),
         d=0.01, eps=1e-4, r=6,
-	show.details=FALSE, compiled=.DSECOMPILED)  
- {# calculate the singular values of the tangents
+	show.details=FALSE, compiled=.DSECOMPILED, ...)  
+ {#  (... further arguments, currently disregarded)
+  # calculate the singular values of the tangents
   # the compiled version calculates the whole D matrix (which seems like
   # a waste, but the compiled code is much faster, so ...
   if (compiled)

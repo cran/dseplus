@@ -1,5 +1,6 @@
 # Tests of DSE curvature functions from dsecurvature.function.testsA
- require("dse2"); require("curve") #,  warn.conflicts=FALSE)
+if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  version.dse()
  
@@ -19,17 +20,17 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 # from user guide
 
-  VARmodel<-ARMA(A=array(c(1,.5,.3,0,.2,.1,0,.2,.05,1,.5,.3),c(3,2,2)),
+  ARMAmodel1<-ARMA(A=array(c(1,.5,.3,0,.2,.1,0,.2,.05,1,.5,.3),c(3,2,2)),
              B=array(c(1,.2,0,.1,0,0,1,.3),c(2,2,2)), C=NULL) 
 
-# Note this gives a terrible fit.
-  VARmodel<-l(VARmodel,simulate(VARmodel, rng=test.rng))
-  SSmodel  <- l(to.SS(VARmodel),  VARmodel$data)
-  ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
+
+  ARMAmodel1<-l(ARMAmodel1,simulate(ARMAmodel1, rng=test.rng))
+  SSmodel  <- l(to.SS(ARMAmodel1),  ARMAmodel1$data)
+  ARMAmodel<- l(to.ARMA(SSmodel), ARMAmodel1$data)
 
 
 cat("DSE curvature test A 12a..\n")
-  curvatureVAR <- curvature(VARmodel,warn=FALSE)$stats
+  curvatureVAR <- curvature(ARMAmodel1,warn=FALSE)$stats
 #  good <- c(11, 200, 0.05, 0.8490449316698463, 0.712275843318316,
 #        1.151573691713139,  0.9660715137831059, 1.000000000576390) #, NaN)
 
@@ -45,16 +46,25 @@ cat("DSE curvature test A 12a..\n")
    cat("max. error ", max(error))
      
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.large < error) 
-     {print.test.value(c(tst), digits=18); all.ok <- F }
+     {printTestValue(c(tst), digits=18); all.ok <- F }
 
 cat("DSE curvature test A 12b..\n")
   func.residual <- function(coefficients,Shape,data)
    {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
        - output.data(data))}
    
-  curvatureVAR.def <- curvature.default(func.residual, coef(VARmodel), 
-              func.args=list(Shape=TSmodel(VARmodel), data=TSdata(VARmodel)),
+  curvatureVAR.def <- curvature.default(func.residual, coef(ARMAmodel1), 
+              func.args=list(Shape=TSmodel(ARMAmodel1), data=TSdata(ARMAmodel1)),
                      d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
+
+  curvatureVAR.def2 <- curvature(ARMAmodel1, compiled=FALSE,
+                     d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
+
+  if (! test.equal(curvatureVAR.def2, curvatureVAR.def))
+     {print(curvatureVAR.def,  digits=18)
+      print(curvatureVAR.def2, digits=18)
+      all.ok <- F 
+     }
 
    good <- curvatureVAR[-9]
    tst  <- curvatureVAR.def[-9]
@@ -62,6 +72,6 @@ cat("DSE curvature test A 12b..\n")
    cat("max. error ", max(error))
      
    if (any(is.na(error)) || any(is.nan(error)) || fuzz.small < error) 
-     {print.test.value(c(tst), digits=18); all.ok <- F }
+     {printTestValue(c(tst), digits=18); all.ok <- F }
 
   if (! all.ok) stop("some tests FAILED")

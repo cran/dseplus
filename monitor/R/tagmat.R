@@ -9,7 +9,7 @@ tags <- function(x) {attr(x, "tags")}
 "tags<-" <- function(x, value)   
   {if (is.null(value))
        {attr(x, "tags") <- NULL
-        if (!is.null(class(x))) class(x) <- class(x)[ class(x) != "tagged"]
+        if (is.object(x)) class(x) <- class(x)[ class(x) != "tagged"]
         return(x)
        }
    if (length(value) == 1) value <- array(value, dim(x))
@@ -117,8 +117,9 @@ fprint.tagged <- function(x, super.title=NULL, sub.title=NULL,
  }
 
 
-splice.tagged <- function(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2))
-{# splice together 2 time series matrices as with splice.ts.
+splice.tagged <- function(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2), ...)
+{#  (... further arguments, currently disregarded)
+ # splice together 2 time series matrices as with splice.ts.
  # If data  is provided in both for a given period then mat1 takes priority.
  # The frequencies should be the same.
  # tag1 and tag2 are taken from mat1 and mat2 unless

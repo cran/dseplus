@@ -1,33 +1,34 @@
+This package is part of the dse bundle.
 See 00Intro.* in each package for a short general description.
-A Users' Guide is available in dse1/doc/guide.pdf
-  and also at 'http://www.bank-banque-canada.ca/pgilbert'
-See also the bundle dseplus with related
- packages dsepadi monitor juice curve .
-TSPADIdata              Constructor for TSPADIdata object
-TSPADIdata2             Constructor for TSPADIdata object
+The Users' Guide is divided into sections for each package.
+These are installed in the doc/ directory for each package.
+A version of the guide with all sections combined may also
+be available at 'http://www.bank-banque-canada.ca/pgilbert', but may not be as current.
+See also the bundle dseplus with related packages.
 availability            Check Data Availability
-freeze.TSPADIdata       Get fixed data snapshot using TSPADI
 freeze.tfPADIdata       Get fixed data snapshot
+freeze.TSPADIdata       Get fixed data snapshot using TSPADI
 identifiers             Get Identifiers from a data object
 input.data.TSPADIdata   TS Input and Output Specific Methods
 modify                  modify a database descriptor object
 modify.TSPADIdata       Modify a TSPADIdata Object
-modify.tfPADIdata       modify a database descriptor object
 periods.tfPADIdata      Specific Methods for Tframed data
-print.TSPADIdata        Print Specific Methods
 print.tfPADIdata        Print a tfPADIdata Object
+print.TSPADIdata        Print Specific Methods
 putpadi.TSdata          Specific Methods for putpadi
 refresh                 Retrieve new data from a database
 retrieve.and.verify.data
                         Retrieve and Verify Data
-set.TSPADIdata          Prompt for Series Names
 set.tfPADIdata          Prompt for series names
+set.TSPADIdata          Prompt for Series Names
+sourcedb                Get sourcedb from a data object
 source.info             Get source information from a data object
 source.info.TSPADIdata
                         TSPADIdata Specific Methods
-sourcedb                Get sourcedb from a data object
 sourceserver            Get source server from a data object
 tfPADIdata              make tfPADIdata object
 tfputpadi               Write Data to a Data Server
-tsp.TSPADIdata          Specific Methods for tsp
+TSPADIdata2             Constructor for TSPADIdata object
+TSPADIdata              Constructor for TSPADIdata object
 tsp.tfPADIdata          Specific Methods for tsp
+tsp.TSPADIdata          Specific Methods for tsp

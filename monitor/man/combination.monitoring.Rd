@@ -1,10 +1,5 @@
 \name{combination.monitoring}
 \alias{combination.monitoring}
-\alias{combine.and.forecast}
-\alias{reconstruct.combined.forecast}
-\alias{construct.data.to.override.horizon}
-\alias{get.overriding.data}
-\alias{restrict.overriding.data}
 
 \title{Combination Monitoring}
 \description{Automatic monitoring with e-mail of results}
