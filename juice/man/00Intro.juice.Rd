@@ -3,7 +3,7 @@
 \title{Juice}
 \center{Methods for Concentrating and Reconstituting Data}
 \synopsis{}
-\usage{library("dse3")}
+
 \description{
     The attempted approach is that a model of type TSmodelconcentrate  
     should work like KF and ARMA model, so that plot, residual, 

@@ -1,13 +1,12 @@
 See 00Intro or 00Intro.dse1 for a general description of this package,
 A Users' Guide is available at 'URL: http://www.bank-banque-canada.ca/pgilbert'
 See also the related packages syskern tframe dse1 dse2 in the dse bundle
-   and packages curve juice  dsepadi monitor   in the dseplus bundle.
+   and packages dsepadi curve juice monitor   in the dseplus bundle.
 TSPADIdata               Constructor for TSPADIdata object
 TSPADIdata2              Constructor for TSPADIdata object
 availability             Check Data Availability
 freeze.TSPADIdata        Get fixed data snapshot using TSPADI
 freeze.tfPADIdata        Get fixed data snapshot
-getpadi                  Get Data from TSPADI Database Interface
 identifiers              Get Identifiers from a data object
 input.data.TSPADIdata    TS Input and Output Specific Methods
 modify                   modify a database descriptor object
@@ -26,7 +25,6 @@ source.info              Get source information from a data object
 source.info.TSPADIdata   TSPADIdata Specific Methods
 sourcedb                 Get sourcedb from a data object
 sourceserver             Get source server from a data object
-summary.TSPADIdata       Summary Specific Methods
 tfPADIdata               make tfPADIdata object
 tfputpadi                Write Data to a Data Server
 tsp.TSPADIdata           Specific Methods for tsp

@@ -4,9 +4,12 @@
 \title{Print Specific Methods}
 \description{See the generic function description.}
 \usage{
-    print(...)
+    \method{print}{concentrate}(x, ...)
 }
-
+\arguments{
+    \item{x}{a concentrate object.}
+    \item{...}{arguments to be passed to other methods.}
+}
 \seealso{ \code{\link{print}} }
 
 %\keyword{DSE}

@@ -4,10 +4,12 @@
 \description{
 Get a TSdata structure from TSPADI Database Interface}
 \usage{
-    freeze(data.id)
+    \method{freeze}{TSPADIdata}(data, timeout=60)
 }
 \arguments{
-    \item{data.id}{An object of class TSPADIdata.}
+    \item{data}{An object of class TSPADIdata.}
+    \item{timeout}{an integer indicating the number of seconds to wait before
+       concluding that the server is not available.}
 }
 \value{A TSdata object taken from the database.
 }

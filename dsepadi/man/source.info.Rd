@@ -26,6 +26,6 @@ if(require("padi")) {
    d <- freeze(d)
    source.info(d)}
 }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
 

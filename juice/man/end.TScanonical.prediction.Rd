@@ -1,9 +1,28 @@
 \name{end.TScanonical.prediction}
 \alias{end.TScanonical.prediction}
-\title{Specific Methods for end}
+\alias{start.TScanonical.prediction}
+\alias{frequency.TScanonical.prediction}
+\alias{periods.TScanonical.prediction}
+
+\title{Specific Methods for TScanonical.prediction}
 \description{See the generic function description.}
-\usage{end(x)}
-\seealso{ \code{\link{end}} }
+
+\usage{
+   \method{end}{TScanonical.prediction}(x)
+   \method{start}{TScanonical.prediction}(x)
+   \method{periods}{TScanonical.prediction}(x)
+   \method{frequency}{TScanonical.prediction}(x)
+}
+\arguments{
+    \item{x}{An object containing TSdata.}
+}
+\value{Depends.}
+\seealso{
+   \code{\link{end}}
+   \code{\link{start}}
+   \code{\link{periods}}
+   \code{\link{frequency}}
+}
 %\keyword{DSE}
 \keyword{ts}
 

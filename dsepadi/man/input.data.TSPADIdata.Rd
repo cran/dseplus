@@ -12,6 +12,10 @@
     \method{input.periods}{TSPADIdata}(x)
     \method{output.periods}{TSPADIdata}(x)
 }
+\arguments{
+    \item{x}{a TSPADIdata object.}
+    \item{series}{series to select. Passed to select.series.}
+}
 %\keyword{DSE}
 \keyword{ts}
 

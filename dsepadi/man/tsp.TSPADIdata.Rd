@@ -3,9 +3,11 @@
 \title{Specific Methods for tsp}
 \description{See the generic function description.}
 \usage{
-    tsp(x)
+    \method{tsp}{TSPADIdata}(x)
 }
-
+\arguments{
+    \item{x}{a TSPADIdata object.}
+}
 \seealso{ \code{\link[base]{tsp}} }
 
 %\keyword{DSE}

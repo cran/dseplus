@@ -5,10 +5,11 @@
 \description{See the generic function description.}
 
 \usage{
-    print(x)
+    \method{print}{tfPADIdata}(x, ...)
 }
-\arguments {
-    \item{x}{A tfPADIdata object.}
+\arguments{
+    \item{x}{a tfPADIdata object.}
+    \item{...}{arguments to be passed to other methods.}
 }
 \sideffects{The object is printed.}
 \seealso{
@@ -18,6 +19,6 @@
 \examples{
     print(tfPADIdata(c("series1", "series2"), server="ets"))
 }
-\keyword{tframe}
+%\keyword{tframe}
 \keyword{ts}
 

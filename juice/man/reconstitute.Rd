@@ -11,10 +11,11 @@
     reconstitute(d, conc=NULL, names=NULL)
     is.TSdatareconstitute(x)
 }
-\arguments {
-    \item{d}{A concentrated data object.}
-    \item{conc}{A concentrator.}
-    \item{names}{Series names for the result.}
+\arguments{
+    \item{d}{a concentrated data object.}
+    \item{conc}{a concentrator.}
+    \item{names}{series names for the result.}
+    \item{x}{any object.}
 }
 \value{Depends on the argument.}
 \details{

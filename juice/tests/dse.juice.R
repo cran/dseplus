@@ -118,7 +118,7 @@ juice.function.tests <- function( verbose=TRUE, synopsis=TRUE, fuzz.small=1e-12,
           4.900819828268634) < fuzz.small)
 # print(zmr$skewness, digits=16)
 # print(zmr$kurtosis, digits=16)
-  zmf <- feather.forecasts(zm)
+  zmf <- featherForecasts(zm)
 #  ok <- ???
   all.ok <- ok
   if (verbose)  {if (ok) cat("ok\n") else  cat("failed!\n") }

@@ -10,7 +10,7 @@
     concentrated.input.dimension(x)
     concentrated.output.dimension(x)
 }
-\arguments {
+\arguments{
     \item{x}{A concentrated TSdata object.}
 }
 \value{An integer.}

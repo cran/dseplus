@@ -21,6 +21,22 @@
     \method{tfplot}{TSdatareconstitute}(x, ...)
 }
 
+\arguments{
+    \item{x}{an object to plot.}
+    \item{start.}{see the generic \code{tfplot}.}
+    \item{end.}{see the generic \code{tfplot}.}
+    \item{series}{see the generic \code{tfplot}.}
+    \item{select.inputs}{see the generic \code{tfplot}.}
+    \item{select.outputs}{see the generic \code{tfplot}.}
+    \item{xlab}{see the generic \code{tfplot}.}
+    \item{ylab}{see the generic \code{tfplot}.}
+    \item{mar}{see the generic \code{tfplot}.}
+    \item{Title}{see the generic \code{tfplot}.}
+    \item{graphs.per.page}{see the generic \code{tfplot}.}
+    \item{reset.screen}{see the generic \code{tfplot}.}
+    \item{...}{arguments to be passed to other methods.}
+}
+
 \seealso{ \code{\link{tfplot}} }
 
 %\keyword{DSE}

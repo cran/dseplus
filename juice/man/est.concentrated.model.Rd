@@ -13,7 +13,7 @@
     \method{est.concentrated.model}{TSdataconcentrate}(data, 
                    estimation="est.VARX.ls", estimation.args=NULL, warn=TRUE)
 }
-\arguments {
+\arguments{
     \item{data}{A TSdata or TSdataconcentrate object.}
     \item{estimation}{Estimation method.}
     \item{estimation.args}{Estimation method arguments.}
@@ -23,7 +23,7 @@
     A concentrated version of the data (reduced dimension) is used to 
     estimate a reduced dimesion model. The projections for concentrating the
     data are retained so that model predictions can be expanded to the full
-    dimesion data space.
+    dimension data space.
     
     If data is TSdataconcentrate then the concentrator with that data is 
     used and m, p, center and scale are not used. For TSdata these arguments

@@ -8,9 +8,13 @@
 \title{Extract Original Series}
 \description{concentrateOriginal}
 \usage{
-    concentrateOriginal(d, ...)
+    concentrateOriginal(d)
+    \method{concentrateOriginal}{TSdataconcentrate}(d)
+    \method{concentrateOriginal}{TSdatareconstitute}(d)
+    \method{concentrateOriginal}{concentrate}(d)
+    \method{concentrateOriginal}{TScanonical.prediction}(d)
 }
-\arguments {
+\arguments{
     \item{d}{A concentrate object.}
 }
 \value{A TSdata object.}

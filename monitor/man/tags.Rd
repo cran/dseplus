@@ -16,22 +16,24 @@
     \method{tagged}{TSdata}(x, input.tags, output.tags)
     is.tagged(obj)
 }
-\arguments {
-    \item{x}{A matrix or TSdata object.
-    }
-    \item{value}{
-        If x is a matrix then value should be a matrix of strings of 
-        the corresponding dimension or a single string which is expanded
-        to the dimension of x.
-    \item{input.value}{
+\arguments{
+    \item{x}{a matrix or TSdata object.}
+    \item{value}{if x is a matrix then \code{value} should be a matrix of 
+       strings of the same dimension or a scalar string which is expanded
+        to the dimension of x.}
+    \item{tags}{if x is a matrix then \code{tags} should be a matrix of 
+       strings of the same dimension or a scalar string which is expanded
+        to the dimension of x.}
+    \item{input.tags}{
         If x is TSdata then input.value should be a matrix of strings of 
         the same dimension as input.data(x)or a single string which is 
-        expanded.
-    \item{output.value}{
+        expanded.}
+    \item{output.tags}{
         If x is TSdata then output.value should be a matrix of strings of 
         the same dimension as input.data(x)or a single string which is 
-        expanded.
-    }
+        expanded.}
+    \item{...}{arguments to be passed to other methods.}
+    \item{obj}{any object.}
 }
 \value{
     A matrix of class "tagged" or a TSdata object with specific 
@@ -43,6 +45,7 @@
     indicate the different sources for the data points.
 }
 \seealso{
+    \code{\link{simple.monitoring}}
     \code{\link{TSdata}}
 }
 \examples{

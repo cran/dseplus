@@ -48,11 +48,12 @@ cat("DSE curvature test A 12a..\n")
      {print.test.value(c(tst), digits=18); all.ok <- F }
 
 cat("DSE curvature test A 12b..\n")
-  func.residual <- function(parms,Shape,data)
-   {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))}
+  func.residual <- function(coefficients,Shape,data)
+   {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
+       - output.data(data))}
    
-  curvatureVAR.def <- curvature.default(func.residual, parms(VARmodel), 
-              obj.args=list(Shape=TSmodel(VARmodel), data=TSdata(VARmodel)),
+  curvatureVAR.def <- curvature.default(func.residual, coef(VARmodel), 
+              func.args=list(Shape=TSmodel(VARmodel), data=TSdata(VARmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=F)$stats
 
    good <- curvatureVAR[-9]

@@ -43,8 +43,8 @@
 
 combination.monitor.function.tests <- function( verbose=T, synopsis=T, 
          fuzz.small=1e-10,
-         server.process = padi.server.process(),
-         cleanup.script = padi.cleanup.script() )
+         server.process = PADIserverProcess(),
+         cleanup.script = PADIcleanupScript() )
 {# Some of the tests here are really for functions defined in dse1 ... dse3
  #   but are not tested there to avoid assuming Fame access is available.
  # The main short coming of these tests is that they do not test
@@ -66,13 +66,13 @@ combination.monitor.function.tests <- function( verbose=T, synopsis=T,
 
   if (verbose) cat("combination monitor test 0 ... ")
   # simulated a database server
-  pid <- start.padi.server(server=server, dbname=db, 
+  pid <- startPADIserver(server=server, dbname=db, 
            server.process=server.process)
-  on.exit(cleanup.padi.server(pid, cleanup.script=cleanup.script))
+  on.exit(cleanupPADIserver(pid, cleanup.script=cleanup.script))
 
   # wait for server to start 
      for (i in 1:30)
-       {if (check.padi.server(server)) break
+       {if (checkPADIserver(server)) break
         Sys.sleep(1)
        }
   ok <- T

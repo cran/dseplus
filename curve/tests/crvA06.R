@@ -41,11 +41,12 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 cat("DSE curvature test A 6b...\n")
 # gctorture()
 
-  func.residual <- function(parms,Shape,data)
-   {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))} 
+  func.residual <- function(coefficients,Shape,data)
+   {c(l(set.arrays(Shape, coefficients=coefficients),data,result="pred")
+      - output.data(data))} 
 
-  curvatureSS.def <- curvature.default(func.residual, parms(SSmodel), 
-               obj.args=list(Shape=TSmodel(SSmodel), data=TSdata(SSmodel)),
+  curvatureSS.def <- curvature.default(func.residual, coef(SSmodel), 
+               func.args=list(Shape=TSmodel(SSmodel), data=TSdata(SSmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=F, warn=F)$stats
   # neg sqrt in axis ratio produces warning if warn=T
 

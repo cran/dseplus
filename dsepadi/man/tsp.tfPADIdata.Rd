@@ -3,9 +3,9 @@
 \title{Specific Methods for tsp}
 \description{See the generic function description.}
 \usage{
-    tsp(x)
+    \method{tsp}{tfPADIdata}(x)
 }
-\arguments {
+\arguments{
     \item{x}{A tfPADIdata object.}
 }
 

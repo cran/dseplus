@@ -9,6 +9,8 @@
 }
 \arguments{
     \item{data}{A description of how to get data.}
+    \item{timeout}{an integer indicating the number of seconds to wait before
+       concluding that the server is not available.}
 }
 \value{A time series matrix.}
 \details{
@@ -41,6 +43,6 @@ if (require("padi")){
  z2 <- freeze(tfPADIdata(c("B1630", "B1642"), server="ets"))
   }
 }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
 

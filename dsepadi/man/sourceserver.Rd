@@ -29,6 +29,6 @@ if(require("padi")) {
    d <- tfPADIdata("D1", server="ets")
    sourceserver(d)}
 }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
 

@@ -161,9 +161,11 @@ simple.monitoring <- function(model, data.names,
                            discard.current=T)
        if(updated.data[[1]])
          {data <-updated.data$data
+	  # updated.data$input & $output are logical vector so don't use
+	  #    input.data() and output.data() in next
           message <- c("data updates: ", 
-               input.series.names(data)[ input.data(updated.data)],
-              output.series.names(data)[output.data(updated.data)])
+               input.series.names(data)[updated.data$input],
+              output.series.names(data)[updated.data$output])
           status <- "Simple monitoring updated."   
          }
        else

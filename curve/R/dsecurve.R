@@ -1,32 +1,25 @@
 #######################################################################
 
-# This package uses curve.R too.
-
 #######################################################################
 
-#                            curvature calculation
+#              Time series model curvature calculation
 
 #######################################################################
-
-curvature.TSestModel <- function (obj, warn=T, ...)  
- {curvature(genD(obj, ...),  warn=warn)}
-
-#-----------------------------------------------------------------------
 
 # S routines for calulating curvatures a la Bates and Watts.
 
 # Notes:
-#   Generating the D matrix can be computationally demanding. There are three
-#   (or four) versions of the code for generating this matrix. The S version is slow 
-#   and suffers from memory problems due to a bug in the way S
-#   (S-PLUS Version 3.0 for SUN4) allocates memory in loops. The C version is
-#   faster but suffers (even worse) from the memory problem.  
-#   Both the S and the C versions take the name
-#   of an S function as an arguement and call it. The compiled version is fast and
+#   Generating the D matrix can be computationally demanding. 
+#   The code here uses a compiled version which is fast and
 #   does not suffer from the memory problem, but works only with ARMA 
 #   and KF models.
 #    
 #-----------------------------------------------------------------------
+
+curvature.TSestModel <- function (func, x=coef(func),
+     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+      d=0.01, eps=1e-4, r=6, warn=TRUE)  
+ {curvature(genD(func, x=x, func.args=func.args, d=d, eps=eps, r=r), warn=warn)}
 
 #######################################################################
 
@@ -34,15 +27,19 @@ curvature.TSestModel <- function (obj, warn=T, ...)
 
 #######################################################################
 
-genD.TSestModel <- function(obj, ...)
-   { invisible(genD( TSmodel(obj), TSdata(obj), ...))}
+ 
+genD.TSestModel <- function(func, x=coef(func),
+     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+     d=0.01, eps=1e-4, r=6)
+   { invisible(genD(TSmodel(func), x=x, func.args=func.args, d=d,eps=eps,r=r))}
 
-#genD.TSmodel <- function(obj, data, ...) {NextMethod("genD.TSmodel")}
-
-genD.ARMA <- function(obj, data, d=0.01, eps=1e-4, r=6, warn=F){
+genD.ARMA <- function(func, x=coef(func),
+     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+     d=0.01, eps=1e-4, r=6){
 # Note: m,n,p have different meanings here than they do in 
 #  time-series models! ms,ns,ps are use for time-series meaning
-   model <- obj
+   model <- func.args$Shape
+   data <- func.args$data
    n <-length(c(output.data(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ps <-dim(model$A)[3]
@@ -61,7 +58,6 @@ genD.ARMA <- function(obj, data, d=0.01, eps=1e-4, r=6, warn=F){
       u <- input.data(data)
       G <- matrix(0,ns,ms)
      } 
-   x <-model$parms
    zt <- 0.0001
    #Rbug zt <-unix.time(l(model,data,sampleT,sampleT,result="like"))
    zt <- zt[1] *r*2*(length(x)*(length(x) + 3))/2
@@ -146,10 +142,13 @@ genD.ARMA <- function(obj, data, d=0.01, eps=1e-4, r=6, warn=F){
 
 #Rbug this does not seem to work as genD.KF or genD.KF.innov
 
-genD.innov <- function(obj, data, d=0.01, eps=1e-4, r=6, warn=F){
+genD.innov <- function(func, x=coef(func),
+     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+     d=0.01, eps=1e-4, r=6){
 # Note: m,n,p have different meanings here than they do in 
 #  time-series models! ms,ns,ps are use for time-series meaning
-   model <- obj
+   model <- func.args$Shape
+   data <- func.args$data
    n <-length(c(output.data(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ns <-dim(model$F)[2]
@@ -166,7 +165,6 @@ genD.innov <- function(obj, data, d=0.01, eps=1e-4, r=6, warn=F){
       u <- input.data(data)
       G <- matrix(0,ns,ms)
      } 
-   x <-model$parms
    zt <- 0.0001
    #Rbug zt <-unix.time(l(model,data,sampleT,sampleT,result="like"))
    zt <- zt[1] *r*2*(length(x)*(length(x) + 3))/2
@@ -257,30 +255,34 @@ genD.innov <- function(obj, data, d=0.01, eps=1e-4, r=6, warn=F){
 
 #######################################################################
 
-span.TSestModel <- function (obj, compiled=.DSECOMPILED, ...)  
+           
+span.TSestModel <- function (func, x=coef(func),
+        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+        d=0.01, eps=1e-4, r=6,
+	show.details=FALSE, compiled=.DSECOMPILED)  
  {# calculate the singular values of the tangents
   # the compiled version calculates the whole D matrix (which seems like
   # a waste, but the compiled code is much faster, so ...
   if (compiled)
-   {D <- genD(obj, ... )$D[,seq(length(parms(obj))),drop=F]
+   {D <- genD(func, x, func.args=func.args,
+              d=d, eps=eps, r=r)$D[,seq(length(coef(func))),drop=F]
     if (any(is.na(D))) {
        # really should stop here
-       warning("D from compiled genD contains NAs. Setting them to zero!!!")
+       warning("D from compiled genD contains NAs. Setting them to zero. Result is probably not valid!!!")
        D[is.na(D)] <- 0
       }
     if (any(is.nan(D))) {
-       warning("D from compiled genD contains NANs. Setting them to zero!!!")
+       warning("D from compiled genD contains NANs. Setting them to zero. Result is probably not valid!!!")
        D[is.nan(D)] <- 0
       }
     return(svd(D)$d)
    }
   else {
-     # previously used global.assign but that is not necessary 
-     func.residual.TSestModel <- function(parms,Shape,data)
-      {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))}
-     #on.exit(remove("func.residual.TSestModel"))
-     span.default(func.residual.TSestModel, parms(obj),
-               obj.args=list(Shape=TSmodel(obj), data=TSdata(obj), ...))
+     funcTS <- function(coefficients, Shape,data)
+      {c(l(set.arrays(Shape, coefficients=coefficients),data,result="pred")
+           - output.data(data))}
+     span.default(funcTS, x, func.args=func.args, 
+	 d=d, eps=eps, r=r, show.details=show.details)
      }
  }
 
@@ -291,17 +293,15 @@ span.TSestModel <- function (obj, compiled=.DSECOMPILED, ...)
 
 #######################################################################
 
-hessian.TSestModel <- function (obj, ...)  
+hessian.TSestModel <- function (func, x=coef(func),
+     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+     d=0.01, eps=1e-4, r=6)  
  {# like returns neg. log likelihood
-  # previously used global.assign but that is not necessary 
-  func.hessian.TSestModel <- function(parms,Shape,data)
-  	{l(set.arrays(Shape,parms=parms),data,result="like")}
-  #on.exit(rm(func.hessian.TSestModel))
-  hessian.default( func.hessian.TSestModel, parms(obj),
-   obj.args=list(Shape=TSmodel(obj), data=TSdata(obj), ...))
+  funcTS <- function(coefficients, Shape, data)
+  	{l(set.arrays(Shape,coefficients=coefficients), data, result="like")}
+  hessian.default(funcTS, x, func.args=func.args,d=d,eps=eps,r=r)
  }
 
-# was obj.args=append(list(Shape=TSmodel(emodel), data=TSdata(emodel)), list(...)))
 #######################################################################
 
 # Test routines for calulating curvatures moved to the tests directory.

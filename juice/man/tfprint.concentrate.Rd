@@ -4,7 +4,11 @@
 \title{Tfprint Specific Methods}
 \description{See the generic function description.}
 \usage{
-    tfprint(...)
+    \method{tfprint}{concentrate}(x, ...)
+}
+\arguments{
+    \item{x}{a concentrate object to print.}
+    \item{...}{arguments to be passed to other methods.}
 }
 
 \seealso{ \code{\link{tfprint}} }

@@ -1,18 +1,22 @@
 See 00Intro or 00Intro.dse1 for a general description of this package,
 A Users' Guide is available at 'URL: http://www.bank-banque-canada.ca/pgilbert'
 See also the related packages syskern tframe dse1 dse2 in the dse bundle
-   and packages curve juice  dsepadi monitor   in the dseplus bundle.
+   and packages dsepadi curve juice monitor   in the dseplus bundle.
 curvature                Curvature
 curvature.TSestModel     Curvature for a TSestModel
-effective.curvature      Utilities Used by Curvature and Project
+curvature.stats          Curvature Statistics Utility Used by Curvature
+                         and Project
+effective.curvature      Effective Curvature Utilitiy Used by Curvature
+                         and Project
 genD                     Generate Bates and Watts D Matrix
 genD.TSestModel          Generate Bates and Watts D Matrix
 hessian                  Calculate Hessian Matrix
 hessian.TSestModel       Calculate Hessian Matrix
-load.curvature.c         Load Curvature Code
 numerical.grad           Gradient of a Function
 print.curvature          Specific Methods for Print
 project                  Project
+rel.curvature            Relative Curvature Utility Used by Curvature and
+                         Project
 richardson.grad          Gradient of a Function
 span                     Calculate Span of Tangent Plane
 span.TSestModel          Calculate Span of Tangent Plane

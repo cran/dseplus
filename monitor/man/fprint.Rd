@@ -7,12 +7,13 @@
     fprint(matrix, super.title=NULL, sub.title=NULL,
           digits=options()$digits, space=" ", file=NULL, append=F)
 }
-\arguments {
-    \item{matrix}{A matrix of time series data.}
-    \item{super.title}{Top heading.}
-    \item{sub.title}{Second level of headings.}
-    \item{digits}{Number of digits to print.}
-    \item{file}{Name of a file to generate.}
+\arguments{
+    \item{matrix}{a matrix of time series data.}
+    \item{super.title}{a string to be used as top heading.}
+    \item{sub.title}{a string to be used as second level of headings.}
+    \item{digits}{number of digits to print.}
+    \item{space}{a string to be used between columns of data.}
+    \item{file}{name of a file to generate.}
     \item{append}{If T output is appended to the file, otherwise 
       the file is overwritten.}
 }

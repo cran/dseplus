@@ -55,16 +55,16 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
   server <- Sys.info()[["nodename"]]
 
  if (verbose) cat("tfPADI test 0 ... ")
-  if (check.padi.server(server))
-     stop("A server is already running. Testing stopped. Use cleanup.padi.server() or kill.padi.server() to terminate it.")
+  if (checkPADIserver(server))
+     stop("A server is already running. Testing stopped. Use cleanupPADIserver() or killPADIserver() to terminate it.")
 
-  pid <- start.padi.server(server=server, dbname="", 
+  pid <- startPADIserver(server=server, dbname="", 
                  server.process=paste("simple.server ", scratch.db))
-  on.exit(cleanup.padi.server(pid, cleanup.script="cleanup.simple.server"))
+  on.exit(cleanupPADIserver(pid, cleanup.script="cleanup.simple.server"))
 
   # wait to ensure padi server is started
      for (i in 1:30)
-       {if (check.padi.server(server)) break
+       {if (checkPADIserver(server)) break
         Sys.sleep(1)
        }
   all.ok <- ok <- T
@@ -104,7 +104,7 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
 
 
   on.exit()
-  cleanup.padi.server(pid, cleanup.script="cleanup.simple.server")
+  cleanupPADIserver(pid, cleanup.script="cleanup.simple.server")
 
   if (synopsis) 
     {if (verbose) cat("All tfPADI tests completed")
@@ -133,16 +133,16 @@ TSPADI.function.tests <- function( verbose=T, synopsis=T,
   server <- Sys.info()[["nodename"]]
 
  if (verbose) cat("DSE TSPADI test 0 ... ")
-  if (check.padi.server(server))
-     stop("A server is already running. Testing stopped. Use cleanup.padi.server() or kill.padi.server() to terminate it.")
+  if (checkPADIserver(server))
+     stop("A server is already running. Testing stopped. Use cleanupPADIserver() or killPADIserver() to terminate it.")
 
-  pid <- start.padi.server(server=server, dbname="", 
+  pid <- startPADIserver(server=server, dbname="", 
                  server.process=paste("simple.server ", scratch.db))
-  on.exit(cleanup.padi.server(pid, cleanup.script="cleanup.simple.server"))
+  on.exit(cleanupPADIserver(pid, cleanup.script="cleanup.simple.server"))
 
   # wait to ensure padi server is started
      for (i in 1:30)
-       {if (check.padi.server(server)) break
+       {if (checkPADIserver(server)) break
         Sys.sleep(1)
        }
 
@@ -209,7 +209,7 @@ warning("skipping something broken")
   if (verbose) {if (ok) cat("ok\n")  else cat("failed!\n") }
 
   on.exit()
-  cleanup.padi.server(pid, cleanup.script="cleanup.simple.server")
+  cleanupPADIserver(pid, cleanup.script="cleanup.simple.server")
 
   if (synopsis) 
     {if (verbose) cat("All DSE TSPADI tests completed")
@@ -223,8 +223,6 @@ warning("skipping something broken")
 if ( ! require("padi") ) warning("Warning: package padi is needed.") else {
    Sys.sleep(5)
    tfPADI.function.tests()
-   Sys.sleep(5)
-   padi.function.tests.simple(verbose=T)     # all ok
    Sys.sleep(5)
    TSPADI.function.tests(verbose=T)   # all ok, 
    }

@@ -19,19 +19,33 @@
     is.TSPADIdata(obj)
 }
 \arguments{
-    \item{output  input}{
-    Character vectors of series identifiers. At least one of input or output
-    should be specified.}
-    \item{output.transforms input.transforms output.names input.names}{
-    Character vectors of additional information corresponding to series 
-    identifiers. Scalar values are expanded to a vector of appropriate length.}
-    \item{start, end, frequency, pad, pad.start, pad.end}{
-    Information about data retrieval. See tfPADIdata for more details.}
-    \item{server, db}{
-    Information about the server. See tfPADIdata for more details.}
-    \item{start.server, server.process, cleanup.script, stop.on.error, warn}{
-    Additional information server operation. See tfPADIdata for more details.}
+    \item{output}{see tfPADIdata description of \code{series}.}
+    \item{output.server}{see tfPADIdata descriptions.}
+    \item{output.db}{see tfPADIdata descriptions.}
+    \item{output.transforms}{see tfPADIdata descriptions.}
+    \item{output.names}{see tfPADIdata descriptions.}
+    \item{input}{see tfPADIdata description of \code{series}.}
+    \item{input.server}{see tfPADIdata descriptions.}
+    \item{input.db}{see tfPADIdata descriptions.}
+    \item{input.transforms}{see tfPADIdata descriptions.}
+    \item{input.names}{see tfPADIdata descriptions.}
+
+    \item{start}{see tfPADIdata descriptions.}
+    \item{end}{see tfPADIdata descriptions.}
+    \item{frequency}{see tfPADIdata descriptions.}
+    \item{pad}{see tfPADIdata descriptions.}
+    \item{pad.start}{see tfPADIdata descriptions.}
+    \item{pad.end}{see tfPADIdata descriptions.}
+    \item{server}{see tfPADIdata descriptions.}
+    \item{db}{see tfPADIdata descriptions.}
+    \item{start.server}{see tfPADIdata descriptions.}
+    \item{server.process}{see tfPADIdata descriptions.}
+    \item{cleanup.script}{see tfPADIdata descriptions.}
+    \item{stop.on.error}{see tfPADIdata descriptions.}
+    \item{warn}{see tfPADIdata descriptions.}
+    \item{obj}{any object.}
 }
+
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{
 This is the way to produce an object which can be used for PADI database access.

@@ -12,10 +12,11 @@
              concentrated.output.dimension(d)))
     is.TScanonical.prediction(x)
 }
-\arguments {
-    \item{d}{TSdataconcentrate object as returned by concentrate.}
-    \item{conc}{A concentrator.}
-    \item{q}{The number of canonical variates to keep.}
+\arguments{
+    \item{d}{a TSdataconcentrate object as returned by concentrate.}
+    \item{conc}{a concentrator.}
+    \item{q}{integer indicating the number of canonical variates to keep.}
+    \item{x}{any object.}
 }
 \value{A TScanonical.prediction object.}
 \details{
@@ -39,4 +40,5 @@
 }
 %\keyword{DSE}
 \keyword{ts}
+
 

@@ -12,12 +12,19 @@
 \title{Data Concentrator}
 \description{concentrator}
 \usage{
-    concentrator(d, ...)
+    concentrator(d)
+    \method{concentrator}{concentrate}(d)
+    \method{concentrator}{concentrator}(d)
+    \method{concentrator}{TSdata}(d)
+    \method{concentrator}{TSdataconcentrate}(d)
+    \method{concentrator}{TSdataconcentrator}(d)
+    \method{concentrator}{TSmodelconcentrate}(d)
     is.concentrator(x)
     is.TSdataconcentrator(x)
 }
-\arguments {
-    \item{d}{A concentrate or concentrator object.}
+\arguments{
+    \item{d}{a concentrate or concentrator object.}
+    \item{x}{any object.}
 }
 \value{A concentrator.}
 \details{

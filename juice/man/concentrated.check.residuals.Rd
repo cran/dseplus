@@ -8,9 +8,9 @@
 \usage{
     concentrated.check.residuals(data, ...)
 }
-\arguments {
-    \item{data}{A TSdataconcentrate object.}
-    \item{...}{Arguments passed to check.residuals.}
+\arguments{
+    \item{data}{a TSdataconcentrate object.}
+    \item{...}{arguments passed to check.residuals.}
 }
 \value{x}
 

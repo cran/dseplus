@@ -20,5 +20,6 @@ if(require("padi")) {
    d <- freeze(d)
    d <- refresh(d) }
 }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
+

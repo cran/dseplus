@@ -18,7 +18,30 @@
 }
 
 \arguments{
-    \item{see TSPADIdata}{As for TSPADIdata.}
+    \item{obj}{a tfPADIdata object.}
+    \item{output}{see tfPADIdata description of \code{series}.}
+    \item{output.server}{see tfPADIdata descriptions.}
+    \item{output.db}{see tfPADIdata descriptions.}
+    \item{output.transforms}{see tfPADIdata descriptions.}
+    \item{output.names}{see tfPADIdata descriptions.}
+    \item{input}{see tfPADIdata descriptions of \code{series}}
+    \item{input.server}{see tfPADIdata descriptions.}
+    \item{input.db}{see tfPADIdata descriptions.}
+    \item{input.transforms}{see tfPADIdata descriptions.}
+    \item{input.names}{see tfPADIdata descriptions.}
+
+    \item{start}{see tfPADIdata descriptions.}
+    \item{end}{see tfPADIdata descriptions.}
+    \item{frequency}{see tfPADIdata descriptions.}
+    \item{pad.start}{see tfPADIdata descriptions.}
+    \item{pad.end}{see tfPADIdata descriptions.}
+    \item{start.server}{see tfPADIdata descriptions.}
+    \item{server.process}{see tfPADIdata descriptions.}
+    \item{server}{see tfPADIdata descriptions.}
+    \item{db}{see tfPADIdata descriptions.}
+    \item{cleanup.script}{see tfPADIdata descriptions.}
+    \item{stop.on.error}{see tfPADIdata descriptions.}
+    \item{warn}{see tfPADIdata descriptions.}
 }
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{This is the way to modify a TSPADIdata object.}

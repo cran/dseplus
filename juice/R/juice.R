@@ -147,14 +147,14 @@ is.TSdataconcentrator <- function(x) {inherits(x, "TSdataconcentrator")}
 is.concentrator <- function(x) {inherits(x, "concentrator")}
 
 print.concentrate <- function(x, ...)
-  {cat("Original data:")     ; print(concentrateOriginal(x, ...))
+  {cat("Original data:")     ; print(concentrateOriginal(x), ...)
    cat("Concentrated data:") ; print(concentrateOnly(x, ...))
    invisible(x)
   }
 
 
 
-concentrateOnly <- function(d, ...) {UseMethod("concentrateOnly") }
+concentrateOnly <- function(d) {UseMethod("concentrateOnly") }
 
 concentrateOnly.concentrate <- function(d)
  {#return concentrate (as simple data) with original and concentrator removed
@@ -194,7 +194,7 @@ concentrateOnly.TSestModel <- function(d)
  }
 
 
-concentrateOriginal <- function(d, ...) {UseMethod("concentrateOriginal") }
+concentrateOriginal <- function(d) {UseMethod("concentrateOriginal") }
 concentrateOriginal.concentrate <- function(d)
  {attr(d, "concentrator") <- NULL
   classed(d, dseclass(d)[-1]) #deconstructor
@@ -215,7 +215,7 @@ concentrateOriginal.TSdatareconstitute <- function(d) # deconstructor
 
 
 
-concentrator <- function(d, ...) {UseMethod("concentrator") }#extract conc 
+concentrator <- function(d) {UseMethod("concentrator") }#extract conc 
 concentrator.concentrate <- function(d) {attr(d, "concentrator")} 
 concentrator.concentrator <- function(d) {d} 
 concentrator.TSdataconcentrator <- function(d) {d} 
@@ -317,12 +317,18 @@ tfplot.TScanonical.prediction <- function(x, xlab=NULL, ylab=NULL,
 }
 
 	 	 
-end.TScanonical.prediction <- function(obj){end(concentrateOriginal(obj))}
+start.TScanonical.prediction <- function(x){start(concentrateOriginal(x))}
+end.TScanonical.prediction <- function(x){end(concentrateOriginal(x))}
+periods.TScanonical.prediction <- function(x){periods(concentrateOriginal(x))}
+frequency.TScanonical.prediction <- function(x){frequency(concentrateOriginal(x))}
 
 
-percent.change.TScanonical.prediction <-function (mat,...) {
-	pchange <- percent.change(classed(mat, dseclass(mat)[-1]), ...)
-	attr(pchange, "original") <- percent.change(attr(mat, "original"), ...)
+percent.change.TScanonical.prediction <-function (obj, base=NULL, lag=1,
+    cumulate=FALSE, e=FALSE) {
+	pchange <- percent.change(classed(obj, dseclass(obj)[-1]),
+	    base=base, lag=lag, cumulate=cumulate, e=e)
+	attr(pchange, "original") <- percent.change(attr(obj, "original"),
+	    base=base, lag=lag, cumulate=cumulate, e=e)
 	classed(pchange, "TScanonical.prediction") #re constructor (percent.change)
 }
   
@@ -406,10 +412,10 @@ check.consistent.dimensions.TSmodelconcentrate <- function(model, data=NULL)
 
 
 
-input.dimension.TSmodelconcentrate <- function(m)
-     {d <-nrow(concentrator(m)$input$proj);  if(is.null(d)) 0 else d}
-output.dimension.TSmodelconcentrate <- function(m)
-     {d <-nrow(concentrator(m)$output$proj); if(is.null(d)) 0 else d}
+input.dimension.TSmodelconcentrate <- function(x)
+     {d <-nrow(concentrator(x)$input$proj);  if(is.null(d)) 0 else d}
+output.dimension.TSmodelconcentrate <- function(x)
+     {d <-nrow(concentrator(x)$output$proj); if(is.null(d)) 0 else d}
 
 
 
@@ -451,7 +457,7 @@ settf.concentrate <- function(value, x)
 
 
 tfprint.concentrate <- function(x, ...)
-  {cat("Original data:")                  ; tfprint(concentrateOriginal(x, ...))
+  {cat("Original data:")                  ; tfprint(concentrateOriginal(x), ...)
    cat("Data reconstituted from concentrate:") ; tfprint(reconstitute(x), ...)
    invisible(x)
   }

@@ -6,13 +6,22 @@
 \title{Generate Bates and Watts D Matrix}
 \description{Generate a matrix of function derivative information.}
 \usage{
-    \method{genD}{TSestModel}(obj, ...)
-    \method{genD}{ARMA}(obj, data, d=0.01, eps=1e-4, r=6, warn=F)
-    \method{genD}{innov}(obj, data, d=0.01, eps=1e-4, r=6, warn=F)
+    \method{genD}{TSestModel}(func, x=coef(func),
+        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+        d=0.01, eps=1e-4, r=6 )
+    \method{genD}{ARMA}(func, x=coef(func),
+        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+        d=0.01, eps=1e-4, r=6)
+    \method{genD}{innov}(func, x=coef(func),
+        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+        d=0.01, eps=1e-4, r=6)
 }
 \arguments{
-    \item{obj}{
-    An object of class TSestModel. }
+    \item{func}{a TSestModel or TSmodel object which is used as a function 
+       mapping coefficients (parameters) to residuals.}
+    \item{x}{parameter vector first argument to function func indicating the
+        point with respect to which the derivative is calculated.}
+    \item{func.args}{list with additional argument to function \code{func}.}
     \item{d}{The fraction of x to use for the initial numerical approximation.}
     \item{eps}{Used instead of d for elements of x which are zero.}
     \item{r}{The number of Richardson improvement iterations.}

@@ -26,6 +26,6 @@ input and output series identifiers.
   d <- tfPADIdata("D1", server="ets")
   identifiers(d)
  }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
 

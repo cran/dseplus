@@ -3,20 +3,43 @@
 \title{Gradient of a Function}
 \description{Calculate the gradient of a function by Richardson improvement.}
 \usage{
-    richardson.grad(func,x, d=0.01, eps=1e-4, r=6, show.details=F)
+    richardson.grad(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
 }
 \arguments{
     \item{func}{A function with a real result.}
     \item{x}{
     A real or real vector argument to func, indicating the point at which the
     gradient is to be calculated.}
-    \item{d eps}{
-    The epsilon interval value used for the first Richardson iteration is set 
-    to d*x or eps if x is 0.0.}
-    \item{r}{The number of Richardson improvement iterations.}
-    \item{show.details}{If T intermediate calculations are printed.}
+    \item{d}{the fraction of x to use for the initial numerical approximation.
+        The default is set to 0.01*x or eps if x is 0.0.}
+    \item{eps}{Used instead of d for elements of x which are zero.}
+    \item{r}{The number of Richardson improvement iterations (repetions with 
+        successly smaller d).}
+    \item{show.details}{logical indicating if detailed calculations should 
+        be shown.}
 }
 \value{A real or real vector of the calculated gradient.}
+
+\details{
+ This function calculates a numerical approximation of the first
+   derivative of func at the point x. The calculation
+   is done by Richardson's extrapolation (see eg. Linfield and Penny
+   he method should be used if accuracy, as opposed to speed, is important.
+
+  GENERAL APPROACH
+     --  GIVEN THE FOLLOWING INITIAL VALUES:
+	     INTERVAL VALUE D, NUMBER OF ITERATIONS R, AND
+	     REDUCED FACTOR V.
+      - THE FIRST ORDER aproximation to the DERIVATIVE WITH RESPECT TO Xi IS
+
+	   F'(Xi)={F(X1,...,Xi+D,...,Xn) - F(X1,...,Xi-D,...,Xn)}/(2*D)
+       
+     --  REPEAT r TIMES  with successively smaller D  and 
+	  then apply Richardson extraplolation
+
+}
+\references{ 
+G.R.Linfield and J.E.T.Penny,"Microcomputers in Numerical Analysis"}
 \seealso{\code{\link{numerical.grad}}}
 \examples{richardson.grad(sin, pi)}
 %\keyword{DSE}

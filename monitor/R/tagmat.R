@@ -56,9 +56,9 @@ tbind.tagged <- function(mat1, mat2)
 
 is.tagged <- function(obj)  {inherits(obj,"tagged")}
 
-test.equal.tagged <- function(mat1, mat2)
-{ test.equal.matrix(mat1,mat2) & 
-  test.equal.matrix(attr(mat1,"tags"), attr(mat2, "tags"))
+test.equal.tagged <- function(obj1, obj2)
+{ test.equal.matrix(obj1, obj2) & 
+  test.equal.matrix(attr(obj1,"tags"), attr(obj2, "tags"))
 }
 
 
@@ -180,7 +180,7 @@ trim.na.tagged <- function(mat, start.=T, end.=T)
  tfwindow(mat,start=s, end=e, warn=F)
 }
 
-tfwindow.tagged <- function(x, start=NULL, end=NULL, tf=NULL, warn=T)
+tfwindow.tagged <- function(x, start.=NULL, end.=NULL, tf=NULL, warn=T)
 {# window a ts matrix of class "tagged".
  # With the default warn=T warnings will be issued if no truncation takes
  #  place because start or end is outside the range of data.
@@ -197,17 +197,17 @@ tfwindow.tagged <- function(x, start=NULL, end=NULL, tf=NULL, warn=T)
  tframe(tags) <- tframe(x)
  # The following is complicated by the fact that some versions of window
  #    look for missing arguments.
- if (is.null(start))
-   {x   <- tfwindow(x  , end=end, tf=tf, warn=warn)
-    tags<- tfwindow(tags,end=end, tf=tf, warn=warn)
+ if (is.null(start.))
+   {x   <- tfwindow(x  , end.=end., tf=tf, warn=warn)
+    tags<- tfwindow(tags,end.=end., tf=tf, warn=warn)
    }
- else if (is.null(end))
-   {x   <- tfwindow(x  , start=start, tf=tf, warn=warn)
-    tags<- tfwindow(tags,start=start, tf=tf, warn=warn)
+ else if (is.null(end.))
+   {x   <- tfwindow(x  , start.=start., tf=tf, warn=warn)
+    tags<- tfwindow(tags,start.=start., tf=tf, warn=warn)
    }
  else
-   {x   <- tfwindow(x,   start=start, end=end, tf=tf, warn=warn)
-    tags<- tfwindow(tags,start=start, end=end, tf=tf, warn=warn)
+   {x   <- tfwindow(x,   start.=start., end.=end., tf=tf, warn=warn)
+    tags<- tfwindow(tags,start.=start., end.=end., tf=tf, warn=warn)
    }
  tagged(x, tags)
 }

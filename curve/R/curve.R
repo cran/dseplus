@@ -18,50 +18,19 @@ df
 }
 
 
-richardson.grad <- function(func, x, d=0.01, eps=1e-4, r=6, show.details=F){
-# This function calculates a numerical approximation of the first
-#   derivative of func at the point x. The calculation
-#   is done by Richardson's extrapolation (see eg. G.R.Linfield and J.E.T.Penny
-#   "Microcomputers in Numerical Analysis"). The method should be used if
-#   accuracy, as opposed to speed, is important.
-#
+richardson.grad <- function(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
+{
 #  *  modified by Paul Gilbert from orginal code by XINGQIAO LIU.
-# CALCULATES THE FIRST ORDER DERIVATIVE 
-#     VECTOR using a Richardson  extrapolation.
-#
-#  GENERAL APPROACH
-#     --  GIVEN THE FOLLOWING INITIAL VALUES:
-#             INTERVAL VALUE D, NUMBER OF ITERATIONS R, AND
-#             REDUCED FACTOR V.
-#      - THE FIRST ORDER aproximation to the DERIVATIVE WITH RESPECT TO Xi IS
-#
-#           F'(Xi)={F(X1,...,Xi+D,...,Xn) - F(X1,...,Xi-D,...,Xn)}/(2*D)
-#       
-#     --  REPEAT r TIMES  with successively smaller D  and 
-#          then apply Richardson extraplolation
-#
-#  INPUT
-#       func    Name of the function.
-#       x       The parameters of func.
-#       d       Initial interval value (real) by default set to 0.01*x or
-#               eps if x is 0.0.
-#       r       The number of Richardson improvement iterations.
-#       show.details    If T show intermediate results.
-#  OUTPUT
-#
-#       The gradient vector.
 
   v <- 2               # reduction factor.
   n <- length(x)       # Integer, number of variables.
   a.mtr <- matrix(1, r, n) 
   b.mtr <- matrix(1, (r - 1), n)
-#------------------------------------------------------------------------
-# 1 Calculate the derivative formula given in 'GENERAL APPROACH' section.
-#   --  The first order derivatives are stored in the matrix a.mtr[k,i], 
+
+#  first order derivatives are stored in the matrix a.mtr[k,i], 
 #        where the indexing variables k for rows(1 to r),  i for columns
 #       (1 to n),  r is the number of iterations, and n is the number of
 #       variables.
-#-------------------------------------------------------------------------  
 
   h <- abs(d*x)+eps*(x==0.0)
   for(k in 1:r)  { # successively reduce h                
@@ -125,10 +94,8 @@ a.mtr
 
 ############################################################################
 
-
-
 project <- function(c1, c2, signif = 0.05, eps=1e-5, fuzz=1e-14,
-    show.details=F, warn=T)
+    show.details=FALSE, warn=TRUE)
 {  p1 <- c1$Dlist$p
    N <- length(c1$Dlist$f0)   # dimesion of sample space
    p2 <- c2$Dlist$p
@@ -240,12 +207,10 @@ browser()
 #######################################################################
 
 
+hessian <- function (func, x, func.args=NULL, d=0.01, eps=1e-4, r=6) UseMethod("hessian")
 
-hessian <- function (obj, ...)  UseMethod("hessian")
-
-
-hessian.default <- function(obj, x, obj.args=NULL, d=0.01, eps=1e-4, r=6)
-{  D <- genD.default(obj, x, obj.args=obj.args, d=d, eps=eps, r=r)$D
+hessian.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6)
+{  D <- genD.default(func, x, func.args=func.args, d=d, eps=eps, r=r)$D
    H <- diag(0,length(x))
    u <- 0
    for(i in 1:length(x))
@@ -265,137 +230,26 @@ hessian.default <- function(obj, x, obj.args=NULL, d=0.01, eps=1e-4, r=6)
 
 #######################################################################
 
-span.v00 <- function(func, x,d=0.01, eps=1e-4,r=6, show.details=F){
-#  Calculate tangent vectors at the point x. 
-#   Note that func can be vector valued.
-#
-#   This function uses Richardson extrapolation  (for more details      
-#      see the functions richardson.grad and genD) to get a numerical 
-#      approximation of the tangent vectors to the parameter 
-#      manifold. SVD is then used to calculate their span.     
-#
-#       func    the name of a function which returns the
-#                residual vector for a given parameter vector.
-#       x       The parameters of func.
-#
-#       d       initial interval value by
-#               default set to 0.01*x or eps if x is 0.0 .
-#       r       the number of repetions with successly smaller d. 
-#       show.details    if TRUE then detailed calculations are shown.
-#       v       reduction factor. This could be a parameter but ...
-#               N.B. must be 2 for richarson formula as used.
+span <- function (func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
+      show.details=FALSE, ...)  UseMethod("span")
 
-  v <- 2
-  p <- length(x)     #  number of parameters (= dim of M if not over parameterized.
-  n <- len(func(x))  #  dimension of sample space.
-  D <- array(1, c(n, p, r)) 
-  h <- abs(d*x)+eps*(x==0.0)
-  for(k in 1:r)  # successively reduce h 
-    {for(i in 1:p)  # each parameter  - first deriv.
-       D[,i,k]<-(func(x+(i==(1:p))*h)-func(x-(i==(1:p))*h))/(2*h[i]) # F'(i)
-     h <- h/v     # Reduced h by 1/v.
-    }	
-  if(show.details)  
-      {cat("\n","first order approximations", "\n")		
-       for(i in 1:p){ cat(" parameter " ,i,"\n");print(D[,i,(1:r)], 12)}
-      }
-  for(m in 1:(r - 1)) 		
-     {D<- (D[,,2:(r+1-m)]*(4^m)-D[,,1:(r-m)])/(4^m-1)
-      if(show.details & m!=(r-1) )  
-        {cat("\n","Richarson improvement group No. ", m, "\n")		
-         for(i in 1:p){ cat(" parameter " ,i,"\n"); print(D[,i,(1:(r-m))], 12) }
-        }
-      }
-   svd(D)$d
-}
-
-
-
-span.v0 <- function(func, x,d=0.01, eps=1e-4,r=6, show.details=F){
-#  span performs a svd of the tangent vectors at the point x. 
-#   (Note that func can be vector valued. This can be used
-#   to calculate the dimension of the tangent space (ie. by over specifying 
-#   the model and counting the number of significant singular values).
-#  The singular values are returned.
-#
-#   This function uses Richardson extrapolation  (for more details      
-#      see the functions richardson.grad and genD) to get a numerical 
-#      approximation of the tangent vectors to the parameter 
-#      manifold. SVD is then used to calculate their span.     
-#
-#       func    the name of a function which returns the
-#                residual vector for a given parameter vector.
-#       x       The parameters of func.
-#
-#       d       initial interval value by
-#               default set to 0.01*x or eps if x is 0.0 .
-#       r       the number of repetions with successly smaller d. 
-#       show.details    if TRUE then detailed calculations are shown.
-#       v       reduction factor. This could be a parameter but ...
-#               N.B. must be 2 for richarson formula as used.
-
-  v <- 2
-  p <- length(x)     #  number of parameters (= dim of M if not over parameterized.
-  n <- len(func(x))  #  dimension of sample space.
-  D <- array(1, c(n, p, r)) 
-  h <- abs(d*x)+eps*(x==0.0)
-  for(k in 1:r)  # successively reduce h 
-    {for(i in 1:p)  # each parameter  - first deriv.
-       D[,i,k]<-(func(x+(i==(1:p))*h)-func(x-(i==(1:p))*h))/(2*h[i]) # F'(i)
-     h <- h/v     # Reduced h by 1/v.
-    }	
-  if(show.details)  
-      {cat("\n","first order approximations", "\n")		
-       for(i in 1:p){ cat(" parameter " ,i,"\n");print(D[,i,(1:r)], 12)}
-      }
-  for(m in 1:(r - 1)) 		
-     {D<- (D[,,2:(r+1-m)]*(4^m)-D[,,1:(r-m)])/(4^m-1)
-      if(show.details & m!=(r-1) )  
-        {cat("\n","Richarson improvement group No. ", m, "\n")		
-         for(i in 1:p){ cat(" parameter " ,i,"\n"); print(D[,i,(1:(r-m))], 12) }
-        }
-      }
-   svd(D)$d
-}
-
-span <- function (obj, ...)  UseMethod("span")
-
-span.default <- function(obj, x, obj.args=NULL, d=0.01, eps=1e-4, r=6,
-      show.details=F)
+span.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
+      show.details=FALSE)
 {
-#   performs a svd of the tangent vectors at the point x. This can be used
-#   to calculate the dimension of the tangent space (ie. by over specifying 
-#   the model and counting the number of significant singular values).
-#  The singular values are returned.
-#
-#   This function uses Richardson extrapolation  (for more details      
-#      see the functions richardson.grad and genD) to get a numerical 
-#      approximation of the tangent vectors to the parameter 
-#      manifold. SVD is then used to calculate their span.     
-#
-#  obj     a function which returns the
-#                residual vector for a given parameter vector.
-#   x       The parameters of obj with respect to which derivative is calculated.
-#  obj.args A list of any other arguments to the function
-#
-#   d       initial interval value by
-#               default set to 0.01*x or eps if x is 0.0 .
-#   r       the number of repetions with successly smaller d. 
-#   show.details    if TRUE then detailed calculations are shown.
 #   v       reduction factor. This could be a parameter but ...
 #             N.B. must be 2 for richarson formula as used.
 
   v <- 2
   p <- length(x)     #  number of parameters (= dim of M if not over parameterized.
-  n <- length(do.call("obj",append(list(x), obj.args)))  #dimension of sample space.
+  n <- length(do.call("func",append(list(x), func.args)))  #dimension of sample space.
   D <- array(1, c(n, p, r)) 
   h <- abs(d*x)+eps*(x==0.0)
   for(k in 1:r)  # successively reduce h 
     {if(show.details) cat("\n k=",k, " p: ")
      for(i in 1:p)  # each parameter  - first deriv.
       {if(show.details) cat(" ",i)
-       D[,i,k]<-(do.call("obj",append(list(x+(i==(1:p))*h), obj.args)) -
-                 do.call("obj",append(list(x-(i==(1:p))*h), obj.args)))/(2*h[i])
+       D[,i,k]<-(do.call("func",append(list(x+(i==(1:p))*h), func.args)) -
+                 do.call("func",append(list(x-(i==(1:p))*h), func.args)))/(2*h[i])
        NULL 
       }
      h <- h/v     # Reduced h by 1/v.
@@ -423,41 +277,25 @@ span.default <- function(obj, x, obj.args=NULL, d=0.01, eps=1e-4, r=6,
 
 #######################################################################
 
-
-
-
 print.curvature <- function(x, ...)  { print(x$stats, ...) }
 
-curvature <- function (obj, ...)  
+curvature <- function (func, ...)  
 { # calculate the Bates and Watts intrinsic and parameter effects curvature.
   UseMethod("curvature")
 }
 
 
-curvature.default <- function(obj, x, obj.args=NULL, d=0.01, eps=1e-4,r=6,
-      signif=0.05, show.details=F, warn=T)
-{# obj is a function
- curvature(genD.default(obj,x, obj.args=obj.args, d=d, eps=eps,r=r),
-     signif=0.05, show.details=F, warn=warn)
+curvature.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
+      signif=0.05, show.details=FALSE, warn=TRUE)
+{# func is a function
+ curvature(genD.default(func,x, func.args=func.args, d=d, eps=eps,r=r),
+     signif=0.05, show.details=FALSE, warn=warn)
 }
 
 
-curvature.Darray <- function(obj, signif = 0.05,
+curvature.Darray <- function(func, signif = 0.05,
    show.extra.details=F, show.details=show.extra.details, warn=T)
-{
-# Curvature summary statistics as in Bates and Watts.
-#  obj is a list as generated by genD.default and genD.TSestModel,
-#       with the 3 elements as follows:
-#   $D is a matrix of first(gradients) and second order partial
-#      derivatives organized in the same manner as Bates and 
-#      Watts. (first p columns are the gradients and the 
-#      next p(p+1)/2 columns are the lower triangle of the Hessian).
-#   $p is the dimension of the parameter space=dim of the tangent space.
-#   $f0 is the function value at the point where the matrix D 
-#        was calculated. (The curvature calculation should not/does not? depend 
-#        on this value - but it should be the right dimension and 0's do
-#        not work.
-
+{ # Note func is a list of class Darray
 #  Page references are to Bates and Watts(1983), Nonlinear Regression 
 #   Analysis and Its Applications.
 #   Examples are also from this text. e.g.- model A data set 3.
@@ -465,23 +303,23 @@ curvature.Darray <- function(obj, signif = 0.05,
 #   modified substantially by Paul Gilbert (May, 1992 and Dec, 1996)
 #    from original code by Xingqiao Liu,   May, 1991.
 #
-   if (all(obj$D==0))
+   if (all(func$D==0))
      stop("The array of first and second order derivatives is all zeros.")
 
-   p <- obj$p
-   n <- dim(obj$D)[1]   # dimesion of sample space
+   p <- func$p
+   n <- dim(func$D)[1]   # dimesion of sample space
    pp <- p*(p+1)/2 # p' max number of independent col in the acceleration array.
    m <- p * (p + 3)/2  # m= p+pp is second dimension of D. It is also the max 
                        # span of the combined tangent and accelation spaces.
-   if (m!=dim(obj$D)[2]) stop("Dimesion of D matrix is not consistent with p")
-   residual <- c(obj$f0)   # c() in case it is a column vector
+   if (m!=dim(func$D)[2]) stop("Dimesion of D matrix is not consistent with p")
+   residual <- c(func$f0)   # c() in case it is a column vector
    s.sqr <- sum(residual^2)/(length(residual)-2)
    if(show.extra.details) cat("p=",p," pp=",pp," m=",m, " n=",n,"\n")
  
 #  Form QR decomposition of D and produce matrix Q and R.
 #
 
-   QRofD <- qr(obj$D) 
+   QRofD <- qr(func$D) 
 
 # Now calculate R, which is D rotated onto an othogonal basis with the 
 # tangent space first, then acceleration space. 
@@ -490,14 +328,14 @@ curvature.Darray <- function(obj, signif = 0.05,
 # all zeros  and so those rows are truncated from R.
 
 #   Q <- qr.qy(QRofD, diag(1,n)) [,1:m]
-#   R <- t(Q) %*% obj$D   this is the same as
+#   R <- t(Q) %*% func$D   this is the same as
 #  R[1:m,]could be used to truncate but it is possible for m to exceed dim(D)[1]
-   R <- qr.qty(QRofD, obj$D )  
+   R <- qr.qty(QRofD, func$D )  
 
    if(show.extra.details) 
         {cat( "Matrix D, tangent and acceleration vectors in columns ")
          cat("organized as in Bates and Watts p235, 236\n")
-         print(obj$D)
+         print(func$D)
          cat("Residual Vector\n"); print(residual)
 	 cat("Matrix Q from QR decomposition of D\n")
          print( qr.qy(QRofD, diag(n)))
@@ -539,7 +377,7 @@ curvature.Darray <- function(obj, signif = 0.05,
    dimnames(result)<-list(NULL,c("Parms","Sample","Sign. level","RMS Parameter",
          "RMS Intrinsic","c*sqrt(F) Parameter","c*sqrt(F) Intrinsic",
          "Min Axis Ratio","Max Axis Ratio")) 
-   classed(list(stats=result, Dlist=obj, C=C), "curvature")# curvature.Darray constructor
+   classed(list(stats=result, Dlist=func, C=C), "curvature")# curvature.Darray constructor
 }
 
 print.curvatureArray <- function(x, ...)
@@ -555,7 +393,7 @@ print.curvatureArray <- function(x, ...)
 
 
 curvature.stats <- function(cur, n, signif=0.05)
-{# See documentation in in curvature.Darray
+{# See documentation for curvature.Darray
  p  <- dim(cur)[2]
  pp <- dim(cur)[1] - p
  cstats <- rep(NA,4)
@@ -576,11 +414,9 @@ curvature.stats <- function(cur, n, signif=0.05)
 }
 
 
-effective.curvature <- function(cur,QRofD, residual, s.sqr,
-			 show.details=F, warn=T)
-{# Transform the residual vector by multiply Q-transpose and sqrt(s.sqr*p).
- # Calculate the p by p effective residual curvature matrix B and its 
- #  eigenvalues. Bates and Watts p260
+effective.curvature <- function(cur, QRofD, residual, s.sqr,
+			 show.details=FALSE, warn=TRUE)
+{
  p  <- dim(cur)[2]
  pp <- dim(cur)[1] - p
  Qz <- qr.qty(QRofD, residual)[p+(1:pp)]/c(sqrt(p * s.sqr))  # p' vector of rotated residuals
@@ -625,13 +461,9 @@ effective.curvature <- function(cur,QRofD, residual, s.sqr,
       max.axis.ratio= if(1 > max(Mod(eigv))) 1/sqrt(1-max(Mod(eigv))) else NaN)
 }
 
-rel.curvature <- function(s.sqr,R11,R2, show.extra.details=F, 
+rel.curvature <- function(s.sqr, R11, R2, show.extra.details=F, 
                      eps=sqrt(.Machine$double.eps))
-{# The result C is the relative curvature array Bates & Watts p244 eqn. (7.16)
- # R11 is a p by p sub matrix R see Bates & Watts p236
- #  and  R2 is the m by pp sub matrix  R12 
- #                                     R22   
-
+{
  p  <- dim(R11)[2]
  p2 <- dim(R11)[1]  # usually equal p except for projections
  pp <- dim(R2)[2]
@@ -705,49 +537,25 @@ C
 
 # Notes:
 
-#   Generating the D matrix can be computationally demanding. There are two
-#   versions of the code for generating this matrix. The S version is 
-#   slow and suffers from memory problems due to the way S allocates memory 
-#   in loops (as of S-PLUS Version 3.0 for SUN4). The C version is
-#   faster but suffers (even worse) from the memory problem.  There is a third
-#   version which is written in S but using C code logic (for loops). This 
-#   version is primarily for debugging the C code. Both the S and 
-#   the C versions take the name of an S function 
+#   Generating the D matrix can be computationally demanding. 
+#   The S version is slow and suffers from memory problems 
+#   due to the way S allocates memory in loops (but is not so bad in R).
+#   The C version is a bit faster but suffers (even worse) from memory problems.
+#   It has been moved to defunct. The ARMA and SS methods are much preferred for
+#   those models, but do not work with general models.
+#   Both the S and the C versions take the name of an S function 
 #   as an arguement (and call it multiple times).  
 #######################################################################
 
-genD <- function(obj, ...)UseMethod("genD")
+genD <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6)UseMethod("genD")
 
-genD.default <- function(obj, x, d=0.01, eps=1e-4, r=6, obj.args=NULL){
-# This function calculates a numerical approximation of the first and second
-#   derivatives (gradient and hessian) of obj at the point x. The calculation
-#   is done by Richardson's extrapolation (see eg. G.R.Linfield and J.E.T.Penny
-#   "Microcomputers in Numerical Analysis"). The method should be used when
-#   accuracy, as opposed to speed, is important.
-# The result returned is a list with 3 elements as follows:
-#   $D is a matrix of first(gradients) and second order partial
-#      derivatives organized in the same manner as Bates and 
-#      Watts. (first p columns are the gradients and the 
-#      next p(p-1)/2 columns are the lower triangle of the Hessian).
-#   $p is the dimension of the parameter space=dim of the tangent space.
-#   $f0 is the function value at the point where the matrix D 
-#        was calculated. 
-#   Also the arguments (obj, x, d, eps, r) are returned
-#
+genD.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6){
 #   modified substantially by Paul Gilbert (May, 1992)
 #    from original code by Xingqiao Liu,   May, 1991.
-#
-
-#  obj    the function. The first arg to obj must be a vector.
-#  x       the parameter vector.
-#  obj.args any additional arguments to the function obj.
-#  d       gives the fraction of x to use for the initial numerical approximation.
-#  eps     is used for zero elements of x.
 #  r       the number of Richardson improvement iterations.
 #  v      reduction factor for Richardson iterations. This could
 #      be a parameter but the way the formula is coded it is assumed to be 2.
 
-#  Modified substantially by Paul Gilbert from first version by Xingqiao Liu.
 #  This function is not optimized for S speed, but
 #  is organized in the same way it is implemented in C (to facilitate checking
 #  the code).
@@ -768,10 +576,10 @@ genD.default <- function(obj, x, d=0.01, eps=1e-4, r=6, obj.args=NULL){
 #    improve the accuracy of the computation.
 
    v <-2
-   zt <- .001     #Rbug unix.time has trouble finding obj
-   # f0 <- obj(x)
-   f0 <- do.call("obj",append(list(x), obj.args))
- # zt <-unix.time(f0 <- obj(x))   #  f0 is the value of the function at x.
+   zt <- .001     #Rbug unix.time has trouble finding func
+   # f0 <- func(x)
+   f0 <- do.call("func",append(list(x), func.args))
+ # zt <-unix.time(f0 <- func(x))   #  f0 is the value of the function at x.
                    # (Real value or point in sample space ie- residual vector)	
    p <- length(x)  #  number of parameters (theta)
    zt <- zt[1] *r*2*(p*(p + 3))/2
@@ -789,10 +597,10 @@ genD.default <- function(obj, x, d=0.01, eps=1e-4, r=6, obj.args=NULL){
    for(i in 1:p)    # each parameter  - first deriv. & hessian diagonal
         {h <-h0
          for(k in 1:r)  # successively reduce h 
-           {#f1 <- obj(x+(i==(1:p))*h)
-            #f2 <- obj(x-(i==(1:p))*h) 
-            f1 <- do.call("obj",append(list(x+(i==(1:p))*h), obj.args))
-            f2 <- do.call("obj",append(list(x-(i==(1:p))*h), obj.args))
+           {#f1 <- func(x+(i==(1:p))*h)
+            #f2 <- func(x-(i==(1:p))*h) 
+            f1 <- do.call("func",append(list(x+(i==(1:p))*h), func.args))
+            f2 <- do.call("func",append(list(x-(i==(1:p))*h), func.args))
             Daprox[,k] <- (f1 - f2)  / (2*h[i])    # F'(i) 
             Haprox[,k] <- (f1-2*f0+f2)/ h[i]^2     # F''(i,i) hessian diagonal
             h <- h/v     # Reduced h by 1/v.
@@ -817,12 +625,12 @@ genD.default <- function(obj, x, d=0.01, eps=1e-4, r=6, obj.args=NULL){
             else 
              {h <-h0
               for(k in 1:r)  # successively reduce h 
-                {#f1 <- obj(x+(i==(1:p))*h + (j==(1:p))*h)
-                 #f2 <- obj(x-(i==(1:p))*h - (j==(1:p))*h)
-                 f1 <- do.call("obj", append(
-                        list(x+(i==(1:p))*h + (j==(1:p))*h), obj.args))
-                 f2 <- do.call("obj",append(
-                        list(x-(i==(1:p))*h - (j==(1:p))*h), obj.args))  
+                {#f1 <- func(x+(i==(1:p))*h + (j==(1:p))*h)
+                 #f2 <- func(x-(i==(1:p))*h - (j==(1:p))*h)
+                 f1 <- do.call("func", append(
+                        list(x+(i==(1:p))*h + (j==(1:p))*h), func.args))
+                 f2 <- do.call("func",append(
+                        list(x-(i==(1:p))*h - (j==(1:p))*h), func.args))  
                  Daprox[,k]<- (f1 - 2*f0 + f2 -
                                   Hdiag[,i]*h[i]^2 - 
                                   Hdiag[,j]*h[j]^2)/(2*h[i]*h[j])  # F''(i,j)  
@@ -837,168 +645,8 @@ genD.default <- function(obj, x, d=0.01, eps=1e-4, r=6, obj.args=NULL){
           }  
        }
 invisible(classed(list(D=D,  # Darray constructor (genD.default)
-             p=length(x),f0=f0,func=obj, x=x, d=d, eps=eps, r=r), "Darray"))
+             p=length(x),f0=f0,func=func, x=x, d=d, eps=eps, r=r), "Darray"))
 }
-
-genD.default.v2 <- function(func, x, obj.args=NULL, d=0.01, eps=1e-4, r=6){
-# This function calculates a numerical approximation of the first and second
-#   derivatives (gradient and hessian) of func at the point x. The calculation
-#   is done by Richardson's extrapolation (see eg. G.R.Linfield and J.E.T.Penny
-#   "Microcomputers in Numerical Analysis"). The method should be used 
-#   accuracy, as opposed to speed, is important.
-# The result returned is a list with 3 elements as follows:
-#   $D is a matrix of first(gradients) and second order partial
-#      derivatives organized in the same manner as Bates and 
-#      Watts. (first p columns are the gradients and the 
-#      next p(p-1)/2 columns are the lower triangle of the Hessian).
-#   $p is the dimension of the parameter space=dim of the tangent space.
-#   $f0 is the function value at the point where the matrix D 
-#        was calculated. 
-#
-#   modified substantially by Paul Gilbert (May, 1992)
-#    from original code by Xingqiao Liu,   May, 1991.
-#
-#  This function is not optimized for S speed, but
-#  is organized in the same way it is implemented in C (to facilitate  
-#  checking the code).
-
-
-#  func    char string name of the function. func must have a single vector arguement.
-#  x       the parameter vector.
-#  d       gives the fraction of x to use for the initial numerical approximation.
-#  eps     is used for zero elements of x.
-#  r       the number of Richardson improvement iterations.
-#  v      reduction factor for Richardson iterations. This could
-#      be a parameter but the way the formula is coded it is assumed to be 2.
-
-#         - THE FIRST ORDER DERIVATIVE WITH RESPECT TO Xi IS 
-#           F'(Xi)={F(X1,...,Xi+d,...,Xn) - F(X1,...,Xi-d,...,Xn)}/(2*d)
-#                
-#         - THE SECOND ORDER DERIVATIVE WITH RESPECT TO Xi IS 
-#           F''(Xi)={F(X1,...,Xi+d,...,Xn) - 2*F(X1,X2,...,Xn)+
-#                     F(X1,...,Xi-d,...,Xn)}/(d^2)
-#
-#         - THE SECOND ORDER DERIVATIVE WITH RESPECT TO Xi, Xj IS 
-#           F''(Xi,Xj)={F(X1,...,Xi+d,...,Xj+d,...,Xn)-2*F(X1,X2,...,Xn)+
-#                       F(X1,...,Xi-d,...,Xj-d,...,Xn)}/(2*d^2) -
-#                      {F''(Xi) + F''(Xj)}/2
-
-#  The size of d is iteratively reduced and the Richardson algorithm is applied to
-#    improve the accuracy of the computation.
-
-   v <-2
-   f0 <- do.call("func", append(list(x), obj.args))  #  f0 is the value of the function at x.
-   p <- length(x)  #  number of parameters (theta)
-   h0 <- abs(d*x)+eps*(x==0.0)
-   D <- matrix(0, length(f0),(p*(p + 3))/2)
-   #length(f0) is the dim of the sample space
-   #(p*(p + 3))/2 is the number of columns of matrix D.( first
-   #   der. & lower triangle of Hessian)
-   Daprox <- matrix(0, length(f0),r) 
-   Hdiag  <-  matrix(0,length(f0),p)
-   Haprox <-  matrix(0,length(f0),r)
-   for(i in 1:p)    # each parameter  - first deriv. & hessian diagonal
-        {h <-h0
-         for(k in 1:r)  # successively reduce h 
-           {f1 <- do.call("func", append(list(x+(i==(1:p))*h), obj.args))
-            f2 <- do.call("func", append(list(x-(i==(1:p))*h), obj.args))
-            Daprox[,k] <- (f1 - f2)  / (2*h[i])    # F'(i) 
-            Haprox[,k] <- (f1-2*f0+f2)/ h[i]^2     # F''(i,i) hessian diagonal
-            h <- h/v     # Reduced h by 1/v.
-           }
-         for(m in 1:(r - 1))
-            for ( k in 1:(r-m))
-              {Daprox[,k]<-(Daprox[,k+1]*(4^m)-Daprox[,k])/(4^m-1)
-               Haprox[,k]<-(Haprox[,k+1]*(4^m)-Haprox[,k])/(4^m-1)
-              }
-         D[,i] <- Daprox[,1]
-         Hdiag[,i] <- Haprox[,1]
-        }	
-   u <- p
-
-   for(i in 1:p)   # 2nd derivative  - do lower half of hessian only
-     {for(j in 1:i) 
-        {u <- u + 1
-            if (i==j) { D[,u] <- Hdiag[,i] }
-            else 
-             {h <-h0
-              for(k in 1:r)  # successively reduce h 
-                {f1 <- do.call("func", append(list(x+(i==(1:p))*h + (j==(1:p))*h), obj.args))
-                 f2 <- do.call("func", append(list(x-(i==(1:p))*h - (j==(1:p))*h), obj.args))  
-                 Daprox[,k]<-(f1-2*f0+f2-Hdiag[,i]*h[i]^2-Hdiag[,j]*h[j]^2)/(2*h[i]*h[j])  # F''(i,j)  
-                 h <- h/v     # Reduced h by 1/v.
-                }
-              for(m in 1:(r - 1))
-                 for ( k in 1:(r-m))
-                   Daprox[,k]<-(Daprox[,k+1]*(4^m)-Daprox[,k])/(4^m-1)
-              D[,u] <- Daprox[,1]
-             }
-          }  
-       }
-invisible(classed(list(D=D,p=length(x),f0=f0), "Darray")) # Darray constructor (genD.default.v2)
-}
-
-genD.c <- function(func, x, d=0.01, eps=1e-4, r=6){
-# See documentation in genD and genD.default 
-#evalNo <<-0
-#cat("evalNo = ")
-   v <-2
-   zt <- .001     #Rbug unix.time has trouble finding func
-   f0 <- func(x)
-#   zt<- unix.time(f0 <- func(x) )
-   h0 <- abs(d*x)+eps*(x==0.0)
-   p <- length(x)
-   zt <- zt[1] *r*2*(p*(p + 3))/2
-   if(zt>30) 
-     cat("D matrix calculation roughly estimated to take about ",
-         (10*ceiling(zt/10)),"seconds(without other system activity)...\n")
-   D <- matrix(0, length(f0),(p*(p + 3))/2) 
-   Daprox <-  matrix(0,length(f0),r) 
-   Hdiag  <-  matrix(0,length(f0),p)
-   Haprox <-  matrix(0,length(f0),r)
-   storage.mode(D)     <-"double"
-   storage.mode(Daprox)<-"double"
-   storage.mode(Haprox)<-"double"
-   storage.mode(Hdiag )<-"double"
-   D<-.C("gen_D",
-            list(func),             #1
-            p=as.integer(length(x)),  #2
-            as.double(x),
-            as.double(h0),
-            as.integer(length(f0)), #5
-            f0=as.double(f0),       #6
-            as.integer(r),
-            as.integer(v),
-            Haprox,        #9
-            Hdiag,         #10
-            Daprox,        #11
-            double(length(x)),
-            double(length(f0)),
-            double(length(f0)),
-            D=D)[c("D","p","f0")]
-   invisible(classed(D, "Darray")) # Darray constructor (genD.c)
-}
-
-
-
-load.curvature.c <- function(){
- # load C routines for use by S functions genD.c (which is NOT an improvement
- # over the S version) and R11T.c (which doesn't work).
- dyn.load(paste(DSE.HOME,"/curvature.o", sep=""))
-} 
-
-R11T.c <- function(R11.inv,p,pp){
-# See documentation in R11T.s (in curvature) 
-warning("usage of pp in R11T.c does not seem to be right.")
-cat("this version does not work!")
-   storage.mode(R11.inv)  <-"double"
-   .C("R11T_c",
-            R11T=matrix(0,pp,pp),
-            R11.inv,
-            as.integer(p),
-            as.integer(pp))[["R11T"]]
-}
-
 
 
 #######################################################################

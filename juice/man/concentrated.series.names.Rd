@@ -14,7 +14,7 @@
     concentrated.input.series.names(x)
     concentrated.output.series.names(x)
 }
-\arguments {
+\arguments{
     \item{x}{A concentrated data object.}
 }
 \value{

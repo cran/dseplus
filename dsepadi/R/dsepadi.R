@@ -184,9 +184,10 @@ source.info.TSPADIdata <- function(obj)
 
 
 
-freeze.TSPADIdata <- function(x, timeout=60)
+freeze.TSPADIdata <- function(data, timeout=60)
 { # This function retreives data from a PADI server using getpadi
   # See freeze.
+  x <- data # temp fix so arg is called data as in generic
   if (is.null(x$input))
     {z <- TSdata(output=freeze(x$output))
      z$source <- x

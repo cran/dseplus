@@ -45,29 +45,28 @@ reconstruct.combined.forecast <- function(combined.forecast)
  all(combined.forecast$best.guess==best.guess)
 }
 
-tfplot.combined.forecast <- function(combined.forecast,verbose=F, 
-       start.=start(combined.forecast$data$output),
+tfplot.combined.forecast <- function(obj,verbose=F, 
+       start.=start(obj$data$output),
        Title="Projection", select.inputs=NULL, select.outputs=NULL,
        mar=par()$mar)
-{# if verbose is T additional information is provided
- # output graphics can be paused between pages by setting par(ask=T).
+{ 
    if (verbose)
-     {tfplot(combined.forecast$data, start.=start., mar=mar,
-            Title="Data and combined.forecast")
-      tfplot(combined.forecast$pred, start.=start., mar=mar,
+     {tfplot(obj$data, start.=start., mar=mar,
+            Title="Data and combined forecast")
+      tfplot(obj$pred, start.=start., mar=mar,
             Title="Model predictions (one step ahead for history)")
      }
-   graph.data <- combined.forecast$data
-   graph.data$output <- combined.forecast$best.guess
+   graph.data <- obj$data
+   graph.data$output <- obj$best.guess
    if (is.null(select.inputs))  select.inputs  <- seq(dim(graph.data$input)[2])
    if (is.null(select.outputs)) select.outputs <- seq(dim(graph.data$output)[2])
    tfplot(graph.data, start.=start., mar=mar, Title="Projection", 
            select.inputs=select.inputs, select.outputs=select.outputs)
-#   tfplot(combined.forecast$forecast[[2]],combined.forecast$forecast[[1]],
-#         combined.forecast$forecast[[3]], start.=start.,
+#   tfplot(obj$forecast[[2]],obj$forecast[[1]],
+#         obj$forecast[[3]], start.=start.,
 #         Title="Projection using future policy=most recent value and 20% higher and lower")
-#   tfplot(combined.forecast$pchange[[2]],combined.forecast$pchange[[1]],
-#         combined.forecast$pchange[[3]],start.=start., Title=
+#   tfplot(obj$pchange[[2]],obj$pchange[[1]],
+#         obj$pchange[[3]],start.=start., Title=
 #    "Year over year percent change using future policy=most recent value and 20% higher and lower")
    invisible()
 }

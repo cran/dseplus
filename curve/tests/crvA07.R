@@ -43,11 +43,12 @@ cat("DSE curvature test A 7a...\n")
 
 cat("DSE curvature test A 7b...\n")
  
-  func.residual <- function(parms,Shape,data)
-   {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))}
+  func.residual <- function(coefficients, Shape, data)
+   {c(l(set.arrays(Shape,coefficients=coefficients), data, result="pred")
+       - output.data(data))}
 
-  curvatureARMA.def <- curvature.default(func.residual, parms(ARMAmodel), 
-               obj.args=list(Shape=TSmodel(ARMAmodel), data=TSdata(ARMAmodel)),
+  curvatureARMA.def <- curvature.default(func.residual, coef(ARMAmodel), 
+               func.args=list(Shape=TSmodel(ARMAmodel), data=TSdata(ARMAmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=F)$stats
 
    tst  <-  curvatureARMA.def

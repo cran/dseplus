@@ -3,7 +3,11 @@
 \title{Specific Methods for Testing Equality}
 \description{See the generic function description.}
 \usage{
-    test.equal(obj1, obj2)
+    \method{test.equal}{tagged}(obj1, obj2)
+}
+\arguments{
+    \item{obj1}{object to be compared with obj2.}
+    \item{obj2}{object to be compared with obj1.}
 }
 \seealso{ \code{\link{test.equal}} }
 %\keyword{DSE}

@@ -1,7 +1,7 @@
 See 00Intro or 00Intro.dse1 for a general description of this package,
 A Users' Guide is available at 'URL: http://www.bank-banque-canada.ca/pgilbert'
 See also the related packages syskern tframe dse1 dse2 in the dse bundle
-   and packages curve juice  dsepadi monitor   in the dseplus bundle.
+   and packages dsepadi curve juice monitor   in the dseplus bundle.
 00Intro.juice            Juice
 TSdata.TSdataconcentrate
                          TSdata Specific Methods
@@ -23,7 +23,7 @@ concentrated.series.names
 concentrated.tfplot      Plot Concentrated Series
 concentrator             Data Concentrator
 end.TScanonical.prediction
-                         Specific Methods for end
+                         Specific Methods for TScanonical.prediction
 est.concentrated.model   Estimate a Concentrated Model
 est.projection           Calculate Projection from Concentrating Series.
 input.dimension.TSmodelconcentrate
@@ -36,6 +36,7 @@ print.concentrate        Print Specific Methods
 reconstitute             Reconstitute
 select.series.concentrate
                          Specific Methods for select.series
+settf.concentrate        Construct a Tframed Object
 tfplot.concentrate       tfplot Specific Methods
 tfprint.concentrate      Tfprint Specific Methods
 tfwindow.concentrate     tfwindow Specific Methods

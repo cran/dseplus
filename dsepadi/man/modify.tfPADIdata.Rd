@@ -12,18 +12,34 @@
            stop.on.error=NA, warn=NA)
 }
 \arguments{
-    \item{obj}{A tfPADIdata object.}
-    \item{append}{
-    If specified, append should be a list of (series, server, db,
-transforms, names) as specified for tfPADIdata. These are appended as additional
-series to the object.}
-    \item{Other arguments as for tfPADIdata}{
-    See tfPADIdata descriptions. Values replace existing values (except in the case of append).}
+    \item{obj}{a tfPADIdata object.}
+    \item{append}{if specified, append should be a list of (series, 
+       server, db, transforms, names) as specified for tfPADIdata. These 
+       are appended as additional series to the object.}
+    \item{series}{see tfPADIdata descriptions.}
+    \item{server}{see tfPADIdata descriptions.}
+    \item{db}{see tfPADIdata descriptions.}
+    \item{transforms}{see tfPADIdata descriptions.}
+    \item{start}{see tfPADIdata descriptions.}
+    \item{end}{see tfPADIdata descriptions.}
+    \item{frequency}{see tfPADIdata descriptions.}
+    \item{names}{see tfPADIdata descriptions.}
+    \item{pad}{see tfPADIdata descriptions.}
+    \item{pad.start}{see tfPADIdata descriptions.}
+    \item{pad.end}{see tfPADIdata descriptions.}
+    \item{use.tframe}{see tfPADIdata descriptions.}
+    \item{start.server}{see tfPADIdata descriptions.}
+    \item{server.process}{see tfPADIdata descriptions.}
+    \item{cleanup.script}{see tfPADIdata descriptions.}
+    \item{stop.on.error}{see tfPADIdata descriptions.}
+    \item{warn}{see tfPADIdata descriptions.}
 }
 \value{
-A object of class "tfPADIdata" which can be used to retrieve a matrix time series object.
+   A object of class "tfPADIdata" which can be used to retrieve a 
+   matrix time series object.
 }
-\details{Any specified (non NA) optional arguments are used to modify the object.
+\details{Any specified (non NA) optional arguments are used to modify 
+the object. Values replace existing values (except in the case of append).
 }
 \seealso{
 \code{\link{tfPADIdata}} 
@@ -33,6 +49,6 @@ A object of class "tfPADIdata" which can be used to retrieve a matrix time serie
   z <- tfPADIdata( c("seriesA", "seriesB"), server="myserver")}
   z <- modify(z, pad.end=T )
  }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
 

@@ -16,7 +16,13 @@
     \method{identifiers}{TSPADIdata}(obj)
     \method{periods}{TSPADIdata}(x)
 }
-\seealso{
+\arguments{
+    \item{obj}{a TSPADIdata object.}
+    \item{x}{a TSPADIdata object.}
+    \item{verbose}{a logical indicating if extra information should be printed.}
+    \item{timeout}{an integer indicating the number of seconds to wait before
+       concluding that the server is not available.}
+}\seealso{
     \code{\link{source.info}} 
 }
 %\keyword{DSE}

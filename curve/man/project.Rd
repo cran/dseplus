@@ -4,11 +4,17 @@
 \description{project}
 \usage{
     project(c1, c2, signif = 0.05, eps=1e-5, fuzz=1e-14,
-        show.details=F, warn=T)
+        show.details=FALSE, warn=TRUE)
 }
-\arguments {
-    \item{c1}{see details}
-    \item{c2}{see details}
+\arguments{
+    \item{c1}{curvature summary. See details.}
+    \item{c2}{curvature summary. See details.}
+    \item{signif}{passed to \code{curvature.stats}.}
+    \item{eps}{significance tolerance for singular values. See details.}
+    \item{fuzz}{tolerance for comparing parameter points. See details.}
+    \item{show.details}{logical indicating if detailed calculations should 
+        be shown.}
+    \item{warn}{see \code{effective.curvature}.}
 }
 \value{xxx}
 \details{ Under Development
@@ -29,12 +35,19 @@
     the parameter effects of the larger model may be partly intrinsic on the 
     sub-model. These two projected onto the intrinsic curvature space of
     the submodel (N2andT2inN1) should compare with the intrinsic curvature of
-    the submodel. 
-
+    the submodel.
+    
+    Singular values smaller than eps times the largest singular value are
+    considered to be zero when calculating the dimension of the tangent space.
+    
+    If the parameter points for the two models are not within \code{fuzz} then
+    a warning is issued to indicate that they do not represent the same point
+    in parameter space.
 }
 
 \seealso{
     \code{\link{curvature}}
+    \code{\link{effective.curvature}}
 }
 
 %\keyword{DSE}

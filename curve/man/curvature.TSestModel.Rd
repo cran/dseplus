@@ -3,19 +3,27 @@
 \title{Curvature for a TSestModel}
 \description{Calculate curvature for a TSestModel.}
 \usage{
-    \method{curvature}{TSestModel}(obj, warn=T, ...)
+    \method{curvature}{TSestModel}(func, x=coef(func),
+     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
+      d=0.01, eps=1e-4, r=6, warn=TRUE)
 }
 
-\arguments {
-    \item{emodel}{A TSestModel.}
-    \item{warn}{Print additional warning messages.}
+\arguments{
+    \item{func}{a TSestModel object which is used as a function mapping
+       coefficients (parameters) to residuals.}
+    \item{x}{parameter vector first argument to function func indicating the
+        point with respect to which the derivative is calculated.}
+    \item{func.args}{list with additional argument to function \code{func}.}
+    \item{d}{The fraction of x to use for the initial numerical approximation.}
+    \item{eps}{Used instead of d for elements of x which are zero.}
+    \item{r}{The number of Richardson improvement iterations.}
+    \item{warn}{see \code{effective.curvature}.}
 }
+\details{See the generic version of the function.}
 
-\details{
-    None yet.
-}
 \seealso{
     \code{\link{curvature}}
+    \code{\link{effective.curvature}}
 }
 \examples{
    if(is.R()) data("eg1.DSE.data.diff", package="dse1")

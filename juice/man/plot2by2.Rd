@@ -11,8 +11,8 @@
 \usage{
     plot2by2(data, ...)
 }
-\arguments {
-    \item{data}{A matrix of time series or a TSdata object.}
+\arguments{
+    \item{data}{a matrix of time series or a TSdata object.}
     \item{...}{Arguments passed to tfplot.}
 }
 \value{None.}

@@ -12,8 +12,8 @@
     concentrated.input.dimension(x)
     concentrated.output.dimension(x)
 }
-\arguments {
-    \item{x}{A concentrated data object.}
+\arguments{
+    \item{x}{a concentrated data object.}
 }
 \value{
     Depends on the argument. For a simple concentrated data object 

@@ -28,8 +28,9 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
   ARMAmodel<- l(to.ARMA(SSmodel), VARmodel$data)
   ARMAmodel.fixed <- l(fix.constants(ARMAmodel), VARmodel$data)
   
-func.residual <- function(parms,Shape,data)
-  {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))}
+func.residual <- function(coefficients, Shape,data)
+  {c(l(set.arrays(Shape,coefficients=coefficients),data,result="pred")
+      - output.data(data))}
 
 cat("DSE curvature test A 14...\n")
   curvatureARMA.fixed <- curvature(ARMAmodel.fixed, warn=F)$stats

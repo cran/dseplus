@@ -108,7 +108,8 @@ sourceserver.default <- function(obj){
 # The PADI interface uses some calls to operating system specific functions:
 #    -the function Sys.sleep is used in TSPADI.function.tests  
 #    -the function local.host.netname defined in syskern.s
-#    -the function user.name defined in the PADI interface software calls a
+#    -previously the function user.name defined in the PADI interface 
+#        software called a
 #        program (getpwuid) in the $PADI/bin. This was previously done with
 #        whoami() in syskern.s, which uses /usr/ucb/whoami (not system V unix).
 #        It is important that Sys.info()[["user"]] return the same result as the C
@@ -287,8 +288,8 @@ end.tfPADIdata <- function(x)
      {if(is.null(attr(x, "end")))   NA else attr(x, "end")}
 frequency.tfPADIdata <- function(x)
      {if(is.null(attr(x, "frequency")))   NA else attr(x, "frequency")}
-periods.tfPADIdata <- function(data) NA  # could be better
-series.names.tfPADIdata <- function(data) {dimnames(data)[[2]]}
+periods.tfPADIdata <- function(x) NA  # could be better
+series.names.tfPADIdata <- function(x) {dimnames(x)[[2]]}
 # nseries default should work
 
 

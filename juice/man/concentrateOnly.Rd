@@ -9,10 +9,15 @@
 \title{Extract Concentrate}
 \description{concentrateOnly}
 \usage{
-    concentrateOnly(d, ...)
+    concentrateOnly(d)
+    \method{concentrateOnly}{concentrate}(d)
+    \method{concentrateOnly}{TSdataconcentrate}(d)
+    \method{concentrateOnly}{TSdatareconstitute}(d)
+    \method{concentrateOnly}{TSestModel}(d)
+    \method{concentrateOnly}{TSmodelconcentrate}(d)
 }
-\arguments {
-    \item{d}{A concentrate object.}
+\arguments{
+    \item{d}{a concentrate object.}
 }
 \value{A TSdata object.}
 \details{

@@ -5,8 +5,11 @@
 \title{Specific Methods for input/output.dimension}
 \description{See the generic function description.}
 \usage{
-    input.dimension(m)
-    output.dimension(m)
+    \method{input.dimension}{TSmodelconcentrate}(x)
+    \method{output.dimension}{TSmodelconcentrate}(x)
+}
+\arguments{
+    \item{x}{a TSdata or TSmodelconcentrate object.}
 }
 
 \seealso{

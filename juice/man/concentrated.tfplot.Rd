@@ -7,8 +7,9 @@
 \usage{
     concentrated.tfplot(x, ...)
 }
-\arguments {
+\arguments{
     \item{x}{A concentrated data object.}
+    \item{...}{arguments to be passed to other tfplot.}
 }
 \value{
     Depends on the argument. For a simple concentrated data object 

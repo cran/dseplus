@@ -11,16 +11,21 @@
     \method{availability}{tfPADIdata}(obj, verbose=T, timeout=60)
 }
 \arguments{
-    \item{data.id}{
-    A vector of series identifiers or an object of 
-    class ("TSPADIdata", "TSdata"). See TSdata.TSPADIdata.}
+    \item{obj}{a vector of series identifiers or an object of 
+       class \code{tfPADIdata}. See TSdata.TSPADIdata.}
+    \item{...}{arguments to be passed to other methods.}
     \item{verbose}{ T or F indicating if the results should be printed.}
+    \item{timeout}{an integer indicating the number of seconds to wait before
+       concluding that the server is not available.}
     \item{names}{
     A character vector of names to be associated with the ids in printed results.}
     \item{server}{
     A character vector of servers to be associated with the ids.}
     \item{dbname}{
     A character vector of databases to be associated with the ids.}
+    \item{stop.on.error}{logical indicating if the function should stop if any
+       series produces an error, or continue with other series.}
+    \item{warn}{logical indicating if warning messages should be supressed.}
 }
 \value{A list with elements start, end, and frequency.}
 \details{
@@ -31,10 +36,10 @@ class TSPADIdata may supply some additional information, and several of
 the indicated optional arguments do not apply to that method.
 }
 \seealso{
-\code{\link[dse2]{TSPADIdata}}
-\code{\link[dse1]{TSdata}},
-\code{\link[dse2]{set.TSPADIdata}}
-\code{\link[dse2]{retrieve.and.verify.data}}
+\code{\link{tfPADIdata}},
+\code{\link{TSPADIdata}},
+\code{\link{set.TSPADIdata}},
+\code{\link{retrieve.and.verify.data}}
 }
 \examples{
 if(require("padi")) {
@@ -42,6 +47,6 @@ if(require("padi")) {
    d <- tfPADIdata("D1", server="ets")
    availability(d)}
 }
-\keyword{tframe}
-\keyword{time series data}
+%\keyword{tframe}
+\keyword{ts}
 
