@@ -11,11 +11,12 @@ Make a TSPADIdata object from identifier information}
       stop.on.error =TRUE, warn =TRUE)
 }
 \arguments{
-    \item{output  input}{
-    Lists of character vectors. Each vector has 5 elements indicating the 
-server, the database, the series identifier, any tranformation, and a name.
-At least one of input or output should be specified.}
-
+    \item{input}{Lists of character vectors indicating data to be used as input.
+        Each vector has 5 elements indicating the 
+        server, the database, the series identifier, any tranformation, and 
+	a name.}
+    \item{output}{List (as for input) indicating outputs. At 
+        least one of input or output should be specified.}
     \item{start, end, frequency, pad.start, pad.end}{
     Information about data retrieval. See tfPADIdata for more details.}
 

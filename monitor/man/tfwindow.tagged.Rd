@@ -20,9 +20,7 @@
     \item{end.}{see the generic function.}
     \item{tf}{see the generic function.}
     \item{warn}{see the generic function.}
-    \item{mat}{see the generic function.}
-    \item{mat1}{see the generic function.}
-    \item{mat2}{see the generic function.}
+    \item{mat1, mat2}{see the generic function.}
     \item{tag1}{tags for the first matrix. See \code{tags}.}
     \item{tag2}{tags for the second matrix. See \code{tags}.}
     \item{series}{see the generic function.}

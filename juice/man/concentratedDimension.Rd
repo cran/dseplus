@@ -10,8 +10,6 @@
 \usage{
     concentratedDimension(x)
     \method{concentratedDimension}{concentrate}(x)
-    concentrated.nseriesInput(x)
-    concentrated.nseriesOutput(x)
 }
 \arguments{
     \item{x}{a concentrated data object.}

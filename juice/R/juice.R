@@ -36,23 +36,12 @@ estProjection <- function(data, center=TRUE, scale=TRUE, ...) UseMethod("estProj
 estProjection.default <- function(data, center=TRUE, scale=TRUE, n=1, ...)
  {#  (... further arguments, currently disregarded)
   # data should be a matrix. n is number of components to keep.
-  # prcomponents is almost prcomp
-  prcomp <- function(x, retx = TRUE, center=TRUE, scale=TRUE, tol=sqrt(.Machine$double.eps))
-   {if (center) center <- apply(x,2,mean)
-    else        center <- rep(0, ncol(x))
-    if (scale)  scale  <- sqrt(apply(x,2,var)) 
-    else        scale  <- rep(1, ncol(x))
-    s <- La.svd(sweep(sweep(as.matrix(x),2, center),2, scale, FUN="/"))
-    # remove anything corresponding to effectively zero singular values.
-    rank <- sum(abs(s$d) > (abs(s$d[1])*tol))  
-    v <- Conj(t(s$vt[1:rank, , drop=FALSE]))
-    r <- list(sdev=s$d/sqrt(nrow(x)-1), rotation=v)
-    if (retx) r$x <- x %*% s$v
-    r
-   }
   data <- freeze(data)
   if (ncol(data) < n) stop("n cannot exceed columns of data.")
-  pr<- prcomp(data, retx = FALSE, center=center, scale=scale)
+  center <- if (center) apply(data,2,mean) else rep(0, ncol(data))
+  scale  <- if (scale) sqrt(apply(data,2,var)) else  rep(1, ncol(data))
+  pr<- prcomp(data, retx = FALSE, center=center, scale=scale,
+              tol=sqrt(.Machine$double.eps))
   classed(list(sdev=pr$sdev,  proj=pr$rotation[,1:n, drop=FALSE],
      center=center, scale=scale), "concentrator") # constructor
  }

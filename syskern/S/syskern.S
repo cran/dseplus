@@ -1,6 +1,16 @@
 
 #  Functions in this file are defined for S (and differently in R).
 
+# the following makes a generic copy of the function in the library to resolve
+#  problems with version of S which do not have a generic function.
+invisible(
+   if (!exists("scale.default"))
+     {if (exists("scale")) scale.default <- scale  
+      scale <- function(x, center=FALSE, scale = TRUE) UseMethod("scale")
+     }
+  )
+  
+
 is.S <- function(){is.Svanilla() | is.Splus() }
 is.Svanilla <- function(){!exists("version")}
 is.Splus <- function(){exists("version") && is.null(version$language)}
