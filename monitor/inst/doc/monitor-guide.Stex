@@ -137,7 +137,7 @@ This could be done with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  manuf.data <- tfwindow(manuf.data, start=c(1976,2)) 
+  manuf.data <- tfwindow(manuf.data, start=c(1976,2), warn=FALSE) 
 \end{Scode}
 
 However, the trimming would have to be repeated each time the data
@@ -297,8 +297,9 @@ been discontinued.)
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets")) {
-  z <- forecast(TSmodel(manuf.model), tfwindow(manuf.data, end=c(1995,1)),
-  conditioning.inputs=tfwindow(inputData(manuf.data), end=c(1996,12)))
+  z <- forecast(TSmodel(manuf.model),
+       tfwindow(manuf.data, end=c(1995,1), warn=FALSE),
+  conditioning.inputs=tfwindow(inputData(manuf.data), end=c(1996,12), warn=FALSE))
   tfplot(z, start.=c(1995,1)) 
 }
 \end{Scode}
@@ -309,7 +310,7 @@ To see the forecast use
 if(require("padi") && checkPADIserver("ets")) {
   forecasts(z)[[1]] 
 
-  tfwindow(forecasts(z)[[1]], start=c(1996,3)) 
+  tfwindow(forecasts(z)[[1]], start=c(1996,3), warn=FALSE) 
 }
 \end{Scode}
 
@@ -411,7 +412,7 @@ Or the data retrieval can be done in the same step with
 if(require("padi") && checkPADIserver("ets")){
   z <- l(TSmodel(manuf.model), trimNA(tfwindow(freeze(manuf.data.ids),
 
-    start=c(1976,2))))
+    start=c(1976,2), warn=FALSE)))
 
 tfplot(z)
 
@@ -427,8 +428,9 @@ The data series have been terminated, so this example needs to be redone.]:
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets")){
-z <- forecast(TSmodel(manuf.model), tfwindow(trimNA(new.data), end=c(1996,1)),
-conditioning.inputs=trimNA(inputData(new.data)))
+z <- forecast(TSmodel(manuf.model),
+   tfwindow(trimNA(new.data), end=c(1996,1), warn=FALSE),
+   conditioning.inputs=trimNA(inputData(new.data)))
 
 tfplot(z, start.=c(1995,6)) 
 }
@@ -447,7 +449,7 @@ or
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-tfwindow(forecasts(z)[[1]], start=c(1996,2)) 
+tfwindow(forecasts(z)[[1]], start=c(1996,2), warn=FALSE) 
 \end{Scode}
 
 will print values starting in the second period of 1996.

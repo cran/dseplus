@@ -1,5 +1,5 @@
 00Intro.syskern         Syskern
 dateParsed              Utilities to handle small S/R differences
 is.S                    S/R Version Information
-SPAWN                   Global variable
+.SPAWN                  Global variable
 Sys.mail                Send Mail
