@@ -52,7 +52,7 @@ cat("DSE curvature test A 12b..\n")
    {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))}
    
   curvatureVAR.def <- curvature.default(func.residual, parms(VARmodel), 
-              func.args=list(Shape=TSmodel(VARmodel), data=TSdata(VARmodel)),
+              obj.args=list(Shape=TSmodel(VARmodel), data=TSdata(VARmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=F)$stats
 
    good <- curvatureVAR[-9]

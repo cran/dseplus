@@ -7,12 +7,12 @@
 \title{TS Input and Output Specific Methods}
 \description{See the generic function description.}
 \usage{
-	input.data(x, ...)
-	output.data(x, ...)
-	input.periods(x, ...)
-	output.periods(x, ...)
+    \method{input.data}{TSPADIdata}(x, series=seq(length=input.dimension(x)))
+    \method{output.data}{TSPADIdata}(x,series=seq(length=output.dimension(x)))
+    \method{input.periods}{TSPADIdata}(x)
+    \method{output.periods}{TSPADIdata}(x)
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 
 

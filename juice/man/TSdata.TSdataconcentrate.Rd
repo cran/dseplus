@@ -4,11 +4,11 @@
 \title{TSdata Specific Methods}
 \description{See the generic function description.}
 \usage{
-	TSdata(...)
+    TSdata(...)
 }
 
 \seealso{ \code{\link{TSdata}} }
 
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

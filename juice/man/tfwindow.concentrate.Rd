@@ -4,11 +4,11 @@
 \title{tfwindow Specific Methods}
 \description{See the generic function description.}
 \usage{
-	tfwindow(...)
+    tfwindow(...)
 }
 
 \seealso{ \code{\link{tfwindow}} }
 
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

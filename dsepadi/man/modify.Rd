@@ -1,6 +1,7 @@
 \name{modify}
 \alias{modify}
 \title{modify a database descriptor object}
+\usage{modify(obj, ...)}
 \description{Generic method. See specific methods for details.}
 \seealso{
 \code{\link{modify.tfPADIdata}} 

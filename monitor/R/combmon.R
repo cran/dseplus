@@ -47,19 +47,21 @@ reconstruct.combined.forecast <- function(combined.forecast)
 
 tfplot.combined.forecast <- function(combined.forecast,verbose=F, 
        start.=start(combined.forecast$data$output),
-       Title="Projection", select.inputs=NULL, select.outputs=NULL)
+       Title="Projection", select.inputs=NULL, select.outputs=NULL,
+       mar=par()$mar)
 {# if verbose is T additional information is provided
  # output graphics can be paused between pages by setting par(ask=T).
    if (verbose)
-     {tfplot(combined.forecast$data, start.=start., Title="Data and combined.forecast")
-      tfplot(combined.forecast$pred, start.=start.,
+     {tfplot(combined.forecast$data, start.=start., mar=mar,
+            Title="Data and combined.forecast")
+      tfplot(combined.forecast$pred, start.=start., mar=mar,
             Title="Model predictions (one step ahead for history)")
      }
    graph.data <- combined.forecast$data
    graph.data$output <- combined.forecast$best.guess
    if (is.null(select.inputs))  select.inputs  <- seq(dim(graph.data$input)[2])
    if (is.null(select.outputs)) select.outputs <- seq(dim(graph.data$output)[2])
-   tfplot(graph.data, start.=start., Title="Projection", 
+   tfplot(graph.data, start.=start., mar=mar, Title="Projection", 
            select.inputs=select.inputs, select.outputs=select.outputs)
 #   tfplot(combined.forecast$forecast[[2]],combined.forecast$forecast[[1]],
 #         combined.forecast$forecast[[3]], start.=start.,

@@ -4,10 +4,11 @@
 \title{Get fixed data snapshot}
 \description{Get a time series matrix structure from a database}
 \usage{
-	freeze.tfPADIdata(data)
+    \method{freeze}{tfPADIdata}(data, timeout=60)
+    \method{freeze}{FAMEdata}(data)
 }
 \arguments{
-	\item{data}{A description of how to get data.}
+    \item{data}{A description of how to get data.}
 }
 \value{A time series matrix.}
 \details{

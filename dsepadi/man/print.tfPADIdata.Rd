@@ -5,18 +5,18 @@
 \description{See the generic function description.}
 
 \usage{
-	print(x)
+    print(x)
 }
 \arguments {
-	\item{x}{A tfPADIdata object.}
+    \item{x}{A tfPADIdata object.}
 }
 \sideffects{The object is printed.}
 \seealso{
-	\code{\link[base]{print}}
-	\code{\link{tfPADIdata}}
+    \code{\link[base]{print}}
+    \code{\link{tfPADIdata}}
 }
 \examples{
-	print(tfPADIdata(c("series1", "series2"), server="ets"))
+    print(tfPADIdata(c("series1", "series2"), server="ets"))
 }
 \keyword{tframe}
 \keyword{ts}

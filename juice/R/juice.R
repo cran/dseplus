@@ -306,12 +306,13 @@ concentrateOriginal.TScanonical.prediction <- function(d)
     {attr(d, "original")}   
 
 tfplot.TScanonical.prediction <- function(x, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, start.=NULL, end.=NULL, series=seq(nseries(x)))
+         graphs.per.page=5, start.=NULL, end.=NULL, 
+	 series=seq(nseries(x)), mar=par()$mar)
 {# plot actual data and data reconstituted from canonical.prediction.
  z <- concentrateOriginal(x)
  series.names(z) <- series.names(x) # used on plot
  tfplot(z, x, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page, 
-         start.=start., end.=end., series=series)
+         start.=start., end.=end., series=series, mar=mar)
  invisible()
 }
 
@@ -338,8 +339,7 @@ est.concentrated.model <- function(data, estimation="est.VARX.ls",
      {UseMethod("est.concentrated.model")}
 
 est.concentrated.model.TSdata <- function(data, estimation="est.VARX.ls",  
-                                                estimation.args=NULL,
-					m=1,p=1, center=TRUE, scale=TRUE) 
+              estimation.args=NULL, m=1, p=1, center=TRUE, scale=TRUE) 
   {d <- concentrate(data, conc=est.projection(data, m=m, p=p,
                                         center=center, scale=scale))
    est.concentrated.model(d, estimation=estimation, 
@@ -484,29 +484,30 @@ select.series.concentrate <-function (x, series = seq(nrow(concentrator(x)$proj)
 
 
 
-tfplot.concentrated <- function(x,...){stop("defunct. Use concentrated.tfplot")}
+tfplot.concentrated <- function(x, ...){stop("defunct. Use concentrated.tfplot")}
 
 concentrated.tfplot <- function(x, ...) {tfplot(concentrateOnly(x), ...)}
 
    
 tfplot.concentrate <- function(x, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, start.=NULL, end.=NULL, series=seq(nseries(x)))
+         graphs.per.page=5, start.=NULL, end.=NULL, 
+	 series=seq(nseries(x)), mar=par()$mar)
 {# plot actual data and data reconstituted from concentrate.
  tfplot(concentrateOriginal(x), reconstitute(x),  
          xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page, 
-         start.=start., end.=end., series=series)
+         start.=start., end.=end., series=series, mar=mar)
 }
 
 tfplot.TSdataconcentrate <- function(x, start. = NULL, end. = NULL,
     Title = "", reset.screen = T, 
     select.inputs  = seq(length = input.dimension(x)),
     select.outputs = seq(length = output.dimension(x)), 
-    graphs.per.page = 5, ylab = NULL)
+    graphs.per.page = 5, ylab = NULL, mar=par()$mar)
 {# plot actual data and data reconstituted from concentrate.
  tfplot.TSdata(concentrateOriginal(x), reconstitute(x), start.=start.,end.=end., 
     Title = Title, reset.screen = reset.screen, 
     select.inputs  = select.inputs, select.outputs = select.outputs, 
-    graphs.per.page = graphs.per.page, ylab = ylab)
+    graphs.per.page = graphs.per.page, ylab = ylab, mar=mar)
  invisible()
 }
 

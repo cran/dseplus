@@ -1,21 +1,18 @@
-\name{genD}
-\alias{genD}
-\alias{genD.default}
-\alias{genD.default.v2}
-\alias{genD.c}
+\name{genD.TSestModel}
+\alias{genD.TSestModel}
+\alias{genD.ARMA}
+\alias{genD.innov}
 
 \title{Generate Bates and Watts D Matrix}
 \description{Generate a matrix of function derivative information.}
 \usage{
-    genD(obj, ...)
-    genD.c(func, x, d=0.01, eps=1e-4, r=6)
-    \method{genD}{default}(obj, x, d=0.01, eps=1e-4, r=6, obj.args=NULL)
+    \method{genD}{TSestModel}(obj, ...)
+    \method{genD}{ARMA}(obj, data, d=0.01, eps=1e-4, r=6, warn=F)
+    \method{genD}{innov}(obj, data, d=0.01, eps=1e-4, r=6, warn=F)
 }
 \arguments{
     \item{obj}{
-    An function which must have a parameter 
-    vector argument as the first argument.}
-    \item{x}{The parameter vector first argument to obj.}
+    An object of class TSestModel. }
     \item{d}{The fraction of x to use for the initial numerical approximation.}
     \item{eps}{Used instead of d for elements of x which are zero.}
     \item{r}{The number of Richardson improvement iterations.}
@@ -32,12 +29,14 @@ A list with three elements as follows:
 }
 \details{The derivatives are calculated numerically using Richardson improvement.}
 \seealso{
+\code{\link{genD}}
 \code{\link{curvature}}
-\code{\link{genD.TSestModel}}
 }
 \examples{
-    func <- function(x){c(x[1], x[1], x[2]^2)}
-    z <- genD(func, c(2,2,5))
+if(is.R()) data("eg1.DSE.data.diff", package="dse1")
+model <- est.VARX.ls(TSdata( output=output.data(eg1.DSE.data.diff, series=1:2)),
+                      max.lag=2)
+z <- genD(model)
 }
 %\keyword{DSE}
 \keyword{ts}

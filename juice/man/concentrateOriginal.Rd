@@ -8,30 +8,30 @@
 \title{Extract Original Series}
 \description{concentrateOriginal}
 \usage{
-	concentrateOriginal(d, ...)
+    concentrateOriginal(d, ...)
 }
 \arguments {
-	\item{d}{A concentrate object.}
+    \item{d}{A concentrate object.}
 }
 \value{A TSdata object.}
 \details{
-	The original data set is returned as a TSdata object, stripped of
-	the fact that it is a concentrate.
+    The original data set is returned as a TSdata object, stripped of
+    the fact that it is a concentrate.
 }
 \seealso{
-	\code{\link{concentrate}}
-	\code{\link{concentrator}}
-	\code{\link{concentrateOnly}}
+    \code{\link{concentrate}}
+    \code{\link{concentrator}}
+    \code{\link{concentrateOnly}}
 }
 
 \examples{
-	if(is.R()) {
-	data("eg1.DSE.data", package="dse1")
-	require("mva")
-	}
-	z <- concentrate(eg1.DSE.data)
-	z <- concentrateOriginal(z)
+    if(is.R()) {
+    data("eg1.DSE.data", package="dse1")
+    require("mva")
+    }
+    z <- concentrate(eg1.DSE.data)
+    z <- concentrateOriginal(z)
 }
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

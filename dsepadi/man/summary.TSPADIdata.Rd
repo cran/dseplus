@@ -7,8 +7,8 @@
 \usage{summary(x, ...)}
 
 \seealso{
-	\code{\link{summary}}
-	\code{\link{print}}
+    \code{\link{summary}}
+    \code{\link{print}}
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}

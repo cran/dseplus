@@ -4,6 +4,6 @@
 \description{See the generic function description.}
 \usage{percent.change(x)}
 \seealso{ \code{\link{percent.change}} }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

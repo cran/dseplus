@@ -6,11 +6,13 @@
 \title{Get source server from a data object}
 \description{Get source server information from an object}
 \usage{
-	sourceserver(data.names)
+    sourceserver(obj)
+    \method{sourceserver}{default}(obj)
+    \method{sourceserver}{tfPADIdata}(obj)
 }
 \arguments{
-	\item{data.names}{
-	An object which contains source series information.}
+    \item{obj}{
+    An object which contains source series information.}
 }
 \value{
 A list with elements input and output which are strings indicating the 

@@ -12,32 +12,32 @@
 \title{Data Concentrator}
 \description{concentrator}
 \usage{
-	concentrator(d, ...)
-	is.concentrator(x)
-	is.TSdataconcentrator(x)
+    concentrator(d, ...)
+    is.concentrator(x)
+    is.TSdataconcentrator(x)
 }
 \arguments {
-	\item{d}{A concentrate or concentrator object.}
+    \item{d}{A concentrate or concentrator object.}
 }
 \value{A concentrator.}
 \details{
-	The concentrator is extracted from a concentrated data object.
+    The concentrator is extracted from a concentrated data object.
 }
 \seealso{
-	\code{\link{concentrate}}
-	\code{\link{concentrateOnly}}
-	\code{\link{concentrateOriginal}}
+    \code{\link{concentrate}}
+    \code{\link{concentrateOnly}}
+    \code{\link{concentrateOriginal}}
 }
 
 \examples{
-	if(is.R()) {
-	data("eg1.DSE.data", package="dse1")
-	require("mva")
-	}
-	z <- concentrate(eg1.DSE.data)
-	concentrator(z)
-	is.concentrator(concentrator(z))
+    if(is.R()) {
+    data("eg1.DSE.data", package="dse1")
+    require("mva")
+    }
+    z <- concentrate(eg1.DSE.data)
+    concentrator(z)
+    is.concentrator(concentrator(z))
 }
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

@@ -5,11 +5,11 @@
 \title{check.residuals Specific Methods}
 \description{See the generic function description.}
 \usage{
-	check.residuals(...)
+    check.residuals(...)
 }
 
 \seealso{ \code{\link{check.residuals}} }
 
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

@@ -5,19 +5,22 @@
 \title{Check Data Availability}
 \description{Check the dates for which date is available.}
 \usage{
-	availability(data.id, verbose=T)
+    availability(obj, ...)
+    \method{availability}{default}(obj, names=NULL, server="ets", dbname="",
+                       verbose=T, timeout=60, stop.on.error=TRUE, warn=TRUE)
+    \method{availability}{tfPADIdata}(obj, verbose=T, timeout=60)
 }
 \arguments{
-	\item{data.id}{
-	A vector of series identifiers or an object of 
-	class ("TSPADIdata", "TSdata"). See TSdata.TSPADIdata.}
-	\item{verbose}{ T or F indicating if the results should be printed.}
-	\item{names}{
-	A character vector of names to be associated with the ids in printed results.}
-	\item{server}{
-	A character vector of servers to be associated with the ids.}
-	\item{dbname}{
-	A character vector of databases to be associated with the ids.}
+    \item{data.id}{
+    A vector of series identifiers or an object of 
+    class ("TSPADIdata", "TSdata"). See TSdata.TSPADIdata.}
+    \item{verbose}{ T or F indicating if the results should be printed.}
+    \item{names}{
+    A character vector of names to be associated with the ids in printed results.}
+    \item{server}{
+    A character vector of servers to be associated with the ids.}
+    \item{dbname}{
+    A character vector of databases to be associated with the ids.}
 }
 \value{A list with elements start, end, and frequency.}
 \details{

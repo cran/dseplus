@@ -3,14 +3,14 @@
 \title{Retrieve and Verify Data}
 \description{Retrieve data from a database and verify a subset.}
 \usage{
-	retrieve.and.verify.data(data.names, 
-	   verification.data=verification.data, fuzz=1e-10)
+    retrieve.and.verify.data(data.names, 
+       verification.data=verification.data, fuzz=1e-10)
 }
 \arguments{
-	\item{data.names}{An object of class TSdata indicating databases and series.}
-	\item{verification.data}{An object of class TSdata.}
-	\item{fuzz}{
-	A (small) real number indicating the size of errors to tolerate.}
+    \item{data.names}{An object of class TSdata indicating databases and series.}
+    \item{verification.data}{An object of class TSdata.}
+    \item{fuzz}{
+    A (small) real number indicating the size of errors to tolerate.}
 }
 \value{An object of class TSdata containing data from the data bases is returned.
 }
@@ -37,7 +37,7 @@ if(require("padi") & require("dse2")) {
    d <- freeze(dnames)
    retrieve.and.verify.data(dnames, verification.data=d)}
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 
 

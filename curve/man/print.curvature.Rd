@@ -4,12 +4,12 @@
 \title{Specific Methods for Print}
 \description{See the generic function description.}
 \usage{
-	print(x)
+    print(x)
 }
 
 \seealso{ \code{\link{print}} }
 
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 
 

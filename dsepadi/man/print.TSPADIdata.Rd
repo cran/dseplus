@@ -4,9 +4,9 @@
 \description{See the generic function description.}
 \usage{print(x, ...)}
 \seealso{
-	\code{\link{print}}
-	\code{\link{summary}}
+    \code{\link{print}}
+    \code{\link{summary}}
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

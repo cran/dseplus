@@ -1,4 +1,4 @@
 Package: curve
 Title: Dynamic Systems Estimation - Curvature extensions
 Description: Multivariate Time Series - extensions
-Depends: dse1 R (>= 1.2.2)
+Depends: R (>= 1.2.2), dse1 (>= 2001.4-1)

@@ -47,7 +47,7 @@ cat("DSE curvature test A 7b...\n")
    {c(l(set.arrays(Shape,parms=parms),data,result="pred") - output.data(data))}
 
   curvatureARMA.def <- curvature.default(func.residual, parms(ARMAmodel), 
-               func.args=list(Shape=TSmodel(ARMAmodel), data=TSdata(ARMAmodel)),
+               obj.args=list(Shape=TSmodel(ARMAmodel), data=TSdata(ARMAmodel)),
                      d=0.01, eps=1e-4,r=6, show.details=F)$stats
 
    tst  <-  curvatureARMA.def

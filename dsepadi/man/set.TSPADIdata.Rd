@@ -3,7 +3,7 @@
 \title{Prompt for Series Names}
 \description{Prompt for data series names and locations and create a data object.}
 \usage{
-	set.TSPADIdata()
+    set.TSPADIdata()
 }
 \value{An object of class 'TSdata' or of class 'TSPADIdata' 'TSdata'}
 \details{
@@ -21,6 +21,6 @@ retrieved whenever it is referenced (and is of class 'TSPADIdata' 'TSdata').
 \examples{
 \dontrun{data <- set.TSPADIdata()}
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

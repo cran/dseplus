@@ -9,16 +9,16 @@
 \title{TSPADIdata Specific Methods}
 \description{See the generic function description.}
 \usage{
-	source.info(x)
-	sourcedb(x)
-	sourceserver(x)
-	availability(x)
-	identifiers(x)
-	periods(x)
+    \method{source.info}{TSPADIdata}(obj)
+    \method{sourcedb}{TSPADIdata}(obj)
+    \method{sourceserver}{TSPADIdata}(obj)
+    \method{availability}{TSPADIdata}(obj, verbose=T, timeout=60)
+    \method{identifiers}{TSPADIdata}(obj)
+    \method{periods}{TSPADIdata}(x)
 }
 \seealso{
-	\code{\link{source.info}} 
+    \code{\link{source.info}} 
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

@@ -3,11 +3,11 @@
 \title{Specific Methods for tsp}
 \description{See the generic function description.}
 \usage{
-	tsp(x)
+    tsp(x)
 }
 
 \seealso{ \code{\link[base]{tsp}} }
 
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

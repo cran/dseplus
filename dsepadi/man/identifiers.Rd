@@ -5,10 +5,12 @@
 \title{Get Identifiers from a data object}
 \description{Get Identifiers from a data object}
 \usage{
-	identifiers(data.names)
+    identifiers(obj)
+    \method{identifiers}{default}(obj)
+    \method{identifiers}{tfPADIdata}(obj)
 }
 \arguments{
-	\item{data.names}{An object which contains source series identifier information.}
+    \item{obj}{An object which contains source series identifier information.}
 }
 \value{
 A list with elements input and output which are strings indicating the 

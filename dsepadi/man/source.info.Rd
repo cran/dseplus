@@ -5,10 +5,12 @@
 \title{Get source information from a data object}
 \description{Get source information from an object}
 \usage{
-	source.info(data.names)
+    source.info(obj)
+    \method{source.info}{default}(obj)
+    \method{source.info}{tfPADIdata}(obj)
 }
 \arguments{
-	\item{data.names}{An object which contains source series information.}
+    \item{obj}{An object which contains source series information.}
 }
 \value{
 A list with elements input and output which are strings indicating the 

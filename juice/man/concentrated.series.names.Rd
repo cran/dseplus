@@ -7,36 +7,36 @@
 
 \title{Concentrated Series Names}
 \description{
-	The names of series in concentrate data.
+    The names of series in concentrate data.
 }
 \usage{
-	concentrated.series.names(x)
-	concentrated.input.series.names(x)
-	concentrated.output.series.names(x)
+    concentrated.series.names(x)
+    concentrated.input.series.names(x)
+    concentrated.output.series.names(x)
 }
 \arguments {
-	\item{x}{A concentrated data object.}
+    \item{x}{A concentrated data object.}
 }
 \value{
-	Depends on the argument. For a simple concentrated data object 
-	the result is a vector of strings.
+    Depends on the argument. For a simple concentrated data object 
+    the result is a vector of strings.
 }
 
 \seealso{
-	\code{\link{series.names}}
-	\code{\link{input.series.names}}
-	\code{\link{output.series.names}}
-	\code{\link{concentrated.dimension}}
-	\code{\link{concentrate}}
+    \code{\link{series.names}}
+    \code{\link{input.series.names}}
+    \code{\link{output.series.names}}
+    \code{\link{concentrated.dimension}}
+    \code{\link{concentrate}}
 }
 \examples{
-	if(is.R()) {
-	data("eg1.DSE.data", package="dse1")
-	require("mva")
-	}
-	z <- concentrate(eg1.DSE.data)
-	concentrated.series.names(z)
+    if(is.R()) {
+    data("eg1.DSE.data", package="dse1")
+    require("mva")
+    }
+    z <- concentrate(eg1.DSE.data)
+    concentrated.series.names(z)
 }
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

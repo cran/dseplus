@@ -4,6 +4,6 @@
 \description{See the generic function description.}
 \usage{end(x)}
 \seealso{ \code{\link{end}} }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

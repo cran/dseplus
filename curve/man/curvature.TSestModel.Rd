@@ -3,20 +3,26 @@
 \title{Curvature for a TSestModel}
 \description{Calculate curvature for a TSestModel.}
 \usage{
-	curvature.TSestModel(emodel, warn=T, ...)  
+    \method{curvature}{TSestModel}(obj, warn=T, ...)
 }
 
 \arguments {
-	\item{emodel}{A TSestModel.}
-	\item{warn}{Print additional warning messages.}
+    \item{emodel}{A TSestModel.}
+    \item{warn}{Print additional warning messages.}
 }
 
 \details{
-	None yet.
+    None yet.
+}
+\seealso{
+    \code{\link{curvature}}
 }
 \examples{
-	\dontrun{curvature(some model)}
+   if(is.R()) data("eg1.DSE.data.diff", package="dse1")
+   model <- est.VARX.ls(TSdata( output=output.data(eg1.DSE.data.diff, series=1:2)),
+                     max.lag=2)
+   curvature(genD(model)) 
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

@@ -4,23 +4,23 @@
 \description{
 Make a TSPADIdata object from identifier information}
 \usage{
-	TSPADIdata2 <- function(input=NULL, output=NULL,
-	  start = NA, end = NA, frequency = NA,
-	  pad.start = FALSE, pad.end = FALSE,
-	  start.server = NULL, server.process = NULL, cleanup.script = NULL,
-	  stop.on.error = T, warn = T)
+    TSPADIdata2(input=NULL, output=NULL,
+      start = NA, end = NA, frequency = NA,
+      pad.start = FALSE, pad.end = FALSE,
+      start.server = NULL, server.process = NULL, cleanup.script = NULL,
+      stop.on.error = T, warn = T)
 }
 \arguments{
-	\item{output  input}{
-	Lists of character vectors. Each vector has 5 elements indicating the 
+    \item{output  input}{
+    Lists of character vectors. Each vector has 5 elements indicating the 
 server, the database, the series identifier, any tranformation, and a name.
 At least one of input or output should be specified.}
 
-	\item{start, end, frequency, pad.start, pad.end}{
-	Information about data retrieval. See tfPADIdata for more details.}
+    \item{start, end, frequency, pad.start, pad.end}{
+    Information about data retrieval. See tfPADIdata for more details.}
 
-	\item{start.server, server.process, cleanup.script, stop.on.error, warn}{
-	Additional information server operation. See tfPADIdata for more details.}
+    \item{start.server, server.process, cleanup.script, stop.on.error, warn}{
+    Additional information server operation. See tfPADIdata for more details.}
 }
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{
@@ -38,7 +38,7 @@ be NULL).
 }
 \examples{
 inflation.sa.names <- TSPADIdata2(
-	output = list(
+    output = list(
          c("ets","", "ippia401",  "ytoypc", "industrial product price index"),
          c("ets","", "b820600",  "ytoypc", "cpi"),      
          c("ets","", "b820655",  "ytoypc", "cpixfe"),
@@ -48,6 +48,6 @@ inflation.sa.names <- TSPADIdata2(
            ), stop.on.error=T, warn=T )
 
 }
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

@@ -3,14 +3,14 @@
 \title{Specific Methods for tsp}
 \description{See the generic function description.}
 \usage{
-	tsp(x)
+    tsp(x)
 }
 \arguments {
-	\item{x}{A tfPADIdata object.}
+    \item{x}{A tfPADIdata object.}
 }
 
 \seealso{ \code{\link{tsp}} }
 
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

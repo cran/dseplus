@@ -1,12 +1,10 @@
-\name{hessian}
-\alias{hessian}
-\alias{hessian.default}
+\name{hessian.TSestModel}
+\alias{hessian.TSestModel}
 
 \title{Calculate Hessian Matrix}
 \description{Calculatate the hessian matrix of a function at a parameter value.}
 \usage{
-    hessian(obj, ...)
-    \method{hessian}{default}(obj, x, obj.args=NULL, d=0.01, eps=1e-4, r=6)
+    \method{hessian}{TSestModel}(obj, ...)
 }
 \arguments {
     \item{x}{See genD.}
@@ -16,7 +14,7 @@
     This function uses genD.
 }
 \seealso{
-    \code{\link{hessian.TSestModel}}
+    \code{\link{hessian}}
     \code{\link{genD}}
     \code{\link{span}}
 }

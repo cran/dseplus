@@ -12,21 +12,21 @@
 
 
 
-modify <- function(x, ...) {UseMethod("modify")} 
+modify <- function(obj, ...) {UseMethod("modify")} 
 
 # freeze and freeze.default moved to tframe (so everything else can be
 #  included with dsepadi).
 
 
-availability <- function(data, ...) UseMethod("availability")
+availability <- function(obj, ...) UseMethod("availability")
 
 
-availability.default <- function(data.id, names=NULL, server="ets", dbname="",
+availability.default <- function(obj, names=NULL, server="ets", dbname="",
                        verbose=T, timeout=60, stop.on.error=TRUE, warn=TRUE)  
 {# Indicate  dates for which data is available. 
- # data.id should be a character vector of data identifiers  
- if (1== length(server)) server  <- rep(server, length(data.id))
- if (1== length(dbname)) dbname  <- rep(dbname, length(data.id))
+ # obj should be a character vector of data identifiers  
+ if (1== length(server)) server  <- rep(server, length(obj))
+ if (1== length(dbname)) dbname  <- rep(dbname, length(obj))
 
  # next 3 lines are to look after older style name forms at the BOC
  ets <- "ets" == substring(dbname,1,3)
@@ -36,21 +36,21 @@ availability.default <- function(data.id, names=NULL, server="ets", dbname="",
  # server[server=="ets"] <- "padi"   # temporary kludge at the BOC
 
  s <- e <- f <- NULL
- for (i in 1:length(data.id))
-      {data <- getpadi(data.id[i], dbname=dbname[i], server=server[i],
+ for (i in 1:length(obj))
+      {data <- getpadi(obj[i], dbname=dbname[i], server=server[i],
                 stop.on.error=stop.on.error, use.tframe=T, warn=warn, 
                 pad=F, timeout=timeout)
        s <- rbind(s, start(data))
        e <- rbind(e, end(data))
        f <- c(f,frequency(data))
        if (verbose)
-         {cat(data.id[i]," from: ",start(data))
+         {cat(obj[i]," from: ",start(data))
           cat("  to: ",end(data))
           cat("   frequency ", frequency(data))
           if (!is.null(names)) cat("  ",names[i])
           cat("\n")
       }  }
-  invisible(list(start=s, end=e, frequency=f, series=data.id))
+  invisible(list(start=s, end=e, frequency=f, series=obj))
 }
 
 
@@ -123,7 +123,7 @@ sourceserver.default <- function(obj){
 
 
 
-tfPADIdata <- function( series,  server = "", db= "", transforms= "",  
+tfPADIdata <- function(series,  server = "", db= "", transforms= "",  
            start=NA, end=NA, frequency=NA, names=NULL, 
            pad=FALSE, pad.start=pad, pad.end=pad,
            use.tframe=T,
@@ -202,7 +202,7 @@ set.tfPADIdata <- function(preamble=T)
 }
 
 
-modify.tfPADIdata <- function( r, append=NA, 
+modify.tfPADIdata <- function(obj, append=NA, 
            series=NA, server=NA, db=NA, transforms=NA, 
            start=NA, end=NA, frequency=NA, names=NA, 
            pad=NA, pad.start=NA, pad.end=NA,
@@ -210,13 +210,13 @@ modify.tfPADIdata <- function( r, append=NA,
            start.server=NA, server.process=NA, cleanup.script=NA,
            stop.on.error=NA, warn=NA)
   {
-   if (!is.na(series))     r[1,] <- series
-   if (!is.na(server))     r[2,] <- server
-   if (!is.na(db))         r[3,] <- db
-   if (!is.na(transforms)) r[4,] <- transforms
+   if (!is.na(series))     obj[1,] <- series
+   if (!is.na(server))     obj[2,] <- server
+   if (!is.na(db))         obj[3,] <- db
+   if (!is.na(transforms)) obj[4,] <- transforms
    
    if (!is.na(names))
-       dimnames(r) <- list(c("series", "server", "db", "transforms") ,names)
+       dimnames(obj) <- list(c("series", "server", "db", "transforms") ,names)
 
   if (!all(is.na(append))) 
     {if (is.null(append$series))     append$db <- ""
@@ -226,40 +226,40 @@ modify.tfPADIdata <- function( r, append=NA,
      if(length(append$series) != length(append$names) )
            stop("number of new names does not match number of new series.")
      newr <- rbind(append$series, append$server, append$db, append$transforms)
-     newr <- cbind(r,newr)
+     newr <- cbind(obj,newr)
      dimnames(newr) <- list(c("series", "server", "db", "transforms") ,
-                            c(dimnames(r)[[2]], append$names))
-     attr(newr, "start")     <- attr(r, "start") 
-     attr(newr, "end")       <- attr(r, "end")
-     attr(newr, "frequency") <- attr(r, "frequency")
-     attr(newr, "pad.start") <- attr(r, "pad.start")
-     attr(newr, "pad.end")   <- attr(r, "pad.end")
-     attr(newr,"use.tframe") <- attr(r,"use.tframe")  
+                            c(dimnames(obj)[[2]], append$names))
+     attr(newr, "start")     <- attr(obj, "start") 
+     attr(newr, "end")       <- attr(obj, "end")
+     attr(newr, "frequency") <- attr(obj, "frequency")
+     attr(newr, "pad.start") <- attr(obj, "pad.start")
+     attr(newr, "pad.end")   <- attr(obj, "pad.end")
+     attr(newr,"use.tframe") <- attr(obj,"use.tframe")  
 
-     attr(newr, "start.server")   <- attr(r, "start.server")
-     attr(newr, "server.process") <- attr(r, "server.process")
-     attr(newr, "cleanup.script") <- attr(r, "cleanup.script")
-     attr(newr, "stop.on.error")  <- attr(r, "stop.on.error") 
-     attr(newr, "warn")           <- attr(r, "warn")  
+     attr(newr, "start.server")   <- attr(obj, "start.server")
+     attr(newr, "server.process") <- attr(obj, "server.process")
+     attr(newr, "cleanup.script") <- attr(obj, "cleanup.script")
+     attr(newr, "stop.on.error")  <- attr(obj, "stop.on.error") 
+     attr(newr, "warn")           <- attr(obj, "warn")  
      class(newr) <- "tfPADIdata"
-     r <- newr
+     obj <- newr
     }
    
-   if (!any(is.na(start)))          attr(r, "start")     <- start
-   if (!any(is.na(end)) )           attr(r, "end")       <- end
-   if (!    is.na(frequency))       attr(r, "frequency") <- frequency
+   if (!any(is.na(start)))          attr(obj, "start")     <- start
+   if (!any(is.na(end)) )           attr(obj, "end")       <- end
+   if (!    is.na(frequency))       attr(obj, "frequency") <- frequency
 
    if (!is.na(pad))            pad.start<- pad.end<- pad
-   if (!is.na(pad.start))      attr(r, "pad.start") <- pad.start
-   if (!is.na(pad.end))        attr(r, "pad.end")   <- pad.end
-   if (!is.na(use.tframe))     attr(r,"use.tframe") <- use.tframe 
+   if (!is.na(pad.start))      attr(obj, "pad.start") <- pad.start
+   if (!is.na(pad.end))        attr(obj, "pad.end")   <- pad.end
+   if (!is.na(use.tframe))     attr(obj,"use.tframe") <- use.tframe 
 
-   if (!is.na(start.server))   attr(r, "start.server") <- start.server
-   if (!is.na(server.process)) attr(r, "server.process") <- server.process
-   if (!is.na(cleanup.script)) attr(r, "cleanup.script") <- cleanup.script
-   if (!is.na(stop.on.error))  attr(r, "stop.on.error") <- stop.on.error
-   if (!is.na(warn))           attr(r, "warn")      <- warn
-   r
+   if (!is.na(start.server))   attr(obj, "start.server") <- start.server
+   if (!is.na(server.process)) attr(obj, "server.process") <- server.process
+   if (!is.na(cleanup.script)) attr(obj, "cleanup.script") <- cleanup.script
+   if (!is.na(stop.on.error))  attr(obj, "stop.on.error") <- stop.on.error
+   if (!is.na(warn))           attr(obj, "warn")      <- warn
+   obj
    }
 
 
@@ -369,34 +369,34 @@ freeze.tfPADIdata <- function(data, timeout=60)
  r
 }
 
-availability.tfPADIdata <- function(data, verbose=T, timeout=60)  
+availability.tfPADIdata <- function(obj, verbose=T, timeout=60)  
 {# Indicate  dates for which data is available.
  # This requires retrieving series individually so they are not truncated.
 
    # next 3 lines are to look after older style name forms at the BOC
-   ets <- "ets" == substring(data["db",],1,3)
-   data["server", ets] <- "ets"
-   data["db",     ets] <- ""
+   ets <- "ets" == substring(obj["db",],1,3)
+   obj["server", ets] <- "ets"
+   obj["db",     ets] <- ""
 
-   data["server", data["server",] ==""] <- Sys.info()[["nodename"]] 
-   series <- data["series", ]
+   obj["server", obj["server",] ==""] <- Sys.info()[["nodename"]] 
+   series <- obj["series", ]
    s <- e <- f <- NULL
    for (i in 1:length(series))
-     {r <- getpadi( series[i], server=data["server",i], dbname=data["db",i], 
-        start.server   = attr(data,"start.server"), 
-        server.process = attr(data,"server.process"),
-        cleanup.script = attr(data,"cleanup.script"),
-        starty=if(any(is.na(start(data)))) 0 else start(data)[1],
-        startm=if(any(is.na(start(data)))) 0 else start(data)[2],
-        endy=if(any(is.na(end(data))))  0 else end(data)[1],
-        endm=if(any(is.na(end(data))))  0 else end(data)[2],
-        transformations = data["transforms",i],
-        pad  = (attr(data,"pad.start") | attr(data,"pad.end")) ,
-        user =if(is.null(attr(data,"user"))) Sys.info()[["user"]] else attr(data,"user"),
-        passwd=if(is.null(attr(data,"passwd")))  ""    else attr(data,"passwd"),
-        stop.on.error = attr(data,"stop.on.error"),
-        use.tframe=attr(data,"use.tframe"), 
-        warn=attr(data,"warn"), timeout=timeout)
+     {r <- getpadi( series[i], server=obj["server",i], dbname=obj["db",i], 
+        start.server   = attr(obj,"start.server"), 
+        server.process = attr(obj,"server.process"),
+        cleanup.script = attr(obj,"cleanup.script"),
+        starty=if(any(is.na(start(obj)))) 0 else start(obj)[1],
+        startm=if(any(is.na(start(obj)))) 0 else start(obj)[2],
+        endy=if(any(is.na(end(obj))))  0 else end(obj)[1],
+        endm=if(any(is.na(end(obj))))  0 else end(obj)[2],
+        transformations = obj["transforms",i],
+        pad  = (attr(obj,"pad.start") | attr(obj,"pad.end")) ,
+        user =if(is.null(attr(obj,"user"))) Sys.info()[["user"]] else attr(obj,"user"),
+        passwd=if(is.null(attr(obj,"passwd")))  ""    else attr(obj,"passwd"),
+        stop.on.error = attr(obj,"stop.on.error"),
+        use.tframe=attr(obj,"use.tframe"), 
+        warn=attr(obj,"warn"), timeout=timeout)
 
        s <- rbind(s, start(r))
        e <- rbind(e, end(r))
@@ -405,7 +405,7 @@ availability.tfPADIdata <- function(data, verbose=T, timeout=60)
          {cat(series[i]," from: ",start(r))
           cat("  to: ",end(r))
           cat("   frequency ", frequency(r))
-          cat("  ",series.names(data)[i])
+          cat("  ",series.names(obj)[i])
           cat("\n")
       }  }
   invisible(list(start=s, end=e, frequency=f, series=series))

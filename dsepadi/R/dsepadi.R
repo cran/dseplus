@@ -148,9 +148,9 @@ tsp.TSPADIdata <- function(x)
    o
 }
 
-input.periods.TSPADIdata <- function(data) periods( input.data(data))  
-output.periods.TSPADIdata <- function(data) periods(output.data(data))  
-periods.TSPADIdata <- function(data) periods(output.data(data))
+input.periods.TSPADIdata <- function(x) periods( input.data(x))  
+output.periods.TSPADIdata <- function(x) periods(output.data(x))  
+periods.TSPADIdata <- function(x) periods(output.data(x))
 
  
 input.data.TSPADIdata <- function(x, series=seq(length=input.dimension(x)))
@@ -229,13 +229,13 @@ freeze.TSPADIdata <- function(x, timeout=60)
 }
 
 
-availability.TSPADIdata <- function(x, verbose=T, timeout=60)  
+availability.TSPADIdata <- function(obj, verbose=T, timeout=60)  
 {# Indicate  dates for which data is available. 
 
- i <- if (0 ==  input.dimension(x)) NULL
-      else availability( input.data(x), verbose=verbose)
- o <- if (0 == output.dimension(x)) NULL
-      else availability(output.data(x), verbose=verbose)
+ i <- if (0 ==  input.dimension(obj)) NULL
+      else availability( input.data(obj), verbose=verbose)
+ o <- if (0 == output.dimension(obj)) NULL
+      else availability(output.data(obj), verbose=verbose)
  if (is.null(i) & is.null(o)) stop("No data.")
  invisible(list(start = rbind(i$start, o$start),
                 end   = rbind(i$end, o$end),

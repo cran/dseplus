@@ -5,10 +5,12 @@
 \title{Get sourcedb from a data object}
 \description{Get sourcedb from a data object}
 \usage{
-	sourcedb(data.names)
+    sourcedb(obj)
+    \method{sourcedb}{default}(obj)
+    \method{sourcedb}{tfPADIdata}(obj)
 }
 \arguments{
-	\item{data.names}{An object which contains source data base information.}
+    \item{obj}{An object which contains source data base information.}
 }
 \value{
 A list with elements input and output which are strings indicating the 

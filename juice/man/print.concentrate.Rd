@@ -4,11 +4,11 @@
 \title{Print Specific Methods}
 \description{See the generic function description.}
 \usage{
-	print(...)
+    print(...)
 }
 
 \seealso{ \code{\link{print}} }
 
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

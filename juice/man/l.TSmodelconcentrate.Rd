@@ -3,11 +3,11 @@
 \title{Specific Methods for l}
 \description{See the generic function description.}
 \usage{
-	l(model,data)
+    l(model,data)
 }
 
 \seealso{ \code{\link{l}} }
 
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

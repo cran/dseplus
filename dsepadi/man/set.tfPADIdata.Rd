@@ -4,7 +4,7 @@
 \description
 {Prompt for data series names and locations and create a data object.}
 \usage{
-	set.tfPADIdata()
+    set.tfPADIdata(preamble=T)
 }
 \value{An object of class 'tfPADIdata' (or retrieved time series matrix).}
 \details{

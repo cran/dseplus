@@ -1,4 +1,8 @@
-00General.Description    Juice
+See 00Intro or 00Intro.dse1 for a general description of this package,
+A Users' Guide is available at 'URL: http://www.bank-banque-canada.ca/pgilbert'
+See also the related packages syskern tframe dse1 dse2 in the dse bundle
+   and packages curve juice  dsepadi monitor   in the dseplus bundle.
+00Intro.juice            Juice
 TSdata.TSdataconcentrate
                          TSdata Specific Methods
 canonical.prediction     Canonical Prediction

@@ -39,9 +39,12 @@ cat("DSE curvature test B 7 ...")
 # values with R 1.2.2 and Splus 3.3 ( note Linux is different !)
    good <- if(is.Splus())                             7219.22183565129399 else 
            if(is.R()) {
-	     if (Sys.info()[["sysname"]] == "Linux")  7219.22919493643258 else
+# R 1.2.3    if (Sys.info()[["sysname"]] == "Linux")  7219.22919493643258 else
+# R 1.3.0
+	     if (Sys.info()[["sysname"]] == "Linux")  7219.17128513884654 else
+	     if (Sys.info()[["sysname"]] == "Windows")7219.2222921110606  else
 	     if (Sys.info()[["sysname"]] == "SunOS" ) 7219.22210394543526 else
-	                                              7219.22210394543526 #defaulat Solaris
+	                                              7219.22210394543526 #default Solaris
 	     } 
    tst  <- sum(hessianVAR)
    error <- max(abs(good - tst))
@@ -63,7 +66,10 @@ cat("DSE curvature test B 8 ...")
 # values with R 1.2.2 and Splus 3.3
    good <- if(is.Splus())                             7840.99348875210035 else 
            if(is.R()) {
-	     if (Sys.info()[["sysname"]] == "Linux")  7841.35186698713642 else
+# R 1.2.3    if (Sys.info()[["sysname"]] == "Linux")  7841.35186698713642 else
+# R 1.3.0
+	     if (Sys.info()[["sysname"]] == "Linux")  7841.24925650512705 else
+	     if (Sys.info()[["sysname"]] == "Windows")7841.07715279903 else
 	     if (Sys.info()[["sysname"]] == "SunOS" ) 7841.24813340843411 else
 	                                              7841.24813340843411 #defaulat Solaris
 	     } 
@@ -88,7 +94,11 @@ cat("DSE curvature test B 9 ...")
 # values with R 1.2.2 and Splus 3.3
    good <- if(is.Splus())                             10711.2666306187384 else 
            if(is.R()) {
-	     if (Sys.info()[["sysname"]] == "Linux")  10711.013899114736 else
+	     if (Sys.info()[["sysname"]] == "Linux") {
+		# 10711.013899114736    R 1.2.3
+		  10711.8649535454842 # R 1.3.0
+	       } else
+	     if (Sys.info()[["sysname"]] == "Windows")10711.271347343158  else
 	     if (Sys.info()[["sysname"]] == "SunOS" ) 10711.2557033145931 else
 	                                              10711.2557033145931 #defaulat Solaris
 	     } 

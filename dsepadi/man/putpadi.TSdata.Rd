@@ -3,14 +3,14 @@
 \title{Specific Methods for putpadi}
 \description{See the generic function description.}
 \usage{
-	putpadi(x)
+    putpadi(x)
 }
 
 \seealso{
-	\code{\link[tframe]{tfputpadi}}
-	\code{\link[padi]{putpadi}}
+    \code{\link[tframe]{tfputpadi}}
+    \code{\link[padi]{putpadi}}
 }
 
-\keyword{DSE}
+%\keyword{DSE}
 \keyword{ts}
 

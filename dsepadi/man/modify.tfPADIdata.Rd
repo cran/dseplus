@@ -3,20 +3,22 @@
 \title{modify a database descriptor object}
 \description{Modify an object with new information}
 \usage{
-	modify.tfPADIdata(obj, append=NA,
-           series=NA, server=NA, db=NA, transforms=NA, names=NA,
-           start=NA, end=NA, frequency=NA, 
+    \method{modify}{tfPADIdata}(obj, append=NA, 
+           series=NA, server=NA, db=NA, transforms=NA, 
+           start=NA, end=NA, frequency=NA, names=NA, 
            pad=NA, pad.start=NA, pad.end=NA,
-           use.tframe=NA, stop.on.error=NA, warn=NA)
+           use.tframe=NA,
+           start.server=NA, server.process=NA, cleanup.script=NA,
+           stop.on.error=NA, warn=NA)
 }
 \arguments{
-	\item{obj}{A tfPADIdata object.}
-	\item{append}{
-	If specified, append should be a list of (series, server, db,
+    \item{obj}{A tfPADIdata object.}
+    \item{append}{
+    If specified, append should be a list of (series, server, db,
 transforms, names) as specified for tfPADIdata. These are appended as additional
 series to the object.}
-	\item{Other arguments as for tfPADIdata}{
-	See tfPADIdata descriptions. Values replace existing values (except in the case of append).}
+    \item{Other arguments as for tfPADIdata}{
+    See tfPADIdata descriptions. Values replace existing values (except in the case of append).}
 }
 \value{
 A object of class "tfPADIdata" which can be used to retrieve a matrix time series object.

@@ -8,34 +8,34 @@
 \title{Reconstitute}
 \description{reconstitute}
 \usage{
-	reconstitute(d, conc=NULL, names=NULL)
-	is.TSdatareconstitute(x)
+    reconstitute(d, conc=NULL, names=NULL)
+    is.TSdatareconstitute(x)
 }
 \arguments {
-	\item{d}{A concentrated data object.}
-	\item{conc}{A concentrator.}
-	\item{names}{Series names for the result.}
+    \item{d}{A concentrated data object.}
+    \item{conc}{A concentrator.}
+    \item{names}{Series names for the result.}
 }
 \value{Depends on the argument.}
 \details{
-	A concentrated data object is used to reconstruct the full dimension 
-	data. Thus the result has the same dimension as the original data, but
-	will not be exactly the same because some information is lost when the
-	data is concentrated (unless the concentrate has the full
-	dimension of the original data, which would usually be pointless). 
+    A concentrated data object is used to reconstruct the full dimension 
+    data. Thus the result has the same dimension as the original data, but
+    will not be exactly the same because some information is lost when the
+    data is concentrated (unless the concentrate has the full
+    dimension of the original data, which would usually be pointless). 
 }
 \seealso{
-	\code{\link{concentrate}}
+    \code{\link{concentrate}}
 }
 \examples{
-	if(is.R()) {
-	data("eg1.DSE.data", package="dse1")
-	require("mva")
-	}
-	z <- concentrate(eg1.DSE.data)
-	z <- reconstitute(z)
-	is.TSdatareconstitute(z)
+    if(is.R()) {
+    data("eg1.DSE.data", package="dse1")
+    require("mva")
+    }
+    z <- concentrate(eg1.DSE.data)
+    z <- reconstitute(z)
+    is.TSdatareconstitute(z)
 }
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 

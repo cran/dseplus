@@ -13,10 +13,10 @@ cannonical correlation for TSdata with input and output).
    est.projection(data, center=TRUE, scale=TRUE, m=1,p=1) # data a TSdata object
    }
 \arguments{
-	\item{data}{A matrix or TSdata object.}
-	\item{n, m, p}{dimension of the concentrated series.}
-	\item{center}{center the observations to mean zero first.}
-	\item{scale}{scale the observations to SD one first.}
+    \item{data}{A matrix or TSdata object.}
+    \item{n, m, p}{dimension of the concentrated series.}
+    \item{center}{center the observations to mean zero first.}
+    \item{scale}{scale the observations to SD one first.}
 }
 \value{An object containing matrix (conc) to use to 
  concentrate the data.}
@@ -32,6 +32,6 @@ if(is.R()) {
   }
 z <- est.projection(eg1.DSE.data)
 }
-\keyword{DSE}
-\keyword{time series}
+%\keyword{DSE}
+\keyword{ts}
 
