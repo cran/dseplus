@@ -12,13 +12,13 @@
 
 
 
-modify <- function (x, ...) {UseMethod("modify")} 
+modify <- function(x, ...) {UseMethod("modify")} 
 
 # freeze and freeze.default moved to tframe (so everything else can be
 #  included with dsepadi).
 
 
-availability <- function (data, ...) UseMethod("availability")
+availability <- function(data, ...) UseMethod("availability")
 
 
 availability.default <- function(data.id, names=NULL, server="ets", dbname="",
@@ -106,7 +106,7 @@ sourceserver.default <- function(obj){
 ############################################################################
 
 # The PADI interface uses some calls to operating system specific functions:
-#    -the function sleep is used in TSPADI.function.tests  
+#    -the function Sys.sleep is used in TSPADI.function.tests  
 #    -the function local.host.netname defined in syskern.s
 #    -the function user.name defined in the PADI interface software calls a
 #        program (getpwuid) in the $PADI/bin. This was previously done with
@@ -298,7 +298,7 @@ sourcedb.tfPADIdata <- function(obj)  {obj[3,]}
 source.info.tfPADIdata <- function(obj)  {attr(obj,"source")} #used by refresh
 
 
-"[.tfPADIdata" <- function (x, i, j, drop = FALSE) #N.B. FALSE
+"[.tfPADIdata" <- function(x, i, j, drop = FALSE) #N.B. FALSE
    {a <- attributes(x)
     y <- NextMethod("[")
     a$dim      <- dim(y)
@@ -413,7 +413,7 @@ availability.tfPADIdata <- function(data, verbose=T, timeout=60)
 
 
 
-tfputpadi  <- function (data,  
+tfputpadi <- function(data,  
          server = local.host.netname(),
          dbname = "", 
          series = series.names(data),
@@ -476,7 +476,7 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
   if (synopsis & !verbose) cat("tfPADI tests ...")
 
   scratch.db <-"zot123456.db"
-  unlink(scratch.db)
+  syskern.rm(scratch.db)
   server <- local.host.netname()
 
  if (verbose) cat("tfPADI test 0 ... ")
@@ -490,7 +490,7 @@ tfPADI.function.tests <- function( verbose=T, synopsis=T,
   # wait to ensure padi server is started
      for (i in 1:30)
        {if (check.padi.server(server)) break
-        sleep(1)
+        Sys.sleep(1)
        }
   all.ok <- ok <- T
   if (verbose) 

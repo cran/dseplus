@@ -198,7 +198,7 @@ trim.na.tagged <- function(mat, start.=T, end.=T)
  tfwindow(mat,start=s, end=e, warn=F)
 }
 
-tfwindow.tagged <- function(x, start=NULL, end=NULL, warn=T)
+tfwindow.tagged <- function(x, start=NULL, end=NULL, tf=NULL, warn=T)
 {# window a ts matrix of class "tagged".
  # With the default warn=T warnings will be issued if no truncation takes
  #  place because start or end is outside the range of data.
@@ -216,16 +216,16 @@ tfwindow.tagged <- function(x, start=NULL, end=NULL, warn=T)
  # The following is complicated by the fact that some versions of window
  #    look for missing arguments.
  if (is.null(start))
-   {x   <- tfwindow(x  , end=end, warn=warn)
-    tags<- tfwindow(tags,end=end, warn=warn)
+   {x   <- tfwindow(x  , end=end, tf=tf, warn=warn)
+    tags<- tfwindow(tags,end=end, tf=tf, warn=warn)
    }
  else if (is.null(end))
-   {x   <- tfwindow(x  , start=start, warn=warn)
-    tags<- tfwindow(tags,start=start, warn=warn)
+   {x   <- tfwindow(x  , start=start, tf=tf, warn=warn)
+    tags<- tfwindow(tags,start=start, tf=tf, warn=warn)
    }
  else
-   {x   <- tfwindow(x,   start=start, end=end, warn=warn)
-    tags<- tfwindow(tags,start=start, end=end, warn=warn)
+   {x   <- tfwindow(x,   start=start, end=end, tf=tf, warn=warn)
+    tags<- tfwindow(tags,start=start, end=end, tf=tf, warn=warn)
    }
  tagged(x, tags)
 }

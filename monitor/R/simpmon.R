@@ -1,4 +1,3 @@
-#   2000/04/18 11:15:53  
 ###########################################################################
 
 # Simple monitoring functions and data checking        <<<<<<<<<<<<
@@ -317,7 +316,7 @@ simple.monitor.function.tests <- function( verbose=T, synopsis=T,
   # wait for server to start 
      for (i in 1:30)
        {if (check.padi.server(server)) break
-        sleep(1)
+        Sys.sleep(1)
        }
   ok <- T
   all.ok <- all.ok & ok 

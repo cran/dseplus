@@ -11,11 +11,11 @@
 	span(func, x,d=0.01, eps=1e-4,r=6, show.details=F)
 }
 \arguments{
-\item{func}{An S function. func must have a single vector argument.}
-\item{x}{The parameter vector argument to func.}
-\item{d}{The fraction of x to use for the initial numerical approximation.}
-\item{eps}{Used instead of d for elements of x which are zero.}
-\item{r}{The number of Richardson improvement iterations.}
+	\item{func}{An S function. func must have a single vector argument.}
+	\item{x}{The parameter vector argument to func.}
+	\item{d}{The fraction of x to use for the initial numerical approximation.}
+	\item{eps}{Used instead of d for elements of x which are zero.}
+	\item{r}{The number of Richardson improvement iterations.}
 }
 \value{
 The singular values of the matrix of tangent vectors are returned.

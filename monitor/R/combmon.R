@@ -1,4 +1,3 @@
-#   2000/04/20 14:58:11 
 ###########################################################################
 
 # Combination forecasting  functions.                       <<<<<<<<<<<<
@@ -381,7 +380,7 @@ combination.monitoring <- function(model, data.names,
 #    if("/" == substring(graphics.file,1,1) )
 #             message <- c(message,graphics.file)
 #    else
-#      {pwd <- present.working.directory()
+#      {pwd <- getwd()
 #       if("/tmp_mnt" == substring(pwd,1,8)) pwd <-substring(pwd,9)
 #       message <- c(message,paste(pwd,"/",graphics.file, sep=""))
 #      }
@@ -443,7 +442,7 @@ combination.monitor.function.tests <- function( verbose=T, synopsis=T,
   # wait for server to start 
      for (i in 1:30)
        {if (check.padi.server(server)) break
-        sleep(1)
+        Sys.sleep(1)
        }
   ok <- T
   all.ok <- all.ok & ok 

@@ -7,7 +7,7 @@
 	freeze.tfPADIdata(data)
 }
 \arguments{
-\item{ data}{ A description of how to get data.}
+	\item{data}{A description of how to get data.}
 }
 \value{A time series matrix.}
 \details{

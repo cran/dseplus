@@ -17,22 +17,18 @@
 	is.TSPADIdata(x)
 }
 \arguments{
-\item{ output  input}
-{Character vectors of series identifiers. At least one of input or output
-should be specified.}
-
-\item{ output.transforms input.transforms output.names input.names}
-{ Character vectors of additional information corresponding to series 
-identifiers. Scalar values are expanded to a vector of appropriate length.}
-
-\item{ start, end, frequency, pad, pad.start, pad.end}
-{ Information about data retrieval. See tfPADIdata for more details.}
-
-\item{ server, db}
-{ Information about the server. See tfPADIdata for more details.}
-
-\item{ start.server, server.process, cleanup.script, stop.on.error, warn}
-{ Additional information server operation. See tfPADIdata for more details.}
+	\item{output  input}{
+	Character vectors of series identifiers. At least one of input or output
+	should be specified.}
+	\item{output.transforms input.transforms output.names input.names}{
+	Character vectors of additional information corresponding to series 
+	identifiers. Scalar values are expanded to a vector of appropriate length.}
+	\item{start, end, frequency, pad, pad.start, pad.end}{
+	Information about data retrieval. See tfPADIdata for more details.}
+	\item{server, db}{
+	Information about the server. See tfPADIdata for more details.}
+	\item{start.server, server.process, cleanup.script, stop.on.error, warn}{
+	Additional information server operation. See tfPADIdata for more details.}
 }
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{

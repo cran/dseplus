@@ -20,8 +20,9 @@
 \details{
 	A concentrated data object is used to reconstruct the full dimension 
 	data. Thus the result has the same dimension as the original data, but
-	will not be exactly teh same because some information is lost when the
-	data is concentrated. 
+	will not be exactly the same because some information is lost when the
+	data is concentrated (unless the concentrate has the full
+	dimension of the original data, which would usually be pointless). 
 }
 \seealso{
 	\code{\link{concentrate}}

@@ -11,17 +11,16 @@ Make a TSPADIdata object from identifier information}
 	  stop.on.error = T, warn = T)
 }
 \arguments{
-\item{ output  input}
-{Lists of character vectors. Each vector has 5 elements indicating the 
+	\item{output  input}{
+	Lists of character vectors. Each vector has 5 elements indicating the 
 server, the database, the series identifier, any tranformation, and a name.
 At least one of input or output should be specified.}
 
-\item{ start, end, frequency, pad.start, pad.end}
-{ Information about data retrieval. See tfPADIdata for more details.}
+	\item{start, end, frequency, pad.start, pad.end}{
+	Information about data retrieval. See tfPADIdata for more details.}
 
-\item{ start.server, server.process, cleanup.script, stop.on.error, warn}
-{ Additional information server operation. See tfPADIdata for more details.}
-
+	\item{start.server, server.process, cleanup.script, stop.on.error, warn}{
+	Additional information server operation. See tfPADIdata for more details.}
 }
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{

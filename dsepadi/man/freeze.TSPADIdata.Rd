@@ -7,8 +7,7 @@ Get a TSdata structure from TSPADI Database Interface}
 	freeze(data.id)
 }
 \arguments{
-\item{ data.id}
-{ An object of class TSPADIdata.}
+	\item{data.id}{An object of class TSPADIdata.}
 }
 \value{A TSdata object taken from the database.
 }

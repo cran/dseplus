@@ -1,5 +1,3 @@
-#   2000/04/18 12:08:12 
-
 
 ############################################################################
 
@@ -980,8 +978,8 @@ genD.c <- function(func, x, d=0.01, eps=1e-4, r=6){
 
 
 
-load.curvature.c    <- function ()
-{# load C routines for use by S functions genD.c (which is NOT an improvement
+load.curvature.c <- function(){
+ # load C routines for use by S functions genD.c (which is NOT an improvement
  # over the S version) and R11T.c (which doesn't work).
  dyn.load(paste(DSE.HOME,"/curvature.o", sep=""))
 } 

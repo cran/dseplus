@@ -8,17 +8,16 @@
 	availability(data.id, verbose=T)
 }
 \arguments{
-\item{data.id }
-{ A vector of series identifiers or an object of 
-class ("TSPADIdata", "TSdata"). See TSdata.TSPADIdata.}
-
-\item{  verbose}{ T or F indicating if the results should be printed.}
-\item{  names}
-{ A character vector of names to be associated with the ids in printed results.}
-\item{  server}
-{ A character vector of servers to be associated with the ids.}
-\item{  dbname}
-{ A character vector of databases to be associated with the ids.}
+	\item{data.id}{
+	A vector of series identifiers or an object of 
+	class ("TSPADIdata", "TSdata"). See TSdata.TSPADIdata.}
+	\item{verbose}{ T or F indicating if the results should be printed.}
+	\item{names}{
+	A character vector of names to be associated with the ids in printed results.}
+	\item{server}{
+	A character vector of servers to be associated with the ids.}
+	\item{dbname}{
+	A character vector of databases to be associated with the ids.}
 }
 \value{A list with elements start, end, and frequency.}
 \details{

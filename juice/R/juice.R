@@ -62,7 +62,10 @@ cancorrelation <- function(x, y, xcenter=TRUE, ycenter=TRUE, xscale=TRUE, yscale
 ######################################################################
 
 
-
+# Note that concentrated data is really the original data with information for
+#  concentrating it. That way the original data is not lost and is available
+#  for comparison (as in tfplot). The truely concentrated data is produced on
+#  demand by concentrateOnly.
 
 est.projection <- function(data, ...) {UseMethod("est.projection")}
 
@@ -239,7 +242,8 @@ reconstitute <- function(d, conc=NULL, names=NULL) {UseMethod("reconstitute")}
 TSdata.TSdataconcentrate <- reconstitute 
 
 reconstitute.default <- function(d, conc, names=series.names(d))
- {conc <- concentrator(conc)
+ {# this actually concentrates the data and then reconstitutes it.
+  conc <- concentrator(conc)
   inv <- svd(conc$proj) 
   newd <- freeze(d)
   newd <- newd %*% inv$v %*% sweep(t(inv$u), 1, 1/inv$d, "*")
@@ -301,17 +305,17 @@ is.TScanonical.prediction <- function(x) {inherits(x, "TScanonical.prediction")}
 concentrateOriginal.TScanonical.prediction <- function(d)
     {attr(d, "original")}   
 
-tfplot.TScanonical.prediction <- function(x, ...)
+tfplot.TScanonical.prediction <- function(x, xlab=NULL, ylab=NULL,
+         graphs.per.page=5, start.=NULL, end.=NULL, series=seq(nseries(x)))
 {# plot actual data and data reconstituted from canonical.prediction.
- z <- TSdata(list(output=concentrateOriginal(x)))
- output.series.names(z) <- series.names(x) # used on plot
- tfplot(z, TSdata(list(output=x)), ...)
+ z <- concentrateOriginal(x)
+ series.names(z) <- series.names(x) # used on plot
+ tfplot(z, x, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page, 
+         start.=start., end.=end., series=series)
  invisible()
 }
- 
 
-
-
+	 	 
 end.TScanonical.prediction <- function(obj){end(concentrateOriginal(obj))}
 
 
@@ -485,11 +489,28 @@ tfplot.concentrated <- function(x,...){stop("defunct. Use concentrated.tfplot")}
 concentrated.tfplot <- function(x, ...) {tfplot(concentrateOnly(x), ...)}
 
    
-tfplot.TSdataconcentrate <- function(x, ...)
+tfplot.concentrate <- function(x, xlab=NULL, ylab=NULL,
+         graphs.per.page=5, start.=NULL, end.=NULL, series=seq(nseries(x)))
 {# plot actual data and data reconstituted from concentrate.
- tfplot(concentrateOriginal(x), reconstitute(x), ...)
+ tfplot(concentrateOriginal(x), reconstitute(x),  
+         xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page, 
+         start.=start., end.=end., series=series)
+}
+
+tfplot.TSdataconcentrate <- function(x, start. = NULL, end. = NULL,
+    Title = "", reset.screen = T, 
+    select.inputs  = seq(length = input.dimension(x)),
+    select.outputs = seq(length = output.dimension(x)), 
+    graphs.per.page = 5, ylab = NULL)
+{# plot actual data and data reconstituted from concentrate.
+ tfplot.TSdata(concentrateOriginal(x), reconstitute(x), start.=start.,end.=end., 
+    Title = Title, reset.screen = reset.screen, 
+    select.inputs  = select.inputs, select.outputs = select.outputs, 
+    graphs.per.page = graphs.per.page, ylab = ylab)
  invisible()
 }
+
+
 
 
 tfplot.TSdatareconstitute <- function(x, ...)
@@ -705,7 +726,7 @@ juice.graphics.tests <- function( verbose=TRUE, synopsis=TRUE, pause=F, ets=F)
 # library("dse"); library("dsex1")
 
 # S
-# attach(paste(getenv("PADI"),".Data", sep="/"), first=TRUE)
+# attach(paste(Sys.getenv("PADI"),".Data", sep="/"), first=TRUE)
 # attach("/home/res/gilp/dse/pub/Sdse/.Data", first=TRUE)
 
 #   source("/home/res/gilp/dse/my/src/personal.utils.s")

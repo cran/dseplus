@@ -246,13 +246,13 @@ availability.TSPADIdata <- function(x, verbose=T, timeout=60)
 }
 
 
-putpadi.TSdata   <- function (data, dbname, server=local.host.netname(), 
+putpadi.TSdata <- function(data, dbname, server=local.host.netname(), 
                    start.server=T, server.process=padi.server.process(), 
                    cleanup.script=padi.cleanup.script(),
                    series=series.names(data),
                    user=user.name(), passwd="",
-                   stop.on.error=T, warn=T)   
-  {#dbname and server can be a single string in which case it is applied to
+                   stop.on.error=T, warn=T){   
+   #dbname and server can be a single string in which case it is applied to
    # all series. Otherwise it should be a structure like series: a list with
    # elements input and output, each vectors with a string for each series.
 
@@ -413,7 +413,7 @@ TSPADI.function.tests <- function( verbose=T, synopsis=T,
   if (synopsis & !verbose) cat("DSE TSPADI tests ...")
 
   scratch.db <-"zot123456.db"
-  unlink(scratch.db)
+  syskern.rm(scratch.db)
   server <- local.host.netname()
 
  if (verbose) cat("DSE TSPADI test 0 ... ")
@@ -427,7 +427,7 @@ TSPADI.function.tests <- function( verbose=T, synopsis=T,
   # wait to ensure padi server is started
      for (i in 1:30)
        {if (check.padi.server(server)) break
-        sleep(1)
+        Sys.sleep(1)
        }
 
   exp1 <- tframed(matrix(1*exp(1:20),20,1), list(start=c(1950,1),freq=1))
@@ -505,7 +505,7 @@ if (ets)
    # wait to ensure padi server is terminated
      for (i in 1:30)
        {if (!check.padi.server(server)) break
-        sleep(1)
+        Sys.sleep(1)
        }
    
   if (synopsis & !verbose) cat("DSE TSPADI/ets tests ...")

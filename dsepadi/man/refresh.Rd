@@ -9,9 +9,9 @@ the data from a database.
 	refresh(data)
 }
 \arguments{
-\item{data}
-{An object which has previously been obtained with \code{freeze}, 
-so it contains source information which can be extracted and freeze re-applied.}
+	\item{data}{
+	An object which has previously been obtained with \code{freeze}, 
+	so it contains source information which can be extracted and freeze re-applied.}
 }
 \value{A time series object with class depending on the source information.}
 \examples{

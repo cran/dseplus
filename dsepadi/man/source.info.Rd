@@ -8,8 +8,7 @@
 	source.info(data.names)
 }
 \arguments{
-\item{ data.names}
-  {An object which contains source series information.}
+	\item{data.names}{An object which contains source series information.}
 }
 \value{
 A list with elements input and output which are strings indicating the 

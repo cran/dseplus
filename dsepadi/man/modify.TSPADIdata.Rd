@@ -15,7 +15,7 @@
 }
 
 \arguments{
-\item{ see TSPADIdata}{As for TSPADIdata.}
+	\item{see TSPADIdata}{As for TSPADIdata.}
 }
 \value{An object of class "TSPADIdata" "TSdata".}
 \details{This is the way to modify a TSPADIdata object.}

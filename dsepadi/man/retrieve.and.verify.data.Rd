@@ -7,12 +7,10 @@
 	   verification.data=verification.data, fuzz=1e-10)
 }
 \arguments{
-\item{ data.names}
-{An object of class TSdata indicating databases and series.}
-
-\item{ verification.data}{An object of class TSdata.}
-\item{ fuzz}
-{A (small) real number indicating the size of errors to tolerate.}
+	\item{data.names}{An object of class TSdata indicating databases and series.}
+	\item{verification.data}{An object of class TSdata.}
+	\item{fuzz}{
+	A (small) real number indicating the size of errors to tolerate.}
 }
 \value{An object of class TSdata containing data from the data bases is returned.
 }

@@ -30,6 +30,7 @@
 \value{A matrix or TSdata object.}
 \seealso{
 	\code{\link{est.projection}}
+	\code{\link{reconstitute}}
 	\code{\link{prcomp}}
 }
 \examples{

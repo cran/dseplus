@@ -1,4 +1,5 @@
-\name{tfplot.concentrated}
+\name{tfplot.concentrate}
+\alias{tfplot.concentrate}
 \alias{tfplot.concentrated}
 \alias{tfplot.TScanonical.prediction}
 \alias{tfplot.TSdataconcentrate}
