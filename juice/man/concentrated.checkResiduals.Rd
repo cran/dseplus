@@ -19,6 +19,6 @@
     \code{\link{concentrate}}
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -19,6 +19,6 @@
   \code{\link{concentrated.checkResiduals}} 
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

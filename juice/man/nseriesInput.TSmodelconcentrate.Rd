@@ -17,6 +17,6 @@
     \code{\link[dse2]{nseriesOutput}}
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

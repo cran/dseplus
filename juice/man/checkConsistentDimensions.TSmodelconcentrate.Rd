@@ -12,6 +12,6 @@
 
 \seealso{ \code{\link[tframe]{checkConsistentDimensions}} }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -28,6 +28,6 @@
     z <- concentrate(eg1.DSE.data)
     concentrated.tfplot(z)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -1,3 +1,8 @@
+This package is part of the dseplus bundle.
+See 00Intro.* in each package for a short general description.
+The Users' Guide is divided into sections for each package.
+These are installed in the doc/ directory for each package.
+The packages in this bundle require packages in the bundle dse.
 availability            Check Data Availability
 freeze.tfPADIdata       Get fixed data snapshot
 freeze.TSPADIdata       Get fixed data snapshot using TSPADI
@@ -5,7 +10,6 @@ identifiers             Get Identifiers from a data object
 inputData.TSPADIdata    TS Input and Output Specific Methods
 modify                  modify a database descriptor object
 modify.TSPADIdata       Modify a TSPADIdata Object
-periods.tfPADIdata      Specific Methods for Tframed data
 print.tfPADIdata        Print a tfPADIdata Object
 print.TSPADIdata        Print Specific Methods
 putpadi.TSdata          Specific Methods for putpadi
@@ -19,6 +23,7 @@ sourceInfo              Get source information from a data object
 sourceInfo.TSPADIdata   TSPADIdata Specific Methods
 sourceserver            Get source server from a data object
 tfPADIdata              make tfPADIdata object
+tfperiods.tfPADIdata    Specific Methods for Tframed data
 tfputpadi               Write Data to a Data Server
 TSPADIdata              Constructor for TSPADIdata object
 TSPADIdata2             Constructor for TSPADIdata object

@@ -37,5 +37,5 @@
 \code{\link{genD}}
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}

@@ -13,6 +13,6 @@
 
 \seealso{ \code{\link[tframe]{tfprint}} }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -12,6 +12,6 @@
 }
 \seealso{\code{\link[dse1]{selectSeries}} }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

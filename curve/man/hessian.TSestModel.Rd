@@ -28,6 +28,6 @@
     \code{\link{span}}
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -1,0 +1,68 @@
+\documentclass[english]{article}
+\begin{document}
+
+%\VignetteIndexEntry{TS PADI Data Retrieval Guide}
+\SweaveOpts{eval=TRUE,echo=TRUE,results=hide,fig=FALSE}
+\begin{Scode}{echo=FALSE,results=hide}
+ options(continue="  ")
+\end{Scode}
+
+
+\section{TS PADI Data Retrieval}
+
+In R, the functions in this package are made available with
+
+\begin{Scode}
+library("padi")  
+\end{Scode}
+
+This section describes utilities for retrieving data from an online
+database. This has been implemented using the TS PADI interface. The
+examples use series names which are specific to the Bank of Canada.
+
+Building a database plug will typically require some programming
+effort. This effort can be reduced by using a standardized interface.
+Code and a description of a prototype of a standard for a Time Series
+Protocol for Application - Database Interface (TS PADI) is available
+at http://www.bank-banque-canada.ca/pgilbert. The code includes a
+working interface to a Fame database. 
+
+(This interface is getting to be fairly old and, although it still works,
+some of the underlying code should probably be replaced with a newer approach to
+standardized interfaces.)
+
+Data is retrieved with a description which gives an indication of
+where the data comes from, which series are model inputs and which
+are model outputs, any transformations which should be applied to
+the data, and some padding information indicating whether the series
+should be padded with NAs to the length of the longest available series
+or truncated to the subset where all data is available for all series.
+Data is retrieved by using the generic function freeze() on the description.
+When freeze() is a applied to an object which is already time series
+data then the data is simply returned. When applied to a data description
+object the data is retrieved from the data base. Most of the functions
+in the DSE library use the function freeze() on data, so data descriptions
+can be used interchangeably with data. For model estimation purposes
+it is usually desirable to retrieve the data and work with a fixed
+data set, but once a model is established and is routinely used with
+newly available data then the data description is more convenient.
+
+
+The following simple example specifies the series \emph{I37005} from
+the \emph{ets} server as the single output series.
+
+\begin{Scode}
+if(checkPADIserver("ets"))
+  manuf.prod <- getpadi("I37005" , server="ets")
+\end{Scode}
+
+
+Here is a multivariate example:
+
+\begin{Scode}
+if(checkPADIserver("ets"))
+  eg.data <- getpadi(c("P100000", "I37026", "b1627", "b14013",
+   "b4237", "D767608", "b3400", "M.BCPI", "M.JQIND", "M.CUSA0"), server="ets")
+\end{Scode}
+
+\end{document}

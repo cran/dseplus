@@ -29,6 +29,6 @@
     \code{TSdataconcentrate} and \code{TSdatareconstitute} using 
     the function \code{concentrated.outputData}.
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

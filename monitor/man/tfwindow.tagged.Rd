@@ -38,6 +38,6 @@
     \code{\link[tframe]{selectSeries}}
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

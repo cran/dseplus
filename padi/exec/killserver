@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Check if a server process is currently running.
+# Server process name must be given.
+
+if test $# -ne 1; then
+  echo "Usage: killserver server_process"
+  echo "eg:    killserver padi_fame.local"
+  echo "warning: this script uses grep to find the process id and may "
+  echo "        inadvertently kill another process with a similar name!"
+  exit 1
+fi
+
+serv_proc=$1
+
+# Check which ps command is supported (BSD or System V)...
+pserr=`ps -ax 2>&1 | grep usage | grep -v grep`
+if [ "$pserr" ]; then
+# Now, capture process id of possible running server
+  process=`ps -ef|grep $serv_proc|grep -v grep|awk '{print $2}'|head -1`
+else
+  process=`ps -ax|grep $serv_proc|grep -v grep|awk '{print $1}'|head -1`
+fi
+
+if [ $process ]; then
+	kill -15 $process
+	echo "Server process $process sent terminate signal."
+#       It is possible for a quickly following process to
+#       get a false indication that a server is running, as it takes
+#       a few seconds for the process to un-register with RPC
+else
+	echo "No $serv_proc process running."
+fi

@@ -33,6 +33,6 @@
                      max.lag=2)
    curvature(genD(model)) 
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

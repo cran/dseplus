@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Check if a server process is currently running on $1
+# This is done using getpadi from generic.client
+
+if [ $# -ne 1 ]; then
+  echo "Usage: check.server server_name"
+  exit
+fi
+
+if    [ ! -x $PADI/getpadi ]; then
+   echo "program $PADI/getpadi is not available to check.server"
+   exit 1
+fi
+
+errmsg=`$PADI/getpadi $1 spuriousobj | grep RPC`
+# unfortunately "Segmentation fault" results in indicating running!!!
+# If the server is not running then errmsg is something like
+#   RPC Program not registered
+# but this may not be standard across operating systems and
+# any RPC message is probably an indication the server is not running.
+# It would also be possible to check for the possible error messages
+# from getpadi and give an ambiguous result if one of those were not found.
+# However, there are a number of possibilities.
+
+notreg=`echo $errmsg | grep "RPC"`
+if     [ "$notreg" ]; then
+   echo "NOT RUNNING"
+   exit
+fi
+
+# reg=`echo $errmsg | grep "unknown object"`
+# if [ "$reg" ]; then
+#    echo "RUNNING"
+#    exit
+# fi
+# reg=`echo $errmsg | grep "Database Server Error"`
+# if [ "$reg" ]; then
+#    echo "RUNNING"
+#    exit
+# else 
+#    echo "Unexpected error message returned to check.server:"
+#    echo $errmsg
+#    echo "It is not clear if a server is running."
+#    echo "AMBIGUOUS RESULT"
+#    exit 1
+# fi
+
+echo "RUNNING"

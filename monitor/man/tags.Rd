@@ -43,6 +43,6 @@
     is.tagged(x)
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

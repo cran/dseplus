@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+#   This script a kills a server and cleans up scratch files, etc.
+#   It uses information $1, which is the pid of
+#   the script (eg. fame.server) which started the server.
+#   It expects to find the pid of the server in the file /tmp/padipid$1 and
+#   assumes the server used /tmp/objfile$1.db as a temporary object database.
+#
+#   !!!!!!   /tmp/objfile$1.db is REMOVED  !!!!!!
+#
+#   It is intended to be called by an application which used fame.server to
+#    start a server (fame.server  builds a temporary object database which
+#    should to be removed). 
+
+#  In general a public mode server will not use this script because 
+#    the object database will then need to be reconstructed. See start.ets
+#    or test.public.mode.server for examples of a scripts to run a public 
+#    mode server.
+#
+
+padi_pid=`cat /tmp/padipid$1`
+server=`uname -n`
+# check.server $server is probably not nec. but insures the server gets
+#   activated, which sometimes seems necessary for terminate.
+
+kill -15 $padi_pid 
+done=`check.server $server` 
+rm /tmp/objfile$1.db /tmp/padipid$1
+if [ "$done" = "RUNNING" ]; then
+  echo problem terminating the server
+else
+  echo done
+fi
+

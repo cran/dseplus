@@ -133,25 +133,36 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
      print(curvatureARMA1def, digits=18)
      all.ok <- F
     }
-  curvatureSS    <- curvature(SSmodel, warn=FALSE)$stats
-  curvatureARMA2 <- curvature(ARMAmodel2, warn=FALSE)$stats
-  tst  <- rbind(curvatureARMA1, curvatureSS, curvatureARMA2)
- print(tst, digits=18)
 
 #Linux values work on Solaris with 1e-5
 # Warning message: 
 #acceration space dimension reduced for smaller sample space. in: curvature.Darra#Parms Sample Sign. level      RMS Parameter      RMS Intrinsic  c*sqrt(F) Parameter c*sqrt(F) Intrinsic     Min Axis Ratio Max Axis Ratio
-  good <- t(matrix(c(
- 11, 100, 0.05, 1.1902331226374676, 1.02413128081527893, 1.6397187390037589, 1.4108893631119579, 1.00000000108466902, NaN,
- 16, 100, 0.05, 2.1698167661684429, 1.64496591418322957, 2.8829778015213545, 2.1856224400108535, 1.00000000056460969, NaN,
- 18, 100, 0.05, 4.2278364145158402, 3.70068582243928734, 5.5624870633970582, 4.8689246684992131, 1.01584061323199637, NaN),
-9,3))
 
-   error <- max(abs(good[, -9] - tst[, -9]))
-   cat("max. error ", max(error))
-     
-   if (any(is.na(error)) || any(is.nan(error)) || 1e-5 < error) 
+  tst  <- curvatureARMA1
+  print(tst, digits=18)
+  good <- c( 11, 100, 0.05, 1.1902331226374676, 1.02413128081527893, 1.6397187390037589, 1.4108893631119579, 1.00000000108466902, NaN)
+  error <- max(abs(good[ -9] - tst[ -9]))
+  cat("max. error ", max(error))
+  if (any(is.na(error)) || any(is.nan(error)) || 1e-5 < error) 
      {printTestValue(c(tst), digits=18); all.ok <- F }
+
+  tst  <- curvatureSS    <- curvature(SSmodel, warn=FALSE)$stats
+  print(tst, digits=18)
+  good <- c(16, 100, 0.05, 2.1698167661684429, 1.64496591418322957, 2.8829778015213545, 2.1856224400108535, 1.00000000056460969, NaN)
+  error <- max(abs(good[ -9] - tst[ -9]))
+  cat("max. error ", max(error))
+  if (any(is.na(error)) || any(is.nan(error)) || 1e-5 < error) 
+     {printTestValue(c(tst), digits=18); all.ok <- F }
+
+  tst  <- curvatureARMA2 <- curvature(ARMAmodel2, warn=FALSE)$stats
+  print(tst, digits=18)
+  good <- c( 18, 100, 0.05, 4.2278364145158402, 3.70068582243928734, 5.5624870633970582, 4.8689246684992131, 1.01584061323199637, NaN)
+  error <- max(abs(good[ -9] - tst[ -9]))
+  cat("max. error ", max(error))
+  if (any(is.na(error)) || any(is.nan(error)) || 1e-5 < error) 
+     {printTestValue(c(tst), digits=18); all.ok <- F }
+
+
 
 # larger model (sampleT=500)
   

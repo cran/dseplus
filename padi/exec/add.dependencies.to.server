@@ -1,0 +1,85 @@
+#!/bin/sh
+#
+if [ $# -gt 3 ]; then
+  echo usage:
+  echo "  add.dependencies.to.server objectdb sysdb [pathTOdbs]"
+  echo eg:
+  echo "  add.dependencies.to.server object sysdb/sys  ./db"
+  exit
+fi 
+
+# eg 
+#
+#   This script adds Fame databases necessary for resolving formulae and 
+#     functions as indicated in $1 (see below) to  
+#     the Fame database ($2 refered to as object below) which is  
+#     passed as the argument to the fame server. The object 
+#     database contains an index of the primary databases which are to be 
+#     opened by the fame server and also a map of which databases must be 
+#     opened to resolve formulae and functions for each of the primary 
+#     databases. 
+#   The "sys" database (used to build object) should contain case series which 
+#     indicate which databases must be open to resolve formulae and functions.
+#   See add.function.to.server for adding any local functions which are 
+#     necessary for resolving formulae or functions.
+
+#  This requires Fame procedure object.pc produced from object.pro by
+#   famec object.pro
+
+# location of databases to be loaded
+if [ $# -eq 3 ]; then
+   dbdir=$3
+else
+   dbdir=./
+fi 
+
+# sys.db should have SERIES (STRING by CASE) indicating 
+#  secondary databases which must be opened to resolve formulae in the
+#  primary databases.  (See add.readdb.to.server and add.writedb.to.server 
+#  for adding primary databases to the server.
+
+sys=$2;	export sys
+
+# location of .pc (from .pro)  files used to build the object database
+padidir=$PADI_HOME/exec
+
+# name and location of the database which is built to pass to padi_fame.
+object=$1;	export object
+cmd=`basename $0`
+#log=$cmd.log;	export log
+log=/dev/null;	export log
+
+# create object db linked to target databases
+$FAME/fame <<xxxxx >$log
+over on
+load "$padidir/object"
+TRY
+  open   <acc UPDATE> "$object" as object
+OTHERWISE
+  create "$object" as object
+ENDTRY
+s_dbdir "$dbdir"
+s_sysdbpath "$sys"
+open <acc rea> "$sys" as sys
+work'%dblist = WILDLIST(sys, "?formula?")
+work'%dbname = "db"
+loop for j in %dblist
+  set %dbname = lower(substring(name(j), 3, location(name(j), "_", 3) - 1))
+  try
+    open <acc rea> file("$dbdir/" + %dbname) as target
+    store object
+  -- it is possible to specify different types of access
+  -- if location(%dbname, "ets", 1) eq 1
+-- Should check if %dbname already exists - if so, no need to add again (Eurico 23/10/95)
+    add_db %dbname, "READ"
+  -- else
+  --  add_db %dbname, "UPDATE"
+  -- end if
+    close target
+  end try
+end loop
+type "   ...object done! ", today, now
+exit
+xxxxx
+
+cat $log | grep Error

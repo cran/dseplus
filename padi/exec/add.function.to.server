@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+if [ $# -ne 11 ]; then
+  echo usage:
+  echo "  add.function.to.server  object name desc dbname access class freq type fame_name fame_class fame_ldpath"
+  echo eg:
+  echo "  add.function.to.server  object COMPARE_F5_FUNC1 padi test function compare SHARE SERIES ANNUAL PRECISION COMPARE.F5.ANNUAL FUNCTION local/compare"
+  exit
+fi
+
+#
+#   This script adds any local Fame functions necessary for resolving formulae
+#     and functions  to  
+#     the Fame database ($1 refered to as object below) which is  
+#     passed as the argument to the fame server.
+
+#  This requires Fame procedure object.pc produced from  object.pro by
+#   famec object.pro
+
+# location of .pc (from .pro)  files used to build the object database
+padidir=$PADI_HOME/exec
+
+# name and location of the database which is built to pass to padi_fame.
+object=$1;	export object
+
+arg2=$2
+arg3=$3
+arg4=$4
+arg5=$5
+arg6=$6
+arg7=$7
+arg8=$8
+arg9=$9
+shift 9
+arg10=$1
+arg11=$2
+
+cmd=`basename $0`
+#log=$cmd.log;	export log
+log=/dev/null;	export log
+
+# create object db linked to target databases
+$FAME/fame <<xxxxx >$log
+over on
+load "$padidir/object"
+TRY
+  open   <acc UPDATE> "$object" as object
+OTHERWISE
+  create "$object" as object
+ENDTRY
+add_obj "$arg2", "$arg3", "$arg4", "$arg5", "$arg6", "$arg7", "$arg8", "$arg9", "$arg10", "$arg11"
+exit
+xxxxx
+
+cat $log | grep Error

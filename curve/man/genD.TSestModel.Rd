@@ -47,6 +47,6 @@ model <- estVARXls(TSdata( output=outputData(eg1.DSE.data.diff, series=1:2)),
                       max.lag=2)
 z <- genD(model)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

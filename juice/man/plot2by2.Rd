@@ -21,6 +21,6 @@
 \value{None.}
 \sideaffects{A plot is produced.}
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

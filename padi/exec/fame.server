@@ -1,0 +1,132 @@
+#!/bin/sh
+#
+
+#   This script starts a Fame padi server as a background process to server the 
+#   database ($1). If the file $1 does not exist it is created.
+#   UPDATE access is assumed unless $2 is specified.
+#   If the file $1 does exist then update access will be assumed unless
+#     $2 is specified. If specified $2 can be READ, UPDATE or SHARED.
+
+#   An object database is created and needs to be remove when the background
+#      process is terminated. The server can be terminated and the
+#      object database removed with the script cleanup.fame.server,
+#      which expects as an argument the pid from the process when this
+#      script (fame.server) was used to start the server. The pid is returned 
+#      by this script. (temp files are written with this pid.)
+
+#   $3 defaults to local but can be local or public for
+#     a local mode or public mode server. In general a public mode server
+#     will not use this script because the object database will then need
+#     to be reconstructed. See start.ets for an example of a script to a public
+#     mode server.
+#
+
+#  The script can be used at the command line, but is also intended to be called from
+#    applications which need to start a server. (See for example the S client.)
+
+#  If a server is already running then the process will wait and
+#     retry a few times and then exit with an error message.
+#   (multiple servers on one machine will conflict and possibly mix-up data.)
+
+# NOTE: This script and any scripts it calls (eg. check.server) should return 
+#    strings rather than exit codes to indicate various conditions, unless 
+#    there is a true error condition. Error conditons may be passed back to
+#    a calling application (eg. S) and result in unwanted warning or 
+#    error messages
+
+#The background process can be terminated separately (kill -15 pid), but then
+#   temporary files will not be cleaned up.
+#   Any databases which have been updated will be posted when the process 
+#     terminates.
+#   Note: kill -9 will prevent the process from posting updated datebases.
+
+#  This will require
+#LD_LIBRARY_PATH=$PADI/lib:$FAME/hli; export LD_LIBRARY_PATH
+# this does not seem to matter?
+LD_LIBRARY_PATH=/home/mfa/gilp/padi/my.production/lib:$FAME/hli; export LD_LIBRARY_PATH
+if [ $# -gt 3 ]; then
+  echo usage:
+  echo "  fame.server  dbase  [access] [mode]"
+  echo "       where access is one of read, shared or update (default)"
+  echo "             mode is one of local (default) or public"
+  echo eg:
+  echo "  fame.server  dbase"
+  echo or
+  echo "  fame.server  dbase update"
+  echo eg.
+  echo "  fame.server  dbase READ public"
+  exit
+fi 
+
+log=fame.server.log.$$
+
+if [ $# -gt 1 ]; then
+  acc=$2
+else
+  acc=update
+fi 
+
+if [ $# -eq 3 ]; then
+  mode=$3
+else
+  mode=local
+fi 
+
+# name and location of the database which is built to pass to padi_fame.
+object=/tmp/objfile$$
+
+# If $1 does not exist assume it is to be a new Fame database.
+if [ ! -f $1.db ]; then
+  $FAME/fame <<xxxxx >/dev/null
+  create "$1" as newdb
+  exit
+xxxxx
+fi
+   
+$PADI/add.db.to.server  $object $acc $1
+
+# Now check that a server is not running
+server=`uname -n`
+running=`$PADI/check.server $server`
+if [ "$running" = "RUNNING" ]; then
+    ok=0
+    # if there is already a padi_fame running, loop for a while
+    # loop through this colon separated string
+    num="1:2:3:4"
+    # turn it into a list
+    at=`echo $num | awk -F: '{ for(i=1;i<=$NF;i=i+1){print i }}'`
+    # loop through the list, checking and sleeping
+    for atnum in $at
+    do
+        sleep 5
+	running=`$PADI/check.server $server`
+        if [ "$running" = "NOT RUNNING" ]; then
+	    # no padi_fame process running anymore, so break out of loop
+	    ok=1
+	    break
+        fi
+    done
+else
+    ok=1
+fi
+
+# if no server is running, start up
+if [ $ok -ne 1 ]; then
+    echo Error: a PADI server is running.
+    exit 1
+fi
+
+#  Now start the server
+ $PADI/padi_fame.$mode $object -l $log      </dev/null >$log 2>&1 &
+#$PADI/padi_fame.$mode $object -l /dev/null </dev/null >/dev/null &
+fame_pid=$!
+
+# Don't exit too quickly or server will not be ready for a process trying
+#    to use it.
+  sleep 10
+
+#NOTE The following result is used by the calling process to 
+# call cleanup.fame.server terminate the
+#       server. See for example the S.client code in padi.s.
+echo $fame_pid >/tmp/padipid$$
+echo $$

@@ -11,7 +11,7 @@
 
 \seealso{ \code{\link{tsp}} }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 
 

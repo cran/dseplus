@@ -18,7 +18,7 @@
    \code{\link[dse1]{TSdata}} 
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 
 

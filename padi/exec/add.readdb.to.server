@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+
+#   This script adds a (primary) Fame database ($2) to the database $1 which is
+#     to be passed as the argument to the fame server. 
+#   $1 and $2 should not include the .db filename suffix but fame will assume
+#      the file has that extension. $3 can be used to specify a path to $2.
+#   The object 
+#     database contains an index of the primary databases which are to be 
+#     opened by the fame server.
+#  See also add.dependencies.to.server to create a map of which databases must
+#     be opened to resolve formulae and functions for each of the primary 
+#     databases. 
+
+#  This requires Fame procedure and object.pc produced from  object.pro by
+#   famec object.pro
+
+if [ $# -gt 3 ]; then
+  echo usage:
+  echo "  add.readdb.to.server  objectdb  dbTOadd [pathTOdb]"
+  echo eg:
+  echo "  add.readdb.to.server  object    mydata ./db"
+  exit
+fi 
+
+# location of primary databases to be loaded
+if [ $# -eq 3 ]; then
+   dbdir=$3
+else
+   dbdir=.
+fi 
+
+primary=$2
+
+# location of .pc (from .pro)  files used to build the object database
+padidir=$PADI_HOME/exec
+
+# name and location of the database which is built to pass to padi_fame.
+object=$1
+
+#log=$0.log;	export log
+log=/dev/null;	export log
+
+# create object db linked to target databases
+$FAME/fame <<xxxxx >$log
+over on
+load "$padidir/object"
+TRY
+  open   <acc UPDATE> "$object" as object
+OTHERWISE
+  create "$object" as object
+ENDTRY
+s_dbdir "$dbdir"
+add_db "$primary", "READ"
+type "   ...object done! ", today, now
+exit
+xxxxx
+
+cat $log | grep Error

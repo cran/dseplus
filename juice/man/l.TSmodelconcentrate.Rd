@@ -23,6 +23,6 @@
    \code{\link[dse1]{l.SS}} 
 }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

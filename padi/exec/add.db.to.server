@@ -1,0 +1,61 @@
+#!/bin/sh
+
+#   This script adds a (primary) Fame database ($3) to the database $1 which is
+#     to be passed as the argument to the fame server. 
+#   $1 and $3 should not include the .db filename suffix but fame will assume
+#      the file has that extension. $4 can be used to specify a path to $3.
+#   The object 
+#     database contains an index of the primary databases which are to be 
+#     opened by the fame server.
+#   See also add.dependencies.to.server to create a map of which databases must
+#     be opened to resolve formulae and functions for each of the primary 
+#     databases.
+#   The mode describes the Fame access mode to the database. Fame supports
+#     the READ, UPDATE and SHARED modes.
+
+#  This requires Fame procedure and object.pc produced from object.pro by
+#   famec object.pro
+
+if [ $# -gt 4 ]; then
+  echo usage:
+  echo "  add.db.to.server  objectdb  mode  dbTOadd  [pathTOdb]"
+  echo eg:
+  echo "  add.db.to.server  object  mode  mydata  ./db"
+  exit
+fi 
+
+# location of primary databases to be loaded
+if [ $# -eq 4 ]; then
+   dbdir=$4
+else
+   dbdir=./
+fi 
+
+mode=$2
+primary=$3
+
+# location of .pc (from .pro)  files used to build the object database
+padidir=$PADI_HOME/exec
+
+# name and location of the database which is built to pass to padi_fame.
+object=$1
+cmd=`basename $0`
+#log=$cmd.log;	export log
+log=/dev/null;	export log
+
+# create object db linked to target databases
+$FAME/fame <<xxxxx >$log
+over on
+load "$padidir/object"
+TRY
+  open   <acc update> "$object" as object
+OTHERWISE
+  create "$object" as object
+ENDTRY
+s_dbdir "$dbdir"
+add_db "$primary", upper("$mode")
+type "   ...object done! ", today, now
+exit
+xxxxx
+
+cat $log | grep Error

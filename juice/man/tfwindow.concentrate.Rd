@@ -17,6 +17,6 @@
 
 \seealso{ \code{\link[tframe]{tfwindow}} }
 
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

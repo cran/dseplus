@@ -38,7 +38,7 @@
     z <- canonical.prediction(concentrate(eg1.DSE.data.diff))
     is.TScanonicalPrediction(z)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 
 

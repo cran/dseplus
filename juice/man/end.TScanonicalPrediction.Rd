@@ -24,6 +24,6 @@
    \code{\link[tframe]{periods}}
    \code{\link{frequency}}
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

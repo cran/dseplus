@@ -1,0 +1,4 @@
+Package: padi
+Title:  PADI
+Description: Protocol for Application Database Interface
+Depends: R (>= 1.9.1), syskern (>= 2004.10-1)

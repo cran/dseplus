@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# This script kills the pid provided as $1 (which should be the pid of
+#    the server). For the simple.server this kill could be done directly,
+#    but in general a cleanup script may need romove files or 
+#    perform other tasks.
+
+if [ $# -ne 1 ]; then
+  echo usage:
+  echo "  cleanup.simple.server  pid"
+  exit
+fi 
+
+kill -15 $1

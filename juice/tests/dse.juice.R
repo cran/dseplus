@@ -1,6 +1,6 @@
   Sys.info()
 
-  require("mva"); require("ts")
+  require("stats")
   require("dse2") 
   require("setRNG") 
   DSEversion()

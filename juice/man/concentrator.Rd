@@ -43,6 +43,6 @@
     concentrator(z)
     is.concentrator(concentrator(z))
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

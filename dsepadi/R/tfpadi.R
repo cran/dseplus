@@ -154,8 +154,6 @@ tfPADIdata <- function(series,  server = "", db= "", transforms= "",
    r
    }
 
-
-
 settfPADIdata <- function(preamble=TRUE)
  {# prompt for series identifiers, set class, etc.
   if (preamble) 
@@ -291,13 +289,16 @@ print.tfPADIdata <- function(x, ...)
    invisible(x)
   }
 
-start.tfPADIdata <- function(x, ...)
+tframe.tfPADIdata <- function(x) 
+   if(is.null(attr(x, "tframe"))) NA else attr(x, "tframe")
+
+tfstart.tfPADIdata <- function(x, ...)
      {if(is.null(attr(x, "start"))) NA else attr(x, "start")}
-end.tfPADIdata <- function(x, ...)
+tfend.tfPADIdata <- function(x, ...)
      {if(is.null(attr(x, "end")))   NA else attr(x, "end")}
-frequency.tfPADIdata <- function(x, ...)
+tffrequency.tfPADIdata <- function(x, ...)
      {if(is.null(attr(x, "frequency")))   NA else attr(x, "frequency")}
-periods.tfPADIdata <- function(x) NA  # could be better
+tfperiods.tfPADIdata <- function(x) NA  # could be better
 seriesNames.tfPADIdata <- function(x) {dimnames(x)[[2]]}
 # nseries default should work
 

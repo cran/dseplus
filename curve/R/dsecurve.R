@@ -52,20 +52,20 @@ genD.ARMA <- function(func, x=coef(func),
    n <-length(c(outputData(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ps <-dim(model$A)[3]
-      ms <-dim(model$C)[3]
-      ns <-ps  # this could be 1 except z0 is used for TREND and F, Q and R for scratch
-     loc   <- match(model$location,       c("A","B","C","t"))
-     cloc  <- match(model$const.location, c("A","B","C","t"))
+   ms <-dim(model$C)[3]
+   #ns <-ps  # this could be 1 except for TREND 
+   TREND <- if (is.null(model$TREND)) matrix(0,periods(data), ps) else model$TREND
+   is  <- max(ms,ps)
+   loc   <- match(model$location,       c("A","B","C","t"))
+   cloc  <- match(model$const.location, c("A","B","C","t"))
    if(is.null(ms))
      {ms<-0
-      C<-array(0,c(1,ns,1)) # can't call compiled with 0 length arrays
+      C<-array(0,c(1,ps,1)) # can't call compiled with 0 length arrays
       u <- matrix(0,sampleT,1)
-      G <- matrix(0,ns,1)
      }
    else
      {C <-model$C
       u <- inputData(data)
-      G <- matrix(0,ns,ms)
      } 
    zt <- 0.0001
    #Rbug zt <-unix.time(l(model,data,sampleT,sampleT,result="like"))
@@ -87,10 +87,9 @@ genD.ARMA <- function(func, x=coef(func),
    storage.mode(u)<-"double"
    storage.mode(outputData(data))<-"double"
    storage.mode(model$const)<-"double"
-   storage.mode(G)<-"double"
-   D <-.Fortran("gend",
+   storage.mode(TREND)<-"double"
+   D <-.Fortran("genda",
             D=D,
-            as.integer(is.ARMA(model)), 
             p=as.integer(length(x)),
             x=x,
             h0,
@@ -133,19 +132,12 @@ genD.ARMA <- function(func, x=coef(func),
             A=model$A,   
             B=model$B,  
             C=C, 
-        #  for state space models:
-            as.integer(ns),  # state dim.  #39
-        #    state=matrix(double(1),sampleT,ns),  
-        #    track=array(double(1),c(sampleT,ns,ns)),  
-            z0=double(ps), # note: this is TREND for ARMA
-            P0=diag(double(1),ps),
-            F=matrix(double(1),ns,ns),  
-            G=G,  
-            H=matrix(double(1),ps,ns),  
-            K=matrix(double(1),ns,ps),  
-            Q=matrix(double(1),ns,ns),  
-            R=matrix(double(1),ps,ps), 
-            gain=as.integer(FALSE),   #48
+            CONSTNT=TREND, 
+        #  scratch
+            as.integer(is),  
+            AA=matrix(double(1),is,is),  
+            BB=matrix(double(1),is,is),  
+            WW=rep(double(1),is),  
             DUP=.DSEDUP,
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")] 
@@ -206,9 +198,8 @@ genD.innov <- function(func, x=coef(func),
    storage.mode(model$const)<-"double"
    storage.mode(C)<-"double"
    storage.mode(G)<-"double"
-   D <-.Fortran("gend",
+   D <-.Fortran("gendk",
             D=D,
-            as.integer(is.ARMA(model)), 
             p=as.integer(length(x)),
             x=x,
             h0,
@@ -242,17 +233,8 @@ genD.innov <- function(func, x=coef(func),
             as.integer(cloc),  #as.character(model$const.location),
             as.integer(model$const.i ), 
             as.integer(model$const.j),
-        #  for ARMA models:
-            as.integer(loc),                   #31
-            as.integer(loc),
-            as.integer(1),#1+order of A
-            as.integer(1),#1+order of B
-            as.integer(1),#1+order of C
-            A=array(double(1),c(1,ps,ps)),   
-            B=array(double(1),c(1,ps,ps)),  
-            C=C, 
         #  for state space models:
-            as.integer(ns),  # state dim.     #39
+            as.integer(ns),  # state dim.     
         #    state=matrix(double(1),sampleT,ns),  
         #    track=array(double(1),c(sampleT,ns,ns)),  
             z0=double(ns),  
@@ -263,7 +245,7 @@ genD.innov <- function(func, x=coef(func),
             K=matrix(double(1),ns,ps),  
             Q=matrix(double(1),ns,ns),  
             R=matrix(double(1),ps,ps),
-            gain=as.integer(is.innov.SS(model)), #48
+            gain=as.integer(is.innov.SS(model)), 
             DUP=.DSEDUP,
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")]

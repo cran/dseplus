@@ -10,6 +10,6 @@
     \item{obj2}{object to be compared with obj1.}
 }
 \seealso{ \code{\link[tframe]{testEqual}} }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

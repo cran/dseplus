@@ -18,6 +18,6 @@
 }
 
 \seealso{\code{\link[tframe]{percentChange}} }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

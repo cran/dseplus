@@ -1,4 +1,4 @@
-   require("ts") #,      warn.conflicts=TRUE)
+   require("stats") #,      warn.conflicts=TRUE)
    require("dse2") #,    warn.conflicts=TRUE)
    require("dsepadi") #, warn.conflicts=TRUE)
    require("monitor") #, warn.conflicts=TRUE)
@@ -88,6 +88,11 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
      else    cat("failed! (loading verification data)\n")
     }
 
+
+  if ( ! (require("padi") && ("fame.server" == PADIserverProcess() ))) 
+     warning("Warning: skipping tests that require local fame server.") 
+  else {
+
   if (verbose) cat("combination monitor test 2 ... ")
   data <-retrieve.and.verify.data(test.data.names, 
                                     verification.data=v.data)
@@ -137,6 +142,8 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
      else    cat("failed! (combineAndForecast)\n")
     }
 
+  }
+  
   if (synopsis) 
     {if (verbose) cat("All combination monitor tests completed")
      if (all.ok) cat(" OK\n\n")

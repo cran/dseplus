@@ -2,7 +2,7 @@
 #   also installed (available at http://www.bank-banque-canada.ca/pgilbert)
 #   and they fail it it is installed but not working.
 
-   require("ts",      warn.conflicts=TRUE)
+   require("stats",      warn.conflicts=TRUE)
    require("dse2",    warn.conflicts=TRUE)
    require("dsepadi", warn.conflicts=TRUE)
    require("padi",    warn.conflicts=TRUE)

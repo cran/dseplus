@@ -33,6 +33,6 @@
     concentratedDimension(outputData(z))
     concentrated.nseriesOutput(z)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

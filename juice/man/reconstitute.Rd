@@ -43,6 +43,6 @@
     z <- reconstitute(z)
     is.TSdatareconstitute(z)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -79,7 +79,7 @@ cbps.manuf.data2.ids <- TSPADIdata2(
 
   c("ets", "", "i37005","percentChange","manuf.prod.")),
 
-  pad.start=FALSE, pad.end=TRUE ) 
+  pad.start=FALSE, pad.end=TRUE, end=c(1997,9)) # data now ends in Sept 1997
 \end{Scode}
 
 With the above, the data will be converted to percent change when
@@ -165,7 +165,7 @@ with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  tfplot(manuf.data, start.=c(1995,11)) 
+  tfplot(manuf.data, start=c(1995,11)) 
 \end{Scode}
 
 Note the "." after start is part of the name of the argument.
@@ -274,9 +274,9 @@ and to plot it:
 if(require("padi") && checkPADIserver("ets")) {
   tfplot(manuf.model)
 
-  tfplot(manuf.model, start.=c(1990,1))
+  tfplot(manuf.model, start=c(1990,1))
 
-  tfplot(manuf.model, start.=c(1995,1))
+  tfplot(manuf.model, start=c(1995,1))
 } 
 \end{Scode}
 
@@ -287,7 +287,7 @@ same way:
 if(require("padi") && checkPADIserver("ets")) {
   cbps.manuf.model <- bft(trimNA(cbps.manuf.data),verbose=FALSE)
   tfplot(cbps.manuf.model)
-  tfplot(cbps.manuf.model, start.=c(1995,1)) 
+  tfplot(cbps.manuf.model, start=c(1995,1)) 
 }
 \end{Scode}
 
@@ -300,7 +300,7 @@ if(require("padi") && checkPADIserver("ets")) {
   z <- forecast(TSmodel(manuf.model),
        tfwindow(manuf.data, end=c(1995,1), warn=FALSE),
   conditioning.inputs=tfwindow(inputData(manuf.data), end=c(1996,12), warn=FALSE))
-  tfplot(z, start.=c(1995,1)) 
+  tfplot(z, start=c(1995,1)) 
 }
 \end{Scode}
 
@@ -416,7 +416,7 @@ if(require("padi") && checkPADIserver("ets")){
 
 tfplot(z)
 
-tfplot(z, start.=c(1995,8)) 
+tfplot(z, start=c(1995,8)) 
 }
 \end{Scode}
 
@@ -432,7 +432,7 @@ z <- forecast(TSmodel(manuf.model),
    tfwindow(trimNA(new.data), end=c(1996,1), warn=FALSE),
    conditioning.inputs=trimNA(inputData(new.data)))
 
-tfplot(z, start.=c(1995,6)) 
+tfplot(z, start=c(1995,6)) 
 }
 \end{Scode}
 
@@ -467,7 +467,7 @@ At the Bank of Canada PADI is an interface to a Fame server. The
 forecast data can be put into a Fame database with
 
 \begin{Scode}
-if(require("padi") && checkPADIserver("ets"))
+if(require("padi") && ("fame.server" == PADIserverProcess() ))
   putpadi(forecasts(z)[[1]], dbname="nameofdatabase.db",
   series=seriesNamesOutput(z)) 
 \end{Scode}
@@ -475,7 +475,7 @@ if(require("padi") && checkPADIserver("ets"))
 In the above
 
 \begin{Scode}
-if(require("padi") && checkPADIserver("ets"))
+if(require("padi") && ("fame.server" == PADIserverProcess() ))
  seriesNamesOutput(z) 
 \end{Scode}
 
@@ -514,14 +514,14 @@ can be saved in the file "manuf.model.definition"
 with
 
 \begin{Scode}
-if(require("padi") && checkPADIserver("ets"))
+if(require("padi") && ("fame.server" == PADIserverProcess() ))
   dump(c("manuf.model","manuf.data.ids"), file="manuf.model.definition") 
 \end{Scode}
 
 If necessary they can then be retrieved with
 
 \begin{Scode}
-if(require("padi") && checkPADIserver("ets"))
+if(require("padi") && ("fame.server" == PADIserverProcess() ))
 source("manuf.model.definition") 
 \end{Scode}
 

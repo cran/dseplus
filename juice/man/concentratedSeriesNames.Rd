@@ -39,6 +39,6 @@
     z <- concentrate(eg1.DSE.data)
     concentratedSeriesNames(z)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -1,4 +1,4 @@
-   require("ts")
+   require("stats")
    require("dse2")
    require("padi")
    require("dsepadi")
@@ -26,8 +26,8 @@
 
 ###########################################################################
 
-if ( ! (require("padi") && checkPADIserver("ets"))) 
- warning("Warning: package padi and server ets are needed.") else {
+if ( ! (require("padi") && ("" == PADIserverProcess() ))) 
+ warning("Warning: package padi and padi fame server are needed.") else {
 
 fuzz.small <- 1e-14
 fuzz.large <- 1e-8

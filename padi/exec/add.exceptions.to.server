@@ -1,0 +1,104 @@
+#!/bin/sh
+
+# If the object database does not exist, there is no complete database to serve since
+# neither add.readdb.to.server nor add.writedb.to.server were called to serve a database.
+# In this case, only serving exceptions and exclusions from existing dbname passed.
+
+# If the object database exists, then add.readdb.to.server or add.writedb.to.server
+# were called to serve at least one database. The names of these databases are stored
+# in obj_link.dbname in the object database. Therefore, the exceptions and exclusions
+# are built from all the databases stored in obj_link.dbname. This then means that the
+# dbname argument is not required, but a dummy name must be passed anyway so that the
+# dbdir argument is read properly.
+
+if [ $# -gt 3 ]; then
+  echo usage:
+  echo "  add.exceptions.to.server objectdb dbTOserve [pathTOdb]"
+  echo eg:
+  echo "  add.exceptions.to.server object mydata ./db"
+  exit
+fi 
+
+#  This requires Fame procedure object.pc produced from object.pro by
+#   famec object.pro
+
+# location of databases to be loaded
+if [ $# -eq 3 ]; then
+   dbdir=$3
+else
+   dbdir=./
+fi 
+
+dbname=$2
+
+# location of .pc (from .pro)  files used to build the object database
+padidir=$PADI_HOME/exec
+
+# name and location of the database which is built to pass to padi_fame.
+object=$1;	export object
+cmd=`basename $0`
+log=$cmd.log;	export log
+
+# update object db with exception lists
+$FAME/fame <<xxxxx >$log
+over on
+load "$padidir/object"
+scalar work'new
+scalar work'lastt
+TRY
+  open   <acc UPDATE> "$object" as object
+  set new = 0
+  set lastt = lastvalue(object'obj_link.dbname)
+OTHERWISE
+  create "$object" as object
+  set new = 1
+  set lastt = 1
+ENDTRY
+scalar work'%slist:namelist
+work'%fname = "formulaname"
+scalar work'%database:string = "database path/name"
+scalar work'%dbase:string = "database name"
+store object
+
+if new eq 1
+	s_dbdir "$dbdir"
+	set %dbase = "$dbname"
+	set %database = "$dbdir/$dbname"
+else
+	set %dbase = object'obj_link.dbname[1]
+	set %database = "$dbdir" + "/" + %dbase
+end if
+loop for k = 1 to lastt
+  open <acc read> file(%database) as target
+
+-- EXCLUSIONS (THESE OBJECTS ARE NOT SERVED)
+  set %slist = SELECTNAMES(WILDLIST(target, "?c2?"), INDEX(@NAME) EQ "DATE" AND (TYPE(@NAME) EQ "PRECISION" OR TYPE(@NAME) EQ "NUMERIC"))
+  loop for i in %slist
+    ex_obj name(i)
+    set %fname = stuff(name(i), 1, 1, "F")
+    if exists(id(%fname))
+        ex_obj %fname
+    end if
+  end loop
+
+-- EXCEPTIONS (THESE OBJECTS ARE SERVED)
+  set %slist = SELECTNAMES(WILDLIST(target, "?c3?"), INDEX(@NAME) EQ "DATE" AND (TYPE(@NAME) EQ "PRECISION" OR TYPE(@NAME) EQ "NUMERIC"))
+  loop for i in %slist
+    add_obj name(i), "padi test series", lower(%dbase), "READ", class(i), frequency(i), type(i), name(i), class(i), string(ND)
+    set %fname = stuff(name(i), 1, 1, "F")
+    if exists(id(%fname))
+        add_obj %fname, "padi test formula", lower(%dbase), "READ", class(i), frequency(i), type(i), %fname, class(id(%fname)), string(ND)
+    end if
+  end loop
+
+  close target
+  if k ne lastt
+	set %dbase = object'obj_link.dbname[k]
+	set %database = "$dbdir" + "/" + %dbase
+  endif
+end loop
+type "   ...object exceptions done! ", today, now
+exit
+xxxxx
+
+cat $log | grep Error

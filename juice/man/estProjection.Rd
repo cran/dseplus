@@ -37,6 +37,6 @@ if(is.R()) {
   }
 z <- estProjection(eg1.DSE.data)
 }
-%\keyword{DSE}
+\concept{DSE}
 \keyword{ts}
 

@@ -52,7 +52,8 @@ estProjection.TSdata <- function(data, center=TRUE, scale=TRUE, m=1,p=1, ...)
   # otherwise use canonical correlation.
   cancorrelation <- function(x, y, xcenter=TRUE, ycenter=TRUE, xscale=TRUE, yscale=TRUE)
    {# scaling does not affect the result but is useful for backward calculation?
-    if (! require("mva")) stop("cancorrelation requires library mva.")
+    if (! require("stats")) stop("cancorrelation requires library stats.")
+    # above was mva rather than stats prior to R 1.9.1
     if (xcenter) xcenter <- apply(x,2,mean)
     else         xcenter <- rep(0, dim(x)[2])
     if (xscale)  xscale  <- sqrt(apply(x,2,var))
