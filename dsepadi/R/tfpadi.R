@@ -39,13 +39,13 @@ availability.default <- function(obj, names=NULL, server="ets", dbname="",
       {data <- getpadi(obj[i], dbname=dbname[i], server=server[i],
                 stop.on.error=stop.on.error, use.tframe=TRUE, warn=warn, 
                 pad=FALSE, timeout=timeout)
-       s <- rbind(s, start(data))
-       e <- rbind(e, end(data))
-       f <- c(f,frequency(data))
+       s <- rbind(s, tfstart(data))
+       e <- rbind(e, tfend(data))
+       f <- c(f,tffrequency(data))
        if (verbose)
-         {cat(obj[i]," from: ",start(data))
-          cat("  to: ",end(data))
-          cat("   frequency ", frequency(data))
+         {cat(obj[i]," from: ",tfstart(data))
+          cat("  to: ",tfend(data))
+          cat("   frequency ", tffrequency(data))
           if (!is.null(names)) cat("  ",names[i])
           cat("\n")
       }  }
@@ -175,13 +175,13 @@ settfPADIdata <- function(preamble=TRUE)
   if (is.null(series)) return(NULL) 
   cat("  starting year..");key <- readline()
      if (!(""== key)) 
-       {start. <- as.integer(key)
+       {start <- as.integer(key)
         cat("  starting period..");key <- readline()
-        start. <- c(start., as.integer(key))
-        if(any(is.na(start.)))
+        start <- c(start, as.integer(key))
+        if(any(is.na(start)))
             cat("Warning: start improperly specified. NOT set!")
         }
-     else start. <- NA
+     else start <- NA
   cat("  ending year..");key <- readline()
      if (!(""== key)) 
        {end. <- as.integer(key)
@@ -192,7 +192,7 @@ settfPADIdata <- function(preamble=TRUE)
      else end. <- NA
 
   data <- tfPADIdata(series, server=server, db=db, transforms=transforms,
-                     start=start., end=end.)
+                     start=start, end=end)
   if (preamble) 
     {cat("The series may now be retrieved, in which case the data is\n")
      cat("  fixed as currently available, or they may be left `dynamic',\n")
@@ -318,12 +318,12 @@ sourceInfo.tfPADIdata <- function(obj)  {attr(obj,"source")} #used by refresh
    }
 
 tsp.tfPADIdata <- function(x)
-  {start. <-start(x)
-   end.   <-  end(x)
-   f <- frequency(x)
-   if (length(start.)==2) start. <- start.[1] + (start.[2]-1)/f
-   if (length(end.)==2)   end.   <- end.[1]   + (end.[2]-1)/f
-   c(start., end., f)
+  {start <-tfstart(x)
+   end   <-  tfend(x)
+   f <- tffrequency(x)
+   if (length(start)==2) start <- start[1] + (start[2]-1)/f
+   if (length(end)==2)   end   <- end[1]   + (end[2]-1)/f
+   c(start, end, f)
   }
 
  
@@ -355,10 +355,10 @@ freeze.tfPADIdata <- function(data, timeout=60)
      start.server=   IfNull(attr(data,"start.server"), TRUE),
      server.process= IfNull(attr(data,"server.process"), padi.server.process()),
      cleanup.script= IfNull(attr(data,"cleanup.script"), padi.cleanup.script()),
-     starty= if(any(is.na(start(data)))) 0 else start(data)[1],
-     startm= if(any(is.na(start(data)))) 0 else start(data)[2],
-     endy=   if(any(is.na(end(data))))   0 else end(data)[1],
-     endm=   if(any(is.na(end(data))))   0 else end(data)[2],
+     starty= if(any(is.na(tfstart(data)))) 0 else tfstart(data)[1],
+     startm= if(any(is.na(tfstart(data)))) 0 else tfstart(data)[2],
+     endy=   if(any(is.na(tfend(data))))   0 else tfend(data)[1],
+     endm=   if(any(is.na(tfend(data))))   0 else tfend(data)[2],
      transformations = data["transforms",],
      pad  = (attr(data,"pad.start") | attr(data,"pad.end") ),
      user =          IfNull(attr(data,"user"), Sys.info()[["user"]] ),
@@ -369,10 +369,10 @@ freeze.tfPADIdata <- function(data, timeout=60)
      timeout= timeout)
 
  if (is.character(r)) stop(r)
- if (!attr(data,"pad.start")) r <- trimNA(r, start.=TRUE, end.=FALSE)
- if (!attr(data,"pad.end") )  r <- trimNA(r, start.=FALSE, end.=TRUE)
+ if (!attr(data,"pad.start")) r <- trimNA(r, startNAs=TRUE,  endNAs=FALSE)
+ if (!attr(data,"pad.end") )  r <- trimNA(r, startNAs=FALSE, endNAs=TRUE)
  if (dim(r)[2] != dim(data)[2]) stop("Error retrieving data.")
- if ( !is.na(frequency(data)) && (frequency(data)) != frequency(r))
+ if ( !is.na(tffrequency(data)) && (tffrequency(data)) != tffrequency(r))
        warning("returned data frequency differs from request.")
  seriesNames(r) <- seriesNames(data)
  attr(r, "source") <- data 
@@ -399,10 +399,10 @@ availability.tfPADIdata <- function(obj, verbose=TRUE, timeout=60, ...)
         start.server   = attr(obj,"start.server"), 
         server.process = attr(obj,"server.process"),
         cleanup.script = attr(obj,"cleanup.script"),
-        starty=if(any(is.na(start(obj)))) 0 else start(obj)[1],
-        startm=if(any(is.na(start(obj)))) 0 else start(obj)[2],
-        endy=if(any(is.na(end(obj))))  0 else end(obj)[1],
-        endm=if(any(is.na(end(obj))))  0 else end(obj)[2],
+        starty=if(any(is.na(tfstart(obj)))) 0 else tfstart(obj)[1],
+        startm=if(any(is.na(tfstart(obj)))) 0 else tfstart(obj)[2],
+        endy=if(any(is.na(tfend(obj))))  0 else tfend(obj)[1],
+        endm=if(any(is.na(tfend(obj))))  0 else tfend(obj)[2],
         transformations = obj["transforms",i],
         pad  = (attr(obj,"pad.start") | attr(obj,"pad.end")) ,
         user =if(is.null(attr(obj,"user"))) Sys.info()[["user"]] else attr(obj,"user"),
@@ -411,13 +411,13 @@ availability.tfPADIdata <- function(obj, verbose=TRUE, timeout=60, ...)
         use.tframe=attr(obj,"use.tframe"), 
         warn=attr(obj,"warn"), timeout=timeout)
 
-       s <- rbind(s, start(r))
-       e <- rbind(e, end(r))
-       f <- c(f,frequency(r))
+       s <- rbind(s, tfstart(r))
+       e <- rbind(e, tfend(r))
+       f <- c(f,tffrequency(r))
        if (verbose)
-         {cat(series[i]," from: ",start(r))
-          cat("  to: ",end(r))
-          cat("   frequency ", frequency(r))
+         {cat(series[i]," from: ",tfstart(r))
+          cat("  to: ",tfend(r))
+          cat("   frequency ", tffrequency(r))
           cat("  ",seriesNames(obj)[i])
           cat("\n")
       }  }
@@ -448,7 +448,7 @@ tfputpadi <- function(data,
    if (!all(ok)) stop("error putting data on database.")
   
    tfPADIdata( series, server=server, db=dbname, transforms="",  
-           start=start(data), end=end(data), frequency=frequency(data), 
+           start=tfstart(data), end=tfend(data), frequency=tffrequency(data), 
            names=series, pad=FALSE, 
            use.tframe=TRUE, stop.on.error=stop.on.error, warn=warn)
   }

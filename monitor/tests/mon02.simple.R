@@ -26,7 +26,8 @@
 
 ###########################################################################
 
-if ( ! require("padi") ) warning("Warning: package padi is needed.") else {
+if ( ! (require("padi") && checkPADIserver("ets"))) 
+ warning("Warning: package padi and server ets are needed.") else {
 
 fuzz.small <- 1e-14
 fuzz.large <- 1e-8
@@ -46,7 +47,8 @@ cleanup.script <- PADIcleanupScript()
  #  work as originally specified. 
 
   server <- Sys.info()[["nodename"]]
-  db     <- paste(.path.package("monitor"),"/data/monitoring.test.db",sep="")
+#  db     <- paste(.path.package("monitor"),"/otherdata/monitoring.test.db",sep="")
+  db     <- system.file("otherdata", "monitoring.test.db", package="monitor")
 
   all.ok <- TRUE
 
@@ -87,7 +89,8 @@ cleanup.script <- PADIcleanupScript()
 
 # the following sets ets.test.data, monitor.test.data, verification.data
 #      and  monitoring.test
-  source(paste(.path.package("monitor"),"/data/monitoring.test.info", sep=""))
+#  source(paste(.path.package("monitor"),"/otherdata/monitoring.test.info", sep=""))
+  source(system.file("otherdata", "monitoring.test.info", package="monitor"))
 
   cat("simple monitor test 2 ...\n") 
   v.data <- verification.data

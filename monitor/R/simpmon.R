@@ -36,8 +36,8 @@ checkForValueChanges <- function(data.names, verification.data,
      {data <- tfwindow(data, start= ignore.before)
       verification.data <-tfwindow(verification.data, start= ignore.before)
      }
-   data <-trimNA(data, start.=TRUE, end.=FALSE)
-   verification.data <-trimNA(verification.data, start.=TRUE, end.=FALSE)
+   data <-trimNA(data, startNAs=TRUE, endNAs=FALSE)
+   verification.data <-trimNA(verification.data, startNAs=TRUE, endNAs=FALSE)
    # which series are changed:
    if (is.null(seriesNamesInput(data.names))) in.up <- NULL
    else
@@ -47,12 +47,12 @@ checkForValueChanges <- function(data.names, verification.data,
       if (ld < l)
         inputData(data) <- ts(rbind(inputData(data),  
                                      matrix(NA,l-ld,nseriesInput(data))),
-                     start=start(inputData(data)),  frequency=frequency(data))
+                     start=tfstart(inputData(data)),  frequency=tffrequency(data))
       if (lv < l)
         inputData(verification.data) <- ts(rbind(inputData(verification.data),
                                         matrix(NA,l-lv, nseriesInput(data))),
-                     start=start(inputData(verification.data)),
-                     frequency=frequency(verification.data))
+                     start=tfstart(inputData(verification.data)),
+                     frequency=tffrequency(verification.data))
       z <- (is.na(inputData(data)) & is.na(inputData(verification.data)))   # both NA
     # next fixes an Splus bug (IMHO) that the dim is dropped for col matrix
       if (!is.matrix(z)) z <- array(z, dim(inputData(data)))
@@ -68,13 +68,13 @@ checkForValueChanges <- function(data.names, verification.data,
       if (ld < l)
         outputData(data) <- ts(rbind(outputData(data), 
                                       matrix(NA,l-ld, nseriesOutput(data))),
-                         start=start(data), frequency=frequency(data))
+                         start=tfstart(data), frequency=tffrequency(data))
       if (lv < l)
         outputData(verification.data) <- ts(
                                 rbind(outputData(verification.data), 
                                       matrix(NA,l-lv, nseriesOutput(data))),
-                     start=start(outputData(verification.data)),
-                     frequency=frequency(verification.data))
+                     start=tfstart(outputData(verification.data)),
+                     frequency=tffrequency(verification.data))
       z <- ( is.na(outputData(data)) & is.na(outputData(verification.data)))    # both NA
     # next fixes an Splus bug (IMHO) that the dim is dropped for col matrix
       if (!is.matrix(z)) z <- array(z, dim(outputData(data)))
@@ -187,8 +187,8 @@ simpleMonitoring <- function(model, data.names,
  # Step 4 - generate report and mail
     message <-c(message,"The forecasts are now:")
     #starting and end period for plots & printing:
-    start.<-(endOutput(data)+show.start) 
-    end.  <-(endOutput(data)+show.end)
+    start <-(endOutput(data)+show.start) 
+    end   <-(endOutput(data)+show.end)
 
     report.variables$input<- 
             (report.variables$input == seriesNamesInput(data.names))
@@ -204,7 +204,7 @@ simpleMonitoring <- function(model, data.names,
     inp <-tagged(inputData(data),tags= data.tag)
     inp <-selectSeries(inp, report.variables$input)
 #    tframe(inp) <-  tframe(inputData(data))
-    rv <- tfwindow(tbind( inp, rv), start=start., end=end., warn=FALSE)   
+    rv <- tfwindow(tbind( inp, rv), start=start, end=end, warn=FALSE)   
     message <- c(message,fprint(rv, digits=5, sub.title=data.sub.heading)) 
 
     if (!is.null(message.footnote)) message <-c(message, message.footnote)

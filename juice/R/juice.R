@@ -222,10 +222,11 @@ concentrator.TSmodelconcentrate <- function(d) {d$conc}
 
 
 
+TSdata.TSdataconcentrate <- function(data, names=NULL, ...)
+    reconstitute(data, conc=concentrator(data), names=names) 
+
 
 reconstitute <- function(d, conc=NULL, names=NULL) {UseMethod("reconstitute")}
-
-TSdata.TSdataconcentrate <- reconstitute 
 
 reconstitute.default <- function(d, conc=NULL, names=seriesNames(d))
  {# this actually concentrates the data and then reconstitutes it.
@@ -256,9 +257,9 @@ reconstitute.TSdataconcentrate <- function(d, conc=concentrator(d),
   # don't use inputData(d) or inputData(concentrateOnly(d)) here as they both
   # obscure the fact that d is concentrate. ??but so what ? this comment may be old
   if (0!= nseriesInput(d))
-    inputData(d) <- reconstitute(d$input, conc$input, names=names$input) 
+    inputData(d) <- reconstitute(d$input,  conc=conc$input,  names=names$input) 
   if (0!=nseriesOutput(d)) 
-   outputData(d) <- reconstitute(d$output, conc$output,names=names$output)
+   outputData(d) <- reconstitute(d$output, conc=conc$output, names=names$output)
   classed(d, c("TSdatareconstitute", "TSdata"))# constructor reconstitute.TSdataconcentrate)
  }
 
@@ -281,7 +282,7 @@ canonical.prediction <- function(d, conc=concentrator(d),
      prj$v <- prj$v[q,  , drop=FALSE] 
      prj$d <- prj$d[q]
     }
-  pred <- reconstitute(inputData(concentrateOnly(d), series=q), prj,
+  pred <- reconstitute(inputData(concentrateOnly(d), series=q), conc=prj,
                            names=seriesNamesOutput(concentrateOriginal(d)))
   attr(pred, "original") <- outputData(concentrateOriginal(d))
   classed(pred, "TScanonicalPrediction") #constructor (canonical.prediction)
@@ -292,14 +293,15 @@ is.TScanonicalPrediction <- function(x) {inherits(x, "TScanonicalPrediction")}
 concentrateOriginal.TScanonicalPrediction <- function(d)
     {attr(d, "original")}   
 
-tfplot.TScanonicalPrediction <- function(x, start.=NULL, end.=NULL,
+tfplot.TScanonicalPrediction <- function(x,
+         tf=NULL, start=tfstart(tf), end=tfend(tf),
 	 series=seq(nseries(x)),
 	 Title=NULL, xlab=NULL, ylab=NULL,
          graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
 {# plot actual data and data reconstituted from canonical.prediction.
  z <- concentrateOriginal(x)
  seriesNames(z) <- seriesNames(x) # used on plot
- tfplot(z, x, start.=start., end.=end., series=series,
+ tfplot(z, x, start=start, end=end, series=series,
 	 Title=Title, xlab=xlab, ylab=ylab,
 	 graphs.per.page=graphs.per.page, mar=mar, reset.screen=reset.screen)
  invisible()
@@ -316,7 +318,7 @@ frequency.TScanonicalPrediction <- function(x, ...){frequency(concentrateOrigina
 
 
 percentChange.TScanonicalPrediction <-function (obj, base=NULL, lag=1,
-    cumulate=FALSE, e=FALSE) {
+    cumulate=FALSE, e=FALSE, ...) {
 	pchange <- percentChange(classed(obj, dseclass(obj)[-1]),
 	    base=base, lag=lag, cumulate=cumulate, e=e)
 	attr(pchange, "original") <- percentChange(attr(obj, "original"),
@@ -361,22 +363,21 @@ estConcentratedModel.TSdataconcentrate <- function(data,
 
 is.TSmodelconcentrate <- function(x) {inherits(x, "TSmodelconcentrate")}
 
-l.TSmodelconcentrate <- function(model,data, sampleT=nrow(outputData(data)), 
-                                  predictT=sampleT, result=NULL, warn=TRUE)
-  {#model should be TSmodelconcentrate and data should be TSdataconcentrate
-   if (!is.TSdataconcentrate(data)) stop("data should be TSdataconcentrate.")
-   if (!is.TSmodelconcentrate(model)) stop("model should be TSmodelconcentrate.")
-   pred  <- l(concentrateOnly(model), concentrateOnly(data),
+l.TSmodelconcentrate <- function(obj1, obj2, sampleT=nrow(outputData(obj2)), 
+                                  predictT=sampleT, result=NULL, warn=TRUE, ...)
+  {#obj1 should be TSmodelconcentrate and obj2 should be TSdataconcentrate
+   if (!is.TSdataconcentrate(obj2)) stop("obj2 should be TSodataconcentrate.")
+   if (!is.TSmodelconcentrate(obj1)) stop("obj1 should be TSmodelconcentrate.")
+   pred  <- l(concentrateOnly(obj1), concentrateOnly(obj2),
               sampleT=sampleT, predictT=predictT)$estimates$pred
-   pred  <- reconstitute(pred, concentrator(data)$output,
-        names=seriesNamesOutput(data))
+   pred  <- reconstitute(pred, conc=concentrator(obj2)$output,
+        names=seriesNamesOutput(obj2))
 
    if((!is.null(result)) && (result == "pred")) return(pred)
-   r <- residualStats(pred, outputData(concentrateOriginal(data)),
+   r <- residualStats(pred, outputData(concentrateOriginal(obj2)),
                        sampleT=sampleT, warn=warn)
-   if(is.null(result)) 
-       return(classed(list(estimates = r, data = data, 
-           model = model), "TSestModel"))
+   if(is.null(result)) return(classed(list(estimates = r, data = obj2,
+                                  model = obj1), "TSestModel"))
    else if(result == "like") return(r$like[1])# neg.log.like.
    else return(r[[result]]) 
    stop("should never get to here.")
@@ -469,10 +470,10 @@ tfprint.concentrate <- function(x, ...)
 
 
 
-tfwindow.concentrate <- function(x, ...)
+tfwindow.concentrate <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE)
  {conc <- concentrator(x)
   cls <- dseclass(x)
-  x <- tfwindow(classed(x, cls[-1]), ...)  # NextMethod might? work
+  x <- tfwindow(classed(x, cls[-1]), tf=tf, start=start, end=end, warn=warn)  # NextMethod might? work
   attr(x, "concentrator") <- conc  # kludge Rbug attr gets lost ??
   classed(x, cls)
  }
@@ -495,24 +496,25 @@ selectSeries.concentrate <-function (x, series = seq(nrow(concentrator(x)$proj))
 concentrated.tfplot <- function(x, ...) {tfplot(concentrateOnly(x), ...)}
 
    
-tfplot.concentrate <- function(x, start.=NULL, end.=NULL,
+tfplot.concentrate <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf),
          series=seq(nseries(x)), 
 	 Title=NULL, xlab=NULL, ylab=NULL,
 	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
 {# plot actual data and data reconstituted from concentrate.
  tfplot(concentrateOriginal(x), reconstitute(x),  
-        start.=start., end.=end., series=series, 
+        start=start, end=end, series=series, 
         Title=Title, xlab=xlab, ylab=ylab, 
 	graphs.per.page=graphs.per.page, mar=mar,reset.screen=reset.screen)
 }
 
-tfplot.TSdataconcentrate <- function(x, start. = NULL, end. = NULL,
+tfplot.TSdataconcentrate <- function(x, 
+    tf=NULL, start=tfstart(tf), end=tfend(tf),
     select.inputs  = seq(length = nseriesInput(x)),
     select.outputs = seq(length = nseriesOutput(x)), 
     Title = NULL, xlab = NULL, ylab = NULL, 
     graphs.per.page = 5, mar=par()$mar, reset.screen = TRUE)
 {# plot actual data and data reconstituted from concentrate.
- tfplot.TSdata(concentrateOriginal(x), reconstitute(x), start.=start.,end.=end., 
+ tfplot.TSdata(concentrateOriginal(x), reconstitute(x), start=start,end=end, 
     select.inputs  = select.inputs, select.outputs = select.outputs, 
     Title = Title, xlab = xlab, ylab = ylab, 
     graphs.per.page = graphs.per.page, mar=mar, reset.screen = reset.screen)
@@ -547,18 +549,18 @@ plot2by2.default <- function(data, pch=".", ...)
    invisible()
 }
 
-checkResiduals.TSdataconcentrate <- function (data, ...) 
+checkResiduals.TSdataconcentrate <- function (obj, ...) 
    {warning("This residual is the difference between original and reconstituted data")
     invisible(checkResiduals.TSdata(
-      TSdata(output=outputData(reconstitute(data)) - 
-                    outputData(concentrateOriginal(data))), ...))
+      TSdata(output=outputData(reconstitute(obj)) - 
+                    outputData(concentrateOriginal(obj))), ...))
    }
     
-checkResiduals.TSdatareconstitute <- function (data, ...) 
-   {invisible(checkResiduals.TSdata(as.TSdata(data), ...)) }
+checkResiduals.TSdatareconstitute <- function (obj, ...) 
+   {invisible(checkResiduals.TSdata(as.TSdata(obj), ...)) }
 
 
-checkResiduals.concentrated <- function (data, ...) 
+checkResiduals.concentrated <- function (obj, ...) 
         {stop("defunct. Use concentrated.checkResiduals")}
 
 concentrated.checkResiduals <- function (data, ...) 

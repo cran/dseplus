@@ -4,15 +4,15 @@
 \description{See the generic function description.}
 \usage{
     \method{tfplot}{combined.forecast}(x, 
-       start.=start(x$data$output), end.=end(x$data$output),
+       start=tfstart(x$data$output), end=tfend(x$data$output),
        select.inputs=NULL, select.outputs=NULL,
        Title="Projection", xlab=NULL, ylab=NULL, 
        graphs.per.page=5, mar=par()$mar, verbose=FALSE )
 }
 \arguments{
     \item{x}{object to be plotted.}
-    \item{start.}{start of plot. (passed to tfwindow)}
-    \item{end.}{end of plot. (passed to tfwindow)}
+    \item{start}{start of plot. (passed to tfwindow)}
+    \item{end}{end of plot. (passed to tfwindow)}
     \item{select.inputs}{vector of integers or strings indicating inputs 
        to be plotted.}
     \item{select.outputs}{vector of integers or strings indicating outputs 

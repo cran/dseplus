@@ -47,17 +47,17 @@ reconstruct.combined.forecast <- function(combined.forecast)
 }
 
 tfplot.combined.forecast <- function(x, 
-       start.=start(x$data$output), end.=end(x$data$output),
+       start=tfstart(x$data$output), end=tfend(x$data$output),
        select.inputs=NULL, select.outputs=NULL,
        Title="Projection", xlab=NULL, ylab=NULL, 
        graphs.per.page=5, mar=par()$mar, verbose=FALSE )
 { 
    if (verbose)
      {tfplot(x$data, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
-            start.=start., end.=end., 
+            start=start, end=end, 
 	    mar=mar, Title="Data and combined forecast")
       tfplot(x$pred, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
-            start.=start., end.=end., 
+            start=start, end=end, 
 	    mar=mar, Title="Model predictions (one step ahead for history)")
      }
    graph.data <- x$data
@@ -65,13 +65,13 @@ tfplot.combined.forecast <- function(x,
    if (is.null(select.inputs))  select.inputs  <- seq(dim(graph.data$input)[2])
    if (is.null(select.outputs)) select.outputs <- seq(dim(graph.data$output)[2])
    tfplot(graph.data, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
-           start.=start., end.=end., mar=mar, Title="Projection", 
+           start=start, end=end, mar=mar, Title="Projection", 
            select.inputs=select.inputs, select.outputs=select.outputs)
 #   tfplot(x$forecast[[2]],x$forecast[[1]],
-#         x$forecast[[3]], start.=start.,
+#         x$forecast[[3]], start=start,
 #         Title="Projection using future policy=most recent value and 20% higher and lower")
 #   tfplot(x$pchange[[2]],x$pchange[[1]],
-#         x$pchange[[3]],start.=start., Title=
+#         x$pchange[[3]],start=start, Title=
 #    "Year over year percent change using future policy=most recent value and 20% higher and lower")
    invisible()
 }
@@ -120,10 +120,10 @@ construct.data.to.override.horizon <- function(new.data, model,
     #   print(dup)
     #  }
 
- z <- trimNA(outputData(new.data$data), end.=FALSE)
+ z <- trimNA(outputData(new.data$data), endNAs=FALSE)
  zz <- new.data$overriding.data$output
  z <- splice(zz,z)
- start. <- start(z)
+ start <- tfstart(z)
  if (is.null(new.data$data$input)) z.in <-NULL
  else
    {# note that $overriding.data does not override actual data for $input, but 
@@ -131,14 +131,14 @@ construct.data.to.override.horizon <- function(new.data, model,
     #  code is necessary to give a warning.)
     z.in <-trimNA(splice(inputData(new.data$data),
                           inputData(new.data$overriding.data)))
-    start. <- latestStart(z, z.in)
-    z.in <- tfwindow(z.in, start=start., warn=FALSE)
+    start <- latestStart(z, z.in)
+    z.in <- tfwindow(z.in, start=start, warn=FALSE)
     if (any(is.na(z.in)))
        stop(paste("Input (exogenous) series data cannot be specified as NA. (note ",
                   "differenced data requires an overlap of one period at the end of ",
                   "historical data and the beginning of monitoring overriding data.)"))
    }
- z <- tfwindow(z, start=start., warn=FALSE)
+ z <- tfwindow(z, start=start, warn=FALSE)
  con.data <- TSdata(output=z,  input=z.in)
 
  # now augment $data and $overriding.data with model predictions for 
@@ -155,7 +155,7 @@ construct.data.to.override.horizon <- function(new.data, model,
  con.data<- freeze(con.data)
  con.data$override <- dup
  if (plot &&  dev.cur() != 1 ) 
-    {tfplot(con.data,start.=(end(outputData(data))-c(1,0)), 
+    {tfplot(con.data,start=(tfend(outputData(data))-c(1,0)), 
            Title="Historical and overriding data data")
     }
   invisible(con.data)
@@ -300,22 +300,22 @@ combinationMonitoring <- function(model, data.names,
    #   the best way to handle them.
    year.mo <- c(dateParsed()$y,dateParsed()$m) - c(0,1)
    data  <- tfwindow(data,  end=year.mo, warn=FALSE )
-   fr <- c(frequency(data), 1)
+   fr <- c(tffrequency(data), 1)
       
    # check matching of starting date with end of available data.
    #   period for which all data is available in data
-   end.ets <- end(trimNA(outputData(data))) 
+   end.ets <- tfend(trimNA(outputData(data))) 
    if (!is.null(overriding.data))
     {if (is.null(overriding.data$output))
      {overriding.data$output <- ts(matrix(NA, 1, nseriesOutput(data)),
-                           end=end(data$output), 
-                           frequency=frequency(data$output), 
+                           end=tfend(data$output), 
+                           frequency=tffrequency(data$output), 
                            names=dimnames(data$output)[[2]])
       if (!is.null(data$output.names))
          overriding.data$output.names <- data$output.names
      }
    else
-     {if (!( (1+fr %*% end.ets) >= (fr %*%start(overriding.data$output))))
+     {if (!( (1+fr %*% end.ets) >= (fr %*%tfstart(overriding.data$output))))
         stop(paste("Monitoring data (or NAs) must be indicated after ", end.ets))
       if (1== latestEndIndex(outputData(data), outputData(overriding.data)))
          warning(paste("Overriding data file does not appear to be updated.",
@@ -341,11 +341,11 @@ combinationMonitoring <- function(model, data.names,
                            data.names$input.transformations,
                           "The forecasts are now:")
     #starting and end period for plots & printing:
-    start.<-(end(combined.forecast$data$output)+show.start) 
-    end.  <-(end(combined.forecast$data$output)+show.end)
+    start<-(tfend(combined.forecast$data$output)+show.start) 
+    end  <-(tfend(combined.forecast$data$output)+show.end)
     # this can be too long if sufficient input data is not provided, so: 
-    if ((fr %*% end(combined.forecast$best.guess)) < ((end.-c(0,1)) %*% fr))
-       end.  <-end(combined.forecast$best.guess)
+    if ((fr %*% tfend(combined.forecast$best.guess)) < ((end-c(0,1)) %*% fr))
+       end  <-tfend(combined.forecast$best.guess)
 
     report.variables$input<- 
             (report.variables$input == seriesNames(data.names)$input)
@@ -361,7 +361,7 @@ combinationMonitoring <- function(model, data.names,
     inp <- splice(combined.forecast$data$input, 
                   combined.forecast$overriding.data$input,
                   tag1=data.tag, tag2=future.inputData.tag)
-    rv <-tfwindow(cbind(inp,rv), start=start., end=end., warn=FALSE) 
+    rv <-tfwindow(cbind(inp,rv), start=start, end=end, warn=FALSE) 
     message <- c(message,fprint(rv, digits=5, sub.title=data.sub.heading)) 
 
     if (any(combined.forecast$override))
@@ -370,12 +370,12 @@ combinationMonitoring <- function(model, data.names,
        }
 
 #    print(tfwindow(tbind(combined.forecast$data$input, combined.forecast$best.guess), 
-#      start=start.), digits=print.digits)
+#      start=start), digits=print.digits)
 
 # The following needs a postscipt viewer like gv or pageview
 #    postscript(file=graphics.file, width=7, height=8, pointsize=14,
 #        horizontal=F, onefile=F, print.it=F, append=FALSE)
-#    graph.combined.forecast(combined.forecast, start.=start.)
+#    graph.combined.forecast(combined.forecast, start=start)
 #    dev.off()
 #    message <- c(message,"For graphic (in OpenWindows) type:\n    pageview ")
 #    if("/" == substring(graphics.file,1,1) )

@@ -78,16 +78,22 @@ genD.ARMA <- function(func, x=coef(func),
    Daprox <-  matrix(0,n,r) 
    Hdiag  <-  matrix(0,n,length(x))
    Haprox <-  matrix(0,n,r)
+   storage.mode(x)     <-"double"
+   storage.mode(h0)     <-"double"
    storage.mode(D)     <-"double"
-   storage.mode(Daprox)<-"double"
    storage.mode(Haprox)<-"double"
    storage.mode(Hdiag )<-"double"
+   storage.mode(Daprox)<-"double"
+   storage.mode(u)<-"double"
+   storage.mode(outputData(data))<-"double"
+   storage.mode(model$const)<-"double"
+   storage.mode(G)<-"double"
    D <-.Fortran("gend",
             D=D,
             as.integer(is.ARMA(model)), 
             p=as.integer(length(x)),
-            x=as.double(x),
-            as.double(h0),
+            x=x,
+            h0,
             as.integer(n),    #6
             as.integer((length(x)*(length(x)+ 3))/2), #cols of D
             f0=double(n),      
@@ -107,14 +113,14 @@ genD.ARMA <- function(func, x=coef(func),
             as.integer(ps),     # output dimension p 
             as.integer(sampleT),   
             as.integer(periods(data)), 
-            u=as.double(u), 
-            y=as.double(outputData(data)),   
+            u=u, 
+            y=outputData(data),   
             #   model$parm is passed above as x (it is the parameter for curvature calculation)   
             as.integer(loc),   #as.character(model$location), #23
             as.integer(model$i),
             as.integer(model$j),
             as.integer(length(model$const)),
-            const=as.double(model$const),
+            const=model$const,
             as.integer(cloc),  #as.character(model$const.location),
             as.integer(model$const.i ), 
             as.integer(model$const.j),
@@ -129,16 +135,16 @@ genD.ARMA <- function(func, x=coef(func),
             C=C, 
         #  for state space models:
             as.integer(ns),  # state dim.  #39
-        #    state=as.double(matrix(0,sampleT,ns)),  
-        #    track=as.double(array(0,c(sampleT,ns,ns))),  
-            z0=as.double(rep(0,ps)), # note: this is TREND for ARMA
-            P0=as.double(diag(0,ps)),
-            F=as.double(matrix(0,ns,ns)),  
-            G=as.double(G),  
-            H=as.double(matrix(0,ps,ns)),  
-            K=as.double(matrix(0,ns,ps)),  
-            Q=as.double(matrix(0,ns,ns)),  
-            R=as.double(matrix(0,ps,ps)), 
+        #    state=matrix(double(1),sampleT,ns),  
+        #    track=array(double(1),c(sampleT,ns,ns)),  
+            z0=double(ps), # note: this is TREND for ARMA
+            P0=diag(double(1),ps),
+            F=matrix(double(1),ns,ns),  
+            G=G,  
+            H=matrix(double(1),ps,ns),  
+            K=matrix(double(1),ns,ps),  
+            Q=matrix(double(1),ns,ns),  
+            R=matrix(double(1),ps,ps), 
             gain=as.integer(FALSE),   #48
             DUP=.DSEDUP,
 	    PACKAGE="dse1"
@@ -187,18 +193,25 @@ genD.innov <- function(func, x=coef(func),
    Daprox <-  matrix(0,n,r) 
    Hdiag  <-  matrix(0,n,length(x))
    Haprox <-  matrix(0,n,r)
-   storage.mode(D)     <-"double"
-   storage.mode(Daprox)<-"double"
-   storage.mode(Haprox)<-"double"
-   storage.mode(Hdiag )<-"double"
    loc   <- match(model$location,       c("f","G","H","K","Q","R","z","P"))
    cloc  <- match(model$const.location, c("f","G","H","K","Q","R","z","P"))
+   storage.mode(D)     <-"double"
+   storage.mode(x)     <-"double"
+   storage.mode(h0)     <-"double"
+   storage.mode(Daprox)<-"double"
+   storage.mode(Haprox)<-"double"
+   storage.mode(Hdiag)<-"double"
+   storage.mode(u)<-"double"
+   storage.mode(outputData(data))<-"double"
+   storage.mode(model$const)<-"double"
+   storage.mode(C)<-"double"
+   storage.mode(G)<-"double"
    D <-.Fortran("gend",
             D=D,
             as.integer(is.ARMA(model)), 
             p=as.integer(length(x)),
-            x=as.double(x),
-            as.double(h0),
+            x=x,
+            h0,
             as.integer(n),    #6
             as.integer((length(x)*(length(x)+ 3))/2), #cols of D
             f0=double(n),      
@@ -218,14 +231,14 @@ genD.innov <- function(func, x=coef(func),
             as.integer(ps),     # output dimension p 
             as.integer(sampleT),   
             as.integer(periods(data)), 
-            u=as.double(u), 
-            y=as.double(outputData(data)),   #22
+            u=u, 
+            y=outputData(data),   #22
             #   model$parm is passed above as x (it is the parameter for curvature calculation)   
             as.integer(loc),   #as.character(model$location) bug
             as.integer(model$i),
             as.integer(model$j),
             as.integer(length(model$const)),
-            const=as.double(model$const),     #28
+            const=model$const,     #28
             as.integer(cloc),  #as.character(model$const.location),
             as.integer(model$const.i ), 
             as.integer(model$const.j),
@@ -235,21 +248,21 @@ genD.innov <- function(func, x=coef(func),
             as.integer(1),#1+order of A
             as.integer(1),#1+order of B
             as.integer(1),#1+order of C
-            A=as.double(array(0,c(1,ps,ps))),   
-            B=as.double(array(0,c(1,ps,ps))),  
-            C=as.double(C), 
+            A=array(double(1),c(1,ps,ps)),   
+            B=array(double(1),c(1,ps,ps)),  
+            C=C, 
         #  for state space models:
             as.integer(ns),  # state dim.     #39
-        #    state=as.double(matrix(0,sampleT,ns)),  
-        #    track=as.double(array(0,c(sampleT,ns,ns))),  
-            z0=as.double(rep(0,ns)),  
-            P0=as.double(diag(0,ps)),
-            F=as.double(matrix(0,ns,ns)),  
-            G=as.double(G),  
-            H=as.double(matrix(0,ps,ns)),  
-            K=as.double(matrix(0,ns,ps)),  
-            Q=as.double(matrix(0,ns,ns)),  
-            R=as.double(matrix(0,ps,ps)),
+        #    state=matrix(double(1),sampleT,ns),  
+        #    track=array(double(1),c(sampleT,ns,ns)),  
+            z0=double(ns),  
+            P0=diag(double(1),ps),
+            F=matrix(double(1),ns,ns),  
+            G=G,  
+            H=matrix(double(1),ps,ns),  
+            K=matrix(double(1),ns,ps),  
+            Q=matrix(double(1),ns,ns),  
+            R=matrix(double(1),ps,ps),
             gain=as.integer(is.innov.SS(model)), #48
             DUP=.DSEDUP,
 	    PACKAGE="dse1"

@@ -46,21 +46,22 @@ selectSeries.tagged <- function(x, series=seq(ncol(x)))
              selectSeries.default(tags(x), series=series))
      }
 
-tbind.tagged <- function(mat1, mat2)
+tbind.tagged <- function(x, mat2, ..., pad.start=TRUE, pad.end=TRUE, warn=TRUE)
 {# aline and bind ts matrices and tags
- if (is.tagged(mat1)) tag1 <- tags(mat1)
- else                 tag1 <- array("mat1", dim(mat1))
+ if (is.tagged(x)) tag1 <- tags(x)
+ else                 tag1 <- array("x", dim(x))
  if (is.tagged(mat2)) tag2 <- tags(mat2)
  else                 tag2 <- array("mat2", dim(mat2))
- tframe(tag1) <- tframe(mat1)
+ tframe(tag1) <- tframe(x)
  tframe(tag2) <- tframe(mat2)
- cls <- dseclass(mat1)
+ cls <- dseclass(x)
  # this should use NextMethod
- dseclass(mat1) <- dseclass(mat1)[-1]  # otherwise tbind calls this tbind
- if (0 == length(dseclass(mat1))) dseclass(mat1) <- NULL
+ dseclass(x) <- dseclass(x)[-1]  # otherwise tbind calls this tbind
+ if (0 == length(dseclass(x))) dseclass(x) <- NULL
  dseclass(mat2) <- dseclass(mat2)[-1]  # otherwise tbind calls this tbind
  if (0 == length(class(mat2))) dseclass(mat2) <- NULL
- tagged(classed(tbind(mat1, mat2), cls),  tbind(tag1,tag2)) 
+ tagged(classed(tbind(x, mat2, pad.start=pad.start, pad.end=pad.end, warn=warn),
+       cls),  tbind(tag1,tag2, pad.start=pad.start, pad.end=pad.end, warn=warn)) 
 }
 
 is.tagged <- function(obj)  {inherits(obj,"tagged")}
@@ -84,8 +85,8 @@ fprint.tagged <- function(x, super.title=NULL, sub.title=NULL,
   # If file is not NULL then elements of out are printed to lines of the file.
   tags <- tags(x)
   out <- NULL
-  f <- frequency(x)
-  s <- start(x)
+  f <- tffrequency(x)
+  s <- tfstart(x)
   s <- s[1] + (s[2]-1)/f
   if (12 ==f) p <- c("Jan","Feb","Mar","Apr","May", "Jun","Jul","Aug", "Sep",
          "Oct","Nov","Dec")
@@ -139,33 +140,33 @@ splice.tagged <- function(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2), ...)
  if (is.null(mat1) & is.null(mat2)) return(NULL)
  if (is.null(mat2)) return(tagged(mat1, tag1))
  if (is.null(mat1)) return(tagged(mat2, tag2))
- freq <- frequency(mat1)
- if (freq != frequency(mat2)) stop("frequencies must be the same.\n")
+ freq <- tffrequency(mat1)
+ if (freq != tffrequency(mat2)) stop("frequencies must be the same.\n")
  p <- dim(mat1)[2]
  if (p != dim(mat2)[2]) stop("number of series must be the same.\n")
  tframe(tag1) <- tframe(mat1)
  tframe(tag2) <- tframe(mat2)
 
  fr <- c(freq,1)
- st <- min(fr %*% start(mat1), fr %*% start(mat2))
+ st <- min(fr %*% tfstart(mat1), fr %*% tfstart(mat2))
  strt <- c(st %/% freq, st %% freq)
- en <- max(fr %*% end(mat1), fr%*% end(mat2))
+ en <- max(fr %*% tfend(mat1), fr%*% tfend(mat2))
  tf <- list(start=strt, frequency=freq)
- if (fr %*% start(mat1) > st) 
-    {tag1 <-tframed(rbind(matrix("?", fr %*% start(mat1) -st, p), tag1),tf)
-     mat1 <-tframed(rbind(matrix(NA,  fr %*% start(mat1) -st, p), mat1), tf)
+ if (fr %*% tfstart(mat1) > st) 
+    {tag1 <-tframed(rbind(matrix("?", fr %*% tfstart(mat1) -st, p), tag1),tf)
+     mat1 <-tframed(rbind(matrix(NA,  fr %*% tfstart(mat1) -st, p), mat1), tf)
     }
- if (fr %*%   end(mat1) < en) 
-    {tag1 <-tframed(rbind(tag1, matrix("?", en - fr %*% end(mat1), p)), tf)
-     mat1 <-tframed(rbind(mat1, matrix(NA,  en - fr %*% end(mat1), p)), tf)
+ if (fr %*%   tfend(mat1) < en) 
+    {tag1 <-tframed(rbind(tag1, matrix("?", en - fr %*% tfend(mat1), p)), tf)
+     mat1 <-tframed(rbind(mat1, matrix(NA,  en - fr %*% tfend(mat1), p)), tf)
     }
- if (fr %*% start(mat2) > st) 
-    {tag2 <-tframed(rbind(matrix("?", fr %*% start(mat2) -st, p), tag2), tf)
-     mat2 <-tframed(rbind(matrix(NA,  fr %*% start(mat2) -st, p), mat2), tf)
+ if (fr %*% tfstart(mat2) > st) 
+    {tag2 <-tframed(rbind(matrix("?", fr %*% tfstart(mat2) -st, p), tag2), tf)
+     mat2 <-tframed(rbind(matrix(NA,  fr %*% tfstart(mat2) -st, p), mat2), tf)
     }
- if (fr %*%   end(mat2) < en) 
-    {tag2 <-tframed(rbind(tag2,matrix("?", en - fr %*% end(mat2), p)), tf)
-     mat2 <-tframed(rbind(mat2, matrix(NA, en - fr %*% end(mat2), p)), tf)
+ if (fr %*%   tfend(mat2) < en) 
+    {tag2 <-tframed(rbind(tag2,matrix("?", en - fr %*% tfend(mat2), p)), tf)
+     mat2 <-tframed(rbind(mat2, matrix(NA, en - fr %*% tfend(mat2), p)), tf)
     }
  na <- is.na(mat1)
 #browser()
@@ -176,7 +177,7 @@ splice.tagged <- function(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2), ...)
  classed(mat1, cls )
 }
 
-tfwindow.tagged <- function(x, start.=NULL, end.=NULL, tf=NULL, warn=TRUE)
+tfwindow.tagged <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE)
 {# window a ts matrix of class "tagged".
  # With the default warn=T warnings will be issued if no truncation takes
  #  place because start or end is outside the range of data.
@@ -193,17 +194,17 @@ tfwindow.tagged <- function(x, start.=NULL, end.=NULL, tf=NULL, warn=TRUE)
  tframe(tags) <- tframe(x)
  # The following is complicated by the fact that some versions of window
  #    look for missing arguments.
- if (is.null(start.))
-   {x   <- tfwindow(x  , end.=end., tf=tf, warn=warn)
-    tags<- tfwindow(tags,end.=end., tf=tf, warn=warn)
+ if (is.null(start))
+   {x   <- tfwindow(x  , tf=tf, end=end, warn=warn)
+    tags<- tfwindow(tags,tf=tf, end=end, warn=warn)
    }
- else if (is.null(end.))
-   {x   <- tfwindow(x  , start.=start., tf=tf, warn=warn)
-    tags<- tfwindow(tags,start.=start., tf=tf, warn=warn)
+ else if (is.null(end))
+   {x   <- tfwindow(x  , tf=tf, start=start, warn=warn)
+    tags<- tfwindow(tags,tf=tf, start=start, warn=warn)
    }
  else
-   {x   <- tfwindow(x,   start.=start., end.=end., tf=tf, warn=warn)
-    tags<- tfwindow(tags,start.=start., end.=end., tf=tf, warn=warn)
+   {x   <- tfwindow(x,   tf=tf, start=start, end=end, warn=warn)
+    tags<- tfwindow(tags,tf=tf, start=start, end=end, warn=warn)
    }
  tagged(x, tags)
 }

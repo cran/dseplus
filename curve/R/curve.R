@@ -171,9 +171,9 @@ browser()
 # svd( c1$C$C.intrinsic[1,,])$d / svd(C2in1$C.intrinsic[1,,])$d[1:2]
 
 # use , symmetric=?, only.values=TRUE
-# La.eigen( c1$C$C.intrinsic[1,,])$values
-# La.eigen( c2$C$C.intrinsic[1,,])$values
-# La.eigen(C2in1$C.intrinsic[1,,])$values
+# eigen( c1$C$C.intrinsic[1,,])$values
+# eigen( c2$C$C.intrinsic[1,,])$values
+# eigen(C2in1$C.intrinsic[1,,])$values
 
    effective<-effectiveCurvature(cur1on2,QRofD2, residual, s.sqr,
                       show.details=show.details, warn=warn)
@@ -437,7 +437,7 @@ effectiveCurvature <- function(cur, QRofD, residual, s.sqr,
        print(B)
      }
    if ( max(abs(B- t(B))) > 1e-7 ) warning("B is not symmetric.") 
-   eigv <- La.eigen(B, symmetric=TRUE, only.values=TRUE)$values
+   eigv <- eigen(B, symmetric=TRUE, only.values=TRUE)$values
    if(max(Im(eigv)) >= 1e-15) 
           warning("Calculated eigenvalues have imaginary part.")
 

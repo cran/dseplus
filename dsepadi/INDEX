@@ -1,10 +1,3 @@
-This package is part of the dse bundle.
-See 00Intro.* in each package for a short general description.
-The Users' Guide is divided into sections for each package.
-These are installed in the doc/ directory for each package.
-A version of the guide with all sections combined may also
-be available at 'http://www.bank-banque-canada.ca/pgilbert', but may not be as current.
-See also the bundle dseplus with related packages.
 availability            Check Data Availability
 freeze.tfPADIdata       Get fixed data snapshot
 freeze.TSPADIdata       Get fixed data snapshot using TSPADI
@@ -27,7 +20,7 @@ sourceInfo.TSPADIdata   TSPADIdata Specific Methods
 sourceserver            Get source server from a data object
 tfPADIdata              make tfPADIdata object
 tfputpadi               Write Data to a Data Server
-TSPADIdata2             Constructor for TSPADIdata object
 TSPADIdata              Constructor for TSPADIdata object
+TSPADIdata2             Constructor for TSPADIdata object
 tsp.tfPADIdata          Specific Methods for tsp
 tsp.TSPADIdata          Specific Methods for tsp

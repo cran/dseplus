@@ -4,16 +4,19 @@
 \title{TSdata Specific Methods}
 \description{See the generic function description.}
 \usage{
-    \method{TSdata}{TSdataconcentrate}(d, conc=NULL, names=NULL)
+    \method{TSdata}{TSdataconcentrate}(data, names=NULL, ...)
 }
 \arguments{
-    \item{d}{a TSdataconcentrate object from which to get TSdata.}
-    \item{conc}{object containing the concentrator (projection) matrix 
-       used for the reduction}
+    \item{data}{a TSdataconcentrate object from which to get TSdata.}
     \item{names}{series names for the result.}
+    \item{...}{arguments to be passed to other methods.}
 }
-
-\seealso{ \code{\link[dse1]{TSdata}} }
+\details{Uses reconstitute to build TSdata.
+}
+\seealso{
+   \code{\link{reconstitute}} 
+   \code{\link[dse1]{TSdata}} 
+}
 
 %\keyword{DSE}
 \keyword{ts}

@@ -5,12 +5,12 @@
 \title{checkResiduals Specific Methods}
 \description{See the generic function description.}
 \usage{
-    \method{checkResiduals}{TSdataconcentrate}(data, ...)
-    \method{checkResiduals}{TSdatareconstitute}(data, ...)
-    \method{checkResiduals}{concentrated}(data, ...)
+    \method{checkResiduals}{TSdataconcentrate}(obj, ...)
+    \method{checkResiduals}{TSdatareconstitute}(obj, ...)
+    \method{checkResiduals}{concentrated}(obj, ...)
 }
 \arguments{
-    \item{data}{a TSdataconcentrate object.}
+    \item{obj}{a TSdataconcentrate object.}
     \item{...}{arguments passed to checkResiduals.}
 }
 

@@ -45,8 +45,8 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
  #  work as originally specified. 
 
   server <- Sys.info()[["nodename"]]
-  db     <- paste(.path.package("monitor"),"/data/monitoring.test.db",sep="")
-
+#  db     <- paste(.path.package("monitor"),"/otherdata/monitoring.test.db",sep="")
+  db     <- system.file("otherdata", "monitoring.test.db", package="monitor")
   if (synopsis & !verbose) cat("All combination monitor tests ...")
   all.ok <- TRUE
 
@@ -75,7 +75,8 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 #      output.transforms= rep("percentChange",4),
       db=db, server=server,pad.end =TRUE)
 
-  source(paste(.path.package("monitor"),"/data/monitoring.test.info", sep=""))
+#  source(paste(.path.package("monitor"),"/otherdata/monitoring.test.info", sep=""))
+  source(system.file("otherdata", "monitoring.test.info", package="monitor"))
 
   v.data <- verification.data
   v.data$output <- v.data$output[,c(1,2,6,7)]
@@ -101,7 +102,8 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 
   if (verbose) cat("combination monitor test 3 ... ")
   overriding.data <- get.overriding.data(
-                   file=paste(.path.package("monitor"),"/data/monitoring.test.data", sep=""),
+                   #file=paste(.path.package("monitor"),"/otherdata/monitoring.test.data", sep=""),
+                   file=system.file("otherdata", "monitoring.test.data", package="monitor"),
                    m=1, p=10,
                    first.input="diff(R90=B14017)", 
                    first.output="%change(CPI=P484549)",  
@@ -147,5 +149,6 @@ combination.monitor.function.tests <- function( verbose=TRUE, synopsis=TRUE,
 
   Sys.sleep(15) # just in case a previous server has not yet died
 
-if ( ! require("padi") ) warning("Warning: package padi is needed.") else
+if ( ! (require("padi") && checkPADIserver("ets"))) 
+     warning("Warning: package padi and server ets are needed.") else
    combination.monitor.function.tests(verbose=TRUE)

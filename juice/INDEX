@@ -1,16 +1,10 @@
-This package is part of the dse bundle.
-See 00Intro.* in each package for a short general description.
-The Users' Guide is divided into sections for each package.
-These are installed in the doc/ directory for each package.
-A version of the guide with all sections combined may also
-be available at 'http://www.bank-banque-canada.ca/pgilbert', but may not be as current.
-See also the bundle dseplus with related packages.
 00Intro.juice           Juice
 canonical.prediction    Canonical Prediction
 checkConsistentDimensions.TSmodelconcentrate
                         checkConsistentDimensions Specific Methods
 checkResiduals.TSdataconcentrate
                         checkResiduals Specific Methods
+concentrate             Concentrate Series in a TSdata Object
 concentrated.checkResiduals
                         Check Residuals of Concentrated Data
 concentratedDimension   Concentrated Dimension
@@ -21,7 +15,6 @@ concentratedSeriesNames
 concentrated.tfplot     Plot Concentrated Series
 concentrateOnly         Extract Concentrate
 concentrateOriginal     Extract Original Series
-concentrate             Concentrate Series in a TSdata Object
 concentrator            Data Concentrator
 end.TScanonicalPrediction
                         Specific Methods for TScanonicalPrediction
