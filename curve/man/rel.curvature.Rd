@@ -4,7 +4,7 @@
 \title{Relative Curvature Utility Used by Curvature and Project}
 \description{xxx}
 \usage{
-    rel.curvature(s.sqr, R11, R2, show.extra.details=F,
+    rel.curvature(s.sqr, R11, R2, show.extra.details=FALSE,
           eps=sqrt(.Machine$double.eps))
 }
 \arguments{

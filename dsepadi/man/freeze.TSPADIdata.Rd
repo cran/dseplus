@@ -28,7 +28,7 @@ to a database. See TSPADIdata, tfPADIdata, and freeze for more details.
     output = list(
          c("ets","", "b820678",  "ytoypc", "price services"),
          c("ets","", "b800938",  "ytoypc", "total unit labour costs")
-           ), stop.on.error=T, warn=T )
+           ), stop.on.error=TRUE, warn=TRUE )
    if(require("padi") & require("dse2"))
       z <- freeze(inflation.sa.names)
 }

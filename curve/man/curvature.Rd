@@ -27,7 +27,7 @@
         should be printed.}
     \item{show.extra.details}{logical indicating if extra intermediate calculations 
         should be printed.}
-    \item{track}{If track=T then the progress of the calculations is printed.}
+    \item{track}{If track=TRUE then the progress of the calculations is printed.}
     \item{warn}{see \code{effective.curvature}.}
 }
 \details{

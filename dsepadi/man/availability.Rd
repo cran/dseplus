@@ -7,14 +7,14 @@
 \usage{
     availability(obj, ...)
     \method{availability}{default}(obj, names=NULL, server="ets", dbname="",
-                       verbose=T, timeout=60, stop.on.error=TRUE, warn=TRUE)
-    \method{availability}{tfPADIdata}(obj, verbose=T, timeout=60)
+                       verbose=TRUE, timeout=60, stop.on.error=TRUE, warn=TRUE)
+    \method{availability}{tfPADIdata}(obj, verbose=TRUE, timeout=60)
 }
 \arguments{
     \item{obj}{a vector of series identifiers or an object of 
        class \code{tfPADIdata}. See TSdata.TSPADIdata.}
     \item{...}{arguments to be passed to other methods.}
-    \item{verbose}{ T or F indicating if the results should be printed.}
+    \item{verbose}{TRUE or FALSE indicating if the results should be printed.}
     \item{timeout}{an integer indicating the number of seconds to wait before
        concluding that the server is not available.}
     \item{names}{
@@ -29,7 +29,7 @@
 }
 \value{A list with elements start, end, and frequency.}
 \details{
-If verbose is T then the start, end, and frequency are printed for each 
+If verbose is TRUE then the start, end, and frequency are printed for each 
 series in data.id. A list is return (invisibly) with the same information. 
 The default method works for a character vector argument. An argument of 
 class TSPADIdata may supply some additional information, and several of 

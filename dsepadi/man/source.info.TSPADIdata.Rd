@@ -12,7 +12,7 @@
     \method{source.info}{TSPADIdata}(obj)
     \method{sourcedb}{TSPADIdata}(obj)
     \method{sourceserver}{TSPADIdata}(obj)
-    \method{availability}{TSPADIdata}(obj, verbose=T, timeout=60)
+    \method{availability}{TSPADIdata}(obj, verbose=TRUE, timeout=60)
     \method{identifiers}{TSPADIdata}(obj)
     \method{periods}{TSPADIdata}(x)
 }

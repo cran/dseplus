@@ -9,24 +9,19 @@
  Sys.info()
  version.dse()
 
-   if (is.S()) {
-	# the next 2 lines remove old versions of PADI in the search path
- 	invisible(if(0!=length(grep("b*/PADI/.Data",search())))
-                         detach(grep("b*/PADI/.Data",search()))  )
-	attach(paste(Sys.getenv("PADI"),"/.Data", sep=""), pos=3)
-	#load.padi(from=".")    # this gets the version in pwd
-	load.padi()           # this gets the version indicated by PADI
-	# load.padi does the following two dynamic loads 
-	#dyn.load.shared("/usr/lib/libnsl.so")     # splus 3.3 on SunOS5
-	# If the shared library is not loaded then the next has missing symbols
-	#dyn.load(paste(Sys.getenv("PADI"),"/lib/splusclnt.o", sep=""))
-   }
+#   if (is.S()) {
+#	# the next 2 lines remove old versions of PADI in the search path
+# 	invisible(if(0!=length(grep("b*/PADI/.Data",search())))
+#                         detach(grep("b*/PADI/.Data",search()))  )
+#	load.padi()           # this gets the version indicated by PADI_LDLIB
+#   }
 
 #    a TS PADI server is necessary for the following
 
  cat("search path ", search(),"\n")
  cat("PATH set to ",  Sys.getenv("PATH"), "\n")
  cat("PADI set to ",  Sys.getenv("PADI"), "\n")
+ cat("PADI_LDLIB set to ",  Sys.getenv("PADI_LDLIB"), "\n")
  cat("PADI_STARTUP set to ", Sys.getenv("PADI_STARTUP"), "\n")
  cat("PADI_CLEANUP set to ", Sys.getenv("PADI_CLEANUP"), "\n")
  cat("user name set to ", Sys.info()[["user"]], "\n")

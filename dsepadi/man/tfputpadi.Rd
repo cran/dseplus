@@ -8,11 +8,11 @@
          server = Sys.info()[["nodename"]],
          dbname = "", 
          series = seriesNames(data),
-         start.server = T,
+         start.server =TRUE,
          server.process = padi.server.process(), 
          cleanup.script = padi.cleanup.script(),
          user = Sys.info()[["user"]], passwd= "",
-         stop.on.error = T, warn = T)
+         stop.on.error =TRUE, warn =TRUE)
 }
 \arguments{
     \item{data}{a tfPADIdata object with data to put on the server.}

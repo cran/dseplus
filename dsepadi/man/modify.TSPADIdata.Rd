@@ -57,7 +57,7 @@ inflation.sa.names <- TSPADIdata2(
     output = list(
          c("ets","", "b820678",  "ytoypc", "price services"),
          c("ets","", "b800938",  "ytoypc", "total unit labour costs")
-           ), stop.on.error=T, warn=T )
+           ), stop.on.error=TRUE, warn=TRUE )
 z <- modify.TSPADIdata(inflation.sa.names, server="newserver")
 }
 %\keyword{DSE}

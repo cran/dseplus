@@ -46,28 +46,32 @@ reconstruct.combined.forecast <- function(combined.forecast)
  all(combined.forecast$best.guess==best.guess)
 }
 
-tfplot.combined.forecast <- function(obj, verbose=FALSE, 
-       start.=start(obj$data$output),
-       Title="Projection", select.inputs=NULL, select.outputs=NULL,
-       mar=par()$mar)
+tfplot.combined.forecast <- function(x, 
+       start.=start(x$data$output), end.=end(x$data$output),
+       select.inputs=NULL, select.outputs=NULL,
+       Title="Projection", xlab=NULL, ylab=NULL, 
+       graphs.per.page=5, mar=par()$mar, verbose=FALSE )
 { 
    if (verbose)
-     {tfplot(obj$data, start.=start., mar=mar,
-            Title="Data and combined forecast")
-      tfplot(obj$pred, start.=start., mar=mar,
-            Title="Model predictions (one step ahead for history)")
+     {tfplot(x$data, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
+            start.=start., end.=end., 
+	    mar=mar, Title="Data and combined forecast")
+      tfplot(x$pred, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
+            start.=start., end.=end., 
+	    mar=mar, Title="Model predictions (one step ahead for history)")
      }
-   graph.data <- obj$data
-   graph.data$output <- obj$best.guess
+   graph.data <- x$data
+   graph.data$output <- x$best.guess
    if (is.null(select.inputs))  select.inputs  <- seq(dim(graph.data$input)[2])
    if (is.null(select.outputs)) select.outputs <- seq(dim(graph.data$output)[2])
-   tfplot(graph.data, start.=start., mar=mar, Title="Projection", 
+   tfplot(graph.data, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page,
+           start.=start., end.=end., mar=mar, Title="Projection", 
            select.inputs=select.inputs, select.outputs=select.outputs)
-#   tfplot(obj$forecast[[2]],obj$forecast[[1]],
-#         obj$forecast[[3]], start.=start.,
+#   tfplot(x$forecast[[2]],x$forecast[[1]],
+#         x$forecast[[3]], start.=start.,
 #         Title="Projection using future policy=most recent value and 20% higher and lower")
-#   tfplot(obj$pchange[[2]],obj$pchange[[1]],
-#         obj$pchange[[3]],start.=start., Title=
+#   tfplot(x$pchange[[2]],x$pchange[[1]],
+#         x$pchange[[3]],start.=start., Title=
 #    "Year over year percent change using future policy=most recent value and 20% higher and lower")
    invisible()
 }
@@ -187,11 +191,6 @@ get.overriding.data <- function(file="overriding.data",
   output <- tframed(output, list(start=as.integer(z[1:2]),frequency=12))
   TSdata(input=input , output=output)
 }
-
-
-#tfplot.combined.forecast(combined.forecast,verbose=F, 
-#      start.=start(combined.forecast$data$output),
-#      Title="Projection", select.inputs=NULL, select.outputs=NULL)
 
 
 restrict.overriding.data <- function(data, overriding.horizon=0)  

@@ -12,7 +12,7 @@
     combination.monitoring(model, data.names,
        previous.data=NULL,
        overriding.data.names=NULL, 
-       restrict.overriding.data=T, overriding.horizon=0,
+       restrict.overriding.data=TRUE, overriding.horizon=0,
        mail.list=NULL,
        error.mail.list=NULL,
        message.title="Combination Monitoring",
@@ -27,7 +27,7 @@
        overriding.data.tag="m",
        overlapping.period.forecast.tag="g",
        forecast.tag="f",
-       run.again=F,
+       run.again=FALSE,
        save.as=NULL)
 }
 \arguments{

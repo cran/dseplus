@@ -14,7 +14,7 @@
                          pad=FALSE, pad.start=pad, pad.end=pad,
                          server="", db="", start.server=NULL, 
                          server.process=NULL, cleanup.script=NULL,
-                         stop.on.error=T, warn=T)
+                         stop.on.error=TRUE, warn=TRUE)
   
     is.TSPADIdata(obj)
 }

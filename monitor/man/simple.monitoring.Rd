@@ -20,7 +20,7 @@
    data.sub.heading=NULL,
    data.tag=" ",
    forecast.tag="f",
-   run.again=F,
+   run.again=FALSE,
    save.as=NULL)
 }
 \arguments{

@@ -5,7 +5,7 @@
 \description{Generate a formatted character matrix of time series data.}
 \usage{
     fprint(x, super.title=NULL, sub.title=NULL,
-          digits=options()$digits, space=" ", file=NULL, append=F)
+          digits=options()$digits, space=" ", file=NULL, append=FALSE)
 }
 \arguments{
     \item{x}{a matrix of time series data.}
@@ -14,7 +14,7 @@
     \item{digits}{number of digits to print.}
     \item{space}{a string to be used between columns of data.}
     \item{file}{name of a file to generate.}
-    \item{append}{If T output is appended to the file, otherwise 
+    \item{append}{If TRUE output is appended to the file, otherwise 
       the file is overwritten.}
 }
 \value{A character matrix.}

@@ -4,20 +4,23 @@
 \alias{tfplot.TScanonical.prediction}
 \alias{tfplot.TSdataconcentrate}
 \alias{tfplot.TSdatareconstitute}
+
 \title{tfplot Specific Methods}
 \description{See the generic function description.}
 \usage{
-    \method{tfplot}{concentrate}(x, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, start.=NULL, end.=NULL, 
-	 series=seq(nseries(x)), mar=par()$mar)
-    \method{tfplot}{TScanonical.prediction}(x, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, start.=NULL, end.=NULL, 
-	 series=seq(nseries(x)), mar=par()$mar)
+    \method{tfplot}{concentrate}(x, start.=NULL, end.=NULL,
+         series=seq(nseries(x)), 
+	 Title=NULL, xlab=NULL, ylab=NULL,
+	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
+    \method{tfplot}{TScanonical.prediction}(x, start.=NULL, end.=NULL,
+	 series=seq(nseries(x)),
+	 Title=NULL, xlab=NULL, ylab=NULL,
+         graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
     \method{tfplot}{TSdataconcentrate}(x, start. = NULL, end. = NULL,
-       Title = "", reset.screen = T, 
-       select.inputs  = seq(length = nseriesInput(x)),
-       select.outputs = seq(length = nseriesOutput(x)), 
-       graphs.per.page = 5, ylab = NULL, mar=par()$mar)
+    select.inputs  = seq(length = nseriesInput(x)),
+    select.outputs = seq(length = nseriesOutput(x)), 
+    Title = NULL, xlab = NULL, ylab = NULL, 
+    graphs.per.page = 5, mar=par()$mar, reset.screen =TRUE)
     \method{tfplot}{TSdatareconstitute}(x, ...)
 }
 
@@ -28,11 +31,11 @@
     \item{series}{see the generic \code{tfplot}.}
     \item{select.inputs}{see the generic \code{tfplot}.}
     \item{select.outputs}{see the generic \code{tfplot}.}
+    \item{Title}{see the generic \code{tfplot}.}
     \item{xlab}{see the generic \code{tfplot}.}
     \item{ylab}{see the generic \code{tfplot}.}
-    \item{mar}{see the generic \code{tfplot}.}
-    \item{Title}{see the generic \code{tfplot}.}
     \item{graphs.per.page}{see the generic \code{tfplot}.}
+    \item{mar}{see the generic \code{tfplot}.}
     \item{reset.screen}{see the generic \code{tfplot}.}
     \item{...}{arguments to be passed to other methods.}
 }

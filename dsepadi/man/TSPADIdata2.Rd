@@ -8,7 +8,7 @@ Make a TSPADIdata object from identifier information}
       start = NA, end = NA, frequency = NA,
       pad.start = FALSE, pad.end = FALSE,
       start.server = NULL, server.process = NULL, cleanup.script = NULL,
-      stop.on.error = T, warn = T)
+      stop.on.error =TRUE, warn =TRUE)
 }
 \arguments{
     \item{output  input}{
@@ -45,7 +45,7 @@ inflation.sa.names <- TSPADIdata2(
          c("ets","", "b820672",  "ytoypc", "price goods excl food & energy"),
          c("ets","", "b820678",  "ytoypc", "price services"),
          c("ets","", "b800938",  "ytoypc", "total unit labour costs")
-           ), stop.on.error=T, warn=T )
+           ), stop.on.error=TRUE, warn=TRUE )
 
 }
 %\keyword{DSE}

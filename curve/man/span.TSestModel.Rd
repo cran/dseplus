@@ -27,7 +27,7 @@
 }
 \value{The singular values of the matrix of tangent vectors are returned.
 }
-\sideffects{If show.details is T then intermediate calculations are printed.
+\sideffects{If show.details is TRUE then intermediate calculations are printed.
 }
 \details{See the generic function.}
 \seealso{

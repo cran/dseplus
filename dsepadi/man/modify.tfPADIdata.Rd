@@ -47,7 +47,7 @@ the object. Values replace existing values (except in the case of append).
 }
 \examples{
   z <- tfPADIdata( c("seriesA", "seriesB"), server="myserver")}
-  z <- modify(z, pad.end=T )
+  z <- modify(z, pad.end=TRUE )
  }
 %\keyword{tframe}
 \keyword{ts}

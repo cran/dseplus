@@ -9,9 +9,9 @@
     tfPADIdata(series,  server = "", db= "", transforms= "",  
            start=NA, end=NA, frequency=NA, names=NULL, 
            pad=FALSE, pad.start=pad, pad.end=pad,
-           use.tframe=T,
+           use.tframe=TRUE,
            start.server=NULL, server.process=NULL, cleanup.script=NULL,
-           stop.on.error=T, warn=T)
+           stop.on.error=TRUE, warn=TRUE)
     is.tfPADIdata(obj)
 }
 \arguments{
@@ -31,7 +31,7 @@
        returned data. A warning is issued if returned data does not have this 
        frequency.}
     \item{names}{names to replace series identifiers.}
-    \item{pad}{T or F indicating if data should be padded with NAs on both ends
+    \item{pad}{TRUE or FALSE indicating if data should be padded with NAs on both ends
        to the length of the longest available series. If padding is not done 
        then series are truncated to the intersection of available data so there 
        are no NAs in the result. pad.start and pad.end are the arguments which are 

@@ -307,14 +307,16 @@ is.TScanonical.prediction <- function(x) {inherits(x, "TScanonical.prediction")}
 concentrateOriginal.TScanonical.prediction <- function(d)
     {attr(d, "original")}   
 
-tfplot.TScanonical.prediction <- function(x, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, start.=NULL, end.=NULL, 
-	 series=seq(nseries(x)), mar=par()$mar)
+tfplot.TScanonical.prediction <- function(x, start.=NULL, end.=NULL,
+	 series=seq(nseries(x)),
+	 Title=NULL, xlab=NULL, ylab=NULL,
+         graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
 {# plot actual data and data reconstituted from canonical.prediction.
  z <- concentrateOriginal(x)
  seriesNames(z) <- seriesNames(x) # used on plot
- tfplot(z, x, xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page, 
-         start.=start., end.=end., series=series, mar=mar)
+ tfplot(z, x, start.=start., end.=end., series=series,
+	 Title=Title, xlab=xlab, ylab=ylab,
+	 graphs.per.page=graphs.per.page, mar=mar, reset.screen=reset.screen)
  invisible()
 }
 
@@ -508,25 +510,27 @@ tfplot.concentrated <- function(x, ...){stop("defunct. Use concentrated.tfplot")
 concentrated.tfplot <- function(x, ...) {tfplot(concentrateOnly(x), ...)}
 
    
-tfplot.concentrate <- function(x, xlab=NULL, ylab=NULL,
-         graphs.per.page=5, start.=NULL, end.=NULL, 
-	 series=seq(nseries(x)), mar=par()$mar)
+tfplot.concentrate <- function(x, start.=NULL, end.=NULL,
+         series=seq(nseries(x)), 
+	 Title=NULL, xlab=NULL, ylab=NULL,
+	 graphs.per.page=5, mar=par()$mar, reset.screen=TRUE)
 {# plot actual data and data reconstituted from concentrate.
  tfplot(concentrateOriginal(x), reconstitute(x),  
-         xlab=xlab, ylab=ylab, graphs.per.page=graphs.per.page, 
-         start.=start., end.=end., series=series, mar=mar)
+        start.=start., end.=end., series=series, 
+        Title=Title, xlab=xlab, ylab=ylab, 
+	graphs.per.page=graphs.per.page, mar=mar,reset.screen=reset.screen)
 }
 
 tfplot.TSdataconcentrate <- function(x, start. = NULL, end. = NULL,
-    Title = "", reset.screen = TRUE, 
     select.inputs  = seq(length = nseriesInput(x)),
     select.outputs = seq(length = nseriesOutput(x)), 
-    graphs.per.page = 5, ylab = NULL, mar=par()$mar)
+    Title = NULL, xlab = NULL, ylab = NULL, 
+    graphs.per.page = 5, mar=par()$mar, reset.screen = TRUE)
 {# plot actual data and data reconstituted from concentrate.
  tfplot.TSdata(concentrateOriginal(x), reconstitute(x), start.=start.,end.=end., 
-    Title = Title, reset.screen = reset.screen, 
     select.inputs  = select.inputs, select.outputs = select.outputs, 
-    graphs.per.page = graphs.per.page, ylab = ylab, mar=mar)
+    Title = Title, xlab = xlab, ylab = ylab, 
+    graphs.per.page = graphs.per.page, mar=mar, reset.screen = reset.screen)
  invisible()
 }
 

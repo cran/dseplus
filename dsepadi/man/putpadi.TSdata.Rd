@@ -4,11 +4,11 @@
 \description{See the generic function description.}
 \usage{
     \method{putpadi}{TSdata}(data, dbname, server=Sys.info()[["nodename"]], 
-                   start.server=T, server.process=padi.server.process(), 
+                   start.server=TRUE, server.process=padi.server.process(), 
                    cleanup.script=padi.cleanup.script(),
                    series=seriesNames(data),
                    user=Sys.info()[["user"]], passwd="",
-                   stop.on.error=T, warn=T)
+                   stop.on.error=TRUE, warn=TRUE)
 }
 \arguments{
     \item{data}{a TSdata object.}

@@ -3,30 +3,31 @@ A Users' Guide is available in dse1/doc/guide.pdf
   and also at 'http://www.bank-banque-canada.ca/pgilbert'
 See also the bundle dseplus with related
  packages dsepadi monitor juice curve .
-TSPADIdata               Constructor for TSPADIdata object
-TSPADIdata2              Constructor for TSPADIdata object
-availability             Check Data Availability
-freeze.TSPADIdata        Get fixed data snapshot using TSPADI
-freeze.tfPADIdata        Get fixed data snapshot
-identifiers              Get Identifiers from a data object
-input.data.TSPADIdata    TS Input and Output Specific Methods
-modify                   modify a database descriptor object
-modify.TSPADIdata        Modify a TSPADIdata Object
-modify.tfPADIdata        modify a database descriptor object
-periods.tfPADIdata       Specific Methods for Tframed data
-print.TSPADIdata         Print Specific Methods
-print.tfPADIdata         Print a tfPADIdata Object
-putpadi.TSdata           Specific Methods for putpadi
-refresh                  Retrieve new data from a database
+TSPADIdata              Constructor for TSPADIdata object
+TSPADIdata2             Constructor for TSPADIdata object
+availability            Check Data Availability
+freeze.TSPADIdata       Get fixed data snapshot using TSPADI
+freeze.tfPADIdata       Get fixed data snapshot
+identifiers             Get Identifiers from a data object
+input.data.TSPADIdata   TS Input and Output Specific Methods
+modify                  modify a database descriptor object
+modify.TSPADIdata       Modify a TSPADIdata Object
+modify.tfPADIdata       modify a database descriptor object
+periods.tfPADIdata      Specific Methods for Tframed data
+print.TSPADIdata        Print Specific Methods
+print.tfPADIdata        Print a tfPADIdata Object
+putpadi.TSdata          Specific Methods for putpadi
+refresh                 Retrieve new data from a database
 retrieve.and.verify.data
-                         Retrieve and Verify Data
-set.TSPADIdata           Prompt for Series Names
-set.tfPADIdata           Prompt for series names
-source.info              Get source information from a data object
-source.info.TSPADIdata   TSPADIdata Specific Methods
-sourcedb                 Get sourcedb from a data object
-sourceserver             Get source server from a data object
-tfPADIdata               make tfPADIdata object
-tfputpadi                Write Data to a Data Server
-tsp.TSPADIdata           Specific Methods for tsp
-tsp.tfPADIdata           Specific Methods for tsp
+                        Retrieve and Verify Data
+set.TSPADIdata          Prompt for Series Names
+set.tfPADIdata          Prompt for series names
+source.info             Get source information from a data object
+source.info.TSPADIdata
+                        TSPADIdata Specific Methods
+sourcedb                Get sourcedb from a data object
+sourceserver            Get source server from a data object
+tfPADIdata              make tfPADIdata object
+tfputpadi               Write Data to a Data Server
+tsp.TSPADIdata          Specific Methods for tsp
+tsp.tfPADIdata          Specific Methods for tsp

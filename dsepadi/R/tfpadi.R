@@ -25,6 +25,7 @@ availability.default <- function(obj, names=NULL, server="ets", dbname="",
                        verbose=TRUE, timeout=60, stop.on.error=TRUE, warn=TRUE)  
 {# Indicate  dates for which data is available. 
  # obj should be a character vector of data identifiers  
+ if(!require("padi")) stop("This function requires the padi package.")
  if (1== length(server)) server  <- rep(server, length(obj))
  if (1== length(dbname)) dbname  <- rep(dbname, length(obj))
 
@@ -330,6 +331,7 @@ tsp.tfPADIdata <- function(x)
 freeze.tfPADIdata <- function(data, timeout=60)
 { # This function retreives data from a PADI server using getpadi
   # A server specified as NULL or as "" is expanded to the localhost.
+ if(!require("padi")) stop("This function requires the padi package.")
 
    # next 3 lines are to look after older style name forms at the BOC
    ets <- "ets" == substring(data["db",],1,3)
@@ -373,6 +375,7 @@ freeze.tfPADIdata <- function(data, timeout=60)
 availability.tfPADIdata <- function(obj, verbose=TRUE, timeout=60)  
 {# Indicate  dates for which data is available.
  # This requires retrieving series individually so they are not truncated.
+ if(!require("padi")) stop("This function requires the padi package.")
 
    # next 3 lines are to look after older style name forms at the BOC
    ets <- "ets" == substring(obj["db",],1,3)
@@ -425,6 +428,7 @@ tfputpadi <- function(data,
          stop.on.error = TRUE, warn = TRUE)   
   {# This is just putpadi with a tfPADIdata object returned suitable for 
    #   retrieving the data.
+ if(!require("padi")) stop("This function requires the padi package.")
 
    ok <- putpadi(data, server=server, dbname=dbname, series=series,
          start.server = start.server, server.process=server.process, 

@@ -43,8 +43,9 @@ cat("DSE curvature test B 7 ...")
    good <- if(is.Splus())                             7219.22183565129399 else 
            if(is.R()) {
 # R 1.2.3    if (Sys.info()[["sysname"]] == "Linux")  7219.22919493643258 else
-# R 1.3.0
-	     if (Sys.info()[["sysname"]] == "Linux")  7219.17128513884654 else
+# R 1.3.0    if (Sys.info()[["sysname"]] == "Linux")  7219.17128513884654 else
+# R 1.4.1 in Mandrake 8.1
+	     if (Sys.info()[["sysname"]] == "Linux")  7219.17325840329431 else
 	     if (Sys.info()[["sysname"]] == "Windows")7219.2222921110606  else
 	     if (Sys.info()[["sysname"]] == "SunOS" ) 7219.22210394543526 else
 	                                              7219.22210394543526 #default Solaris
@@ -70,8 +71,9 @@ cat("DSE curvature test B 8 ...")
    good <- if(is.Splus())                             7840.99348875210035 else 
            if(is.R()) {
 # R 1.2.3    if (Sys.info()[["sysname"]] == "Linux")  7841.35186698713642 else
-# R 1.3.0
-	     if (Sys.info()[["sysname"]] == "Linux")  7841.24925650512705 else
+# R 1.3.0    if (Sys.info()[["sysname"]] == "Linux")  7841.24925650512705 else
+# R 1.4.1 in Mandrake 8.1
+	     if (Sys.info()[["sysname"]] == "Linux")  7841.22786316239581 else
 	     if (Sys.info()[["sysname"]] == "Windows")7841.07715279903 else
 	     if (Sys.info()[["sysname"]] == "SunOS" ) 7841.24813340843411 else
 	                                              7841.24813340843411 #defaulat Solaris
@@ -99,7 +101,8 @@ cat("DSE curvature test B 9 ...")
            if(is.R()) {
 	     if (Sys.info()[["sysname"]] == "Linux") {
 		# 10711.013899114736    R 1.2.3
-		  10711.8649535454842 # R 1.3.0
+		# 10711.8649535454842 # R 1.3.0
+		  10710.1343804970293 # R 1.4.1 in Mandrake 8.1
 	       } else
 	     if (Sys.info()[["sysname"]] == "Windows")10711.271347343158  else
 	     if (Sys.info()[["sysname"]] == "SunOS" ) 10711.2557033145931 else

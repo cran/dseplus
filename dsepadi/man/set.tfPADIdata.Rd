@@ -5,7 +5,7 @@
 \description
 {Prompt for data series names and locations and create a data object.}
 \usage{
-    set.tfPADIdata(preamble=T)
+    set.tfPADIdata(preamble=TRUE)
 }
 \arguments{
     \item{preamble}{a logical indicating if the description of how to enter data

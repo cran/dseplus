@@ -339,8 +339,8 @@ retrieve.and.verify.data <- function(data.names,
  data <- freeze(data.names)
  #   check that data has not been rebased or otherwise messed up.
  if (0 != (nseriesInput(data)))
-   {s <-input.start(verification.data)
-    e <-input.end(verification.data)
+   {s <-startInput(verification.data)
+    e <-endInput(verification.data)
     error <- input.data(verification.data) -
                tfwindow(input.data(data),start=s, end=e, warn=FALSE)
     if (fuzz < max(abs(error)) )
@@ -364,8 +364,8 @@ retrieve.and.verify.data <- function(data.names,
          }
       }
    }
- s <-output.start(verification.data)
- e <-output.end(verification.data)
+ s <-startOutput(verification.data)
+ e <-endOutput(verification.data)
  error <-  output.data(verification.data) -
               tfwindow(output.data(data),start=s,end=e, warn=FALSE)
  if (fuzz < max(abs(error))  )

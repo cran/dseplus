@@ -187,8 +187,8 @@ simple.monitoring <- function(model, data.names,
  # Step 4 - generate report and mail
     message <-c(message,"The forecasts are now:")
     #starting and end period for plots & printing:
-    start.<-(output.end(data)+show.start) 
-    end.  <-(output.end(data)+show.end)
+    start.<-(endOutput(data)+show.start) 
+    end.  <-(endOutput(data)+show.end)
 
     report.variables$input<- 
             (report.variables$input == seriesNamesInput(data.names))
