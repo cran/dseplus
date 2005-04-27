@@ -14,6 +14,13 @@ In R, the functions in this package are made available with
 library("monitor")  
 \end{Scode}
 
+As of R-2.1.0 the code from the vignette that generates this guide can 
+be loaded into an editor with \emph{edit(vignette("monitor"))}.
+This uses the default editor, which can be changed using \emph{options()}.
+Also, it should be possible to view the pdf version of the guide for this 
+package with \emph{print(vignette("monitor"))} and the guide for the dse
+bundle with \emph{print(vignette("dse-guide"))}.
+
 This section gives a brief recipe for building short term forecasting
 models. It is intended to be self-contained although there are references
 to other sections for additional information.

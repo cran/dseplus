@@ -38,7 +38,7 @@ estProjection.default <- function(data, center=TRUE, scale=TRUE, n=1, ...)
   # data should be a matrix. n is number of components to keep.
   data <- freeze(data)
   if (ncol(data) < n) stop("n cannot exceed columns of data.")
-  center <- if (center) apply(data,2,mean) else rep(0, ncol(data))
+  center <- if (center) colMeans(data) else rep(0, ncol(data))
   scale  <- if (scale) sqrt(apply(data,2,var)) else  rep(1, ncol(data))
   pr<- prcomp(data, retx = FALSE, center=center, scale=scale,
               tol=sqrt(.Machine$double.eps))
@@ -54,11 +54,11 @@ estProjection.TSdata <- function(data, center=TRUE, scale=TRUE, m=1,p=1, ...)
    {# scaling does not affect the result but is useful for backward calculation?
     if (! require("stats")) stop("cancorrelation requires library stats.")
     # above was mva rather than stats prior to R 1.9.1
-    if (xcenter) xcenter <- apply(x,2,mean)
+    if (xcenter) xcenter <- colMeans(x)
     else         xcenter <- rep(0, dim(x)[2])
     if (xscale)  xscale  <- sqrt(apply(x,2,var))
     else         xscale  <- rep(1, dim(x)[2])
-    if (ycenter) ycenter <- apply(y,2,mean)
+    if (ycenter) ycenter <- colMeans(y)
     else         ycenter <- rep(0, dim(y)[2])
     if (yscale)  yscale  <- sqrt(apply(y,2,var))
     else         yscale  <- rep(1, dim(y)[2])

@@ -16,6 +16,14 @@ In R, the functions in this package are made available with
 library("padi")  
 \end{Scode}
 
+As of R-2.1.0 the code from the vignette that generates this guide can 
+be loaded into an editor with \emph{edit(vignette("padi"))}.
+This uses the default editor, which can be changed using \emph{options()}.
+Also, it should be possible to view the pdf version of the guide for this 
+package with \emph{print(vignette("padi"))} and the guide for the dse
+bundle with \emph{print(vignette("dse-guide"))}.
+
+
 This section describes utilities for retrieving data from an online
 database. This has been implemented using the TS PADI interface. The
 examples use series names which are specific to the Bank of Canada.

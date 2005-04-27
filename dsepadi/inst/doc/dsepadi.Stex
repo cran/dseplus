@@ -21,6 +21,14 @@ and most of the examples also need
 require("padi")  
 \end{Scode}
 
+As of R-2.1.0 the code from the vignette that generates this guide can 
+be loaded into an editor with \emph{edit(vignette("dsepadi"))}.
+This uses the default editor, which can be changed using \emph{options()}.
+Also, it should be possible to view the pdf version of the guide for this 
+package with \emph{print(vignette("dsepadi"))} and the guide for the dse
+bundle with \emph{print(vignette("dse-guide"))}.
+
+
 This section describes utilities for retrieving data from an online
 database. This has been implemented using the TS PADI interface. The
 examples use series names which are specific to the Bank of Canada.

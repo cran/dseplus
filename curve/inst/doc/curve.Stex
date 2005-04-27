@@ -1,0 +1,28 @@
+\documentclass[english]{article}
+\begin{document}
+
+%\VignetteIndexEntry{curve Guide}
+\SweaveOpts{eval=TRUE,echo=TRUE,results=hide,fig=FALSE}
+\begin{Scode}{echo=FALSE,results=hide}
+ options(continue="  ")
+\end{Scode}
+
+\section{curve Functions}
+In R, the functions in this package are made available with
+
+\begin{Scode}
+library("curve") 
+ls()
+ 
+\end{Scode}
+
+As of R-2.1.0 the code from the vignette that generates this guide can 
+be loaded into an editor with \emph{edit(vignette("curve"))}.
+This uses the default editor, which can be changed using \emph{options()}.
+Also, it should be possible to view the pdf version of the guide for this 
+package with \emph{print(vignette("curve"))} and the guide for the dse
+bundle with \emph{print(vignette("dse-guide"))}.
+
+
+Not yet.
+\end{document}
