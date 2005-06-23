@@ -12,7 +12,7 @@
          server.process = padi.server.process(), 
          cleanup.script = padi.cleanup.script(),
          user = Sys.info()[["user"]], passwd= "",
-         stop.on.error =TRUE, warn =TRUE timeout=timeout)
+         stop.on.error =TRUE, warn =TRUE, timeout=60)
 }
 \arguments{
     \item{data}{a tfPADIdata object with data to put on the server.}

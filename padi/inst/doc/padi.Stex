@@ -56,12 +56,12 @@ data set, but once a model is established and is routinely used with
 newly available data then the data description is more convenient.
 
 
-The following simple example specifies the series \emph{I37005} from
+The following simple example specifies the series \emph{V14182897} from
 the \emph{ets} server as the single output series.
 
 \begin{Scode}
 if(checkPADIserver("ets"))
-  manuf.prod <- getpadi("I37005" , server="ets")
+  manuf.prod <- getpadi("V14182897" , server="ets")
 \end{Scode}
 
 

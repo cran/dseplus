@@ -138,6 +138,7 @@ genD.ARMA <- function(func, x=coef(func),
             AA=matrix(double(1),is,is),  
             BB=matrix(double(1),is,is),  
             WW=rep(double(1),is),  
+            integer(is*is),         # scratch array IPIV
             DUP=.DSEflags()$DUP,
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")] 
@@ -256,6 +257,7 @@ genD.innov <- function(func, x=coef(func),
 	    rep(double(1),IS),  # Z
 	    rep(double(1),IS), # ZZ
 	    rep(double(1),IS), # WW		   
+            integer(IS*IS),         # scratch array IPIV
             DUP=.DSEflags()$DUP,
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")]
