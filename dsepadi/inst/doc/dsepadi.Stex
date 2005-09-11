@@ -94,7 +94,7 @@ output = c("P100000", "I37026", "b1627", "b14013",
 
 "b4237", "D767608", "b3400", "M.BCPI",
 
-"M.JQIND", "M.CUSA0"),
+"M.IPNB50001", "M.CUSA0"),
 
 output.transforms=c("percentChange", 
 
@@ -119,8 +119,9 @@ if(require("padi") && checkPADIserver("ets"))
 \end{Scode}
 
 This is the example used in Gilbert (1995), except that freeze() will
-retrieve that latest version of the data, and P484549 has been discontinued is
-replaced with P100000 (CPI, 1992=100).
+retrieve that latest version of the data. 
+P484549 has been discontinued and is replaced with P100000 (CPI, 1992=100). 
+M.JQIND has been discontinued and is replaced with M.IPNB50001.
 
 The variables pad, pad.start, and pad.end control what happens at
 the beginning and end of multivariate data when all series are not
@@ -167,7 +168,7 @@ c("ets", "", "b3400", "percentChange", "PFX"),
 
 c("ets", "", "M.BCPI", "percentChange", "com. price ind."),
 
-c("ets", "", "M.JQIND","percentChange","US ind. prod."),
+c("ets", "", "M.IPNB50001","percentChange","US ind. prod."),
 
 c("ets", "", "M.CUSA0","percentChange","US CPI")) )
 \end{Scode}

@@ -31,11 +31,9 @@ cannonical correlation for TSdata with input and output).
 \code{\link{prcomp}}
 }
 \examples{
-if(is.R()) {
    data("eg1.DSE.data", package="dse1")
-   require("mva")
-  }
-z <- estProjection(eg1.DSE.data)
+   require("stats")
+   z <- estProjection(eg1.DSE.data)
 }
 \concept{DSE}
 \keyword{ts}

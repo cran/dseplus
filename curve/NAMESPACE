@@ -1,7 +1,7 @@
-import("stats")
+##import("stats")
 ##import("setRNG")
-import("tframe")
-import("dse1")
+##import("tframe")
+##import("dse1")
 
 S3method("print", "curvature")
 S3method("print", "curvatureArray")

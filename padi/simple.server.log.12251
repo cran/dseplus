@@ -1,0 +1,9 @@
+	PADI Server started by paul.
+	501.501@breman.gilbnet: GetSeries().
+	GetSeries ERROR# 1010: missing object name.
+	501.501@breman.gilbnet: GetSeries().
+	GetSeries ERROR# 1010: missing object name.
+	501.501@breman.gilbnet: NewSeries(exp2).
+	501.501@breman.gilbnet: GetSeries().
+	GetSeries ERROR# 1010: missing object name.
+	501.501@breman.gilbnet: GetSeries(exp2).

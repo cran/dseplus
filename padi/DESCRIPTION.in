@@ -1,4 +1,4 @@
 Package: padi
 Title:  PADI
 Description: Protocol for Application Database Interface
-Depends: R (>= 2.0.0), syskern (>= 2005.6-1), dsepadi, tframe (>= 2005.6-1)
+Depends: R (>= 2.0.0), syskern (>= 2005.9-1), dsepadi, tframe (>= 2005.9-1)

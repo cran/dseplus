@@ -34,7 +34,7 @@
 }
 
 \examples{
-    if(is.R()) data("eg1.DSE.data.diff", package="dse1")
+    data("eg1.DSE.data.diff", package="dse1")
     z <- canonical.prediction(concentrate(eg1.DSE.data.diff))
     is.TScanonicalPrediction(z)
 }

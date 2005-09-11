@@ -38,10 +38,8 @@
     \code{\link{prcomp}}
 }
 \examples{
-    if(is.R()) {
-       data("eg1.DSE.data", package="dse1")
-       require("mva")
-    }
+    data("eg1.DSE.data", package="dse1")
+    require("stats")
     z <- concentrate(eg1.DSE.data)
     is.concentrate(z)
 }

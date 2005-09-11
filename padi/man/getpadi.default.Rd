@@ -159,13 +159,13 @@ startd and endd can be omitted.
 }
 \examples{
 if(require("padi") && checkPADIserver("ets")){
-  cpi <-getpadi("I37026", server= "ets")
-  cpi <-getpadi("I37026", starty=1988, startm=1,endy=1990, endm=12, server= "ets")
-  cpi <-getpadi( "I37026",starty=1988, startm=1,nobs=8, server= "ets")
-  data <- getpadi( c("B14017","B1627","I37026"), server= "ets" )
+  cpi <-getpadi("P100000", server= "ets")# June 1992=100
+  cpi <-getpadi("P100000", starty=1988, startm=1,endy=1990, endm=12, server= "ets")
+  cpi <-getpadi( "P100000",starty=1988, startm=1,nobs=8, server= "ets")
+  data <- getpadi( c("V122491","V37124","P100000"), server= "ets" )
 
-  cpi <-getpadi("I37026", server= "ets", use.tframe=TRUE)
-  data <- getpadi( c("B14017","B1627","I37026"), server= "ets", use.tframe=TRUE)
+  cpi <-getpadi("P100000", server= "ets", use.tframe=TRUE)
+  data <- getpadi( c("V122491","V37124","P100000"), server= "ets", use.tframe=TRUE)
  }
 }
 %\keyword{tframe}

@@ -81,12 +81,14 @@ An example of a model which contains two outputs and no inputs is
 \begin{Scode}
 if(require("dsepadi"))
 cbps.manuf.data2.ids <- TSPADIdata2(
-
-  output=list(c("ets", "","i37013","percentChange","cbps.prod."),
-
-  c("ets", "", "i37005","percentChange","manuf.prod.")),
-
-  pad.start=FALSE, pad.end=TRUE, end=c(1997,9)) # data now ends in Sept 1997
+  #output=list(c("ets", "","V2036138","percentChange","cbps.prod."),
+  #c("ets", "", "i37005","percentChange","manuf.prod.")),
+  #pad.start=FALSE, pad.end=TRUE, end=c(1997,9)) # data now ends in Sept 1997
+  #output=list(c("ets", "","V327736","percentChange","cbps.prod."),
+  #c("ets", "", "V327818","percentChange","manuf.prod.")),
+  output=list(c("ets", "","V2036138","percentChange","cbps.prod."),
+  c("ets", "", "V2044344","percentChange","manuf.prod.")),
+  pad.start=FALSE, pad.end=TRUE, end=c(1997,9)) 
 \end{Scode}
 
 With the above, the data will be converted to percent change when
@@ -101,7 +103,7 @@ The data is actually retrieved from the database with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  cbps.manuf.data2 <- freeze(cbps.manuf.data2.ids) 
+ cbps.manuf.data2 <- freeze(cbps.manuf.data2.ids) 
 \end{Scode}
 
 This example and others below will not work without a database server
@@ -116,18 +118,18 @@ different styles sometimes seem more convenient.)
 \begin{Scode}
 manuf.data.ids <- TSPADIdata(
 
-input ="lfsa455", input.transforms="percentChange",
+input ="V13682079", input.transforms="percentChange",
 
 input.names="manuf.emp.",
 
-output="V141828975", output.transforms="percentChange",
+output="V2044344", output.transforms="percentChange",
 
 output.names="manuf.prod.",
 
 server="ets", pad.start=FALSE, pad.end =TRUE )
 
 if(require("padi") && checkPADIserver("ets"))
-  manuf.data <- freeze(manuf.data.ids) 
+  manuf.data <- freeze(manuf.data.ids)
 \end{Scode}
 
 The data can be plotted with
@@ -144,7 +146,7 @@ This could be done with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  manuf.data <- tfwindow(manuf.data, start=c(1976,2), warn=FALSE) 
+  manuf.data <- tfwindow(manuf.data, start=c(1976,2), warn=FALSE)
 \end{Scode}
 
 However, the trimming would have to be repeated each time the data
@@ -153,14 +155,14 @@ automatic procedures described further below. A better way is to set
 the starting period for retrieved data with
 
 \begin{Scode}
-manuf.data.ids <- modify(manuf.data.ids, start=c(1976,2)) 
+manuf.data.ids <- modify(manuf.data.ids, start=c(1976,2))
 \end{Scode}
 
 then when data is retrieved with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  manuf.data <- freeze(manuf.data.ids) 
+  manuf.data <- freeze(manuf.data.ids)
 \end{Scode}
 
 it will start after the missing data. The start can also be specified
@@ -172,7 +174,7 @@ with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  tfplot(manuf.data, start=c(1995,11)) 
+  tfplot(manuf.data, start=c(1995,11))
 \end{Scode}
 
 Note the "." after start is part of the name of the argument.
@@ -184,12 +186,13 @@ data with two input series and one output series
 \begin{Scode}
 cbps.manuf.data.ids <- TSPADIdata(
 
-input =c("lfsa462","lfsa455"),
+#input =c("LFSA462","V13682079"),
+input =c("V13682085","V13682079"),
 input.transforms="percentChange",
 
 input.names=c("cbps.emp.", "manuf.emp"),
 
-output="i37013", output.transforms="percentChange",
+output="V2036138", output.transforms="percentChange",
 
 output.names="cbps.prod.",
 
@@ -199,7 +202,7 @@ server="ets", db="", pad.start=FALSE,
 pad.end =TRUE )
 
 if(require("padi") && checkPADIserver("ets"))
-  cbps.manuf.data <- freeze(cbps.manuf.data.ids) 
+  cbps.manuf.data <- freeze(cbps.manuf.data.ids)
 \end{Scode}
 
 To specify and retrieve data with one input variable and two output
@@ -208,11 +211,11 @@ variable
 \begin{Scode}
 cbps.manuf.data3.ids <- TSPADIdata(
 
-input ="lfsa462",
+input ="V13682085",
 
 input.transforms="percentChange",input.names="cbps.emp.",
 
-output=c("i37013", "i37005"),
+output=c("V2036138", "i37005"),
 
 output.transforms=c("percentChange", "percentChange"),
 
@@ -224,7 +227,7 @@ server="ets", db ="",
 pad.start=FALSE, pad.end =TRUE)
 
 if(require("padi") && checkPADIserver("ets"))
-  cbps.manuf.data3 <- freeze(cbps.manuf.data3.ids) 
+  cbps.manuf.data3 <- freeze(cbps.manuf.data3.ids)
 \end{Scode}
 
 Setting start is only necessary because of this rather unusual case
@@ -238,7 +241,7 @@ At this point it may be useful to make S/R prompt for a return before
 each new graph is produced. This is done with
 
 \begin{Scode}{eval=FALSE}
-  par(ask=TRUE)
+ # par(ask=TRUE)
 \end{Scode}
 
 A model can be estimated with various estimation techniques, some
@@ -246,7 +249,7 @@ of which are described in Section 6. For example:
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-manuf.model <- bft(trimNA(manuf.data)) 
+manuf.model <- bft(trimNA(manuf.data))
 \end{Scode}
 
 This uses a "brute force technique" described in Gilbert (1995).
@@ -256,7 +259,7 @@ specified using
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-manuf.model <- bft(trimNA(manuf.data), max.lag=5) 
+manuf.model <- bft(trimNA(manuf.data), max.lag=5)
 \end{Scode}
 
 By default the bft procedure prints information as it proceeds. This
@@ -264,7 +267,7 @@ can be stopped using
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-manuf.model <- bft(trimNA(manuf.data), verbose=FALSE, max.lag=5) 
+manuf.model <- bft(trimNA(manuf.data), verbose=FALSE, max.lag=5)
 \end{Scode}
 
 To display the parameters of the estimated model just type the name
@@ -272,7 +275,7 @@ of the variable in which it was stored:
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-manuf.model 
+manuf.model
 \end{Scode}
 
 and to plot it:
@@ -284,7 +287,7 @@ if(require("padi") && checkPADIserver("ets")) {
   tfplot(manuf.model, start=c(1990,1))
 
   tfplot(manuf.model, start=c(1995,1))
-} 
+}
 \end{Scode}
 
 Models for the other specified data sets can be estimated in the
@@ -294,20 +297,20 @@ same way:
 if(require("padi") && checkPADIserver("ets")) {
   cbps.manuf.model <- bft(trimNA(cbps.manuf.data),verbose=FALSE)
   tfplot(cbps.manuf.model)
-  tfplot(cbps.manuf.model, start=c(1995,1)) 
+  tfplot(cbps.manuf.model, start=c(1995,1))
 }
 \end{Scode}
 
 To forecast with the model using all available data (This example is
-artificially truncated with tfwindow because some of the data has 
+artificially truncated with tfwindow because some of the data has
 been discontinued.)
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets")) {
   z <- forecast(TSmodel(manuf.model),
-       tfwindow(manuf.data, end=c(1995,1), warn=FALSE),
-  conditioning.inputs=tfwindow(inputData(manuf.data), end=c(1996,12), warn=FALSE))
-  tfplot(z, start=c(1995,1)) 
+       tfwindow(manuf.data, end=c(2005,1), warn=FALSE),
+  conditioning.inputs=tfwindow(inputData(manuf.data), end=c(2005,7), warn=FALSE))
+  tfplot(z, start=c(2002,1))
 }
 \end{Scode}
 
@@ -315,9 +318,9 @@ To see the forecast use
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets")) {
-  forecasts(z)[[1]] 
+  forecasts(z)[[1]]
 
-  tfwindow(forecasts(z)[[1]], start=c(1996,3), warn=FALSE) 
+  tfwindow(forecasts(z)[[1]], start=c(1996,3), warn=FALSE)
 }
 \end{Scode}
 
@@ -331,7 +334,7 @@ of the forecast error at different horizons with
 if(require("padi") && checkPADIserver("ets")) {
   fc <- forecastCov(manuf.model)
 
-  tfplot(fc) 
+  tfplot(fc)
 }
 \end{Scode}
 
@@ -342,7 +345,7 @@ a zero and a trend forecast:
 if(require("padi") && checkPADIserver("ets")) {
   fc <- forecastCov(manuf.model, zero=TRUE, trend=TRUE)
 
-  tfplot(fc) 
+  tfplot(fc)
 }
 \end{Scode}
 
@@ -366,7 +369,7 @@ estimation.methods = list(bft=list(verbose=FALSE), estVARXls=NULL),
 
 trend=TRUE, zero=TRUE)
 
-tfplot(outfc) 
+tfplot(outfc)
 }
 \end{Scode}
 
@@ -386,7 +389,7 @@ estimation.methods = list(bft=list(verbose=FALSE), estVARXls=NULL),
 
 trend=TRUE, zero=TRUE)
 
-tfplot(outfc) 
+tfplot(outfc)
 }
 \end{Scode}
 
@@ -402,7 +405,7 @@ the variable which indicates the source. For example
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  new.data <- freeze(manuf.data.ids) 
+  new.data <- freeze(manuf.data.ids)
 \end{Scode}
 
 To run the model and get one-step-ahead predictions with the new
@@ -410,7 +413,7 @@ data use
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-z <- l(TSmodel(manuf.model), trimNA(new.data)) 
+z <- l(TSmodel(manuf.model), trimNA(new.data))
 \end{Scode}
 
 Or the data retrieval can be done in the same step with
@@ -423,13 +426,13 @@ if(require("padi") && checkPADIserver("ets")){
 
 tfplot(z)
 
-tfplot(z, start=c(1995,8)) 
+tfplot(z, start=c(1995,8))
 }
 \end{Scode}
 
 Forecasts more than one-step-ahead require input series up to the
 horizon for which the forecast is to be produced. To run the model
-and get forecasts when more input than output data is available 
+and get forecasts when more input than output data is available
 [tfwindow(..., end=c(1996,1)) is used in this example to simulate the situation.
 The data series have been terminated, so this example needs to be redone.]:
 
@@ -439,7 +442,7 @@ z <- forecast(TSmodel(manuf.model),
    tfwindow(trimNA(new.data), end=c(1996,1), warn=FALSE),
    conditioning.inputs=trimNA(inputData(new.data)))
 
-tfplot(z, start=c(1995,6)) 
+tfplot(z, start=c(1995,6))
 }
 \end{Scode}
 
@@ -449,14 +452,14 @@ If you actually want the numbers rather than plots of the data use
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-forecasts(z)[[1]] 
+forecasts(z)[[1]]
 \end{Scode}
 
 or
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-tfwindow(forecasts(z)[[1]], start=c(1996,2), warn=FALSE) 
+tfwindow(forecasts(z)[[1]], start=c(1996,2), warn=FALSE)
 \end{Scode}
 
 will print values starting in the second period of 1996.
@@ -476,14 +479,14 @@ forecast data can be put into a Fame database with
 \begin{Scode}
 if(require("padi") && ("fame.server" == PADIserverProcess() ))
   putpadi(forecasts(z)[[1]], dbname="nameofdatabase.db",
-  series=seriesNamesOutput(z)) 
+  series=seriesNamesOutput(z))
 \end{Scode}
 
 In the above
 
 \begin{Scode}
 if(require("padi") && ("fame.server" == PADIserverProcess() ))
- seriesNamesOutput(z) 
+ seriesNamesOutput(z)
 \end{Scode}
 
 extracts a character vector of the series names.
@@ -522,14 +525,14 @@ with
 
 \begin{Scode}
 if(require("padi") && ("fame.server" == PADIserverProcess() ))
-  dump(c("manuf.model","manuf.data.ids"), file="manuf.model.definition") 
+  dump(c("manuf.model","manuf.data.ids"), file="manuf.model.definition")
 \end{Scode}
 
 If necessary they can then be retrieved with
 
 \begin{Scode}
 if(require("padi") && ("fame.server" == PADIserverProcess() ))
-source("manuf.model.definition") 
+source("manuf.model.definition")
 \end{Scode}
 
 The model can be run to produce a forecast and mail the results to
@@ -539,14 +542,14 @@ forecast should be run. The comparison data is first initialized with
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  manuf.previous.data <- freeze(manuf.data.ids) 
+  manuf.previous.data <- freeze(manuf.data.ids)
 \end{Scode}
 
 then in order to make the data look like it has changed
 
 \begin{Scode}
 if(require("padi") && checkPADIserver("ets"))
-  outputData(manuf.previous.data)[1,1] <- NA 
+  outputData(manuf.previous.data)[1,1] <- NA
 \end{Scode}
 
 and to run the forecast and E-mail the results
@@ -572,7 +575,7 @@ message.footnote=" f - forecast value" ,
 
 data.tag=" ",
 
-forecast.tag="f" ) 
+forecast.tag="f" )
 }
 \end{Scode}
 
@@ -580,16 +583,16 @@ The status of the result can be checked with
 
 \begin{Scode}
 #if(require("padi") && checkPADIserver("ets"))
-if(FALSE) 
- r$status 
+if(FALSE)
+ r$status
 \end{Scode}
 
 and the comparison data should also be updated with
 
 \begin{Scode}
 #if(require("padi") && checkPADIserver("ets"))
-if(FALSE) 
-  manuf.previous.data <- r$data 
+if(FALSE)
+  manuf.previous.data <- r$data
 \end{Scode}
 
 Especially for debugging purposes it is often useful to keep a more

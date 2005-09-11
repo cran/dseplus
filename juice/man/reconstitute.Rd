@@ -35,10 +35,8 @@
     \code{\link{concentrate}}
 }
 \examples{
-    if(is.R()) {
     data("eg1.DSE.data", package="dse1")
-    require("mva")
-    }
+    require("stats")
     z <- concentrate(eg1.DSE.data)
     z <- reconstitute(z)
     is.TSdatareconstitute(z)

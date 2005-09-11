@@ -35,10 +35,8 @@
 }
 
 \examples{
-    if(is.R()) {
     data("eg1.DSE.data", package="dse1")
-    require("mva")
-    }
+    require("stats")
     z <- concentrate(eg1.DSE.data)
     concentrator(z)
     is.concentrator(concentrator(z))

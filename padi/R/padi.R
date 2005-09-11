@@ -1,22 +1,11 @@
-
-PADIserverProcess <- function()
- {foo <- Sys.getenv("PADI_STARTUP")
-  if(""== foo) foo <- "simple.server"
-  paste(Sys.getenv("PADI"), "/", foo, sep = "")
- }
-PADIcleanupScript <- function()
- {foo <- Sys.getenv("PADI_CLEANUP")
-  if(""== foo) foo <- "cleanup.simple.server"
-  paste(Sys.getenv("PADI"), "/", foo, sep = "")
- }
-
-# the function user.name is removed. Use  Sys.info()[["user"]]
-
-#   There is also a small dependance on tframe.s (seriesNames in putpadi)
-#   and a more important dependency in getpadi when use.tframe=T.
-
-
-##################################################################
+.onLoad  <- function(library, section) {
+   # next require is necessary for bundle check to run examples,  
+   # but does not seem to be necessary when packages are not bundled
+   ok <- require("syskern", warn.conflicts=TRUE)
+   ok <- ok & require("tframe", warn.conflicts=TRUE) 
+   if(!ok) warning("This package requires the syskern and tframe packages.")
+   invisible(TRUE)
+   }
 
 #.First.lib <- function(library, section)
 #  {from <- paste(library, "/", section, sep="")
@@ -44,6 +33,27 @@ PADIcleanupScript <- function()
 #     }
 #   invisible(r)
 #}
+
+##################################################################
+
+PADIserverProcess <- function()
+ {foo <- Sys.getenv("PADI_STARTUP")
+  if(""== foo) foo <- "simple.server"
+  paste(Sys.getenv("PADI"), "/", foo, sep = "")
+ }
+PADIcleanupScript <- function()
+ {foo <- Sys.getenv("PADI_CLEANUP")
+  if(""== foo) foo <- "cleanup.simple.server"
+  paste(Sys.getenv("PADI"), "/", foo, sep = "")
+ }
+
+# the function user.name is removed. Use  Sys.info()[["user"]]
+
+#   There is also a small dependance on tframe.s (seriesNames in putpadi)
+#   and a more important dependency in getpadi when use.tframe=T.
+
+
+##################################################################
 
 startPADIserver <-function(server=Sys.info()[["nodename"]], 
 			      server.process=PADIserverProcess(), dbname=NULL)
