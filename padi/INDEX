@@ -3,9 +3,9 @@ See 00Intro.* in each package for a short general description.
 The Users' Guide is divided into sections for each package.
 These are installed in the doc/ directory for each package.
 The packages in this bundle require packages in the bundle dse.
+PADIserverProcess       PADI Functions
 checkPADIserver         PADI Functions
 getfm                   Function is for backwards compatability at the
                         BOC
 getpadi.default         Get Data from TSPADI Database Interface
-PADIserverProcess       PADI Functions
 putpadi.default         PADI Functions

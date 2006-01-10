@@ -23,7 +23,7 @@
 \details{
  This function calculates a numerical approximation of the first
    derivative of func at the point x. The calculation
-   is done by Richardson's extrapolation (see eg. Linfield and Penny
+   is done by Richardson's extrapolation (see e.g. Linfield and Penny, 1989)
    he method should be used if accuracy, as opposed to speed, is important.
 
   GENERAL APPROACH
@@ -39,7 +39,9 @@
 
 }
 \references{ 
-G.R.Linfield and J.E.T.Penny,"Microcomputers in Numerical Analysis"}
+   Linfield, G. R. and Penny, J. E. T. (1989) \emph{Microcomputers in Numerical 
+   Analysis}. New York: Halsted Press.
+}
 \seealso{\code{\link{gradNumerical}}}
 \examples{gradRichardson(sin, pi)}
 %\keyword{DSE}

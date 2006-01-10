@@ -35,6 +35,10 @@
 #}
 
 ##################################################################
+##################################################################
+
+# Note the generics are in dsepadi so padi requires dsepadi rather
+# than the reverse. (but they should be in a stub package)
 
 PADIserverProcess <- function()
  {foo <- Sys.getenv("PADI_STARTUP")
@@ -52,7 +56,7 @@ PADIcleanupScript <- function()
 #   There is also a small dependance on tframe.s (seriesNames in putpadi)
 #   and a more important dependency in getpadi when use.tframe=T.
 
-
+##################################################################
 ##################################################################
 
 startPADIserver <-function(server=Sys.info()[["nodename"]], 

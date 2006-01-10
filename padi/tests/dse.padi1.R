@@ -36,6 +36,13 @@
 
 #######################################################################
 
+wait.for.server.to.terminate <- function(server)
+    {# wait to run server
+     for (i in 1:60)
+       {if (!checkPADIserver(server)) break
+        Sys.sleep(2)
+       }
+    }
 
 tfPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
       fuzz.small=1e-14, fuzz.large=1e-6)
@@ -53,6 +60,7 @@ tfPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   server <- Sys.info()[["nodename"]]
 
  if (verbose) cat("tfPADI test 0 ... ")
+  wait.for.server.to.terminate(server)
   if (checkPADIserver(server))
      stop("A server is already running. Testing stopped. Use cleanupPADIserver() or killPADIserver() to terminate it.")
 
@@ -134,6 +142,7 @@ TSPADI.function.tests <- function( verbose=TRUE, synopsis=TRUE,
   server <- Sys.info()[["nodename"]]
 
  if (verbose) cat("DSE TSPADI test 0 ... ")
+  wait.for.server.to.terminate(server)
   if (checkPADIserver(server))
      stop("A server is already running. Testing stopped. Use cleanupPADIserver() or killPADIserver() to terminate it.")
 

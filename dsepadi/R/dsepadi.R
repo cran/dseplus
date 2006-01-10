@@ -7,9 +7,10 @@
 #      Application Database Interface (TSPADI) data interface    <<<<<<<<<<
 
 ##############################################################################
+##################################################################
 
 
-# Generic are here so padi is not required, but the seems somewhat backwards.
+# Generic are here so padi is not required, but it seems somewhat backwards.
 # There should probably be a stub package.
 
 getpadi <- function(series,server=Sys.info()[["nodename"]], dbname="",
@@ -28,6 +29,7 @@ putpadi <- function(data,  server=Sys.info()[["nodename"]], dbname="",
         stop.on.error=TRUE, warn=TRUE, timeout=60)UseMethod("putpadi")
 
 
+##################################################################
 ############################################################################
 
 # Functions in this file now handle only the TSdata aspects. The database
@@ -411,8 +413,8 @@ retrieve.and.verify.data <- function(data.names,
     key<-as.character(parse(prompt="plot data and verification data?  y/n: "))
     if (key=="y" | key=="Y")
       {graph.data <- data
-       graph.outputData(data) <-tfwindow(outputData(data),start=s,end=e)
-       graph.inputData(data)  <-tfwindow(inputData(data), start=s,end=e)
+       outputData(graph.data) <-tfwindow(outputData(data),start=s,end=e)
+       inputData(graph.data)  <-tfwindow(inputData(data), start=s,end=e)
        tfplot(verification.data, graph.data, select.inputs=0,
             select.outputs= (1:nseriesOutput(data))[apply(error,2,any)])
       }

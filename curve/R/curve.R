@@ -175,6 +175,8 @@ browser()
 # eigen( c2$C$C.intrinsic[1,,])$values
 # eigen(C2in1$C.intrinsic[1,,])$values
 
+#  IN NEXT  cur1on2  IS NOT DEFINED !!!!!!!!!!
+
    effective<-effectiveCurvature(cur1on2,QRofD2, residual, s.sqr,
                       show.details=show.details, warn=warn)
 

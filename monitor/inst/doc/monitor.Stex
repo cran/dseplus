@@ -82,7 +82,7 @@ An example of a model which contains two outputs and no inputs is
 if(require("dsepadi"))
 cbps.manuf.data2.ids <- TSPADIdata2(
   #output=list(c("ets", "","V2036138","percentChange","cbps.prod."),
-  #c("ets", "", "i37005","percentChange","manuf.prod.")),
+  #c("ets", "", "V14182897","percentChange","manuf.prod.")),
   #pad.start=FALSE, pad.end=TRUE, end=c(1997,9)) # data now ends in Sept 1997
   #output=list(c("ets", "","V327736","percentChange","cbps.prod."),
   #c("ets", "", "V327818","percentChange","manuf.prod.")),
@@ -215,7 +215,7 @@ input ="V13682085",
 
 input.transforms="percentChange",input.names="cbps.emp.",
 
-output=c("V2036138", "i37005"),
+output=c("V2036138", "V14182897"),
 
 output.transforms=c("percentChange", "percentChange"),
 

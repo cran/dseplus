@@ -12,16 +12,11 @@
   fqpscratch.db <- paste(pwd,"/",scratch.db, sep="")
   unlink(scratch.db, recursive = TRUE)
 
-  server <- Sys.info()[["nodename"]]
-  if (checkPADIserver(server))
-     stop("A server is already running. Testing stopped. Use cleanupPADIserver() or killPADIserver() to terminate it.")
-
-
   wait.for.server.to.terminate <- function(server)
     {# wait to ensure padi server is terminated
-     for (i in 1:30)
+     for (i in 1:60)
        {if (!checkPADIserver(server)) break
-        Sys.sleep(1)
+        Sys.sleep(2)
        }
     }
 
@@ -32,6 +27,12 @@
         Sys.sleep(1)
        }
     }
+
+  server <- Sys.info()[["nodename"]]
+  wait.for.server.to.terminate(server)
+  if (checkPADIserver(server))
+     stop("A server is already running. Testing stopped. Use cleanupPADIserver() or killPADIserver() to terminate it.")
+
 
   ok <- putpadi(ts(exp(1:20), start=c(1950,1),freq=1), series="exp", 
             server=server, server.process="simple.server",

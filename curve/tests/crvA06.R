@@ -1,7 +1,7 @@
 # gctorture()
 
 # Tests of DSE curvature functions from dsecurvature.function.testsA
-if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("dse1"))  stop("this test requires dse1.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  DSEversion()

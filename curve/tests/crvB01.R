@@ -8,7 +8,7 @@
 # change much (as would be hoped) but do change more than the tolerance of 
 # these tests. Old values in comments are  strictly for historical reference.
 
-if(!require("dse2"))  stop("this test requires dse2.")
+if(!require("dse1"))  stop("this test requires dse1.")
 if(!require("curve"))stop("this test requires curve.")
  Sys.info()
  DSEversion()

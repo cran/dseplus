@@ -3,31 +3,31 @@ See 00Intro.* in each package for a short general description.
 The Users' Guide is divided into sections for each package.
 These are installed in the doc/ directory for each package.
 The packages in this bundle require packages in the bundle dse.
+TSPADIdata              Constructor for TSPADIdata object
+TSPADIdata2             Constructor for TSPADIdata object
 availability            Check Data Availability
-freeze.tfPADIdata       Get fixed data snapshot
 freeze.TSPADIdata       Get fixed data snapshot using TSPADI
+freeze.tfPADIdata       Get fixed data snapshot
 getpadi                 Get Data from TSPADI Database Interface
 identifiers             Get Identifiers from a data object
 inputData.TSPADIdata    TS Input and Output Specific Methods
 modify                  modify a database descriptor object
 modify.TSPADIdata       Modify a TSPADIdata Object
-print.tfPADIdata        Print a tfPADIdata Object
 print.TSPADIdata        Print Specific Methods
+print.tfPADIdata        Print a tfPADIdata Object
 putpadi                 PADI Functions
 refresh                 Retrieve new data from a database
 retrieve.and.verify.data
                         Retrieve and Verify Data
-settfPADIdata           Prompt for series names
 setTSPADIdata           Prompt for Series Names
-sourcedb                Get sourcedb from a data object
+settfPADIdata           Prompt for series names
 sourceInfo              Get source information from a data object
-sourceInfo.TSdata       tfPADI Specific Methods
 sourceInfo.TSPADIdata   TSPADIdata Specific Methods
+sourceInfo.TSdata       tfPADI Specific Methods
+sourcedb                Get sourcedb from a data object
 sourceserver            Get source server from a data object
 tfPADIdata              make tfPADIdata object
 tfperiods.tfPADIdata    Specific Methods for Tframed data
 tfputpadi               Write Data to a Data Server
-TSPADIdata              Constructor for TSPADIdata object
-TSPADIdata2             Constructor for TSPADIdata object
-tsp.tfPADIdata          Specific Methods for tsp
 tsp.TSPADIdata          Specific Methods for tsp
+tsp.tfPADIdata          Specific Methods for tsp

@@ -4,28 +4,29 @@ The Users' Guide is divided into sections for each package.
 These are installed in the doc/ directory for each package.
 The packages in this bundle require packages in the bundle dse.
 00Intro.juice           Juice
+TSdata.TSdataconcentrate
+                        TSdata Specific Methods
 canonical.prediction    Canonical Prediction
 checkConsistentDimensions.TSmodelconcentrate
                         checkConsistentDimensions Specific Methods
 checkResiduals.TSdataconcentrate
                         checkResiduals Specific Methods
 concentrate             Concentrate Series in a TSdata Object
-concentrated.checkResiduals
-                        Check Residuals of Concentrated Data
-concentratedDimension   Concentrated Dimension
-concentrated.nseriesInput
-                        Concentrated Dimension of TSdata
-concentratedSeriesNames
-                        Concentrated Series Names
-concentrated.tfplot     Plot Concentrated Series
 concentrateOnly         Extract Concentrate
 concentrateOriginal     Extract Original Series
+concentrated.checkResiduals
+                        Check Residuals of Concentrated Data
+concentrated.nseriesInput
+                        Concentrated Dimension of TSdata
+concentrated.tfplot     Plot Concentrated Series
+concentratedDimension   Concentrated Dimension
+concentratedSeriesNames
+                        Concentrated Series Names
 concentrator            Data Concentrator
 end.TScanonicalPrediction
                         Specific Methods for TScanonicalPrediction
 estConcentratedModel    Estimate a Concentrated Model
-estProjection           Calculate Projection from Concentrating
-                        Series.
+estProjection           Calculate Projection from Concentrating Series.
 l.TSmodelconcentrate    Specific Methods for l
 nseriesInput.TSmodelconcentrate
                         Specific Methods for input/nseriesOutput
@@ -39,5 +40,3 @@ selectSeries.concentrate
 tfplot.concentrate      tfplot Specific Methods
 tfprint.concentrate     Tfprint Specific Methods
 tfwindow.concentrate    tfwindow Specific Methods
-TSdata.TSdataconcentrate
-                        TSdata Specific Methods
