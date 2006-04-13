@@ -9,11 +9,8 @@
 
   data("egJofF.1dec93.data", package="dse1")
 
-  test.rng <- if (is.R())  list(kind="default", normal.kind="default",
-                     seed=c( 979)) #, 1479, 1542)) else
-                           list(kind="default", normal.kind="default", 
-                     seed=c(13,44,1,25,56,0,6,33,22,13,13,0))
-
+  test.rng <- list(kind="default", normal.kind="default",
+                     seed=c( 979)) #, 1479, 1542)) 
  
 fuzz.small <- 1e-12
 digits <- 18

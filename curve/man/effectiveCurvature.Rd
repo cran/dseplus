@@ -35,8 +35,8 @@
    calculation does not seem to correspond to a local minimum.
 }
 \references{ 
-Bates and Watts(1980), J.R. Statist.Soc. B.
-Bates and Watts(1983), 'Nonlinear Regression Analysis and Its Applications.'
+Bates and Watts (1980), J.R. Statist.Soc. B.
+Bates and Watts( 1983), 'Nonlinear Regression Analysis and Its Applications.'
 }
 \seealso{
     \code{\link{curvature}}

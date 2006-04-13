@@ -15,7 +15,7 @@
     Depends on the argument. For a simple concentrated data object 
     the result is a vector of strings.
 }
-\sideffects{A plot is generated}
+\section{Side Effects}{A plot is generated}
 
 \seealso{
     \code{\link[tframe]{tfplot}}

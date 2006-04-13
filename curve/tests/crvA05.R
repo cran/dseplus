@@ -44,11 +44,23 @@ test.rng <- list(kind="Wichmann-Hill",seed=c(979,1479,1542),normal.kind="Box-Mul
 
 # and for comparison
         
-  curvatureVAR.def <- curvature(function(coefficients, Shape, data)
-   {c(l(setArrays(Shape,coefficients=coefficients),data,result="pred")
-        - outputData(data))}, coef(VARmodel), 
-                  func.args=list(Shape=TSmodel(VARmodel),data=TSdata(VARmodel)),
-                     d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
+#  curvatureVAR.def <- curvature(function(coefficients, Shape, data)
+#   {c(l(setArrays(Shape,coefficients=coefficients),data,result="pred")
+#        - outputData(data))}, coef(VARmodel), 
+#     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+#     show.details=FALSE,
+#     Shape=TSmodel(VARmodel),data=TSdata(VARmodel))$stats
+
+  curvatureVAR.def <- curvature(
+       function(coefficients, Shape, data)
+          {c(l(setArrays(Shape,coefficients=coefficients),
+	       data,result="pred") - outputData(data))}, 
+       coef(VARmodel), 
+       method="Richardson",
+       method.args=list(d=0.01, eps=1e-4,r=6, v=2, show.details=FALSE),
+       Shape=TSmodel(VARmodel),
+       data=TSdata(VARmodel)
+       )$stats
 
 
    tst  <-  curvatureVAR.def

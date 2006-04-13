@@ -1,16 +1,8 @@
-##import("stats")
-##import("setRNG")
-##import("tframe")
-##import("dse1")
-
+import("numDeriv")
 S3method("print", "curvature")
 S3method("print", "curvatureArray")
 
-export("gradNumerical")
-export("gradRichardson")
 export("project")
-export("hessian")
-S3method("hessian", "default")
 
 export("span")
 S3method("span", "default")
@@ -23,8 +15,6 @@ export("effectiveCurvature")
 export("curvatureStats")
 export("relCurvature")
 
-export("genD")
-S3method("genD", "default")
 S3method("curvature", "TSestModel")
 S3method("genD", "TSestModel")
 S3method("genD", "ARMA")

@@ -54,11 +54,13 @@ cat("DSE curvature test A 12b..\n")
        - outputData(data))}
    
   curvatureVAR.def <- curvature(func.residual, coef(ARMAmodel1), 
-              func.args=list(Shape=TSmodel(ARMAmodel1), data=TSdata(ARMAmodel1)),
-                     d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
+        method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+	show.details=FALSE,
+	Shape=TSmodel(ARMAmodel1), data=TSdata(ARMAmodel1))$stats
 
   curvatureVAR.def2 <- curvature(ARMAmodel1, compiled=FALSE,
-                     d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
+        method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+        show.details=FALSE)$stats
 
   if (! testEqual(curvatureVAR.def2, curvatureVAR.def))
      {print(curvatureVAR.def,  digits=18)

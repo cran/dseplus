@@ -12,7 +12,7 @@ tagged.function.tests <- function(verbose=TRUE, synopsis=TRUE, fuzz.small=1e-10)
   if (verbose) cat("tagged class test 1 ... ")
 #  z <- outputData(eg1.DSE.data.diff)
 #  tags(z, "tags") <- array("a", dim(z))
-#  dseclass(z) <- "tagged"
+#  class(z) <- "tagged"
   z <- outputData(eg1.DSE.data.diff)
   z <- tagged(z, array("a", dim(z)))
   ok <- is.tagged(z)

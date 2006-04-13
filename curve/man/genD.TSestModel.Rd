@@ -7,24 +7,25 @@
 \description{Generate a matrix of function derivative information.}
 \usage{
     \method{genD}{TSestModel}(func, x=coef(func),
-        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-        d=0.01, eps=1e-4, r=6 )
+        method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+        Shape=TSmodel(func), data=TSdata(func), ...)
     \method{genD}{ARMA}(func, x=coef(func),
-        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-        d=0.01, eps=1e-4, r=6)
+        method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+        Shape=TSmodel(func), data=TSdata(func), ...)
     \method{genD}{innov}(func, x=coef(func),
-        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-        d=0.01, eps=1e-4, r=6)
+        method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+        Shape=TSmodel(func), data=TSdata(func), ...)
 }
 \arguments{
     \item{func}{a TSestModel or TSmodel object which is used as a function 
        mapping coefficients (parameters) to residuals.}
     \item{x}{parameter vector first argument to function func indicating the
         point with respect to which the derivative is calculated.}
-    \item{func.args}{list with additional argument to function \code{func}.}
-    \item{d}{The fraction of x to use for the initial numerical approximation.}
-    \item{eps}{Used instead of d for elements of x which are zero.}
-    \item{r}{The number of Richardson improvement iterations.}
+    \item{method}{string indicating the numerical approximation method.}
+    \item{method.args}{list with arguments to \code{method} (see \code{grad}).}
+    \item{Shape}{a TSmodel in which the parameters should be used.}
+    \item{data}{TSdata to use in teh evaluation.}
+    \item{...}{additional arguments passed to \code{func}.}
 }
 \value{
 A list with three elements as follows:
@@ -38,11 +39,12 @@ A list with three elements as follows:
 }
 \details{The derivatives are calculated numerically using Richardson improvement.}
 \seealso{
-\code{\link{genD}}
+\code{\link[numDeriv]{genD}}
+\code{\link[numDeriv]{grad}}
 \code{\link{curvature}}
 }
 \examples{
-if(is.R()) data("eg1.DSE.data.diff", package="dse1")
+data("eg1.DSE.data.diff", package="dse1")
 model <- estVARXls(TSdata( output=outputData(eg1.DSE.data.diff, series=1:2)),
                       max.lag=2)
 z <- genD(model)

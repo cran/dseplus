@@ -4,7 +4,7 @@ The Users' Guide is divided into sections for each package.
 These are installed in the doc/ directory for each package.
 The packages in this bundle require packages in the bundle dse.
 .SPAWN                  Global variable
-00Intro.syskern         Syskern
+00.syskern.Intro        Syskern
 Sys.mail                Send Mail
 dateParsed              Utilities to handle small S/R differences
 is.S                    S/R Version Information

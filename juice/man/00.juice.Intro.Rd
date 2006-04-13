@@ -1,5 +1,9 @@
-\name{00Intro.juice}
-\alias{00Intro.juice}
+\name{00.juice.Intro}
+\alias{00.juice.Intro}
+\alias{juice.Intro}
+
+\docType{package}
+
 \title{Juice}
 \center{Methods for Concentrating and Reconstituting Data}
 \synopsis{}

@@ -16,7 +16,7 @@ tags <- function(x) {attr(x, "tags")}
     # drop any extra attributes
    attributes(value) <- list(dim=attributes(value)$dim)
    attr(x, "tags") <- value 
-   classed(x, c("tagged", dseclass(x))) # constructor ("tags<-")
+   classed(x, c("tagged", class(x))) # constructor ("tags<-")
   }
 
 tagged <- function(x, tags)UseMethod("tagged")
@@ -32,7 +32,7 @@ tagged.TSdata <- function(x, tags)
   }
 
 "tframe<-.tagged" <- function(x, value){
-  cls <- dseclass(x)
+  cls <- class(x)
   x <- classed(x, cls[-1])
   tframe(x) <- value 
   # may not have class back the way it should be ???  
@@ -54,12 +54,12 @@ tbind.tagged <- function(x, mat2, ..., pad.start=TRUE, pad.end=TRUE, warn=TRUE)
  else                 tag2 <- array("mat2", dim(mat2))
  tframe(tag1) <- tframe(x)
  tframe(tag2) <- tframe(mat2)
- cls <- dseclass(x)
+ cls <- class(x)
  # this should use NextMethod
- dseclass(x) <- dseclass(x)[-1]  # otherwise tbind calls this tbind
- if (0 == length(dseclass(x))) dseclass(x) <- NULL
- dseclass(mat2) <- dseclass(mat2)[-1]  # otherwise tbind calls this tbind
- if (0 == length(class(mat2))) dseclass(mat2) <- NULL
+ class(x) <- class(x)[-1]  # otherwise tbind calls this tbind
+ if (0 == length(class(x))) class(x) <- NULL
+ class(mat2) <- class(mat2)[-1]  # otherwise tbind calls this tbind
+ if (0 == length(class(mat2))) class(mat2) <- NULL
  tagged(classed(tbind(x, mat2, pad.start=pad.start, pad.end=pad.end, warn=warn),
        cls),  tbind(tag1,tag2, pad.start=pad.start, pad.end=pad.end, warn=warn)) 
 }
@@ -133,7 +133,7 @@ splice.tagged <- function(mat1, mat2, tag1=tags(mat1), tag2=tags(mat2), ...)
  # (suitable for use with fprint).
  # In the case tags are not available and are not specified 
  #   in the argument then they are set to "mat1" and "mat2".
- cls <- dseclass(mat1)
+ cls <- class(mat1)
  if (is.null(tag1)) tag1 <- "mat1"
  if (is.null(tag2)) tag2 <- "mat2"
  if (length(tag1) == 1) tag1 <- array(tag1, dim(mat1))
@@ -183,8 +183,8 @@ tfwindow.tagged <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=T
  # With the default warn=T warnings will be issued if no truncation takes
  #  place because start or end is outside the range of data.
  tags <- tags(x)
- dseclass(x) <- dseclass(x)[-1]
- if (0 == length(dseclass(x))) dseclass(x) <- NULL
+ class(x) <- class(x)[-1]
+ if (0 == length(class(x))) class(x) <- NULL
  # The next line converts scalars tags to a matrix.
  if (length(tags) == 1) tags <- array(tags, dim(x))
  # The next lines converts missing tags to a matrix.

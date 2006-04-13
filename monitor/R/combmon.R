@@ -167,7 +167,8 @@ get.overriding.data <- function(file="overriding.data",
   #   N.B. This cues on series names in the file
   # m is the number of input series
   # p is the number of output series
-  z  <- dsescan(file=file,what=character())
+#  z  <- dsescan(file=file,what=character())
+  z  <- scan(file=file,what=character(), quiet=TRUE)
   first.in   <- (1:length(z))[z == first.input & !is.na(z)] 
   if (0== length(first.in))
      stop(paste("Cannot find keying string:", first.input," in file", file))
@@ -236,7 +237,7 @@ combinationMonitoring <- function(model, data.names,
     message <- ""     
     on.exit(Sys.mail(error.mail.list, subject=paste("error ", message.subject),
                  body= c(error.message, message)))
-    if ( dseclass(model)[1] == "TSestModel" ) model <- model$model
+    if ( class(model)[1] == "TSestModel" ) model <- model$model
     if (!is.null(data.names$pad.end))
        {if(!data.names$pad.end)
           warning("pad.end in data definition may disable retrieving all data.")

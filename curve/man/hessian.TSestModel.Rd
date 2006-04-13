@@ -4,18 +4,19 @@
 \title{Calculate Hessian Matrix}
 \description{Calculatate the hessian matrix of a TSmodel at a parameter value.}
 \usage{
-    \method{hessian}{TSestModel}(func, x=coef(func),
-        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-        d=0.01, eps=1e-4, r=6)
+    \method{hessian}{TSestModel}(func, x=coef(func), 
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     Shape=TSmodel(func), data=TSdata(func), ...)
 }
 \arguments{
     \item{func}{a TSestModel object which is used as a function mapping
        coefficients (parameters) to likelihood.}
     \item{x}{The parameter point at which the hessian is calculated.}
-    \item{func.args}{list with additional argument to the TSmodel evaluation.}
-    \item{d}{The fraction of x to use for the initial numerical approximation.}
-    \item{eps}{Used instead of d for elements of x which are zero.}
-    \item{r}{The number of Richardson improvement iterations.}
+    \item{method}{string indicating the numerical approximation method.}
+    \item{method.args}{list with arguments to \code{method} (see \code{grad}).}
+    \item{Shape}{a TSmodel in which the parameters should be used.}
+    \item{data}{TSdata to use in teh evaluation.}
+    \item{...}{additional arguments passed to \code{func}.}
 }
 \value{a matrix of second derivative of the likelihood (Fisher Information).}
 \details{
@@ -23,8 +24,9 @@
     model at its specified parameter value using given data.
 }
 \seealso{
-    \code{\link{hessian}}
-    \code{\link{genD}}
+    \code{\link[numDeriv]{hessian}}
+    \code{\link[numDeriv]{genD}}
+    \code{\link[numDeriv]{grad}}
     \code{\link{span}}
 }
 

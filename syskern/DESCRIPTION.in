@@ -1,4 +1,4 @@
 Package: syskern
 Title: Coding Kernel for R/S Differences
-Description: Functions to handle some small R/S differences.
+Description: Functions to handle some small R/S differences. See ?syskern.Intro for more details
 Depends:   R (>= 2.0.0)

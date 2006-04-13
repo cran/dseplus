@@ -11,7 +11,7 @@
     \item{x}{a tfPADIdata object.}
     \item{...}{arguments to be passed to other methods.}
 }
-\sideffects{The object is printed.}
+\section{Side Effects}{The object is printed.}
 \seealso{
     \code{\link[base]{print}}
     \code{\link{tfPADIdata}}

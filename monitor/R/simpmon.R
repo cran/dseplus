@@ -128,7 +128,7 @@ simpleMonitoring <- function(model, data.names,
     on.exit(Sys.mail(error.mail.list,
                  subject=paste("error ",message.subject),
                  body= c(error.message, message)))
-    if ( dseclass(model)[1] == "TSestModel" ) model <- TSmodel(model)
+    if ( class(model)[1] == "TSestModel" ) model <- TSmodel(model)
     if (!is.null(data.names$pad.end))
        {if(!data.names$pad.end)
           warning("pad.end in data definition may disable retrieving all data.")

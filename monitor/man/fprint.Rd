@@ -24,7 +24,7 @@
     This is a generic method for print a table of time series data with
     formatting control. Currently the only specific method is fprint.tagged. 
 }
-\sideffects{If \code{file} is specified then a file will be created.}
+\section{Side Effects}{If \code{file} is specified then a file will be created.}
 \seealso{
     \code{\link{print}}
     \code{\link[tframe]{tfprint}}

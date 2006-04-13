@@ -49,8 +49,9 @@ cat("DSE curvature test A 7b...\n")
        - outputData(data))}
 
   curvatureARMA.def <- curvature(func.residual, coef(ARMAmodel), 
-               func.args=list(Shape=TSmodel(ARMAmodel), data=TSdata(ARMAmodel)),
-                     d=0.01, eps=1e-4,r=6, show.details=FALSE)$stats
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     show.details=FALSE,
+     Shape=TSmodel(ARMAmodel), data=TSdata(ARMAmodel))$stats
 
    tst  <-  curvatureARMA.def
    good <-  curvatureARMA

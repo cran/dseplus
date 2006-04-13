@@ -79,11 +79,11 @@ estProjection.TSdata <- function(data, center=TRUE, scale=TRUE, m=1,p=1, ...)
      conc$input$proj    <- cc$xcoef[ , 1:m, drop=FALSE] 
      conc$input$center  <- cc$xcenter
      conc$input$scale   <- cc$xscale
-     dseclass(conc$input) <- "concentrator" # constructor
+     class(conc$input) <- "concentrator" # constructor
      conc$output$proj   <- cc$ycoef[ , 1:p, drop=FALSE]
      conc$output$center <- cc$ycenter
      conc$output$scale  <- cc$yscale
-     dseclass(conc$output) <- "concentrator" # constructor
+     class(conc$output) <- "concentrator" # constructor
     }
   else if (0!= nseriesInput(data))
     {if (nseriesInput(data) < m) stop("m cannot exceed input data dimension.")
@@ -109,7 +109,7 @@ concentrate.default <- function(d, conc=NULL, center=TRUE, scale=TRUE, n=1, ...)
   else conc <- concentrator(conc)
   attr(d, "concentrator") <- conc
 #  attr(newd, "original") <- d
-  classed(d, c("concentrate", dseclass(d))) #constructor concentrate.default
+  classed(d, c("concentrate", class(d))) #constructor concentrate.default
  }
 
 concentrate.TSdata <- function(d, conc=NULL, center=TRUE, scale=TRUE, m=1, p=1, ...)
@@ -150,7 +150,7 @@ concentrateOnly.concentrate <- function(d)
   seriesNames(newd) <- concentratedSeriesNames(d)
   attr(newd, "concentrator") <- conc
   attr(newd, "original") <- NULL
-#  classed(newd, dseclass(d)[-1])  # newd may not have correct structure for
+#  classed(newd, class(d)[-1])  # newd may not have correct structure for
 #                                    this (e.g. tsp attr for a ts)
   newd
  } 
@@ -169,7 +169,7 @@ concentrateOnly.TSdatareconstitute <- function(d) # deconstructor
 
 concentrateOnly.TSmodelconcentrate <- function(d) 
  {d$conc <- NULL
-  classed(d, dseclass(d)[-1]) # deconstructor
+  classed(d, class(d)[-1]) # deconstructor
  }
 
 concentrateOnly.TSestModel <- function(d) 
@@ -184,7 +184,7 @@ concentrateOnly.TSestModel <- function(d)
 concentrateOriginal <- function(d) {UseMethod("concentrateOriginal") }
 concentrateOriginal.concentrate <- function(d)
  {attr(d, "concentrator") <- NULL
-  classed(d, dseclass(d)[-1]) #deconstructor
+  classed(d, class(d)[-1]) #deconstructor
  }   
 
 concentrateOriginal.TSdataconcentrate <- function(d) # deconstructor
@@ -240,7 +240,7 @@ reconstitute.default <- function(d, conc=NULL, names=seriesNames(d))
   tframe(newd) <- tframe(d)
   if (!is.null(names)) seriesNames(newd) <- paste("recon.", names)
   attr(newd, "concentrator") <- conc
-  classed(newd, c("reconstitute", dseclass(d))) #constructor reconstitute.default
+  classed(newd, c("reconstitute", class(d))) #constructor reconstitute.default
  }
   
 
@@ -321,7 +321,7 @@ frequency.TScanonicalPrediction <- function(x, ...){frequency(concentrateOrigina
 
 percentChange.TScanonicalPrediction <-function (obj, base=NULL, lag=1,
     cumulate=FALSE, e=FALSE, ...) {
-	pchange <- percentChange(classed(obj, dseclass(obj)[-1]),
+	pchange <- percentChange(classed(obj, class(obj)[-1]),
 	    base=base, lag=lag, cumulate=cumulate, e=e)
 	attr(pchange, "original") <- percentChange(attr(obj, "original"),
 	    base=base, lag=lag, cumulate=cumulate, e=e)
@@ -357,7 +357,7 @@ estConcentratedModel.TSdataconcentrate <- function(data,
    m <-TSmodel(do.call(estimation, append(list(d), estimation.args)))
 # next should be   concentrator(m) <- concentrator(data)
    m$conc <- concentrator(data)
-   dseclass(m) <- c("TSmodelconcentrate", dseclass(m))
+   class(m) <- c("TSmodelconcentrate", class(m))
    seriesNames(m) <- seriesNames(data)
    l(m, data, warn=warn)
   }
@@ -387,7 +387,7 @@ l.TSmodelconcentrate <- function(obj1, obj2, sampleT=nrow(outputData(obj2)),
   
 
 checkConsistentDimensions.TSmodelconcentrate <- function(obj1, obj2=NULL)
-  {m <- classed(obj1, dseclass(obj1)[-1]) # deconstructor 
+  {m <- classed(obj1, class(obj1)[-1]) # deconstructor 
    checkConsistentDimensions(m)
    if(!is.null(obj2))
        {if(nseriesOutput(obj1) != nseriesOutput(obj2))
@@ -444,7 +444,7 @@ concentratedSeriesNamesOutput <- function(x)
 
 
 "tframe<-.concentrate" <- function(x, value){
-  cls <- dseclass(x)
+  cls <- class(x)
   x <- classed(x, cls[-1])
   tframe(x) <- value 
   # may not have class back the way it should be ???  
@@ -452,14 +452,14 @@ concentratedSeriesNamesOutput <- function(x)
 }
 
 tframed.concentrate <- function(x, tf=NULL, names = NULL) 
-{cls <- dseclass(x)
+{cls <- class(x)
  classed(tframed(classed(x, cls[-1]), tf=tf, names=names), cls)
 }
 
 #settf.concentrate <- function(value, x)
 # {# this would not be necessary if tframe inheritence was more cleanly 
 #  # separated from classes of x. See "pure" comments in settf.default
-#  cls <- dseclass(x)
+#  cls <- class(x)
 #  classed(x, settf(value, classed(x, cls[-1])), cls)
 # }
 
@@ -474,7 +474,7 @@ tfprint.concentrate <- function(x, ...)
 
 tfwindow.concentrate <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE)
  {conc <- concentrator(x)
-  cls <- dseclass(x)
+  cls <- class(x)
   x <- tfwindow(classed(x, cls[-1]), tf=tf, start=start, end=end, warn=warn)  # NextMethod might? work
   attr(x, "concentrator") <- conc  # kludge Rbug attr gets lost ??
   classed(x, cls)
@@ -483,7 +483,7 @@ tfwindow.concentrate <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), w
 
 selectSeries.concentrate <-function (x, series = seq(nrow(concentrator(x)$proj))) 
  {conc <- concentrator(x)
-  cls <- dseclass(x)
+  cls <- class(x)
   orig <- selectSeries(concentrateOriginal(x), series=series)
   # look at selectSeries.default to get series right
   conc$sdev <- conc$sdev[series]

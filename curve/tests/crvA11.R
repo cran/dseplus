@@ -33,30 +33,37 @@ cat("DSE curvature test A 11a..")
   #  following test values have all been set using 
   #    R0.63.3pre and gnu f77 on SunOS 5.6 (Solaris)
   #  and reset as of R 1.0.0 
-  hess <- hessian(ARMAmodel1)  
+  print(hess <- hessian(ARMAmodel1), digits=18)  
 
 # 1472.1174
-   good <- 1397.19588043396584
-   tst  <- sum(hess)
+#   good <- 1397.19588043396584
+# DIFFERENCE FROM ABOVE FOUND MARCH 2006
+#  WHEN SEPARATING OUT numDeriv. THERE WAS AN ERROR.
+# HESSIAN USED FIRST COLUMNS IN genD RATHER THAN SKIPPING THEM. 
+   good <- 480.348751175030429
+   
+   printTestValue(tst  <- sum(hess), digits=18)
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", max(error), "\n")
      
-   if (any(is.na(error)) || any(is.nan(error)) || fuzz.very.large < error) 
-     {printTestValue(c(tst), digits=18); all.ok <- F }
+   if (any(is.na(error)) || any(is.nan(error)) || 
+                          fuzz.very.large < error)  all.ok <- FALSE 
 
 cat("DSE curvature test A 11b..")
-  hess <- hessian(SSmodel)
+  print(hess <- hessian(SSmodel), digits=18)
   #1393.953399146646
-   good <- 1351.52741934382425
-   tst  <- sum(hess)
+  # good <- 1351.52741934382425
+  # DIFFERENCE FROM ABOVE FOUND MARCH 2006 (see above).
+   good <-  591.625298508878586  
+   printTestValue(tst  <- sum(hess), digits=18)
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", max(error), "\n")
      
-   if (any(is.na(error)) || any(is.nan(error)) || fuzz.very.large < error) 
-     {printTestValue(c(tst), digits=18); all.ok <- F }
+   if (any(is.na(error)) || any(is.nan(error)) || 
+                          fuzz.very.large < error)  all.ok <- FALSE
  
 cat("DSE curvature test A 11c..")
-  hess <- hessian(ARMAmodel) 
+  print(hess <- hessian(ARMAmodel), digits=18) 
   # R Linux      -1409.96904582771185
   # R pre 1.0 Solaris   385220.9412876417
   # R 1.0.0   Solaris     -352.3883095147531
@@ -64,10 +71,10 @@ cat("DSE curvature test A 11c..")
   #all.ok <- test(sum(diag(hess)), 385220.9412876417, all.ok, flag="11c", fuzz=fuzz.very.large,
   #               print.values=print.values)
   warning("Skipping 11c comparison. Problem is too ill-conditioned.")
-  # print(sum(diag(hess)), digits=18)
+  print(sum(diag(hess)), digits=18)
  
 cat("DSE curvature test A 11d..")
-  hess <- hessian(ARMAmodel.fixed)
+  print(hess <- hessian(ARMAmodel.fixed), digits=18)
 #  3039.23996170283772   using svd until R 1.6.1 (both Linux and Soaris, but large tolerance)
 #  3039.22741633394708  # R 1.6.1 La.svd with Solaris
 #  3039.24495763039704  # R 1.6.1 La.svd with Mandrake 9.0
@@ -76,12 +83,13 @@ good <- if (Sys.info()[["sysname"]] == "Linux")
                3039.24495763039704 else 3039.22741633394708
 #  above works with R-2.2.0 on RH and Gentoo, but Gentoo with ACML BLAS
 #    gives 3039.23450834219602 so error in test is /10 as of Dec 2005.
-
-   tst  <- sum(hess)
+  # DIFFERENCE FROM ABOVE FOUND MARCH 2006 (see above).
+   good <-  805.34949654355762
+   printTestValue(tst  <- sum(hess), digits=18)
    error <- max(abs(good-tst))
-   cat("max. error ", max(error))
+   cat("max. error ", max(error), "\n")
      
-   if (any(is.na(error)) || any(is.nan(error)) || fuzz.very.large < (error/10)) 
-     {printTestValue(c(tst), digits=18); all.ok <- F }
+   if (any(is.na(error)) || any(is.nan(error)) ||
+                   fuzz.very.large < (error/10)) all.ok <- FALSE
 
-  if (! all.ok) stop("some tests FAILED")
+if (! all.ok) stop("some tests FAILED")

@@ -1,5 +1,9 @@
-\name{00Intro.syskern}
-\alias{00Intro.syskern}
+\name{00.syskern.Intro}
+\alias{00.syskern.Intro}
+\alias{syskern.Intro}
+
+\docType{package}
+
 \title{Syskern}
 
 \section{Usage}{
@@ -48,4 +52,3 @@ are also defined but are being depreciated and should be avoided.
 \keyword{distribution}
 
 \author{Paul Gilbert}
-

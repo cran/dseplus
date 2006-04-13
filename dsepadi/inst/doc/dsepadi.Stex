@@ -50,12 +50,12 @@ data set, but once a model is established and is routinely used with
 newly available data then the data description is more convenient.
 
 
-The following simple example specifies the series \emph{I37005} from
+The following simple example specifies the series \emph{V14182897} from
 the \emph{ets} server as the single output series, and gives it a
 more descriptive name. No data transformations are performed.
 
 \begin{Scode}
-eg2.DSE.data.names <- TSPADIdata( output= "I37005", 
+eg2.DSE.data.names <- TSPADIdata( output= "V14182897", 
 
 output.names= "manuf.prod." , server="ets")
 \end{Scode}
@@ -73,9 +73,9 @@ The following example specifies one input and one output series.
 
 \begin{Scode}
 eg3.DSE.data.names <- TSPADIdata(
-   input="lfsa455", input.transforms= "percentChange",
-   input.names= "manuf.emp.",
-   output="i37005", output.names="manuf.prod.",
+   input="V2062811", input.transforms= "percentChange",
+   input.names= "employed",
+   output="V14182897", output.names="manuf.prod.",
    output.transforms= "percentChange",
    pad.start=F, pad.end =T, server= "ets")
 
@@ -88,11 +88,11 @@ Here is a multivariate example:
 \begin{Scode}
 JofF.VAR.data.names <-TSPADIdata(
 
-input = "B14017", input.transforms= "diff", input.names="R90",
+input = "V122491", input.transforms= "diff", input.names="R90",
 
-output = c("P100000", "I37026", "b1627", "b14013",
+output = c("P100000", "V14182657", "V37124", "V122487",
 
-"b4237", "D767608", "b3400", "M.BCPI",
+"V122620", "V2062811", "V37426", "V36382",
 
 "M.IPNB50001", "M.CUSA0"),
 
@@ -119,8 +119,16 @@ if(require("padi") && checkPADIserver("ets"))
 \end{Scode}
 
 This is the example used in Gilbert (1995), except that freeze() will
-retrieve that latest version of the data. 
-P484549 has been discontinued and is replaced with P100000 (CPI, 1992=100). 
+retrieve that latest version of the data. Note, however:
+P484549 has been discontinued and is replaced with P100000 (CPI, 1992=100); 
+I37026 is replaced with V14182657; 
+B14017 is replaced with V122491; 
+B1627  is replaced with V37124; 
+B14013 is replaced with V122487; 
+B4237  is replaced with V122620; 
+D767608 is replaced with V2062811; 
+B3400  is replaced with V37426; 
+M.BCPI  is replaced with V36382; 
 M.JQIND has been discontinued and is replaced with M.IPNB50001.
 
 The variables pad, pad.start, and pad.end control what happens at
@@ -154,19 +162,19 @@ output = list(
 
 c("ets", "", "P100000","percentChange", "CPI"),
 
-c("ets", "", "I37026", "percentChange", "GDP"),
+c("ets", "", "V14182657", "percentChange", "GDP"),
 
-c("ets", "", "b1627", "percentChange", "M1"),
+c("ets", "", "V37124", "percentChange", "M1"),
 
-c("ets", "", "b14013", "diff", "RL"),
+c("ets", "", "V122487", "diff", "RL"),
 
-c("ets", "", "b4237", "diff", "TSE300"),
+c("ets", "", "V122620", "diff", "TSE300"),
 
-c("ets", "", "D767608","percentChange", "employment"),
+c("ets", "", "V2062811","percentChange", "employment"),
 
-c("ets", "", "b3400", "percentChange", "PFX"),
+c("ets", "", "V37426", "percentChange", "PFX"),
 
-c("ets", "", "M.BCPI", "percentChange", "com. price ind."),
+c("ets", "", "V36382", "percentChange", "com. price ind."),
 
 c("ets", "", "M.IPNB50001","percentChange","US ind. prod."),
 
@@ -190,7 +198,7 @@ eg4.DSE.data.names <-TSPADIdata(
 
   input = "B14017", input.transforms= "diff", input.names="R90",
 
-  output = c("P100000", "I37026", "D767608", "b3400"),
+  output = c("P100000", "V14182657", "V2062811", "V37426"),
 
   output.transforms=c("percentChange", "percentChange",
 

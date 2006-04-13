@@ -8,7 +8,8 @@
 }
 \usage{
     curvature(func, ...)
-    \method{curvature}{default}(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
+    \method{curvature}{default}(func, x, 
+       method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
         signif=0.05, show.details=FALSE, warn=TRUE, ...)
     \method{curvature}{Darray}(func, signif = 0.05,
       show.extra.details=FALSE, show.details=show.extra.details, warn=TRUE, ...)
@@ -16,19 +17,16 @@
 \arguments{
     \item{func}{a function for the default method, a Darray object, or
        a object for which a specific method is defined (e.g. a TSestModel).}
-    \item{...}{arguments to be passed to other methods.}
     \item{x}{parameters to the function.}
-    \item{func.args}{list with additional argument to function \code{func}.}
-    \item{d}{The fraction of x to use for the initial numerical approximation.}
-    \item{eps}{Used instead of d for elements of x which are zero.}
-    \item{r}{The number of Richardson improvement iterations.}
     \item{signif}{The significance level for F test (passed to \code{qf}).}
     \item{show.details}{logical indicating if intermediate calculations 
         should be printed.}
     \item{show.extra.details}{logical indicating if extra intermediate calculations 
         should be printed.}
-%%    \item{track}{If track=TRUE then the progress of the calculations is printed.}
     \item{warn}{see \code{effectiveCurvature}.}
+    \item{method}{string indicating the numerical approximation method.}
+    \item{method.args}{list with arguments to \code{method} (see \code{grad}).}
+    \item{...}{additional arguments passed to \code{func}.}
 }
 \details{
  This function is generic. It can be called with a function and parameter x,
@@ -55,12 +53,12 @@ Watts D matrix is in the element Dlist. The curvature array C as in
 Batts and Watts defn. (7.16) p242 and examples p244 &  p245 is in the 
 elements C.parameter and C.intrinsic.
 }
-\sideffects{Curvature summary statistics as in Bates and Watts are printed.}
+\section{Side Effects}{Curvature summary statistics as in Bates and Watts are printed.}
 \references{ 
 Bates and Watts(1983), 'Nonlinear Regression Analysis and Its Applications.'
 }
 \seealso{
-   \code{\link{genD}}
+   \code{\link[numDeriv]{genD}}
    \code{\link{curvature.TSestModel}}
    \code{\link{effectiveCurvature}}
 }

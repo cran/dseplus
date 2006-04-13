@@ -4,8 +4,9 @@
 \description{Calculate curvature for a TSestModel.}
 \usage{
     \method{curvature}{TSestModel}(func, x=coef(func),
-     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-      d=0.01, eps=1e-4, r=6, warn=TRUE, compiled=TRUE, ...)
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     compiled=TRUE, warn=TRUE,
+     Shape=TSmodel(func), data=TSdata(func), ...)
 }
 
 \arguments{
@@ -13,22 +14,24 @@
        coefficients (parameters) to residuals.}
     \item{x}{parameter vector first argument to function func indicating the
         point with respect to which the derivative is calculated.}
-    \item{func.args}{list with additional argument to function \code{func}.}
-    \item{d}{The fraction of x to use for the initial numerical approximation.}
-    \item{eps}{Used instead of d for elements of x which are zero.}
-    \item{r}{The number of Richardson improvement iterations.}
+    \item{method}{string indicating the numerical approximation method.}
+    \item{method.args}{list with arguments to \code{method} (see \code{grad}).}
     \item{warn}{logical. see \code{effectiveCurvature}.}
     \item{compiled}{logical, set FALSE to use curvature.default (for debugging).}
-    \item{...}{arguments passed to other methods (currently ignored).}
+    \item{Shape}{a TSmodel in which the parameters should be used.}
+    \item{data}{TSdata to use in teh evaluation.}
+    \item{...}{additional arguments passed to \code{func}.}
 }
 \details{See the generic version of the function.}
 
 \seealso{
     \code{\link{curvature}}
-    \code{\link{effectiveCurvature}}
+    \code{\link[numDeriv]{genD}}
+    \code{\link[numDeriv]{grad}}
+   \code{\link{effectiveCurvature}}
 }
 \examples{
-   if(is.R()) data("eg1.DSE.data.diff", package="dse1")
+   data("eg1.DSE.data.diff", package="dse1")
    model <- estVARXls(TSdata( output=outputData(eg1.DSE.data.diff, series=1:2)),
                      max.lag=2)
    curvature(genD(model)) 

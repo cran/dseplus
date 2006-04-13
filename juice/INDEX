@@ -3,7 +3,7 @@ See 00Intro.* in each package for a short general description.
 The Users' Guide is divided into sections for each package.
 These are installed in the doc/ directory for each package.
 The packages in this bundle require packages in the bundle dse.
-00Intro.juice           Juice
+00.juice.Intro          Juice
 TSdata.TSdataconcentrate
                         TSdata Specific Methods
 canonical.prediction    Canonical Prediction

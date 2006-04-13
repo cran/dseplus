@@ -17,16 +17,23 @@
 #-----------------------------------------------------------------------
 
 curvature.TSestModel <- function (func, x=coef(func),
-     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-      d=0.01, eps=1e-4, r=6, warn=TRUE, compiled=TRUE, ...)  
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     compiled=TRUE, warn=TRUE,
+     Shape=TSmodel(func), data=TSdata(func), ...)  
  {if(compiled) 
-   curvature(genD(func, x=x, func.args=func.args, d=d, eps=eps, r=r), warn=warn)
+   curvature(genD(func, x=x,
+                  method=method, method.args=method.args,
+		  Shape=Shape, data=data, ...),
+             warn=warn)
   else
    {func.residual <- function(coefficients,Shape,data)
-       {c(l(setArrays(Shape,coefficients=coefficients),data,result="pred")
-          - outputData(data))}
+                      {c(l(setArrays(Shape,coefficients=coefficients),
+		           data,result="pred")
+                       - outputData(data))}
     curvature.default(func.residual, coef(func), 
-              func.args=func.args, d=d, eps=eps, r=r, warn=warn)
+                       method="Richardson", method.args=method.args,
+                       warn=warn,
+		       Shape=Shape, data=data, ...) 
    }
  }
 
@@ -38,17 +45,22 @@ curvature.TSestModel <- function (func, x=coef(func),
 
  
 genD.TSestModel <- function(func, x=coef(func),
-     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-     d=0.01, eps=1e-4, r=6)
-   { invisible(genD(TSmodel(func), x=x, func.args=func.args, d=d,eps=eps,r=r))}
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     Shape=TSmodel(func), data=TSdata(func), ...)
+   { invisible(genD(TSmodel(func), x=x, method=method, method.args=method.args,
+                       Shape=Shape, data=data, ...))}
 
 genD.ARMA <- function(func, x=coef(func),
-     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-     d=0.01, eps=1e-4, r=6){
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     Shape=TSmodel(func), data=TSdata(func), ...){
 # Note: m,n,p have different meanings here than they do in 
 #  time-series models! ms,ns,ps are use for time-series meaning
-   model <- func.args$Shape
-   data <- func.args$data
+   if (method != "Richardson") stop("method not implemented.")
+   d <- method.args$d
+   eps <- method.args$eps
+   r <- method.args$r
+   if(2 != method.args$v) stop("current code requires v=2 (default)")
+   model <- Shape
    n <-length(c(outputData(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ps <-dim(model$A)[3]
@@ -143,22 +155,28 @@ genD.ARMA <- function(func, x=coef(func),
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")] 
    D$d   <- d
-   D$eps <- eps
+   D$method      <- method
+   D$method.args <- method.args
    # D calculation can be done relative to any point (subtracting data does
    #   not matter) but curvature calculation assumes f0 is really a residual.
    D$f0 <- l(model, data, result="pred") - c(outputData(data))
-   invisible(classed(D,"Darray")) #constructor
+   class(D) <- "Darray"  #constructor
+   invisible(D) 
 }
 
 #Rbug this does not seem to work as genD.KF or genD.KF.innov
 
 genD.innov <- function(func, x=coef(func),
-     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-     d=0.01, eps=1e-4, r=6){
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     Shape=TSmodel(func), data=TSdata(func), ...){
 # Note: m,n,p have different meanings here than they do in 
 #  time-series models! ms,ns,ps are use for time-series meaning
-   model <- func.args$Shape
-   data <- func.args$data
+   if (method != "Richardson") stop("method not implemented.")
+   d <- method.args$d
+   eps <- method.args$eps
+   r <- method.args$r
+   if(2 != method.args$v) stop("current code requires v=2 (default)")
+   model <- Shape
    n <-length(c(outputData(data))) # this has the same length as the residual
    sampleT <-periods(data) 
    ns <-dim(model$F)[2]
@@ -262,11 +280,13 @@ genD.innov <- function(func, x=coef(func),
 	    PACKAGE="dse1"
 	    )[c("D","p","f0", "x", "r")]
    D$d   <- d
-   D$eps <- eps
+   D$method      <- method
+   D$method.args <- method.args
    # D calculation can be done relative to any point (subtracting data does
    #   not matter) but curvature calculation assumes f0 is really a residual.
    D$f0 <- l(model, data, result="pred") - c(outputData(data))
-   invisible(classed(D, "Darray")) #constructor
+   class(D) <- "Darray" #constructor
+   invisible(D)
 }
 
 #######################################################################
@@ -277,16 +297,16 @@ genD.innov <- function(func, x=coef(func),
 
            
 span.TSestModel <- function (func, x=coef(func),
-        func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-        d=0.01, eps=1e-4, r=6,
-	show.details=FALSE, compiled=.DSEflags()$COMPILED, ...)  
- {#  (... further arguments, currently disregarded)
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     show.details=FALSE, compiled=.DSEflags()$COMPILED,
+     Shape=TSmodel(func), data=TSdata(func), ...){
+
   # calculate the singular values of the tangents
   # the compiled version calculates the whole D matrix (which seems like
   # a waste, but the compiled code is much faster, so ...
   if (compiled)
-   {D <- genD(func, x, func.args=func.args,
-              d=d, eps=eps, r=r)$D[,seq(length(coef(func))),drop=FALSE]
+   {D <- genD(func, x, method=method, method.args=method.args,
+              Shape, data, ...)$D[,seq(length(coef(func))),drop=FALSE]
     if (any(is.na(D))) {
        # really should stop here
        warning("D from compiled genD contains NAs. Setting them to zero. Result is probably not valid!!!")
@@ -302,8 +322,8 @@ span.TSestModel <- function (func, x=coef(func),
      funcTS <- function(coefficients, Shape,data)
       {c(l(setArrays(Shape, coefficients=coefficients),data,result="pred")
            - outputData(data))}
-     span.default(funcTS, x, func.args=func.args, 
-	 d=d, eps=eps, r=r, show.details=show.details)
+     span.default(funcTS, x, method=method, method.args=method.args,
+              show.details=show.details, Shape, data, ...)
      }
  }
 
@@ -314,20 +334,16 @@ span.TSestModel <- function (func, x=coef(func),
 
 #######################################################################
 
-hessian.TSestModel <- function (func, x=coef(func),
-     func.args=list(Shape=TSmodel(func), data=TSdata(func)),
-     d=0.01, eps=1e-4, r=6)  
+hessian.TSestModel <- function (func, x=coef(func), 
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     Shape=TSmodel(func), data=TSdata(func), ...)  
  {# like returns neg. log likelihood
   funcTS <- function(coefficients, Shape, data)
   	{l(setArrays(Shape,coefficients=coefficients), data, result="like")}
-  hessian.default(funcTS, x, func.args=func.args,d=d,eps=eps,r=r)
+  # call hessian.default
+  hessian(funcTS, x, method=method, method.args=method.args,
+           Shape=Shape, data=data, ...)
  }
-
-#######################################################################
-
-# Test routines for calulating curvatures moved to the tests directory.
-
-#######################################################################
  
 
 #######################################################################

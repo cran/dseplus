@@ -1,4 +1,4 @@
 Package: monitor
 Title: Dynamic Systems Estimation - monitoring extensions
 Description: Multivariate Time Series - monitoring extensions
-Depends: R (>= 2.0.0), tframe (>= 2006.1-1), dse1 (>= 2006.1-1), dse2 (>= 2006.1-1), dsepadi (>= 2006.1-1), syskern (>= 2006.1-1)
+Depends: R (>= 2.0.0), tframe (>= 2006.4-1), dse1 (>= 2006.4-1), dse2 (>= 2006.4-1), dsepadi (>= 2006.4-1), syskern (>= 2006.4-1)

@@ -65,7 +65,7 @@
         -input (policy) projections
     See \code{combinationMonitoring} for these features.
 }
-\sideffects{Mail is sent.}
+\section{Side Effects}{Mail is sent.}
 \seealso{
     \code{\link{combinationMonitoring}}
     \code{\link[syskern]{Sys.mail}}

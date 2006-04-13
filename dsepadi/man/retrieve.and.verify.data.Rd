@@ -14,7 +14,7 @@
 }
 \value{An object of class TSdata containing data from the data bases is returned.
 }
-\sideffects{
+\section{Side Effects}{
 If errors larger than fuzz are found then some warning messages are printed
 and the series in question can be plotted.
 }

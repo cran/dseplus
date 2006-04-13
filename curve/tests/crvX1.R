@@ -271,7 +271,7 @@ tfplot(z)
 
 # Warning messages: 
 #1: eliminating degenerate subspace for R11. in: rel.curvature(s.sqr, R[1:p, 1:p], R[, (p + 1):m], show.extra.details = show.extra.details) 
-#2: acceration space dimension reduced for smaller sample space. in: curvature.Darray(genD(func, x = x, func.args = func.args, d = d,  
+#2: acceration space dimension reduced for smaller sample space. in: curvature.Darray(genD(func, x = x,  d = d,  ARGS HAVE CHANGED
 #3: B is not symmetric. in: effective.curvature(cur, QRofD, residual, s.sqr, show.details = show.extra.details,  
 
    error <- max(abs(good - tst.bft)[-9])
@@ -304,7 +304,7 @@ tfplot(z)
 
    tst.arma  <- curvature(arma.model)$stats
 #Warning messages: 
-#1: acceration space dimension reduced for smaller sample space. in: curvature.Darray(genD(func, x = x, func.args = func.args, d = d,  
+#1: acceration space dimension reduced for smaller sample space. in: curvature.Darray(genD(func, x = x, ARGS HAVE CHANGED, d = d,  
 #2: N.B. (I-B) is not positive definite as it should be at a local min!  Axis ratio will evaluate to NA or NaN.  Eigenvalues of B  35.6610439830782 in: effective.curvature(cur, QRofD, residual, s.sqr, show.details = show.extra.details,  
 
    print(tst.arma, digits=18)

@@ -1,91 +1,4 @@
-############################################################################
-
-#    functions for gradient calculation
-
-############################################################################
-
-gradNumerical <- function(func,x, eps=1e-12) {
-#  very simple (crude) numerical approximation
-  f <-func(x)
-  df <-1:length(x)
-  for (i in 1:length(x)) {
-    dx <- x
-    dx[i] <- dx[i] +eps 
-    df[i] <- (func(dx)-f)/eps
-   }
-df
-}
-
-
-gradRichardson <- function(func, x, d=0.01, eps=1e-4, r=6, show.details=FALSE)
-{
-#  *  modified by Paul Gilbert from orginal code by XINGQIAO LIU.
-
-  v <- 2               # reduction factor.
-  n <- length(x)       # Integer, number of variables.
-  a.mtr <- matrix(1, r, n) 
-  b.mtr <- matrix(1, (r - 1), n)
-
-#  first order derivatives are stored in the matrix a.mtr[k,i], 
-#        where the indexing variables k for rows(1 to r),  i for columns
-#       (1 to n),  r is the number of iterations, and n is the number of
-#       variables.
-
-  h <- abs(d*x)+eps*(x==0.0)
-  for(k in 1:r)  { # successively reduce h                
-     for(i in 1:n)  {
-         x1.vct <- x2.vct <- x
-         x1.vct[i]  <- x[i] + h[i]
-         x2.vct[i]  <- x[i] - h[i]
-         if(k == 1) a.mtr[k,i] <- (func(x1.vct) - func(x2.vct))/(2*h[i])
-         else{
-           if(abs(a.mtr[(k-1),i])>1e-20)
-                 # some functions are unstable near 0.0              
-                 a.mtr[k,i] <- (func(x1.vct)-func(x2.vct))/(2*h[i])
-            else  a.mtr[k, i] <- 0
-          }
-      }
-     h <- h/v     # Reduced h by 1/v.
-    }	
-   if(show.details)  {
-        cat("\n","first order approximations", "\n")		
-        print(a.mtr, 12)
-    }
-
-#------------------------------------------------------------------------
-# 1 Applying Richardson Extrapolation to improve the accuracy of 
-#   the first and second order derivatives. The algorithm as follows:
-#
-#   --  For each column of the 1st and 2nd order derivatives matrix a.mtr,
-#       say, A1, A2, ..., Ar, by Richardson Extrapolation, to calculate a
-#       new sequence of approximations B1, B2, ..., Br used the formula
-#
-#          B(i) =( A(i+1)*4^m - A(i) ) / (4^m - 1) ,  i=1,2,...,r-m
-#
-#             N.B. This formula assumes v=2.
-#
-#   -- Initially m is taken as 1  and then the process is repeated 
-#      restarting with the latest improved values and increasing the 
-#      value of m by one each until m equals r-1
-#
-# 2 Display the improved derivatives for each
-#   m from 1 to r-1 if the argument show.details=T.
-#
-# 3 Return the final improved  derivative vector.
-#-------------------------------------------------------------------------
-
-  for(m in 1:(r - 1)) {		
-#     for(i in 1:(r - m)) b.mtr[i,]<- (a.mtr[(i+1),]*(4^m)-a.mtr[i,])/(4^m-1)
-#     a.mtr<- b.mtr
-     a.mtr<- (a.mtr[2:(r+1-m),,drop=FALSE]*(4^m)-a.mtr[1:(r-m),,drop=FALSE])/(4^m-1)
-     if(show.details & m!=(r-1) )  {
-        cat("\n","Richarson improvement group No. ", m, "\n")		
-        print(a.mtr[1:(r-m),,drop=FALSE], 12)
-      }
-   }
-a.mtr
-}
-
+.onLoad  <- function(library, section) { invisible(require("numDeriv")) }
 
 ############################################################################
 
@@ -204,44 +117,28 @@ browser()
 
 #######################################################################
 
-#            calculate Hessian 
-
-#######################################################################
-
-
-hessian <- function (func, x, func.args=NULL, d=0.01, eps=1e-4, r=6) UseMethod("hessian")
-
-hessian.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6)
-{  D <- genD(func, x, func.args=func.args, d=d, eps=eps, r=r)$D
-   H <- diag(0,length(x))
-   u <- 0
-   for(i in 1:length(x))
-     {for(j in 1:i) 
-        {u <- u + 1
-         H[i,j] <- D[,u]
-     }  }
-   H <- H +t(H)
-   diag(H) <- diag(H)/2
-   H
-}
-
-
-#######################################################################
-
 #              span (dimension of tangent space) calculation
 
 #######################################################################
 
-span <- function (func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
-      show.details=FALSE, ...)  UseMethod("span")
+span <- function (func, x, 
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     show.details=FALSE, ...)  UseMethod("span")
 
-span.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6,
-      show.details=FALSE, ...)
-{#  (... further arguments, currently disregarded)
+span.default <- function(func, x, 
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+      show.details=FALSE, ...){
+
  #   v       reduction factor. This could be a parameter but ...
  #             N.B. must be 2 for richarson formula as used.
-
+  if (method != "Richardson") stop("method not implemented.")
+  d <- method.args$d
+  eps <- method.args$eps
+  r <- method.args$r
+  if(2 != method.args$v) warning("current code set method.args$v to 2.")
   v <- 2
+  func.args <- list(...)
+
   p <- length(x)     #  number of parameters (= dim of M if not over parameterized.
   n <- length(do.call("func",append(list(x), func.args)))  #dimension of sample space.
   D <- array(1, c(n, p, r)) 
@@ -287,11 +184,10 @@ curvature <- function (func, ...)
 
 
 
-curvature.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4,r=6,
-      signif=0.05, show.details=FALSE, warn=TRUE, ...)
-{#  (... further arguments, currently disregarded)
-  # func is a function
- curvature(genD(func,x, func.args=func.args, d=d, eps=eps,r=r),
+curvature.default <- function(func, x, 
+     method="Richardson", method.args=list(d=0.01, eps=1e-4, r=6, v=2),
+     signif=0.05, show.details=FALSE, warn=TRUE, ...)
+{curvature(genD(func,x, method=method, method.args=method.args, ...),
      signif=0.05, show.details=FALSE, warn=warn)
 }
 
@@ -530,126 +426,6 @@ if(show.extra.details)
   }	
 
 C
-}
-
-
-#######################################################################
-
-#                               D matrix calculation
-
-#######################################################################
-
-# Notes:
-
-#   Generating the D matrix can be computationally demanding. 
-#   The S version is slow and suffers from memory problems 
-#   due to the way S allocates memory in loops (but is not so bad in R).
-#   The C version is a bit faster but suffers (even worse) from memory problems.
-#   It has been moved to defunct. The ARMA and SS methods are much preferred for
-#   those models, but do not work with general models.
-#   Both the S and the C versions take the name of an S function 
-#   as an arguement (and call it multiple times).  
-#######################################################################
-
-genD <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6)UseMethod("genD")
-
-genD.default <- function(func, x, func.args=NULL, d=0.01, eps=1e-4, r=6){
-#   modified substantially by Paul Gilbert (May, 1992)
-#    from original code by Xingqiao Liu,   May, 1991.
-#  r       the number of Richardson improvement iterations.
-#  v      reduction factor for Richardson iterations. This could
-#      be a parameter but the way the formula is coded it is assumed to be 2.
-
-#  This function is not optimized for S speed, but
-#  is organized in the same way it is implemented in C (to facilitate checking
-#  the code).
-
-#         - THE FIRST ORDER DERIVATIVE WITH RESPECT TO Xi IS 
-#           F'(Xi)={F(X1,...,Xi+d,...,Xn) - F(X1,...,Xi-d,...,Xn)}/(2*d)
-#                
-#         - THE SECOND ORDER DERIVATIVE WITH RESPECT TO Xi IS 
-#           F''(Xi)={F(X1,...,Xi+d,...,Xn) - 2*F(X1,X2,...,Xn)+
-#                     F(X1,...,Xi-d,...,Xn)}/(d^2)
-#
-#         - THE SECOND ORDER DERIVATIVE WITH RESPECT TO Xi, Xj IS 
-#           F''(Xi,Xj)={F(X1,...,Xi+d,...,Xj+d,...,Xn)-2*F(X1,X2,...,Xn)+
-#                       F(X1,...,Xi-d,...,Xj-d,...,Xn)}/(2*d^2) -
-#                      {F''(Xi) + F''(Xj)}/2
-
-#  The size of d is iteratively reduced and the Richardson algorithm is applied to
-#    improve the accuracy of the computation.
-
-   v <-2
-   zt <- .001     #Rbug unix.time has trouble finding func
-   # f0 <- func(x)
-   f0 <- do.call("func",append(list(x), func.args))
- # zt <-unix.time(f0 <- func(x))   #  f0 is the value of the function at x.
-                   # (Real value or point in sample space ie- residual vector)	
-   p <- length(x)  #  number of parameters (theta)
-   zt <- zt[1] *r*2*(p*(p + 3))/2
-   if(zt>500) 
-     cat("D matrix calculation roughly estimated to take about ",
-          (10*ceiling(zt/10)),"seconds(without other system activity)...\n")
-   h0 <- abs(d*x)+eps*(x==0.0)
-   D <- matrix(0, length(f0),(p*(p + 3))/2)
-   #length(f0) is the dim of the sample space
-   #(p*(p + 3))/2 is the number of columns of matrix D.( first
-   #   der. & lower triangle of Hessian)
-   Daprox <- matrix(0, length(f0),r) 
-   Hdiag  <-  matrix(0,length(f0),p)
-   Haprox <-  matrix(0,length(f0),r)
-   for(i in 1:p)    # each parameter  - first deriv. & hessian diagonal
-        {h <-h0
-         for(k in 1:r)  # successively reduce h 
-           {#f1 <- func(x+(i==(1:p))*h)
-            #f2 <- func(x-(i==(1:p))*h) 
-            f1 <- do.call("func",append(list(x+(i==(1:p))*h), func.args))
-            f2 <- do.call("func",append(list(x-(i==(1:p))*h), func.args))
-            Daprox[,k] <- (f1 - f2)  / (2*h[i])    # F'(i) 
-            Haprox[,k] <- (f1-2*f0+f2)/ h[i]^2     # F''(i,i) hessian diagonal
-            h <- h/v     # Reduced h by 1/v.
-            NULL
-           }
-         for(m in 1:(r - 1))
-            for ( k in 1:(r-m))
-              {Daprox[,k]<-(Daprox[,k+1]*(4^m)-Daprox[,k])/(4^m-1)
-               Haprox[,k]<-(Haprox[,k+1]*(4^m)-Haprox[,k])/(4^m-1)
-               NULL
-              }
-         D[,i] <- Daprox[,1]
-         Hdiag[,i] <- Haprox[,1]
-         NULL
-        }	
-   u <- p
-
-   for(i in 1:p)   # 2nd derivative  - do lower half of hessian only
-     {for(j in 1:i) 
-        {u <- u + 1
-            if (i==j) { D[,u] <- Hdiag[,i]; NULL}
-            else 
-             {h <-h0
-              for(k in 1:r)  # successively reduce h 
-                {#f1 <- func(x+(i==(1:p))*h + (j==(1:p))*h)
-                 #f2 <- func(x-(i==(1:p))*h - (j==(1:p))*h)
-                 f1 <- do.call("func", append(
-                        list(x+(i==(1:p))*h + (j==(1:p))*h), func.args))
-                 f2 <- do.call("func",append(
-                        list(x-(i==(1:p))*h - (j==(1:p))*h), func.args))  
-                 Daprox[,k]<- (f1 - 2*f0 + f2 -
-                                  Hdiag[,i]*h[i]^2 - 
-                                  Hdiag[,j]*h[j]^2)/(2*h[i]*h[j])  # F''(i,j)  
-                 h <- h/v     # Reduced h by 1/v.
-                }
-              for(m in 1:(r - 1))
-                 for ( k in 1:(r-m))
-                   {Daprox[,k]<-(Daprox[,k+1]*(4^m)-Daprox[,k])/(4^m-1); NULL}
-              D[,u] <- Daprox[,1]
-              NULL
-             }
-          }  
-       }
-invisible(classed(list(D=D,  # Darray constructor (genD.default)
-             p=length(x),f0=f0,func=func, x=x, d=d, eps=eps, r=r), "Darray"))
 }
 
 
