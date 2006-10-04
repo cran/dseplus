@@ -1,0 +1,29 @@
+ >>> Building/Updating help pages for package 'dsepadi'
+     Formats: text html latex example 
+  TSPADIdata                        text    html    latex   example
+  TSPADIdata2                       text    html    latex   example
+  availability                      text    html    latex   example
+  freeze.TSPADIdata                 text    html    latex   example
+  freeze.tfPADIdata                 text    html    latex   example
+  getpadi                           text    html    latex
+  identifiers                       text    html    latex   example
+  inputData.TSPADIdata              text    html    latex
+  modify                            text    html    latex   example
+  modify.TSPADIdata                 text    html    latex   example
+  print.TSPADIdata                  text    html    latex
+  print.tfPADIdata                  text    html    latex   example
+  putpadi                           text    html    latex
+  refresh                           text    html    latex   example
+  retrieve.and.verify.data          text    html    latex   example
+  setTSPADIdata                     text    html    latex   example
+  settfPADIdata                     text    html    latex   example
+  sourceInfo                        text    html    latex   example
+  sourceInfo.TSPADIdata             text    html    latex
+  sourceInfo.TSdata                 text    html    latex
+  sourcedb                          text    html    latex   example
+  sourceserver                      text    html    latex   example
+  tfPADIdata                        text    html    latex   example
+  tfperiods.tfPADIdata              text    html    latex
+  tfputpadi                         text    html    latex
+  tsp.TSPADIdata                    text    html    latex
+  tsp.tfPADIdata                    text    html    latex

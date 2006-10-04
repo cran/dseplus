@@ -235,7 +235,10 @@ reconstitute.default <- function(d, conc=NULL, names=seriesNames(d))
   conc <- concentrator(conc)
   inv <- La.svd(conc$proj) 
   newd <- freeze(d)
-  newd <- newd %*% Conj(t(inv$v)) %*% sweep(t(inv$u), 1, 1/inv$d, "*")
+  # CHECK NEXT 
+  newd <- newd %*% Conj(t(inv$vt)) %*% sweep(t(inv$u), 1, 1/inv$d, "*")
+  # PERHAPS SHOULD BE
+  #newd <- newd %*% Conj(inv$vt) %*% sweep(Conj(t(inv$u)), 1, 1/inv$d, "*")
   newd <-  sweep(sweep(newd,2, conc$scale, FUN="*"),2, -conc$center)
   tframe(newd) <- tframe(d)
   if (!is.null(names)) seriesNames(newd) <- paste("recon.", names)

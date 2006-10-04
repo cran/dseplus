@@ -5,10 +5,8 @@
 \docType{package}
 
 \title{Juice}
-\center{Methods for Concentrating and Reconstituting Data}
-\synopsis{}
-
-\description{
+\description{Methods for Concentrating and Reconstituting Data}
+\details{
     The attempted approach is that a model of type TSmodelconcentrate  
     should work like KF and ARMA model, so that plot, residual, 
     etc., produce results for the full (reconstitued) data set. 

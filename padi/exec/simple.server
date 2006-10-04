@@ -19,7 +19,7 @@ log=simple.server.log.$$
 
 # Check that another server is not running
 
-running=`$PADI/check.server #$server`
+running=`$PADI/check.server $server`
 if [ "$running" = "RUNNING" ]; then
   echo Another PADI server is running on this machine.
   exit 1

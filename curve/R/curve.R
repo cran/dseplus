@@ -384,7 +384,9 @@ relCurvature <- function(s.sqr, R11, R2, show.extra.details=FALSE,
    {warning("eliminating degenerate subspace for R11.")
     d[illim] <- 0
    }
- R11.inv <- Conj(t(v$vt)) %*% diag(d) %*% t(v$u) # switched from svd to La.svd
+ #R11.inv <- Conj(t(v$vt)) %*% diag(d) %*% t(v$u) # switched from svd to La.svd
+ #  CHECK 
+ R11.inv <- Conj(t(v$vt)) %*% diag(d) %*% Conj(t(v$u)) # switched from svd to La.svd
 
  R11.invT <- t(R11.inv)
  if(show.extra.details) 

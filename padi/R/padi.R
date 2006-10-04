@@ -4,35 +4,14 @@
    ok <- require("syskern", warn.conflicts=TRUE)
    ok <- ok & require("tframe", warn.conflicts=TRUE) 
    if(!ok) warning("This package requires the syskern and tframe packages.")
+   # set PADI if it is not set. (It is needed by the srcipts.)
+   if("" == Sys.getenv("PADI"))
+        Sys.putenv(PADI=paste(library, "/", section, "/exec/", sep = ""))
+   # could be a problem with csh
+   Sys.putenv(PATH=paste(Sys.getenv("PADI"),":",Sys.getenv("PATH"), sep = ""))
    invisible(TRUE)
    }
 
-#.First.lib <- function(library, section)
-#  {from <- paste(library, "/", section, sep="")
-#   ok <- require("syskern", warn.conflicts=TRUE)
-#   ok <- ok & require("tframe", warn.conflicts=TRUE) 
-#   if(!ok) warning("This package requires the syskern and tframe packages.")
-#   invisible(load.padi(from=from))
-#  }
-
-
-#load.padi <- function(from = Sys.getenv("PADI_LDLIB"))
-#{# load C routines for PADI calls. 
-# # NB. In S the default assumes the object code is in a subdirectory
-# #	named $PADIabandonning/lib. In R this is ignored.
-#
-#   if("/" != substring(from, first=nchar(from))) from<-paste(from,"/", sep="")
-#
-#   if (is.R())  r <- library.dynam("padi")  # does not use from
-#   else if(is.S())
-#     {if ( Sys.info()$OSversion == "SunOS5"  & !is.Splus.pre3.3() )
-#	   r <- dyn.load.shared("/usr/lib/libnsl.so")	  # splus 3.3 on SunOS5
-#      ld <- paste(from,"splusclnt.o",sep="")
-#      if (file.exists(ld)) r <- dyn.load(ld)
-#      else {warning(paste(ld, " file to be loaded does not exist")); r <- FALSE}
-#     }
-#   invisible(r)
-#}
 
 ##################################################################
 ##################################################################

@@ -1,0 +1,13 @@
+ >>> Building/Updating help pages for package 'curve'
+     Formats: text html latex example 
+  curvature                         text    html    latex   example
+  curvature.TSestModel              text    html    latex   example
+  curvatureStats                    text    html    latex
+  effectiveCurvature                text    html    latex
+  genD.TSestModel                   text    html    latex   example
+  hessian.TSestModel                text    html    latex
+  print.curvature                   text    html    latex
+  project                           text    html    latex
+  relCurvature                      text    html    latex
+  span                              text    html    latex   example
+  span.TSestModel                   text    html    latex

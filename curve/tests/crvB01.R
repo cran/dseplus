@@ -184,7 +184,7 @@ cat("DSE curvature test B 3 ...")
    error <- max(abs(good - tst))
    cat("max. error ",error)
 
-   if (any(is.na(error)) || any(is.nan(error)) || 10*fuzz.small < error) 
+   if (any(is.na(error)) || any(is.nan(error)) || 15*fuzz.small < error) 
      {printTestValue(c(tst), digits=18)
       all.ok <- F  
      }

@@ -22,12 +22,14 @@
  cat("search path ", search(),"\n")
  cat("R_LIBS set to ",  Sys.getenv("R_LIBS"), "\n")
  cat("PATH set to ",  Sys.getenv("PATH"), "\n")
- cat("PADI set to ",  Sys.getenv("PADI"), "\n")
  cat("PADI_LDLIB set to ",  Sys.getenv("PADI_LDLIB"), "\n")
  cat("PADI_STARTUP set to ", Sys.getenv("PADI_STARTUP"), "\n")
  cat("PADI_CLEANUP set to ", Sys.getenv("PADI_CLEANUP"), "\n")
  cat("user name set to ", Sys.info()[["user"]], "\n")
- 
+ cat("PADI set to ",  Sys.getenv("PADI"), "\n")
+ cat("PADIserverProcess: ", PADIserverProcess(), "\n")
+ cat("PADIcleanupScript: ", PADIcleanupScript(), "\n")
+
  library()
 
 #######################################################################

@@ -1,0 +1,7 @@
+ >>> Building/Updating help pages for package 'padi'
+     Formats: text html latex example 
+  PADIserverProcess                 text    html    latex
+  checkPADIserver                   text    html    latex
+  getfm                             text    html    latex
+  getpadi.default                   text    html    latex   example
+  putpadi.default                   text    html    latex

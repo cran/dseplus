@@ -1,0 +1,30 @@
+ >>> Building/Updating help pages for package 'juice'
+     Formats: text html latex example 
+  00.juice.Intro                    text    html    latex
+  TSdata.TSdataconcentrate          text    html    latex
+  canonical.prediction              text    html    latex   example
+  checkConsistentDimensions.TSmodel text    html    latex
+  checkResiduals.TSdataconcentrate  text    html    latex
+  concentrate                       text    html    latex   example
+  concentrateOnly                   text    html    latex   example
+  concentrateOriginal               text    html    latex   example
+  concentrated.checkResiduals       text    html    latex
+  concentrated.nseriesInput         text    html    latex   example
+  concentrated.tfplot               text    html    latex   example
+  concentratedDimension             text    html    latex   example
+  concentratedSeriesNames           text    html    latex   example
+  concentrator                      text    html    latex   example
+  end.TScanonicalPrediction         text    html    latex
+  estConcentratedModel              text    html    latex   example
+  estProjection                     text    html    latex   example
+  l.TSmodelconcentrate              text    html    latex
+  nseriesInput.TSmodelconcentrate   text    html    latex
+  percentChange.TScanonicalPredicti text    html    latex
+  plot2by2                          text    html    latex
+  print.concentrate                 text    html    latex
+  reconstitute                      text    html    latex   example
+  selectSeries.concentrate          text    html    latex
+  tfplot.concentrate                text    html    latex
+  tfprint.concentrate               text    html    latex
+  tframed.concentrate               text    html    latex
+  tfwindow.concentrate              text    html    latex

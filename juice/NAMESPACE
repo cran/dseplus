@@ -1,4 +1,7 @@
-##import("stats")
+importFrom("stats","start")
+importFrom("stats","end")
+importFrom("stats","frequency")
+
 ##import("setRNG")
 import("tframe")
 import("dse1")

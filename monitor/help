@@ -1,0 +1,11 @@
+ >>> Building/Updating help pages for package 'monitor'
+     Formats: text html latex example 
+  checkForValueChanges              text    html    latex
+  combinationMonitoring             text    html    latex
+  combineAndForecast                text    html    latex
+  fprint                            text    html    latex
+  simpleMonitoring                  text    html    latex
+  tags                              text    html    latex   example
+  testEqual.tagged                  text    html    latex
+  tfplot.combinedForecast           text    html    latex
+  tfwindow.tagged                   text    html    latex

@@ -18,8 +18,8 @@
     \item{pch}{character to be used for plotting.}
     \item{...}{arguments passed to tfplot.}
 }
-\value{None.}
-\sideaffects{A plot is produced.}
+\value{None}
+\section{Side Effects}{A plot is produced.}
 
 \concept{DSE}
 \keyword{ts}

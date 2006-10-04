@@ -1,0 +1,7 @@
+ >>> Building/Updating help pages for package 'syskern'
+     Formats: text html latex example 
+  00.syskern.Intro                  text    html    latex
+  SPAWN                             text    html    latex
+  Sys.mail                          text    html    latex   example
+  dateParsed                        text    html    latex   example
+  is.S                              text    html    latex   example

@@ -174,7 +174,7 @@ cat("juice graphics tests ...\n")
     if ( dev.cur() == 1 ) {
                 postscript(file="zot.postscript.test.ps", width=6, 
                         height=6, pointsize=10, onefile=FALSE, 
-                        print.it=FALSE, append=FALSE)
+                        print.it=FALSE)
                 on.exit((function() {
                         dev.off()
                         synchronize(1)
